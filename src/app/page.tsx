@@ -6,6 +6,7 @@ export default function Home() {
     <div className="w-full h-screen bg-site-bg">
       <Noise />
       <Header />
+      <div>Home</div>
     </div>
   );
 }
