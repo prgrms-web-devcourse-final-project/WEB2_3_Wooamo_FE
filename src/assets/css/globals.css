@@ -8,10 +8,12 @@
 @theme {
   --color-site-main: #3a75bb;
   --color-site-button: #cfecfa;
+  --color-site-button-input: rgba(207, 236, 250, 0.3);
   --color-site-lightgray: #d9d9d9;
   --color-site-profile: #fffeed;
   --color-site-darkgray-01: #909090;
   --color-site-darkgray-02: #444444;
+  --color-site-white-10: rgba(255, 255, 255, 0.1);
   --color-site-white-50: rgba(255, 255, 255, 0.5);
   --color-site-white-70: rgba(255, 255, 255, 0.7);
   --color-site-white-100: #ffffff;
@@ -25,4 +27,8 @@
   .bg-site-bg {
     @apply from-[#8CCDF3] to-white bg-gradient-to-b;
   }
+}
+
+input {
+  outline: none;
 }
