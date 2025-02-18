@@ -30,12 +30,16 @@
 }
 
 input,
+textarea,
 button {
   outline: none;
 }
 
 button {
   cursor: pointer;
+}
+button:disabled {
+  cursor: default;
 }
 
 ::placeholder {

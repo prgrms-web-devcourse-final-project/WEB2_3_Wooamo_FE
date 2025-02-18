@@ -4,10 +4,15 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-site-white-10">
+    <header className="sticky top-0 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-site-white-10 mb-13">
       <div className="flex gap-20 items-center">
         <Link href={"/"}>
-          <Image src={Logo} alt="STUV 로고" />
+          <Image
+            src={Logo}
+            alt="STUV 로고"
+            placeholder="blur"
+            blurDataURL={"../assets/images/Logo.svg"}
+          />
         </Link>
         <nav>
           <ul className="flex gap-16 items-center">
