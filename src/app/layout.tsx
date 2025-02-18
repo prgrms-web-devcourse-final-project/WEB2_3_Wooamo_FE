@@ -13,11 +13,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body
         className={`${Pretendard.variable} ${Galmuri9.variable} antialiased`}
       >
         {children}
+        <div id="modal-root"></div>
       </body>
     </html>
   );
