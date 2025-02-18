@@ -29,6 +29,15 @@
   }
 }
 
-input {
+input,
+button {
   outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+::placeholder {
+  color: var(--color-site-darkgray-01);
 }

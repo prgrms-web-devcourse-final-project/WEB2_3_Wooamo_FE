@@ -6,6 +6,8 @@ import Divider from "@/assets/images/BlueDividerLong.svg";
 import KakaoButton from "@/assets/images/kakaoLoginButton.png";
 
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import Input from "@/components/common/Input";
+import Button from "@/components/common/Button";
 export default function SignIn() {
   return (
     <div>
@@ -24,24 +26,24 @@ export default function SignIn() {
               <label htmlFor="email" className="text-xl font-semibold">
                 이메일
               </label>
-              <input
+              <Input
                 required
                 id="email"
                 type="text"
                 placeholder="이메일을 입력해주세요"
-                className="w-full h-[60px] px-6 bg-site-button-input rounded-full"
+                className="bg-site-button-input"
               />
             </div>
             <div className="w-[600px] flex flex-col gap-4">
               <label htmlFor="password" className="text-xl font-semibold">
                 비밀번호
               </label>
-              <input
+              <Input
                 required
                 id="password"
                 type="password"
                 placeholder="비밀번호를 입력해주세요"
-                className="w-full h-[60px] px-6 bg-site-button-input rounded-full"
+                className="bg-site-button-input"
               />
             </div>
           </div>
@@ -54,9 +56,7 @@ export default function SignIn() {
             <CheckRoundedIcon className="absolute" />
             <label htmlFor="auto-signin">자동 로그인</label>
           </div>
-          <button className="w-[600px] h-[60px] bg-site-button rounded-full font-galmuri">
-            로그인
-          </button>
+          <Button className="w-[600px]">로그인</Button>
           <p className="text-site-darkgray-02 underline flex justify-center">
             <Link href={"/signup"}>회원이 아니신가요? 회원가입 하러가기</Link>
           </p>
