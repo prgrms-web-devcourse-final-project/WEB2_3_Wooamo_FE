@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo.svg";
+import formatDateToTimeAgo from "../../../utils/formatDateToTimeAgo";
 
 export default function PostItem() {
   return (
@@ -11,7 +12,9 @@ export default function PostItem() {
           <p className="text-site-darkgray-02 line-clamp-1">
             오늘은 진짜 공부하기 싫은 날이네요...
           </p>
-          <p className="text-site-darkgray-01 text-sm">1분 전</p>
+          <p className="text-site-darkgray-01 text-sm">
+            {formatDateToTimeAgo(new Date())}
+          </p>
         </div>
         <Image src={Logo} alt="STUV 로고 이미지" className="w-35 h-35" />
       </article>
