@@ -6,8 +6,11 @@ import Button from "@/components/common/Button";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Input from "@/components/common/Input";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+import { useState } from "react";
 
 export default function BoardsCreate() {
+  const [title, setTitle] = useState("");
+
   return (
     <form className="flex flex-col gap-6">
       <div className="flex justify-between items-center">
@@ -19,6 +22,8 @@ export default function BoardsCreate() {
       </div>
       <div className="border-b border-site-darkgray-02">
         <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           required
           className="bg-transparent"
           placeholder="게시글 제목을 입력해주세요"

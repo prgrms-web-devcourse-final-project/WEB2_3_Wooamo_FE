@@ -35,23 +35,24 @@ export default function Modal({ children }: ModalProps) {
     ? createPortal(
         <dialog
           id="modal"
-          onClose={close}
           onClick={(e) => {
             if ((e.target as HTMLElement).nodeName === "DIALOG") {
               close();
             }
           }}
           ref={dialogRef}
-          className="flex items-center justify-center relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] px-5 pt-16 pb-7 backdrop:bg-site-black-50 rounded-[10px]"
+          className="flex items-center justify-center relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] backdrop:bg-site-black-50 rounded-[10px]"
         >
-          <div>{children}</div>
-          <button
-            type="button"
-            onClick={close}
-            className="absolute top-5 right-5"
-          >
-            <CloseRoundedIcon />
-          </button>
+          <div className="w-full px-5 pt-16 pb-7">
+            <button
+              type="button"
+              onClick={close}
+              className="absolute top-5 right-5"
+            >
+              <CloseRoundedIcon />
+            </button>
+            {children}
+          </div>
         </dialog>,
         document.getElementById("modal-root") as HTMLElement,
       )
