@@ -9,7 +9,7 @@ export default function Button({
   return (
     <button
       className={twMerge(
-        "flex justify-center items-center w-32 h-15 bg-site-button rounded-full font-galmuri text-xl",
+        "flex justify-center items-center w-fit h-15 px-6 bg-site-button rounded-full font-galmuri text-xl",
         className,
       )}
       {...props}
