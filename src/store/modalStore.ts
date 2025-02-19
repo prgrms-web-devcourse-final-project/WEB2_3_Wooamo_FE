@@ -4,23 +4,25 @@ import { create } from "zustand";
 interface ModalStore {
   dialogRef: RefObject<HTMLDialogElement | null>;
   isOpen: boolean;
+  currentModalId: string | null;
   setDialogRef: (ref: RefObject<HTMLDialogElement>) => void;
-  open: () => void;
+  open: (modalId: string) => void;
   close: () => void;
 }
 
 export const useModalStore = create<ModalStore>((set) => ({
   dialogRef: { current: null },
   isOpen: false,
+  currentModalId: null,
   setDialogRef: (ref: RefObject<HTMLDialogElement>) => set({ dialogRef: ref }),
-  open: () =>
-    set((state) => {
-      state.dialogRef.current?.showModal();
-      return { ...state, isOpen: true };
-    }),
+  open: (modalId: string) =>
+    set(() => ({
+      isOpen: true,
+      currentModalId: modalId,
+    })),
   close: () =>
-    set((state) => {
-      state.dialogRef.current?.close();
-      return { ...state, isOpen: false };
+    set({
+      isOpen: false,
+      currentModalId: null,
     }),
 }));

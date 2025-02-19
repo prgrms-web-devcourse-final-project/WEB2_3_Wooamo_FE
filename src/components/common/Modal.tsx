@@ -7,10 +7,12 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 interface ModalProps {
   children: ReactNode;
+  modalId: string;
 }
 
-export default function Modal({ children }: ModalProps) {
+export default function Modal({ children, modalId }: ModalProps) {
   const isOpen = useModalStore((state) => state.isOpen);
+  const currentModalId = useModalStore((state) => state.currentModalId);
   const { close, setDialogRef } = useModalStore((state) => state);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -31,7 +33,7 @@ export default function Modal({ children }: ModalProps) {
 
   if (!mounted || !document.getElementById("modal-root")) return null;
 
-  return isOpen
+  return isOpen && currentModalId === modalId
     ? createPortal(
         <dialog
           id="modal"
@@ -41,7 +43,7 @@ export default function Modal({ children }: ModalProps) {
             }
           }}
           ref={dialogRef}
-          className="flex items-center justify-center relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] backdrop:bg-site-black-50 rounded-[10px]"
+          className="flex items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] backdrop:bg-site-black-50 rounded-[10px]"
         >
           <div className="w-full px-5 pt-16 pb-7">
             <button
