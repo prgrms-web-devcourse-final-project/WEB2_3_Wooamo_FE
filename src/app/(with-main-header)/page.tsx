@@ -18,19 +18,19 @@ export default function Home() {
             rank={2}
             nickname={"@stuv_2nd"}
             time={"46:49:00"}
-            className="translate-x-10 -rotate-6 hover:scale-105"
+            className="translate-x-10 -rotate-6 drop-shadow-50 hover:scale-105"
           />
           <RankingCard
             rank={1}
             nickname={"@stuv_1st"}
             time={"46:49:00"}
-            className="-rotate-14 z-10 scale-110 drop-shadow-[0_4px_6px_rgb(140,205,243)] hover:scale-115"
+            className="-rotate-14 z-10 scale-110 drop-shadow-6.2 hover:scale-115"
           />
           <RankingCard
             rank={3}
             nickname={"@stuv_3rd"}
             time={"46:49:00"}
-            className="-translate-x-10 rotate-6 hover:scale-105"
+            className="-translate-x-10 rotate-6 drop-shadow-50 hover:scale-105"
           />
         </div>
       </section>

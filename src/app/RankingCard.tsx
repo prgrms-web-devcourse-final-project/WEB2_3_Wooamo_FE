@@ -20,7 +20,7 @@ export default function RankingCard({
     <Link href="/users/1">
       <article
         className={twMerge(
-          "flex flex-col justify-end items-center gap-4 relative w-52.5 h-68 p-4 bg-site-button border-5 border-white rounded-[10px] drop-shadow-[0_4px_50px_rgb(140,205,243)] transition-all",
+          "flex flex-col justify-end items-center gap-4 relative w-52.5 h-68 p-4 bg-site-button border-5 border-white rounded-[10px] transition-all",
           className,
         )}
       >
