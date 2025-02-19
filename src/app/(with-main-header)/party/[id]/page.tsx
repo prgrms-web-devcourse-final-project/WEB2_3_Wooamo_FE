@@ -1,12 +1,9 @@
 import Button from "@/components/common/Button";
-import ParticipateModal from "./ParticipateModal";
 import ParticipateButton from "./ParticipateButton";
 import Input from "@/components/common/Input";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import Icon from "@/components/common/Icon";
 import formatDateToKR from "@/utils/formatDateToKR";
-import Avatar from "../../../../components/common/Avatar";
-import AvatarImg from "@/assets/images/avatar.png";
 import ProfileItem from "@/components/common/ProfileItem";
 
 interface PartyDetailProps {
@@ -96,7 +93,6 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
           ))}
         </div>
       </section>
-      <ParticipateModal />
     </>
   );
 }

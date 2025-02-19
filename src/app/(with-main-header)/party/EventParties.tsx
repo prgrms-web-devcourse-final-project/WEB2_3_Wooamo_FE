@@ -22,12 +22,8 @@ export default function EventParties() {
             pagination: true,
           },
           768: {
-            slidesPerView: 3,
+            slidesPerView: 3.3,
             spaceBetween: 20,
-            pagination: false,
-          },
-          1440: {
-            slidesPerView: 4,
             pagination: false,
           },
         }}
