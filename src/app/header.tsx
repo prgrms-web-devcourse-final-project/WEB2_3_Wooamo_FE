@@ -16,7 +16,7 @@ export default function Header() {
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
   return (
-    <header className="sticky top-0 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-site-white-10 backdrop-blur-md">
+    <header className="sticky top-0 z-50 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-site-white-10 backdrop-blur-md">
       <div className="flex gap-20 items-center">
         <Link href={"/"}>
           <Image
