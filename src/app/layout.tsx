@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import "@/assets/css/globals.css";
 import { Galmuri9, Pretendard } from "./fonts";
+import "@/assets/css/globals.css";
+import "swiper/css";
+import "swiper/css/pagination";
 
 export const metadata: Metadata = {
   title: "STUV",
