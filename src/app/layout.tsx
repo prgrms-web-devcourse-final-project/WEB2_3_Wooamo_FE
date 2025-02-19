@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Galmuri9, Pretendard } from "./fonts";
+import { Bitbitv2, Galmuri9, Pretendard } from "./fonts";
 import "@/assets/css/globals.css";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${Pretendard.variable} ${Galmuri9.variable} antialiased`}
+        className={`${Pretendard.variable} ${Galmuri9.variable} ${Bitbitv2.variable} antialiased`}
       >
         {children}
         <div id="modal-root"></div>
