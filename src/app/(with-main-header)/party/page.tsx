@@ -10,13 +10,7 @@ export default function Party() {
         <p className="font-semibold">[일일미션] 공부 시간 3시간 이상</p>
         <p className="font-semibold">진행중</p>
       </div>
-      <section className="flex flex-col gap-7 mt-15">
-        <p className="font-galmuri text-2xl">
-          <span>진행 중인 이벤트 팟</span>
-          <span className="ml-3">4</span>
-        </p>
-        <EventParties />
-      </section>
+      <EventParties />
       <UpcomingParties />
       <OngoingParties />
       <ClosedParties />
