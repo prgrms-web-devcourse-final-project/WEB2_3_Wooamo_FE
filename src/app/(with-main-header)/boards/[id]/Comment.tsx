@@ -1,12 +1,12 @@
 import Avatar from "@/components/common/Avatar";
 import Link from "next/link";
-import AvatarImg from "@/assets/images/avatar.png";
+import basic from "@/assets/images/costumes/basic.png";
 
 export default function Comment() {
   return (
     <article className="flex gap-2.5 items-center">
       <Link href="/users/1">
-        <Avatar src={AvatarImg} className="w-14 h-14" />
+        <Avatar costumeSrc={basic} className="w-14 h-14" />
       </Link>
       <div className="flex flex-col gap-1">
         <Link href="/users/1" className="w-fit">
