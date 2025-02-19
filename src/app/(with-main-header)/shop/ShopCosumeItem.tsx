@@ -19,7 +19,7 @@ export default function ShopCostumeItem({
     <>
       <button
         onClick={() => open(`shop-costume-preview${index}`)}
-        className="flex items-end w-56 h-60"
+        className="flex items-end w-56 h-60 hover:drop-shadow-6.2 transition-all"
       >
         <article className="w-56 h-56 bg-site-white-70 rounded-[10px] relative">
           <div className="flex justify-center items-center absolute -top-7.5 right-0 w-fit px-6 h-15 bg-site-sub rounded-full">
