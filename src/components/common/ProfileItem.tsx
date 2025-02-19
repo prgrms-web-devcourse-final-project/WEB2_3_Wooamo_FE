@@ -3,12 +3,12 @@ import Button from "./Button";
 import AvatarImg from "@/assets/images/avatar.png";
 
 interface ProfileItemProps {
-  username: string;
+  nickname: string;
   description: string;
 }
 
 export default function ProfileItem({
-  username,
+  nickname,
   description,
 }: ProfileItemProps) {
   return (
@@ -16,7 +16,7 @@ export default function ProfileItem({
       <div className="flex items-center gap-2.5">
         <Avatar className="w-15 h-15" src={AvatarImg} />
         <div className="flex flex-col gap-1">
-          <span className="font-semibold text-xl">{username}</span>
+          <span className="font-semibold text-xl">{nickname}</span>
           <span className="text-site-darkgray-02">{description}</span>
         </div>
       </div>

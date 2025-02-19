@@ -90,7 +90,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
           {[1, 2, 3, 4].map((_, index) => (
             <ProfileItem
               key={index}
-              username={"@sooya"}
+              nickname={"@sooya"}
               description={"수쌤 아니고 수현이 :)"}
             />
           ))}
