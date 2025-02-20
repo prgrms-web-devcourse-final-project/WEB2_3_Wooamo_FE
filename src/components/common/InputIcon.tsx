@@ -11,7 +11,7 @@ interface InputIconProps extends ComponentPropsWithoutRef<"input"> {
     muiName: string;
   };
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClickIcon: () => void;
+  onClickIcon?: () => void;
 }
 
 export default function InputIcon({
