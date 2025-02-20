@@ -27,7 +27,7 @@ export default function Input({
       value={value}
       onChange={onChange}
       className={twMerge(
-        "flex justify-center items-center w-full h-15 bg-site-white-70 px-6 rounded-full text-xl",
+        "flex justify-center items-center w-full h-11 lg:h-15 bg-site-white-70 px-6 rounded-full text-base lg:text-xl",
         className,
       )}
       {...props}

@@ -4,7 +4,7 @@ import Input from "@/components/common/Input";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import Icon from "@/components/common/Icon";
 import formatDateToKR from "@/utils/formatDateToKR";
-import ProfileItem from "@/components/common/ProfileItem";
+import ProfileSummary from "@/components/common/ProfileSummary";
 
 interface PartyDetailProps {
   params: Promise<{ id: string }>;
@@ -85,11 +85,15 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
         <p className="font-semibold text-xl">참여자 목록</p>
         <div className="flex flex-col gap-6">
           {[1, 2, 3, 4].map((_, index) => (
-            <ProfileItem
-              key={index}
-              nickname={"@sooya"}
-              description={"수쌤 아니고 수현이 :)"}
-            />
+            <article key={index} className="flex justify-between items-center">
+              <ProfileSummary
+                nickname={"@sooya"}
+                description={"수쌤 아니고 수현이 :)"}
+              />
+              <div>
+                <Button>친구신청</Button>
+              </div>
+            </article>
           ))}
         </div>
       </section>

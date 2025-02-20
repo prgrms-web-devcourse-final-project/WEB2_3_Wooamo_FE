@@ -1,6 +1,6 @@
 import Image from "next/image";
 import weekRanking from "@/assets/images/weekRanking.png";
-import RankingCard from "../RankingCard";
+import RankingCard from "./RankingCard";
 import EventParties from "./party/EventParties";
 import OngoingParties from "./party/OngoingParties";
 
