@@ -1,4 +1,4 @@
-import ProfileItem from "@/components/common/ProfileItem";
+import ProfileSummary from "@/components/common/ProfileSummary";
 
 export default function ChattingCreate() {
   return (
@@ -8,7 +8,7 @@ export default function ChattingCreate() {
       </div>
       <div className="flex flex-col gap-6">
         {new Array(5).fill(0).map((_, idx) => (
-          <ProfileItem
+          <ProfileSummary
             key={idx}
             nickname={`@user${idx}`}
             description="사용자의 자기소개가 출력됩니다"

@@ -19,6 +19,7 @@ export default async function ChattingWithParty({
         <div>
           {new Array(8).fill(0).map((_, idx) => (
             <ChattingItem
+              key={idx}
               chatTime="15:30"
               nickname="@binnie"
               isMe={idx % 2 === 0 ? true : false}

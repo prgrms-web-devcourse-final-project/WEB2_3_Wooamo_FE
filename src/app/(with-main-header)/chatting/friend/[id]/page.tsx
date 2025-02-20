@@ -1,6 +1,6 @@
-import ProfileItem from "@/components/common/ProfileItem";
 import ChattingItem from "../../ChattingItem";
 import ChattingInput from "../../ChattingInput";
+import ProfileSummary from "@/components/common/ProfileSummary";
 
 interface Chatting {
   id: number;
@@ -23,7 +23,7 @@ export default async function ChattingWithFriend({
   return (
     <div className="relative">
       <div className="fixed w-full top-15 lg:top-25 left-0 bg-site-button py-2 lg:py-5 px-5 lg:px-8">
-        <ProfileItem
+        <ProfileSummary
           nickname={`@user ${id}`}
           description="사용자의 자기소개가 출력됩니다"
         />
@@ -32,6 +32,7 @@ export default async function ChattingWithFriend({
         <div>
           {new Array(8).fill(0).map((_, idx) => (
             <ChattingItem
+              key={idx}
               chatTime="15:30"
               nickname="@binnie"
               isMe={idx % 2 === 0 ? true : false}
