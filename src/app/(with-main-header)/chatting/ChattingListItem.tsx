@@ -10,7 +10,7 @@ interface ChatItemProps {
   chatTimestamp: string;
 }
 
-export default function ChattingItem({
+export default function ChattingListItem({
   id,
   nickname,
   lastChatContent,
