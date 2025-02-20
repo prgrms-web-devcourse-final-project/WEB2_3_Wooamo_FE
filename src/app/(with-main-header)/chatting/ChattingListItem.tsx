@@ -21,19 +21,19 @@ export default function ChattingListItem({
   return (
     <Link href={`/chatting/party/${id}`}>
       <article
-        className={`h-25 px-8 flex justify-between items-center ${
+        className={`h-20 lg:h-25 px-5 lg:px-8 flex justify-between items-center ${
           read ? "bg-site-white-50" : ""
         }`}
       >
         <div className="flex items-center gap-2.5">
           <div>
-            <Avatar className="w-15 h-15" costumeSrc={basic} />
+            <Avatar className="w-11 lg:w-15 h-11 lg:h-15" costumeSrc={basic} />
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-0 lg:gap-1">
             <div>
               <span className="font-semibold text-xl">{name}</span>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 text-sm lg:text-base">
               <span className="text-site-darkgray-02">{lastChatContent}</span>
               <span className="text-site-darkgray-01">{chatTimestamp}</span>
             </div>

@@ -22,13 +22,13 @@ export default async function ChattingWithFriend({
 
   return (
     <div className="relative">
-      <div className="fixed w-full top-25 left-0 bg-site-button py-5 px-8">
+      <div className="fixed w-full top-15 lg:top-25 left-0 bg-site-button py-2 lg:py-5 px-5 lg:px-8">
         <ProfileItem
           nickname={`@user ${id}`}
           description="사용자의 자기소개가 출력됩니다"
         />
       </div>
-      <div className="pt-12 pb-5">
+      <div className="px-5 lg-px:0 pt-12 pb-5">
         <div>
           {new Array(8).fill(0).map((_, idx) => (
             <ChattingItem
