@@ -4,8 +4,10 @@ import InputIcon from "@/components/common/InputIcon";
 import ChatRoundedIcon from "@mui/icons-material/ChatRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Comment from "./Comment";
+import { useState } from "react";
 
 export default function Comments() {
+  const [comment, setComment] = useState("");
   return (
     <>
       <div className="flex items-center gap-2.5">
@@ -13,6 +15,8 @@ export default function Comments() {
         <span className="text-xl text-site-darkgray-02">2</span>
       </div>
       <InputIcon
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
         placeholder="댓글을 남겨보세요"
         Icon={SendRoundedIcon}
         onClickIcon={() => {
