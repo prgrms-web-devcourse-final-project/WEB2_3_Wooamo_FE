@@ -33,7 +33,7 @@ export default function InputIcon({
       />
       <button
         onClick={onClickIcon}
-        className="absolute top-1/2 -translate-y-1/2 right-7 text-site-darkgray-02"
+        className="absolute top-1/2 -translate-y-1/2 right-4 lg:right-7 text-site-darkgray-02"
       >
         <Icon MuiIcon={MuiIcon} />
       </button>
