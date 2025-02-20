@@ -16,7 +16,7 @@ export default function DesktopHeader() {
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
   return (
-    <header className="sticky top-0 z-50 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-site-white-10 backdrop-blur-md">
+    <header className="fixed w-full top-0 z-50 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-[#8CCDF3]">
       <div className="flex gap-20 items-center">
         <Link href={"/"}>
           <Image
@@ -33,7 +33,7 @@ export default function DesktopHeader() {
                 key={path}
                 className={twMerge(
                   "flex justify-center items-center w-34 h-15 rounded-full",
-                  currentPathname === path && "bg-white",
+                  currentPathname === path && "bg-white"
                 )}
               >
                 <Link href={path}>{routes[path as keyof typeof routes]}</Link>

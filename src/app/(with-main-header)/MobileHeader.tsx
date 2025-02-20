@@ -38,7 +38,7 @@ export default function MobileHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 flex justify-between px-5 h-15 items-center bg-site-white-10 backdrop-blur-md">
+      <header className="fixed top-0 z-50 flex justify-between px-5 h-15 items-center bg-site-white-10 backdrop-blur-md">
         <button onClick={openSidebar}>
           <Icon MuiIcon={MenuRoundedIcon} />
         </button>
@@ -68,7 +68,7 @@ export default function MobileHeader() {
         <aside
           className={twMerge(
             "fixed -top-15 left-0 w-65 h-screen px-6 mt-15 bg-site-button backdrop:blur-lg transition-transform duration-200 ease-out z-50",
-            isOpen ? "translate-x-0" : "-translate-x-full",
+            isOpen ? "translate-x-0" : "-translate-x-full"
           )}
         >
           <button onClick={closeSidebar} className="absolute top-3 right-2.5">
@@ -86,7 +86,7 @@ export default function MobileHeader() {
                     key={path}
                     className={twMerge(
                       "flex items-center w-full h-15 rounded-full",
-                      currentPathname === path && "bg-white",
+                      currentPathname === path && "bg-white"
                     )}
                   >
                     <Link
