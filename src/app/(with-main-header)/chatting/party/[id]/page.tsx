@@ -12,13 +12,14 @@ export default async function ChattingWithParty({
 
   return (
     <div className="relative">
-      <div className="fixed flex items-center h-25 w-full top-25 left-0 bg-site-button px-8 text-xl font-semibold">
+      <div className="fixed flex items-center h-20 lg:h-25 w-full top-15 lg:top-25 left-0 bg-site-button px-8 text-base lg:text-xl font-semibold">
         {`party ${id}`} | {`60명`}
       </div>
-      <div className="pt-12 pb-5">
+      <div className="px-5 lg:px-0 pt-12 pb-5">
         <div>
           {new Array(8).fill(0).map((_, idx) => (
             <ChattingItem
+              key={idx}
               chatTime="15:30"
               nickname="@binnie"
               isMe={idx % 2 === 0 ? true : false}

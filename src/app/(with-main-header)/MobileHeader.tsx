@@ -38,7 +38,7 @@ export default function MobileHeader() {
 
   return (
     <>
-      <header className="fixed top-0 z-50 flex justify-between px-5 h-15 items-center bg-site-white-10 backdrop-blur-md">
+      <header className="fixed w-full top-0 z-50 flex justify-between px-5 h-15 items-center bg-[#8CCDF3]">
         <button onClick={openSidebar}>
           <Icon MuiIcon={MenuRoundedIcon} />
         </button>

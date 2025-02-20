@@ -7,7 +7,7 @@ import SendRoundedIcon from "@mui/icons-material/SendRounded";
 export default function ChattingInput() {
   const [chatting, setChatting] = useState("");
   return (
-    <form action="" className="fixed bottom-5 left-0 w-full">
+    <form action="" className="fixed bottom-5 left-0 w-full px-5 lg:px-0">
       <InputIcon
         value={chatting}
         Icon={SendRoundedIcon}
