@@ -13,7 +13,7 @@ export default function Chatting() {
               <ChattingItem
                 key={idx}
                 id={idx}
-                nickname={`user ${idx}`}
+                nickname={`@user ${idx}`}
                 lastChatContent="혹시 자료 공유 해주실 수 있나요?"
                 read={true}
                 chatTimestamp="방금"
@@ -22,7 +22,7 @@ export default function Chatting() {
               <ChattingItem
                 key={idx}
                 id={idx}
-                nickname={`user ${idx}`}
+                nickname={`@user ${idx}`}
                 lastChatContent="반가워요!"
                 read={false}
                 chatTimestamp="3시간 전"
