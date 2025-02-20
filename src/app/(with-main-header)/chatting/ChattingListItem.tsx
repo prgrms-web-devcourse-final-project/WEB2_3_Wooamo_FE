@@ -2,7 +2,7 @@ import Avatar from "@/components/common/Avatar";
 import basic from "@/assets/images/costumes/basic.png";
 import Link from "next/link";
 
-interface ChatItemProps {
+interface ChattingListItemProps {
   id: number;
   nickname: string;
   lastChatContent: string;
@@ -16,7 +16,7 @@ export default function ChattingListItem({
   lastChatContent,
   read,
   chatTimestamp,
-}: ChatItemProps) {
+}: ChattingListItemProps) {
   return (
     <Link href={`/chatting/friend/${id}`}>
       <article
