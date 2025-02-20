@@ -4,21 +4,22 @@ import Link from "next/link";
 
 interface ChattingListItemProps {
   id: number;
-  nickname: string;
+  name: string;
   lastChatContent: string;
   read: boolean;
   chatTimestamp: string;
 }
 
+// 친구 채팅인지 팟 채팅인지 확인 후 라우팅 및 name 처리 해주시면 됩니다!
 export default function ChattingListItem({
   id,
-  nickname,
+  name,
   lastChatContent,
   read,
   chatTimestamp,
 }: ChattingListItemProps) {
   return (
-    <Link href={`/chatting/friend/${id}`}>
+    <Link href={`/chatting/party/${id}`}>
       <article
         className={`h-25 px-8 flex justify-between items-center ${
           read ? "bg-site-white-50" : ""
@@ -30,7 +31,7 @@ export default function ChattingListItem({
           </div>
           <div className="flex flex-col gap-1">
             <div>
-              <span className="font-semibold text-xl">{nickname}</span>
+              <span className="font-semibold text-xl">{name}</span>
             </div>
             <div className="flex gap-3">
               <span className="text-site-darkgray-02">{lastChatContent}</span>
