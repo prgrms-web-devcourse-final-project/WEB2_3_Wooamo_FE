@@ -1,12 +1,17 @@
-export default function Noise() {
+import { ReactNode } from "react";
+
+export default function Noise({ children }: { children: ReactNode }) {
   return (
-    <div
-      className="w-full h-full opacity-10 absolute"
-      style={{
-        background: `url(/images/noise.png)`,
-        backgroundBlendMode: "color-dodge",
-        pointerEvents: "none",
-      }}
-    ></div>
+    <div className="relative">
+      <div
+        className="w-full h-full absolute opacity-10"
+        style={{
+          background: `url(/images/noise.png)`,
+          backgroundBlendMode: "color-dodge",
+          pointerEvents: "none",
+        }}
+      ></div>
+      {children}
+    </div>
   );
 }

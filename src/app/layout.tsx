@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { Bitbitv2, Galmuri9, Pretendard } from "./fonts";
 import "@/assets/css/globals.css";
-import { Galmuri9, Pretendard } from "./fonts";
+import "swiper/css";
+import "swiper/css/pagination";
 
 export const metadata: Metadata = {
   title: "STUV",
@@ -13,11 +15,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body
-        className={`${Pretendard.variable} ${Galmuri9.variable} antialiased`}
+        className={`${Pretendard.variable} ${Galmuri9.variable} ${Bitbitv2.variable} antialiased`}
       >
         {children}
+        <div id="modal-root"></div>
       </body>
     </html>
   );
