@@ -10,5 +10,7 @@ interface IconProps {
 }
 
 export default function Icon({ MuiIcon, className }: IconProps) {
-  return <MuiIcon className={twMerge("!w-7 !h-7", className)} />;
+  return (
+    <MuiIcon className={twMerge("lg:!w-7 lg:!h-7 text-[#1C1B1F]", className)} />
+  );
 }

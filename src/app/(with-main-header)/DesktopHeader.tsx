@@ -12,7 +12,7 @@ const routes = {
   "/party": "팟 페이지",
 } as const;
 
-export default function Header() {
+export default function DesktopHeader() {
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
   return (
