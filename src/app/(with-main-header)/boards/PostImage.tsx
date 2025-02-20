@@ -9,7 +9,7 @@ export default function PostImage() {
   return (
     <div
       onClick={() => console.log("큰 화면으로 보기")}
-      className="w-40 h-40 bg-site-white-100 relative cursor-pointer"
+      className="w-25 lg:w-40 h-25 lg:h-40 bg-site-white-100 relative cursor-pointer"
     >
       <Image
         src={AvatarImg}
@@ -23,7 +23,7 @@ export default function PostImage() {
           e.stopPropagation();
           console.log("이미지 삭제");
         }}
-        className="absolute top-1 right-1 flex justify-center items-center w-7 h-7 bg-site-black-50 rounded-sm"
+        className="absolute top-0.5 lg:top-1 right-0.5 lg:right-1 flex justify-center items-center w-6 lg:w-7 h-6 lg:h-7 bg-site-black-50 rounded-sm"
       >
         <Icon MuiIcon={CloseRoundedIcon} className="text-white" />
       </button>
