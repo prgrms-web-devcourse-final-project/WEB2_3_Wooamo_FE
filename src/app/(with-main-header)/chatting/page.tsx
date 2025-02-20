@@ -1,5 +1,5 @@
 import ChattingHeader from "./ChattingHeader";
-import ChattingItem from "./ChattingItem";
+import ChattingListItem from "./ChattingListItem";
 
 export default function Chatting() {
   return (
@@ -10,7 +10,7 @@ export default function Chatting() {
           .fill(0)
           .map((_, idx) =>
             idx % 2 === 0 ? (
-              <ChattingItem
+              <ChattingListItem
                 key={idx}
                 id={idx}
                 nickname={`@user ${idx}`}
@@ -19,7 +19,7 @@ export default function Chatting() {
                 chatTimestamp="방금"
               />
             ) : (
-              <ChattingItem
+              <ChattingListItem
                 key={idx}
                 id={idx}
                 nickname={`@user ${idx}`}
