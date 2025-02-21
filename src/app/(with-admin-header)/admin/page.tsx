@@ -14,8 +14,12 @@ export default function Admin() {
             <div>주간 신규 회원 수</div>
           </div>
           <div className="flex flex-col gap-3 font-semibold text-xl items-center">
-            <div className="w-40 h-40 bg-site-white-100 rounded-full">
-              <Image src={OrangeTurtle} alt="인기 아바타 이미지" />
+            <div className="w-40 h-40 bg-site-white-100 rounded-full ">
+              <Image
+                src={OrangeTurtle}
+                alt="인기 아바타 이미지"
+                className="-translate-y-4"
+              />
             </div>
             <div>인기 아바타</div>
           </div>
