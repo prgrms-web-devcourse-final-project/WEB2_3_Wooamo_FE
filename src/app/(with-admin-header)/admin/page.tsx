@@ -37,7 +37,13 @@ export default function Admin() {
           <div className="mt-2">
             <div className="flex flex-col gap-5">
               {new Array(8).fill(0).map((_, idx) => (
-                <PaymentList key={idx} />
+                <PaymentList
+                  key={idx}
+                  paymentTime={"2025-00-00 hh:mm:ss"}
+                  name={"홍길동"}
+                  point={`1,000`}
+                  value={`5,500원`}
+                />
               ))}
             </div>
           </div>
