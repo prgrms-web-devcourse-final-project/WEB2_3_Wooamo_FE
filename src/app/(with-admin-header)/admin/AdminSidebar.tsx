@@ -12,6 +12,7 @@ const routes = {
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const currentPathname = pathname.match(/\/\w+/g)?.[2]!;
 
   return (
     <ul className="fixed top-25 w-60 h-[calc(100%-100px)] px-5 py-12 bg-site-button flex flex-col gap-8">
@@ -20,7 +21,7 @@ export default function AdminSidebar() {
           key={path}
           className={twMerge(
             "flex justify-center items-center px-auto py-3 rounded-full text-xl",
-            pathname === path && "bg-site-white-70 font-semibold"
+            path.includes(currentPathname) && "bg-site-white-70 font-semibold"
           )}
         >
           <Link href={path}>{routes[path as keyof typeof routes]}</Link>
