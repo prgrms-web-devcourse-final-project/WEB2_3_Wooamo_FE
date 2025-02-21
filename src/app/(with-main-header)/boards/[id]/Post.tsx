@@ -7,7 +7,7 @@ export default function Post() {
   return (
     <>
       <div className="border-b border-site-darkgray-02">
-        <h1 className="flex items-center h-20 px-8 font-semibold text-xl">
+        <h1 className="flex items-center h-12.5 lg:h-20 px-5 lg:px-8 font-semibold lg:text-xl">
           [자유] 진짜 공부하기 싫다
         </h1>
       </div>
@@ -27,7 +27,7 @@ export default function Post() {
           <PostDeleteButton />
         </p>
       </div>
-      <div className="min-h-[200px] bg-site-white-70 px-6 py-5">
+      <div className="min-h-[200px] bg-site-white-70 p-5 lg:px-6">
         오늘은 진짜 공부 하기 싫은 날이네요...
       </div>
     </>

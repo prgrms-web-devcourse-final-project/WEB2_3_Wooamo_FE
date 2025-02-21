@@ -20,11 +20,11 @@ export default function PartyCreate() {
     setEndDate(new Date(newEndDate));
   }, [startDate]);
   return (
-    <form className="flex flex-col gap-13">
-      <div className="flex justify-end h-15">
+    <form className="flex flex-col gap-7.5 lg:gap-13">
+      <div className="flex justify-end">
         <CreatePartyButton />
       </div>
-      <div className="flex items-center h-20 border-b border-site-darkgray-02">
+      <div className="flex items-center h-12.5 lg:h-20 border-b border-site-darkgray-02">
         <Input
           type="text"
           value={title}
@@ -38,11 +38,11 @@ export default function PartyCreate() {
         className="min-h-50 bg-site-white-70 px-6 py-5 resize-none"
         spellCheck="false"
         placeholder={`팟 인원 수, 수행 퀘스트 등 팟에 대해 설명해주세요!
-  *인증 방식은 무조건 이미지 업로드를 통해서만 가능합니다`}
+*인증 방식은 무조건 이미지 업로드를 통해서만 가능합니다`}
       />
-      <div className="flex items-center gap-13">
+      <div className="flex flex-col lg:flex-row items-center gap-7.5 lg:gap-13">
         <div className="flex items-center gap-5">
-          <label htmlFor="max-people" className="font-semibold text-xl">
+          <label htmlFor="max-people" className="font-semibold lg:text-xl">
             인원
           </label>
           <Input
@@ -60,7 +60,7 @@ export default function PartyCreate() {
 
         <div className="flex items-center gap-13">
           <div className="flex items-center gap-5">
-            <label htmlFor="date" className="font-semibold text-xl">
+            <label htmlFor="date" className="font-semibold lg:text-xl">
               기간
             </label>
             <div className="flex items-center gap-1">
@@ -80,7 +80,7 @@ export default function PartyCreate() {
         </div>
 
         <div className="flex items-center gap-5">
-          <label htmlFor="min-betting" className="font-semibold text-xl">
+          <label htmlFor="min-betting" className="font-semibold lg:text-xl">
             배팅
           </label>
           <Input

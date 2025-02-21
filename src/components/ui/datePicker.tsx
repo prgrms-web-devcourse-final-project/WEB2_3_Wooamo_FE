@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import * as React from "react";
@@ -34,7 +33,7 @@ export function DatePicker({
         <Button
           variant={"outline"}
           className={cn(
-            "w-44 h-15 justify-between px-6 font-pretendard font-normal text-base rounded-full",
+            "w-38 lg:w-44 h-11 lg:h-15 justify-between px-4 lg:px-6 font-pretendard font-normal text-base rounded-full bg-site-white-70",
             !value && "text-muted-foreground",
           )}
         >

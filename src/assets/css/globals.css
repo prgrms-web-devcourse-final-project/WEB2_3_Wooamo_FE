@@ -49,6 +49,19 @@
   background-color: #3a75bb;
 }
 
+/* SWIPER */
+.swiper-pagination-bullet {
+  width: 12px !important;
+  height: 12px !important;
+  border: 2px solid white !important;
+  background-color: transparent !important;
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: white !important;
+}
+
 input,
 textarea,
 button {

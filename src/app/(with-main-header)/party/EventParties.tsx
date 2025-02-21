@@ -8,8 +8,8 @@ import Link from "next/link";
 
 export default function EventParties() {
   return (
-    <section className="flex flex-col gap-7 mt-15">
-      <p className="font-galmuri text-2xl">
+    <section className="flex flex-col gap-2.5 lg:gap-7 mt-15 px-5 lg:px-0">
+      <p className="font-galmuri text-xl lg:text-2xl">
         <span>진행 중인 이벤트 팟</span>
         <span className="ml-3">4</span>
       </p>
@@ -19,7 +19,7 @@ export default function EventParties() {
           0: {
             slidesPerView: 1,
             spaceBetween: 0,
-            pagination: true,
+            pagination: { clickable: true },
           },
           768: {
             slidesPerView: 3.3,

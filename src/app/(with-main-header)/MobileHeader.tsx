@@ -68,14 +68,14 @@ export default function MobileHeader() {
         <aside
           className={twMerge(
             "fixed -top-15 left-0 w-65 h-screen px-6 mt-15 bg-site-button backdrop:blur-lg transition-transform duration-200 ease-out z-50",
-            isOpen ? "translate-x-0" : "-translate-x-full"
+            isOpen ? "translate-x-0" : "-translate-x-full",
           )}
         >
           <button onClick={closeSidebar} className="absolute top-3 right-2.5">
             <Icon MuiIcon={CloseRoundedIcon} />
           </button>
 
-          <div className="flex flex-col gap-10 mt-27 font-bold">
+          <div className="flex flex-col gap-10 mt-27 font-semibold">
             <Link onClick={closeSidebar} href={"/signin"}>
               로그인
             </Link>
@@ -86,7 +86,7 @@ export default function MobileHeader() {
                     key={path}
                     className={twMerge(
                       "flex items-center w-full h-15 rounded-full",
-                      currentPathname === path && "bg-white"
+                      currentPathname === path && "bg-white",
                     )}
                   >
                     <Link
