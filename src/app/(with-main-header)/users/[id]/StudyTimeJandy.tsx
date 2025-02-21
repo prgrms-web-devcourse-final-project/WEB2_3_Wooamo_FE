@@ -10,7 +10,7 @@ export default function StudyTimeJandy() {
   ).getDate();
 
   return (
-    <section className="flex flex-col gap-8">
+    <section className="flex flex-col gap-2 lg:gap-8">
       <div className="flex justify-between items-center">
         <p className="font-semibold">공부 시간</p>
         <div className="flex items-center gap-4">
@@ -23,7 +23,7 @@ export default function StudyTimeJandy() {
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-7 auto-cols-auto gap-2">
+      <div className="grid grid-cols-7 auto-cols-auto gap-1 lg:gap-2">
         {Array.from({ length: daysOfMonth }).map((_, index) => (
           <div
             key={`day${index + 1}`}
