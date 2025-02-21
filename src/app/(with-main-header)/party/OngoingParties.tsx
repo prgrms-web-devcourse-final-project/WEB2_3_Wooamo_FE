@@ -3,7 +3,7 @@ import PartyItem from "./PartyItem";
 
 export default function OngoingParties() {
   return (
-    <section className="flex flex-col gap-7 mt-15">
+    <section className="flex flex-col gap-7 lg:mt-15">
       <div className="flex justify-between items-end px-5 lg:px-0">
         <p className="font-galmuri text-xl lg:text-2xl">
           <span>참여 중인 팟</span>
