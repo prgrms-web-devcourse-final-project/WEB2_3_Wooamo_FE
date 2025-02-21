@@ -26,7 +26,7 @@ export default function ParticipateButton() {
   };
   return (
     <>
-      <div className="flex justify-end h-15">
+      <div className="flex justify-end">
         <Button onClick={() => open("participate-party")}>참여하기</Button>
       </div>
 
