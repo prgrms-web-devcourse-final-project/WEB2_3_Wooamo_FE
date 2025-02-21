@@ -99,7 +99,7 @@ export default function DesktopHeader() {
       </div>
 
       {isLoggedIn ? (
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-2.5">
           <Link href="/chatting">
             <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
           </Link>
@@ -115,7 +115,7 @@ export default function DesktopHeader() {
             {isOpen && (
               <div
                 ref={dropdownRef}
-                className="absolute top-9 right-0 bg-white rounded-[10px] w-[440px]"
+                className="absolute top-9 right-0 bg-white rounded-2xl w-[27.5rem]"
               >
                 <div className="p-4 flex justify-between items-center">
                   <h3 className="text-xl font-semibold py-1">알림 목록</h3>

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo.svg";
 import Icon from "@/components/common/Icon";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
@@ -22,10 +22,57 @@ const routes = {
 export default function MobileHeader() {
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0] ?? "/";
+  const isLoggedIn = true;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        buttonRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  //임시
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      nickName: "사용자1",
+      message: "님이 회원님의 게시글에 댓글을 남겼습니다.",
+      isRead: false,
+    },
+    {
+      id: 2,
+      nickName: "사용자2",
+      message: "님이 회원님을 팔로우했습니다.",
+      isRead: true,
+    },
+  ]);
+
+  const toggle = () => setIsOpen(!isOpen);
+  const markAllAsRead = () => {
+    setNotifications(
+      notifications.map((notification) => ({
+        ...notification,
+        isRead: true,
+      })),
+    );
+  };
   const openSidebar = () => {
     setIsVisible(true);
     setTimeout(() => setIsOpen(true), 0);
@@ -54,16 +101,71 @@ export default function MobileHeader() {
             blurDataURL={"../assets/images/Logo.svg"}
           />
         </Link>
-        <div className="flex gap-2.5">
-          <Link href={"/chatting"} onClick={closeSidebar}>
-            <Icon MuiIcon={SendRoundedIcon} />
-          </Link>
-          <button>
-            <Icon MuiIcon={NotificationsNoneRoundedIcon} />
-          </button>
-        </div>
+        {isLoggedIn ? (
+          <div className="flex gap-2.5">
+            <Link href="/chatting">
+              <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
+            </Link>
+            <div className="relative">
+              <div ref={buttonRef}>
+                <button onClick={toggle} className="cursor-pointer">
+                  <Icon
+                    MuiIcon={NotificationsNoneRoundedIcon}
+                    className="cursor-pointer"
+                  />
+                </button>
+              </div>
+              {isOpen && (
+                <div
+                  ref={dropdownRef}
+                  className="absolute top-9 right-0 bg-white rounded-2xl w-[18.75rem]"
+                >
+                  <div className="p-4 flex justify-between items-center">
+                    <h3 className="text-xl font-semibold py-1">알림 목록</h3>
+                    <button
+                      className="text-sm font-semibold text-site-darkgray-02 hover:text-black"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        markAllAsRead();
+                      }}
+                    >
+                      전체 읽음
+                    </button>
+                  </div>
+                  {notifications.length === 0 ? (
+                    <div className="p-4 text-center text-site-darkgray-02">
+                      알림이 없습니다
+                    </div>
+                  ) : (
+                    <ul className="mx-2.5 mb-2.5">
+                      {notifications.map((notification) => (
+                        <li
+                          key={notification.id}
+                          className={`p-4 cursor-pointer ${
+                            !notification.isRead
+                              ? "bg-site-button hover:bg-site-sub"
+                              : " hover:bg-gray-50"
+                          }`}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <p className="text-[16px] my-3 text-black line-clamp-2 overflow-hidden">
+                            <span className="font-semibold">
+                              {notification.nickName}
+                            </span>
+                            <span className="font-normal">
+                              {notification.message}
+                            </span>
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        ) : null}
       </header>
-
       {isVisible && (
         <aside
           className={twMerge(
