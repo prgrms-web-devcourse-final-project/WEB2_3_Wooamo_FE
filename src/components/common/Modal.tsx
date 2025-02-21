@@ -4,13 +4,15 @@ import { useModalStore } from "@/store/modalStore";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { twMerge } from "tailwind-merge";
 
 interface ModalProps {
   children: ReactNode;
   modalId: string;
+  className?: string;
 }
 
-export default function Modal({ children, modalId }: ModalProps) {
+export default function Modal({ children, modalId, className }: ModalProps) {
   const isOpen = useModalStore((state) => state.isOpen);
   const currentModalId = useModalStore((state) => state.currentModalId);
   const { close, setDialogRef } = useModalStore((state) => state);
@@ -43,7 +45,10 @@ export default function Modal({ children, modalId }: ModalProps) {
             }
           }}
           ref={dialogRef}
-          className="flex items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] backdrop:bg-site-black-50 rounded-[10px]"
+          className={twMerge(
+            `flex items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] backdrop:bg-site-black-50 rounded-[10px]`,
+            className
+          )}
         >
           <div className="w-full px-5 pt-16 pb-7">
             <button
@@ -56,7 +61,7 @@ export default function Modal({ children, modalId }: ModalProps) {
             {children}
           </div>
         </dialog>,
-        document.getElementById("modal-root") as HTMLElement,
+        document.getElementById("modal-root") as HTMLElement
       )
     : null;
 }
