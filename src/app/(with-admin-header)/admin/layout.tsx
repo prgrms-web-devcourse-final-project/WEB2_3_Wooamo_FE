@@ -7,9 +7,9 @@ export default function layout({ children }: { children: ReactNode }) {
   return (
     <Noise>
       <div className="w-full h-screen bg-site-bg overflow-x-hidden">
-        <AdminSidebar />
+        <AdminHeader />
         <div className="flex gap-10">
-          <AdminHeader />
+          <AdminSidebar />
           <main className="ml-66 mt-35 w-[80%]">{children}</main>
         </div>
       </div>
