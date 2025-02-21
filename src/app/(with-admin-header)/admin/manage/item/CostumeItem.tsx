@@ -25,38 +25,41 @@ export default function CostumeItem({ costume, index }: ShopCostumeItemProps) {
       </article>
 
       <Modal modalId={`custuem-item${index}`} className="w-150">
-        <div className="flex gap-5">
-          <div className="w-60 h-60 bg-site-button-input rounded-xl flex justify-center items-center">
-            <Image
-              src={costume}
-              alt="코스튬 입은 아바타 미리보기 이미지"
-              className="w-50 h-50"
-            />
-          </div>
-          <div className="flex flex-col flex-1 justify-between gap-5">
-            <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-3">
-                <label htmlFor="item-name">이름</label>
-                <input
-                  id="item-name"
-                  type="text"
-                  placeholder="아이템 이름을 입력해주세요"
-                  className="w-full px-5 py-2 border border-site-lightgray rounded-full"
-                />
-              </div>
-              <div className="flex flex-col gap-3">
-                <label htmlFor="item-point">포인트</label>
-                <input
-                  id="item-point"
-                  type="text"
-                  placeholder="아이템 포인트를 입력해주세요"
-                  className="w-full px-5 py-2 border border-site-lightgray rounded-full"
-                />
-              </div>
+        <div className="flex flex-col gap-5">
+          <div className="text-xl font-semibold">아이템 수정/삭제</div>
+          <div className="flex gap-5">
+            <div className="w-60 h-60 bg-site-button-input rounded-xl flex justify-center items-center">
+              <Image
+                src={costume}
+                alt="코스튬 입은 아바타 미리보기 이미지"
+                className="w-50 h-50"
+              />
             </div>
-            <div className="flex gap-5">
-              <Button className="lg:h-11 lg:text-base">삭제하기</Button>
-              <Button className="lg:h-11 lg:text-base">등록하기</Button>
+            <div className="flex flex-col flex-1 justify-between gap-5">
+              <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-3">
+                  <label htmlFor="item-name">이름</label>
+                  <input
+                    id="item-name"
+                    type="text"
+                    placeholder="아이템 이름을 입력해주세요"
+                    className="w-full px-5 py-2 border border-site-lightgray rounded-full"
+                  />
+                </div>
+                <div className="flex flex-col gap-3">
+                  <label htmlFor="item-point">포인트</label>
+                  <input
+                    id="item-point"
+                    type="text"
+                    placeholder="아이템 포인트를 입력해주세요"
+                    className="w-full px-5 py-2 border border-site-lightgray rounded-full"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-5">
+                <Button className="lg:h-11 lg:text-base">삭제하기</Button>
+                <Button className="lg:h-11 lg:text-base">등록하기</Button>
+              </div>
             </div>
           </div>
         </div>
