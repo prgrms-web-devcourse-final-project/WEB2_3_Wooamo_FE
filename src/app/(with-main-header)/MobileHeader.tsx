@@ -8,7 +8,7 @@ import Icon from "@/components/common/Icon";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
+import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
@@ -59,7 +59,7 @@ export default function MobileHeader() {
             <Icon MuiIcon={SendRoundedIcon} />
           </Link>
           <button>
-            <Icon MuiIcon={NotificationsRoundedIcon} />
+            <Icon MuiIcon={NotificationsNoneRoundedIcon} />
           </button>
         </div>
       </header>

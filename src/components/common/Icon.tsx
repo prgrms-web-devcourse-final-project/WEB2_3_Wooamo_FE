@@ -7,9 +7,10 @@ interface IconProps {
     muiName: string;
   };
   className?: string;
+  onClick?: () => void;
 }
 
-export default function Icon({ MuiIcon, className }: IconProps) {
+export default function Icon({ MuiIcon, className, onClick }: IconProps) {
   return (
     <MuiIcon
       className={twMerge(
