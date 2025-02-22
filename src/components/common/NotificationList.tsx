@@ -1,5 +1,6 @@
 import { Notification } from "@/types/notification";
 import { useRef, useEffect, RefObject } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface NotificationListProps {
   notifications: Notification[];
@@ -16,9 +17,8 @@ export default function NotificationList({
   onMarkAllAsRead,
   onClose,
   buttonRef,
-  className = "w-[27.5rem]",
-  listClassName = "mx-2.5 mb-2.5",
-  itemClassName = "p-4",
+  listClassName,
+  itemClassName,
 }: NotificationListProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -42,7 +42,7 @@ export default function NotificationList({
   return (
     <div
       ref={dropdownRef}
-      className={`absolute top-9 right-0 bg-white rounded-2xl ${className}`}
+      className={`absolute top-9 right-0 bg-white rounded-2xl w-[27.5rem]`}
     >
       <div className="p-4 flex justify-between items-center">
         <h3 className="text-xl font-semibold py-1">알림 목록</h3>
@@ -61,15 +61,18 @@ export default function NotificationList({
           알림이 없습니다
         </div>
       ) : (
-        <ul className={listClassName}>
+        <ul className={twMerge("mx-2.5 mb-2.5", listClassName)}>
           {notifications.map((notification) => (
             <li
               key={notification.id}
-              className={`${itemClassName} cursor-pointer ${
-                !notification.isRead
-                  ? "bg-site-button hover:bg-site-sub"
-                  : "hover:bg-gray-50"
-              }`}
+              className={twMerge(
+                "cursor-pointer",
+                itemClassName,
+                "p-4",
+                notification.isRead
+                  ? "hover:bg-gray-50"
+                  : "bg-site-button hover:bg-site-sub",
+              )}
               onClick={(e) => e.stopPropagation()}
             >
               <p className="text-base my-3 text-black line-clamp-2 overflow-hidden">
