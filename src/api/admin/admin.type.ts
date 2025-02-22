@@ -49,7 +49,7 @@ interface PartyMemberType {
   isAuth: string;
 }
 
-interface getPartyDetailsRes {
+interface getPartyDetailRes {
   status: string;
   data: {
     name: string;
