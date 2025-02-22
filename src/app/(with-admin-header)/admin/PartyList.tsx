@@ -5,13 +5,11 @@ import Link from "next/link";
 interface PartyListProps {
   index: number;
   title: string;
-  description: string;
   totalHeadcount: number;
-  headcount: string; // 인원 수 -> 다만 전체 인원을 표시해줘야하니 팟에 포함된 전체 사용자를 받아오게 될 수도 있음 그럴 땐 형식에 맞춰 배열로 바꾼 후 인원수는 length로 사용하면 될 듯
+  headcount: number;
   startDate: string;
   endDate: string;
   status: string;
-  certificationPhoto: string; // 인증 사진
 }
 
 export default function PartyList({
