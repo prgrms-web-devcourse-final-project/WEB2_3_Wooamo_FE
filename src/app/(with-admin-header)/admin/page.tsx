@@ -23,7 +23,7 @@ export default async function Admin() {
             <div>주간 신규 회원 수</div>
           </div>
           <div className="flex flex-col gap-3 font-semibold text-xl items-center">
-            <div className="w-40 h-40 bg-site-white-100 rounded-full ">
+            <div className="w-40 h-40 bg-site-white-100 rounded-full overflow-hidden">
               <Image
                 src={adminWeeklyInfo?.image ?? DefaultCostume}
                 width={160}
