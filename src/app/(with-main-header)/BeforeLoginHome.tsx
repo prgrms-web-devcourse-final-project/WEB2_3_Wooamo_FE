@@ -3,7 +3,6 @@ import weekRanking from "@/assets/images/weekRanking.png";
 import RankingCard from "./RankingCard";
 import EventParties from "./party/EventParties";
 import OngoingParties from "./party/OngoingParties";
-import UserCard from "./UserCard";
 
 export default function BeforeLoginHome() {
   return (

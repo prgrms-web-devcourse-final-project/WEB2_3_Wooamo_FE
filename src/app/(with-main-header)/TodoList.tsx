@@ -1,19 +1,26 @@
+"use client";
+
 import Button from "@/components/common/Button";
 import TodoItem from "./TodoItem";
+import Input from "@/components/common/Input";
+import { useState } from "react";
 
 export default function TodoList() {
+  const [todo, setTodo] = useState("");
+
   return (
-    <section className="w-120 flex flex-col gap-4">
+    <section className="w-full lg:w-120 flex flex-col gap-4">
       <div className="flex items-center w-full gap-2">
         <div className="flex w-full">
           <label htmlFor="todo-input" className="hidden">
             할 일 입력
           </label>
-          <input
+          <Input
             id="todo-input"
             type="text"
+            value={todo}
+            onChange={(e) => setTodo(e.target.value)}
             placeholder="오늘 할 일을 입력해주세요"
-            className="w-full px-7 py-4 text-xl bg-site-white-100 rounded-full"
           />
         </div>
         <Button className="min-w-fit">추가</Button>
