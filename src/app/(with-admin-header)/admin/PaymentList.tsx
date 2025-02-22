@@ -1,8 +1,8 @@
 interface PaymentListProps {
   paymentTime: string;
   name: string;
-  point: string;
-  value: string;
+  point: number;
+  value: number;
 }
 
 export default function PaymentList({
@@ -15,8 +15,8 @@ export default function PaymentList({
     <div className="flex px-5 py-10 bg-site-white-70">
       <div className="flex-3">{paymentTime}</div>
       <div className="flex-1">{name}</div>
-      <div className="flex-1">{point}</div>
-      <div className="flex-1">{value}</div>
+      <div className="flex-1">{point.toLocaleString()}</div>
+      <div className="flex-1">{value.toLocaleString()}</div>
     </div>
   );
 }
