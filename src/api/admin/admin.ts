@@ -35,8 +35,22 @@ const getAllPartyList = async () => {
   }
 };
 
+const getPartyDetails = async (partyId: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party/${partyId}`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getPartyDetailsRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const adminApi = {
   getAdminWeeklyInfo,
   getAdminRecentSales,
   getAllPartyList,
+  getPartyDetails,
 };

@@ -40,3 +40,21 @@ interface getAllPartyListRes {
     hasNext: boolean;
   };
 }
+
+interface PartyMemberType {
+  userId: number;
+  profile: string;
+  nickname: string;
+  auth: string;
+  isAuth: string;
+}
+
+interface getPartyDetailsRes {
+  status: string;
+  data: {
+    name: string;
+    context: string;
+    date: string[];
+    members: PartyMemberType[];
+  };
+}
