@@ -1,0 +1,42 @@
+interface getAdminWeeklyInfoRes {
+  status: string;
+  data: {
+    weeklySignupUser: number;
+    image: string;
+    weeklyPointSales: number;
+  };
+}
+
+interface getAdminRecentSalesRes {
+  status: string;
+  data: [
+    {
+      createdAt: string;
+      nickname: string;
+      amount: number;
+      point: number;
+    },
+  ];
+}
+
+interface PartyDetailType {
+  partyId: number;
+  name: string;
+  recruitCap: number;
+  recruitCnt: number;
+  startDate: string;
+  endDate: string;
+  isApproved: string;
+}
+
+interface getAllPartyListRes {
+  status: string;
+  data: {
+    contents: PartyDetailType[];
+    page: number;
+    size: number;
+    totalElementes: number;
+    totalPages: number;
+    hasNext: boolean;
+  };
+}
