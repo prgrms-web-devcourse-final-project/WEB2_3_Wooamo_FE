@@ -4,9 +4,9 @@ import Button from "@/components/common/Button";
 
 export default function TimerList() {
   return (
-    <div className="flex justify-between px-2 py-4 bg-site-white-100">
+    <div className="flex justify-between px-2.5 lg:px-7 py-4 bg-site-white-100">
       <div className="flex gap-3 items-center">
-        <div className="text-xl px-2">미적분 사랑해</div>
+        <div className="text-xl">미적분 사랑해</div>
       </div>
       <div className="flex items-center gap-3">
         <div className="text-xl">00:00:00</div>

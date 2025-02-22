@@ -5,7 +5,7 @@ import Button from "@/components/common/Button";
 
 export default function TodoItem() {
   return (
-    <div className="flex justify-between px-2 py-4 bg-site-white-100">
+    <div className="flex justify-between px-2.5 lg:px-7 py-4 bg-site-white-100">
       <div className="flex gap-3 items-center relative">
         <input
           id="todo-checkbox"
