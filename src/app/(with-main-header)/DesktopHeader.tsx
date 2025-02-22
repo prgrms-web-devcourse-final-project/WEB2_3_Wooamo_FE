@@ -11,6 +11,8 @@ import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Avatar from "@/components/common/Avatar";
 import basic from "@/assets/images/costumes/basic.png";
 import { useState, useRef, useEffect } from "react";
+import NotificationList from "../../components/common/NotificationList";
+import { Notification } from "@/types/notification";
 
 const routes = {
   "/boards": "게시판",
@@ -45,7 +47,7 @@ export default function DesktopHeader() {
   }, []);
 
   //임시
-  const [notifications, setNotifications] = useState([
+  const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: 1,
       nickName: "사용자1",
@@ -60,7 +62,7 @@ export default function DesktopHeader() {
     },
   ]);
 
-  const toggle = () => setIsOpen(!isOpen);
+  const toggle = () => setIsOpen((prev) => !prev);
   const markAllAsRead = () => {
     setNotifications(
       notifications.map((notification) => ({
@@ -113,51 +115,13 @@ export default function DesktopHeader() {
               </button>
             </div>
             {isOpen && (
-              <div
-                ref={dropdownRef}
-                className="absolute top-9 right-0 bg-white rounded-2xl w-[27.5rem]"
-              >
-                <div className="p-4 flex justify-between items-center">
-                  <h3 className="text-xl font-semibold py-1">알림 목록</h3>
-                  <button
-                    className="text-sm font-semibold text-site-darkgray-02 hover:text-black"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      markAllAsRead();
-                    }}
-                  >
-                    전체 읽음
-                  </button>
-                </div>
-                {notifications.length === 0 ? (
-                  <div className="p-4 text-center text-site-darkgray-02">
-                    알림이 없습니다
-                  </div>
-                ) : (
-                  <ul className="mx-2.5 mb-2.5">
-                    {notifications.map((notification) => (
-                      <li
-                        key={notification.id}
-                        className={`p-4 cursor-pointer ${
-                          !notification.isRead
-                            ? "bg-site-button hover:bg-site-sub"
-                            : " hover:bg-gray-50"
-                        }`}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <p className="text-[16px] my-3 text-black line-clamp-2 overflow-hidden">
-                          <span className="font-semibold">
-                            {notification.nickName}
-                          </span>
-                          <span className="font-normal">
-                            {notification.message}
-                          </span>
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+              <NotificationList
+                notifications={notifications}
+                onMarkAllAsRead={markAllAsRead}
+                onClose={() => setIsOpen(false)} // 이 prop이 빠져있었음
+                className="w-[27.5rem]"
+                buttonRef={buttonRef}
+              />
             )}
           </div>
           <Link href="/users/1">

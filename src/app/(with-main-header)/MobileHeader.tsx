@@ -5,12 +5,14 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo.svg";
 import Icon from "@/components/common/Icon";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import NotificationList from "../../components/common/NotificationList";
+import { Notification } from "@/types/notification";
 
 const routes = {
   "/": "홈",
@@ -27,29 +29,10 @@ export default function MobileHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        buttonRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   //임시
-  const [notifications, setNotifications] = useState([
+  const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: 1,
       nickName: "사용자1",
@@ -64,7 +47,7 @@ export default function MobileHeader() {
     },
   ]);
 
-  const toggle = () => setIsOpen(!isOpen);
+  const toggle = () => setIsOpen((prev) => !prev);
   const markAllAsRead = () => {
     setNotifications(
       notifications.map((notification) => ({
@@ -101,7 +84,7 @@ export default function MobileHeader() {
             blurDataURL={"../assets/images/Logo.svg"}
           />
         </Link>
-        {isLoggedIn ? (
+        {isLoggedIn && (
           <div className="flex gap-2.5">
             <Link href="/chatting">
               <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
@@ -116,55 +99,17 @@ export default function MobileHeader() {
                 </button>
               </div>
               {isOpen && (
-                <div
-                  ref={dropdownRef}
-                  className="absolute top-9 right-0 bg-white rounded-2xl w-[18.75rem]"
-                >
-                  <div className="p-4 flex justify-between items-center">
-                    <h3 className="text-xl font-semibold py-1">알림 목록</h3>
-                    <button
-                      className="text-sm font-semibold text-site-darkgray-02 hover:text-black"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        markAllAsRead();
-                      }}
-                    >
-                      전체 읽음
-                    </button>
-                  </div>
-                  {notifications.length === 0 ? (
-                    <div className="p-4 text-center text-site-darkgray-02">
-                      알림이 없습니다
-                    </div>
-                  ) : (
-                    <ul className="mx-2.5 mb-2.5">
-                      {notifications.map((notification) => (
-                        <li
-                          key={notification.id}
-                          className={`p-4 cursor-pointer ${
-                            !notification.isRead
-                              ? "bg-site-button hover:bg-site-sub"
-                              : " hover:bg-gray-50"
-                          }`}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <p className="text-[16px] my-3 text-black line-clamp-2 overflow-hidden">
-                            <span className="font-semibold">
-                              {notification.nickName}
-                            </span>
-                            <span className="font-normal">
-                              {notification.message}
-                            </span>
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
+                <NotificationList
+                  notifications={notifications}
+                  onMarkAllAsRead={markAllAsRead}
+                  onClose={() => setIsOpen(false)}
+                  buttonRef={buttonRef}
+                  className="w-[18.75rem]"
+                />
               )}
             </div>
           </div>
-        ) : null}
+        )}
       </header>
       {isVisible && (
         <aside
