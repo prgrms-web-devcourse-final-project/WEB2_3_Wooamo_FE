@@ -176,6 +176,7 @@ export default function Signup() {
                 onChange={(e) => {
                   setIsVerifiedEmail(false);
                   setIsSentVerificationEmail(false);
+                  setVerificationCode("");
                   email.onChange(e);
                 }}
                 error={email.error}
