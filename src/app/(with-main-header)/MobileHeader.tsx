@@ -5,12 +5,14 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo.svg";
 import Icon from "@/components/common/Icon";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
+import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import NotificationList from "../../components/common/NotificationList";
+import { Notification } from "@/types/notification";
 
 const routes = {
   "/": "홈",
@@ -22,10 +24,38 @@ const routes = {
 export default function MobileHeader() {
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0] ?? "/";
+  const isLoggedIn = true;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  //임시
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: 1,
+      nickName: "사용자1",
+      message: "님이 회원님의 게시글에 댓글을 남겼습니다.",
+      isRead: false,
+    },
+    {
+      id: 2,
+      nickName: "사용자2",
+      message: "님이 회원님을 팔로우했습니다.",
+      isRead: true,
+    },
+  ]);
+
+  const toggle = () => setIsOpen((prev) => !prev);
+  const markAllAsRead = () => {
+    setNotifications(
+      notifications.map((notification) => ({
+        ...notification,
+        isRead: true,
+      })),
+    );
+  };
   const openSidebar = () => {
     setIsVisible(true);
     setTimeout(() => setIsOpen(true), 0);
@@ -54,16 +84,33 @@ export default function MobileHeader() {
             blurDataURL={"../assets/images/Logo.svg"}
           />
         </Link>
-        <div className="flex gap-2.5">
-          <Link href={"/chatting"} onClick={closeSidebar}>
-            <Icon MuiIcon={SendRoundedIcon} />
-          </Link>
-          <button>
-            <Icon MuiIcon={NotificationsRoundedIcon} />
-          </button>
-        </div>
+        {isLoggedIn && (
+          <div className="flex gap-2.5">
+            <Link href="/chatting">
+              <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
+            </Link>
+            <div className="relative">
+              <div ref={buttonRef}>
+                <button onClick={toggle} className="cursor-pointer">
+                  <Icon
+                    MuiIcon={NotificationsNoneRoundedIcon}
+                    className="cursor-pointer"
+                  />
+                </button>
+              </div>
+              {isOpen && (
+                <NotificationList
+                  notifications={notifications}
+                  onMarkAllAsRead={markAllAsRead}
+                  onClose={() => setIsOpen(false)}
+                  buttonRef={buttonRef}
+                  className="w-[18.75rem]"
+                />
+              )}
+            </div>
+          </div>
+        )}
       </header>
-
       {isVisible && (
         <aside
           className={twMerge(
