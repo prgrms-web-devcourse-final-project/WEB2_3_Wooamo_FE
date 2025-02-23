@@ -17,3 +17,9 @@ interface signUpReq {
   password: string;
   nickname: string;
 }
+
+interface signInReq {
+  email: string;
+  password: string;
+  isAutoLogin: boolean;
+}

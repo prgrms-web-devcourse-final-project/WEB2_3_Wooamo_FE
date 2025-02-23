@@ -14,7 +14,7 @@ const checkIsDuplicatedNickname = async (
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getUserInfoRes = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -35,7 +35,7 @@ const sendVerificationEmail = async (body: sendVerificationEmailReq) => {
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getUserInfoRes = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -56,7 +56,7 @@ const verifyEmail = async (body: verifyEmailReq) => {
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getUserInfoRes = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -77,7 +77,29 @@ const signUp = async (body: signUpReq) => {
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getUserInfoRes = await response.json();
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Remember-Me": isAutoLogin ? "true" : "false",
+        },
+        body: JSON.stringify(body),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -89,4 +111,5 @@ export const authApi = {
   sendVerificationEmail,
   verifyEmail,
   signUp,
+  signIn,
 };
