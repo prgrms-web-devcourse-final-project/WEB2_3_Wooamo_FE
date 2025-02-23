@@ -42,7 +42,7 @@ const postEventCreate = async (body: postEventCreateReq) => {
       { method: "POST", body: JSON.stringify(body) },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error(error);

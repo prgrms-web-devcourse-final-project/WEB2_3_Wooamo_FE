@@ -47,6 +47,5 @@ interface postEventCreateReq {
     endDate: string;
     bettingPointCap: number;
   };
-
   image: string;
 }
