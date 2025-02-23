@@ -59,7 +59,7 @@ const patchConfirmCertification = async (
       { method: "PATCH", body: JSON.stringify({ auth: isConfirm }) },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: patchConfirmCertificationRes = await response.json();
+    const data = await response.json();
     return data;
   } catch (error) {
     console.error(error);
