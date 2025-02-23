@@ -17,7 +17,7 @@ export default function AddEvent() {
       <Button onClick={() => open(`add-event`)}>이벤트 등록</Button>
 
       <Modal modalId={`add-event`} className="w-190">
-        <div className="flex flex-col gap-5">
+        <form className="flex flex-col gap-5">
           <div className="text-xl font-semibold">이벤트 등록</div>
           <div className="flex gap-5">
             <div className="flex flex-1 flex-col gap-5">
@@ -78,10 +78,12 @@ export default function AddEvent() {
               <div className="w-80 h-80 bg-site-lightgray rounded-2xl flex items-center justify-center">
                 이미지 영역
               </div>
-              <Button className="lg:h-11 lg:text-base">등록하기</Button>
+              <Button type="submit" className="lg:h-11 lg:text-base">
+                등록하기
+              </Button>
             </div>
           </div>
-        </div>
+        </form>
       </Modal>
     </>
   );
