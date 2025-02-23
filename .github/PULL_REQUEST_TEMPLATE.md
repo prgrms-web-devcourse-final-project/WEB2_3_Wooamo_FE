@@ -2,7 +2,7 @@
 
 ## ✨ 반영 브랜치
 
-`feature/` -> `dev`
+`feat/` -> `dev`
 
 <!-- 간단한 PR task에 대한 설명 -->
 
