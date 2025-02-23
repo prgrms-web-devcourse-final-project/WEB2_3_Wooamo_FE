@@ -2,8 +2,9 @@
 interface getUserInfoReq {
   userId: number;
 }
+
 interface getUserInfoRes {
-  status: string;
+  status: statusType;
   data: {
     userId: number;
     context: string;

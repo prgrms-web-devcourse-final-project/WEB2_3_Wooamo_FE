@@ -1,17 +1,19 @@
 import { useState } from "react";
 
-type Validator = (value: string | number) => string | null;
+type Validator<T> = (value: T) => string | null;
 
-const useInputValidation = (
-  initialValue: string | number,
-  validate: Validator,
-) => {
-  const [value, setValue] = useState<string | number>(initialValue);
+const useInputValidation = <T>(initialValue: T, validate: Validator<T>) => {
+  const [value, setValue] = useState<T>(initialValue);
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setValue(newValue);
+    const newValue = e.target.value as T;
+    if (typeof initialValue === "number") {
+      setValue(Number(newValue) as T);
+    } else {
+      setValue(newValue);
+    }
+
     setError(null);
   };
 
@@ -22,7 +24,7 @@ const useInputValidation = (
   };
 
   return {
-    value: typeof initialValue === "number" ? Number(value) : value,
+    value,
     error,
     onChange: handleChange,
     validate: validateOnSubmit,
