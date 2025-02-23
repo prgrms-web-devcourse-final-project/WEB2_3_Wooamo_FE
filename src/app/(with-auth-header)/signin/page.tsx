@@ -15,10 +15,12 @@ import { FormEvent, useState } from "react";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import { authApi } from "@/api/auth/auth";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
 
 export default function SignIn() {
   const isMobile = useIsMobile();
   const router = useRouter();
+  const login = useAuthStore((state) => state.login);
 
   const [isAutoLogin, setIsAutoLogin] = useState(false);
   const { validate: emailValidate, ...email } = useInputValidation(
@@ -50,6 +52,7 @@ export default function SignIn() {
         isAutoLogin,
       });
       if (res?.status === "성공") {
+        login();
         router.push("/");
       } else {
         alert("로그인에 실패했습니다.");
