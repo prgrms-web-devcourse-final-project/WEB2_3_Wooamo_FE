@@ -22,7 +22,21 @@ const getAdminRecentSales = async () => {
   }
 };
 
+const getAllEventList = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/event`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getAllEventListRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const adminApi = {
   getAdminWeeklyInfo,
   getAdminRecentSales,
+  getAllEventList,
 };
