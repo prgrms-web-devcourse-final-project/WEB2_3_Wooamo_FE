@@ -37,3 +37,16 @@ interface getAllEventListRes {
     hasNext: boolean;
   };
 }
+
+interface postEventCreateReq {
+  party: {
+    name: string;
+    context: string;
+    recruitCap: number;
+    startDate: string;
+    endDate: string;
+    bettingPointCap: number;
+  };
+
+  image: string;
+}

@@ -35,8 +35,23 @@ const getAllEventList = async () => {
   }
 };
 
+const postEventCreate = async (body: postEventCreateReq) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/event`,
+      { method: "POST", body: JSON.stringify(body) },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const adminApi = {
   getAdminWeeklyInfo,
   getAdminRecentSales,
   getAllEventList,
+  postEventCreate,
 };
