@@ -19,19 +19,25 @@ export default function ShopCostumeItem({
     <>
       <button
         onClick={() => open(`shop-costume-preview${index}`)}
-        className="flex items-end w-56 h-60 hover:drop-shadow-6.2 transition-all"
+        className="aspect-square w-full max-w-56 hover:drop-shadow-6.2 transition-all"
       >
-        <article className="w-56 h-56 bg-site-white-70 rounded-[10px] relative">
-          <div className="flex justify-center items-center absolute -top-7.5 right-0 w-fit px-6 h-15 bg-site-sub rounded-full">
-            <span className="font-galmuri text-xl">300p</span>
+        <article className="w-full h-full bg-site-white-70 rounded-[10px] relative">
+          <div className="flex justify-center items-center absolute -top-7.5 right-0 w-fit px-4 lg:px-6 h-11 lg:h-15 bg-site-sub rounded-full">
+            <span className="font-galmuri text-base lg:text-xl">300p</span>
           </div>
-          <Image src={costume} alt="코스튬 입은 아바타 미리보기 이미지" />
+          <div className="relative w-full h-full">
+            <Image
+              src={costume}
+              alt="코스튬 입은 아바타 미리보기 이미지"
+              className="object-contain"
+              fill
+            />
+          </div>
         </article>
       </button>
-
       <Modal modalId={`shop-costume-preview${index}`}>
         <Character costumeSrc={costume} className="h-60" />
-        <p className="text-2xl font-galmuri text-center mt-10">
+        <p className="text-base lg:text-2xl font-galmuri text-center mt-10">
           코스튬 미리보기
         </p>
       </Modal>
