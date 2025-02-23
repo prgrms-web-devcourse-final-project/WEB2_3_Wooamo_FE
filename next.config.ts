@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "raw.githubusercontent.com",
         port: "",
-        pathname: "/DevPumpkin0113/test/refs/heads/main/costume/**",
+        pathname: "/DevPumpkin0113/test/refs/heads/main/**",
         search: "",
       },
     ],
