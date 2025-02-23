@@ -1,6 +1,5 @@
 import ParticipantItem from "./ParticipantItem";
 import Button from "@/components/common/Button";
-import { useState } from "react";
 import CertificationDate from "./CertificationDate";
 import { adminApi } from "@/api/admin/admin";
 
@@ -25,7 +24,10 @@ export default async function CertificationParty({
       </div>
       <div className="flex flex-col gap-5">
         <div className="font-semibold text-xl">날짜 선택</div>
-        <CertificationDate />
+        <CertificationDate
+          start={partyDetail.date[0]}
+          end={partyDetail.date[partyDetail.date.length - 1]}
+        />
       </div>
       <div className="flex gap-30">
         <div className="flex flex-col gap-5">
@@ -41,7 +43,7 @@ export default async function CertificationParty({
             </div>
           </div>
           <div className="w-100 h-100 bg-site-lightgray rounded-xl flex items-center justify-center">
-            사용자가 인증한 사진은 fetch로 넣으면 됨
+            {/* <Image src={} width={400} height={400} alt="사용자가 인증한 사진" /> */}
           </div>
         </div>
         <div className="flex flex-col gap-5">
@@ -52,8 +54,6 @@ export default async function CertificationParty({
                 key={member.userId}
                 profile={member.profile}
                 nickname={member.nickname}
-                auth={member.auth}
-                isAuth={member.isAuth}
               />
             ))}
           </div>
