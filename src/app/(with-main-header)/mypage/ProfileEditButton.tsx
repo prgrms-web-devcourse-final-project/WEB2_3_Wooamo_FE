@@ -25,14 +25,16 @@ export default function ProfileEditButton() {
       <Modal modalId="edit-profile">
         <form
           onSubmit={editProfile}
-          className="flex flex-col items-center gap-7.5"
+          className="flex flex-col items-center gap-7.5 w-full"
         >
-          <div className="flex flex-col gap-4">
-            <p className="font-semibold text-xl text-center">프로필 편집</p>
+          <div className="flex flex-col gap-4 w-full">
+            <p className="font-semibold text-base lg:text-xl text-center">
+              프로필 편집
+            </p>
             <div className="flex items-center gap-4">
               <label
                 htmlFor="description"
-                className="min-w-18 text-xl font-semibold"
+                className="min-w-18 text-base lg:text-xl font-semibold"
               >
                 자기소개
               </label>
@@ -44,7 +46,10 @@ export default function ProfileEditButton() {
               />
             </div>
             <div className="flex items-center gap-4">
-              <label htmlFor="link" className="min-w-18 text-xl font-semibold">
+              <label
+                htmlFor="link"
+                className="min-w-18 text-base lg:text-xl font-semibold"
+              >
                 링크
               </label>
               <Input

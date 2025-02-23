@@ -7,17 +7,17 @@ import ProfileEditButton from "./ProfileEditButton";
 
 export default function MyProfile() {
   return (
-    <section className="flex flex-col min-w-92 gap-7">
-      <p className="font-bitbitv2 text-[28px]">@binnie</p>
-      <div className="flex gap-13">
-        <Avatar costumeSrc={basic} className="w-40 h-40" />
-        <div className="flex flex-col justify-end items-center gap-7.5">
+    <section className="flex flex-col min-w-full lg:min-w-92 gap-2.5 lg:gap-7 px-2.5">
+      <p className="font-bitbitv2 text-2xl lg:text-[28px]">@binnie</p>
+      <div className="flex items-center lg:items-end gap-13">
+        <Avatar costumeSrc={basic} className="w-32.5 lg:w-40 h-32.5 lg:h-40" />
+        <div className="flex flex-col justify-end items-center gap-6 lg:gap-7.5">
           <div className="flex flex-col gap-2">
-            <p className="font-galmuri text-2xl">
+            <p className="font-galmuri text-xl lg:text-2xl">
               <span className="mr-3">포인트</span>
               <span className="text-site-darkgray-02">100p</span>
             </p>
-            <p className="font-galmuri text-2xl">
+            <p className="font-galmuri text-xl lg:text-2xl">
               <Link href={"/friends"} className="mr-3">
                 친구
               </Link>
