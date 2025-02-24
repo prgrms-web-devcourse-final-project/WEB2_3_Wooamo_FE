@@ -10,9 +10,15 @@ interface ModalProps {
   children: ReactNode;
   modalId: string;
   className?: string;
+  onClose?: () => void;
 }
 
-export default function Modal({ children, modalId, className }: ModalProps) {
+export default function Modal({
+  children,
+  modalId,
+  className,
+  onClose,
+}: ModalProps) {
   const isOpen = useModalStore((state) => state.isOpen);
   const currentModalId = useModalStore((state) => state.currentModalId);
   const { close, setDialogRef } = useModalStore((state) => state);
@@ -25,6 +31,7 @@ export default function Modal({ children, modalId, className }: ModalProps) {
       dialogRef.current?.showModal();
     } else {
       dialogRef.current?.close();
+      if (onClose) onClose();
     }
   }, [isOpen]);
 
@@ -47,7 +54,7 @@ export default function Modal({ children, modalId, className }: ModalProps) {
           ref={dialogRef}
           className={twMerge(
             `flex items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] backdrop:bg-site-black-50 rounded-[10px]`,
-            className
+            className,
           )}
         >
           <div className="w-full px-5 pt-16 pb-7">
@@ -61,7 +68,7 @@ export default function Modal({ children, modalId, className }: ModalProps) {
             {children}
           </div>
         </dialog>,
-        document.getElementById("modal-root") as HTMLElement
+        document.getElementById("modal-root") as HTMLElement,
       )
     : null;
 }
