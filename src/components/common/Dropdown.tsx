@@ -32,7 +32,7 @@ export default function Dropdown({
     <div
       ref={dropdownRef}
       className={twMerge(
-        "w-25 lg:w-38.5 absolute top-10 lg:top-12 right-4 lg:right-0 bg-site-button rounded-lg shadow-sm z-10",
+        "w-25 lg:w-38.5 absolute top-10 lg:top-12 right-4 lg:right-0 bg-site-button rounded-lg shadow-sm z-10 overflow-hidden",
         className,
       )}
     >
