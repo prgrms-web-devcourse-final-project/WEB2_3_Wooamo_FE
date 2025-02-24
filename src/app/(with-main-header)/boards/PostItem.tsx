@@ -2,16 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo.svg";
 import formatDateToTimeAgo from "../../../utils/formatDateToTimeAgo";
-import { BoardItem, BoardDetail } from "@/api/board/board.type";
 import { useEffect, useState } from "react";
 import { boardApi } from "@/api/board/board";
 
 interface PostItemProps {
-  post: BoardItem;
+  post: boardItem;
 }
 export default function PostItem({ post }: PostItemProps) {
   const { boardId, title, boardType, createdAt, image } = post;
-  const [boardDetail, setBoardDetail] = useState<BoardDetail | null>(null);
+  const [boardDetail, setBoardDetail] = useState<boardDetail | null>(null);
 
   useEffect(() => {
     const fetchBoardDetail = async () => {
@@ -47,7 +46,7 @@ export default function PostItem({ post }: PostItemProps) {
             src={image || Logo}
             alt={image ? "게시글 이미지" : "STUV 로고 이미지"}
             fill
-            className="object-contain"
+            className="object-cover"
           />
         </div>
       </article>

@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import PostItem from "./PostItem";
 import BoardsHeader from "./BoardsHeader";
 import { boardApi } from "@/api/board/board";
-import { BoardItem } from "@/api/board/board.type";
 
 export default function Boards() {
-  const [posts, setPosts] = useState<BoardItem[]>([]);
+  const [posts, setPosts] = useState<boardItem[]>([]);
 
   useEffect(() => {
     const fetchPosts = async () => {

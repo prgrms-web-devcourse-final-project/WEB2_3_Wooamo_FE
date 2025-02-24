@@ -6,7 +6,6 @@ import basic from "@/assets/images/costumes/basic.png";
 import PostDeleteButton from "./PostDeleteButton";
 import { useEffect, useState } from "react";
 import { boardApi } from "@/api/board/board";
-import { BoardDetail } from "@/api/board/board.type";
 import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
 
 interface PostProps {
@@ -14,7 +13,7 @@ interface PostProps {
 }
 
 export default function Post({ boardId }: PostProps) {
-  const [boardDetail, setBoardDetail] = useState<BoardDetail | null>(null);
+  const [boardDetail, setBoardDetail] = useState<boardDetail | null>(null);
 
   useEffect(() => {
     const fetchBoardDetail = async () => {

@@ -1,4 +1,4 @@
-export interface BoardItem {
+interface boardItem {
   boardId: number;
   title: string;
   boardType: "질문" | "자유";
@@ -6,11 +6,10 @@ export interface BoardItem {
   isConfirm: boolean;
   image: string | null;
 }
-
-export interface BoardListResponse {
+interface boardListResponse {
   status: string;
   data: {
-    contents: BoardItem[];
+    contents: boardItem[];
     page: number;
     size: number;
     totalElementes: number;
@@ -19,7 +18,7 @@ export interface BoardListResponse {
   };
 }
 
-export interface BoardDetail {
+interface boardDetail {
   title: string;
   userId: number;
   nickname: string;
@@ -31,7 +30,7 @@ export interface BoardDetail {
   images: string[];
 }
 
-export interface BoardDetailResponse {
+interface boardDetailResponse {
   status: string;
-  data: BoardDetail;
+  data: boardDetail;
 }
