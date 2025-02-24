@@ -26,9 +26,8 @@ export default function AddEvent() {
   const [eventImage, setEventImage] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
 
-  const onChangeImage = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    const targetFile = target.files;
+  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const targetFile = e.target.files;
 
     if (!targetFile) return;
     const filesArray = Array.from(targetFile);
