@@ -40,24 +40,6 @@ interface getAllPartyListRes {
     hasNext: boolean;
   };
 }
-interface EventDetailType {
-  partyId: number;
-  image: string;
-  name: string;
-  bettingPointCap: number;
-}
-
-interface getAllEventListRes {
-  status: string;
-  data: {
-    contents: EventDetailType[];
-    page: number;
-    size: number;
-    totalElements: number;
-    totalPages: number;
-    hasNext: boolean;
-  };
-}
 
 interface PartyMemberType {
   userId: number;
@@ -74,6 +56,25 @@ interface getPartyDetailRes {
     context: string;
     date: string[];
     members: PartyMemberType[];
+  };
+}
+
+interface EventDetailType {
+  partyId: number;
+  image: string;
+  name: string;
+  bettingPointCap: number;
+}
+
+interface getAllEventListRes {
+  status: string;
+  data: {
+    contents: EventDetailType[];
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+    hasNext: boolean;
   };
 }
 
