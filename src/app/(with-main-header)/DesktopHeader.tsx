@@ -146,7 +146,7 @@ export default function DesktopHeader() {
               onClose={() => setIsOpenDropdown(false)}
             >
               <Link
-                href={"/users/1"}
+                href={"/mypage"}
                 onClick={() => setIsOpenDropdown(false)}
                 className="flex justify-center items-center px-6 py-4 hover:opacity-50 transition-colors"
               >
