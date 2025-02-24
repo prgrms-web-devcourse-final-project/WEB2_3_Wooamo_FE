@@ -89,3 +89,9 @@ interface postEventCreateReq {
   };
   image: File[];
 }
+
+interface postItemCreateReq {
+  costumeName: string;
+  point: number;
+  image: File[];
+}
