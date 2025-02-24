@@ -1,17 +1,24 @@
 import { costumes } from "@/consts/costumes";
 import CostumeItem from "./CostumeItem";
 import AddCustume from "./AddCustume";
+import { shopApi } from "@/api/shop/shop";
 
-export default function page() {
+export default async function page() {
+  const fetchCostumeList = await shopApi.getCostumeList(1);
+  const costumeList = fetchCostumeList?.data.contents;
+  if (!costumeList) return;
+
   return (
     <div className="flex flex-col gap-15">
       <AddCustume />
       <div className="flex flex-wrap gap-10">
-        {costumes.map((costume, index) => (
+        {costumeList.map((costume) => (
           <CostumeItem
-            key={`costume${index}`}
-            index={index}
-            costume={costume}
+            key={costume.costumeId}
+            index={costume.costumeId}
+            costume={costume.image}
+            name={costume.costumeName}
+            point={costume.point}
           />
         ))}
       </div>
