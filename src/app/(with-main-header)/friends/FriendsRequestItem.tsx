@@ -23,8 +23,8 @@ export default function FriendsRequestItem({
       <ProfileSummary
         userId={friend.senderId}
         costume={friend.profile}
-        nickname="프로필 닉네임"
-        description="프로필 설명"
+        nickname={friend.nickname}
+        description={friend.context}
       />
       <div className="flex gap-2.5 lg:gap-5">
         <Button onClick={acceptFriend} className="bg-site-main text-white">
