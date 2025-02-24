@@ -1,13 +1,36 @@
+import { friendApi } from "@/api/friend/friend";
+import { revalidateTagAction } from "@/app/actions";
 import Button from "@/components/common/Button";
 import ProfileSummary from "@/components/common/ProfileSummary";
 
-export default function FriendsRequestItem() {
+export default function FriendsRequestItem({
+  friend,
+}: {
+  friend: requestFriendType;
+}) {
+  const acceptFriend = async () => {
+    await friendApi.acceptFriend(friend.friendId);
+    revalidateTagAction("friends");
+  };
+
+  const deleteFriend = async () => {
+    await friendApi.deleteFriend(friend.friendId);
+    revalidateTagAction("request-friends");
+  };
+
   return (
     <article className="h-19 lg:h-25 flex justify-between items-center">
-      <ProfileSummary nickname="프로필 닉네임" description="프로필 설명" />
+      <ProfileSummary
+        userId={friend.senderId}
+        costume={friend.profile}
+        nickname="프로필 닉네임"
+        description="프로필 설명"
+      />
       <div className="flex gap-2.5 lg:gap-5">
-        <Button className="bg-site-main text-white">수락</Button>
-        <Button>거절</Button>
+        <Button onClick={acceptFriend} className="bg-site-main text-white">
+          수락
+        </Button>
+        <Button onClick={deleteFriend}>거절</Button>
       </div>
     </article>
   );
