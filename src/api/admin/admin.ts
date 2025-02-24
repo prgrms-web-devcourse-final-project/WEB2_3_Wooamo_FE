@@ -108,6 +108,20 @@ const postItemCreate = async (body: postItemCreateReq) => {
   }
 };
 
+const deleteCostume = async (costumeId: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/costume/${costumeId}`,
+      { method: "DELETE" },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const adminApi = {
   getAdminWeeklyInfo,
   getAdminRecentSales,
@@ -117,4 +131,5 @@ export const adminApi = {
   getAllEventList,
   postEventCreate,
   postItemCreate,
+  deleteCostume,
 };
