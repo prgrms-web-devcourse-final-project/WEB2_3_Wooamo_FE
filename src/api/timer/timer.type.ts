@@ -2,6 +2,15 @@
 interface getStudyTimeForWeekRes {
   status: statusType;
   data: {
-    studyTime: number;
+    studyTime: string;
   };
+}
+
+interface getStudyTimeForMonthRes {
+  status: statusType;
+  data: studyTimeType[];
+}
+interface studyTimeType {
+  studyTime: string;
+  studyDate: string;
 }

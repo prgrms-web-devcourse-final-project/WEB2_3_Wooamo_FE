@@ -1,20 +1,52 @@
 "use client";
 
+import { userApi } from "@/api/user/user";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Modal from "@/components/common/Modal";
 import { useModalStore } from "@/store/modalStore";
-import { useState } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
-export default function ProfileEditButton() {
+interface ProfileEditButtonProps {
+  setUser: Dispatch<SetStateAction<userType | null>>;
+}
+
+export default function ProfileEditButton({ setUser }: ProfileEditButtonProps) {
   const { open, close } = useModalStore((state) => state);
+  const [prevUser, setPrevUser] = useState<userType | null>(null);
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
 
-  const editProfile = () => {
-    console.log("프로필 편집", description, link);
-    close();
+  const editProfile = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const res = await userApi.updateUserInfo({ context: description, link });
+    if (res?.status === "성공" && prevUser) {
+      setUser({
+        ...prevUser,
+        context: description,
+        link,
+      });
+      close();
+    }
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await userApi.getCurrentUserInfo();
+      if (user) {
+        setDescription(user.data.context);
+        setLink(user.data.link);
+        setPrevUser(user.data);
+      }
+    };
+    fetchUser();
+  }, []);
 
   return (
     <>

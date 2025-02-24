@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import Character from "./Character";
 
 interface AvatarProps {
-  costumeSrc: string | StaticImageData;
+  costumeSrc: StaticImageData | string;
   className?: string;
 }
 

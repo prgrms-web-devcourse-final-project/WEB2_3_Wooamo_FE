@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import Logo from "@/assets/images/Logo.svg";
 import formatDateToTimeAgo from "../../../utils/formatDateToTimeAgo";
 import { useEffect, useState } from "react";
 import { boardApi } from "@/api/board/board";
+import Logo from "@/assets/images/logo.png";
 
 interface PostItemProps {
   post: boardItem;

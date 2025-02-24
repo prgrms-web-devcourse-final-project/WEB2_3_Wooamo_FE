@@ -22,6 +22,50 @@ const getAdminRecentSales = async () => {
   }
 };
 
+const getAllPartyList = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getAllPartyListRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getPartyDetail = async (partyId: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party/${partyId}`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getPartyDetailRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const patchConfirmCertification = async (
+  partyId: number,
+  userId: number,
+  isConfirm: boolean,
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party/${partyId}/${userId}`,
+      { method: "PATCH", body: JSON.stringify({ auth: isConfirm }) },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const getAllEventList = async () => {
   try {
     const response = await fetch(
@@ -53,6 +97,9 @@ const postEventCreate = async (body: postEventCreateReq) => {
 export const adminApi = {
   getAdminWeeklyInfo,
   getAdminRecentSales,
+  getAllPartyList,
+  getPartyDetail,
+  patchConfirmCertification,
   getAllEventList,
   postEventCreate,
 };
