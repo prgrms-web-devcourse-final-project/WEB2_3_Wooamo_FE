@@ -11,6 +11,7 @@ interface getFriendsRes {
   };
 }
 interface friendType {
+  friendId: number;
   userId: number;
   nickname: string;
   context: string;

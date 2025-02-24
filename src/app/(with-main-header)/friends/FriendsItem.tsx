@@ -9,7 +9,7 @@ export default function FriendsItem({ friend }: { friend: friendType }) {
   const { open, close } = useModalStore();
 
   const deleteFriend = async () => {
-    const res = await friendApi.deleteFriend(friend.userId);
+    const res = await friendApi.deleteFriend(friend.friendId);
     if (res?.status === "성공") {
       revalidateTagAction("friends");
       close();
@@ -24,10 +24,10 @@ export default function FriendsItem({ friend }: { friend: friendType }) {
         nickname={friend.nickname}
         description={friend.context}
       />
-      <Button onClick={() => open(`friend-delete-${friend.userId}`)}>
+      <Button onClick={() => open(`friend-delete-${friend.friendId}`)}>
         삭제
       </Button>
-      <Modal modalId={`friend-delete-${friend.userId}`}>
+      <Modal modalId={`friend-delete-${friend.friendId}`}>
         <div className="flex flex-col items-center">
           <p className="text-xl">친구를 삭제하시겠습니까?</p>
           <div className="flex gap-5 mt-5">
