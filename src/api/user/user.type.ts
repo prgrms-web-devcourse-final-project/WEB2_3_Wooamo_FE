@@ -3,7 +3,7 @@ interface getUserInfoReq {
   userId: number;
 }
 
-interface getUserInfoRes {
+interface userInfoRes {
   status: statusType;
   data: {
     userId: number;
@@ -13,4 +13,21 @@ interface getUserInfoRes {
     point: number;
     profile: string;
   };
+}
+
+interface userRankingRes {
+  status: statusType;
+  data: {
+    ranking: number;
+  };
+}
+
+interface getTopRankingRes {
+  status: statusType;
+  data: topRankingUserInfo[];
+}
+
+interface topRankingUserInfo {
+  nickname: string;
+  studyTime: string;
 }
