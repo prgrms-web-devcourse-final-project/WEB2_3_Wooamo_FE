@@ -13,6 +13,7 @@ import basic from "@/assets/images/costumes/basic.png";
 import { useState, useRef, useEffect } from "react";
 import NotificationList from "../../components/common/NotificationList";
 import { Notification } from "@/types/notification";
+import { useAuthStore } from "@/store/authStore";
 
 const routes = {
   "/boards": "게시판",
@@ -23,7 +24,8 @@ const routes = {
 export default function DesktopHeader() {
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
-  const isLoggedIn = true;
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);

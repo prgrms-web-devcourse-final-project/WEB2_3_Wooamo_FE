@@ -13,6 +13,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import NotificationList from "../../components/common/NotificationList";
 import { Notification } from "@/types/notification";
+import { useAuthStore } from "@/store/authStore";
 
 const routes = {
   "/": "홈",
@@ -24,7 +25,7 @@ const routes = {
 export default function MobileHeader() {
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0] ?? "/";
-  const isLoggedIn = true;
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
