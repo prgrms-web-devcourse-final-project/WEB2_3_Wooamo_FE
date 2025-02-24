@@ -18,7 +18,7 @@ export default function RandomGachaButton() {
       <Modal modalId="random-gacha">
         <div className="flex flex-col items-center gap-8">
           <Character costumeSrc={basic} />
-          <div className="font-galmuri text-2xl w-fit text-center">
+          <div className="font-galmuri text-xl lg:text-2xl w-fit text-center">
             <p>기본 코스튬에 당첨되었다</p>
             <p>기쁘다!</p>
           </div>

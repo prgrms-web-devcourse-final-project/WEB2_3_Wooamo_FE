@@ -11,11 +11,18 @@ import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import Button from "@/components/common/Button";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useInputValidation from "@/hooks/useInputValidation";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
+import { authApi } from "@/api/auth/auth";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
 
 export default function SignIn() {
   const isMobile = useIsMobile();
+  const router = useRouter();
+  const login = useAuthStore((state) => state.login);
+
+  const [isAutoLogin, setIsAutoLogin] = useState(false);
   const { validate: emailValidate, ...email } = useInputValidation(
     "",
     (email) => {
@@ -35,11 +42,21 @@ export default function SignIn() {
     },
   );
 
-  const signIn = (e: FormEvent<HTMLFormElement>) => {
+  const signIn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (emailValidate() && passwordValidate()) {
-      console.log("로그인");
+      const res = await authApi.signIn({
+        email: email.value,
+        password: password.value,
+        isAutoLogin,
+      });
+      if (res?.status === "성공") {
+        login();
+        router.push("/");
+      } else {
+        alert("로그인에 실패했습니다.");
+      }
     }
   };
 
@@ -56,7 +73,7 @@ export default function SignIn() {
             </label>
             <InputWithErrorMsg
               id="email"
-              type="text"
+              type="email"
               placeholder="이메일을 입력해주세요"
               className="bg-site-button-input"
               {...email}
@@ -79,9 +96,13 @@ export default function SignIn() {
           <input
             id="auto-signin"
             type="checkbox"
+            checked={isAutoLogin}
+            onChange={() => setIsAutoLogin((prev) => !prev)}
             className="appearance-none w-6 h-6 bg-site-button rounded-[3px]"
           />
-          <CheckRoundedIcon className="absolute" />
+          {isAutoLogin && (
+            <CheckRoundedIcon className="absolute pointer-events-none" />
+          )}
           <label htmlFor="auto-signin">자동 로그인</label>
         </div>
         <Button className="w-full lg:w-150">로그인</Button>

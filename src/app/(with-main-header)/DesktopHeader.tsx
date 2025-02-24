@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Logo from "@/assets/images/Logo.svg";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import Icon from "@/components/common/Icon";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
@@ -13,6 +13,9 @@ import basic from "@/assets/images/costumes/basic.png";
 import { useState, useRef, useEffect } from "react";
 import NotificationList from "../../components/common/NotificationList";
 import { Notification } from "@/types/notification";
+import { useAuthStore } from "@/store/authStore";
+import Dropdown from "@/components/common/Dropdown";
+import Button from "../../components/common/Button";
 
 const routes = {
   "/boards": "게시판",
@@ -21,12 +24,22 @@ const routes = {
 } as const;
 
 export default function DesktopHeader() {
+  const router = useRouter();
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
-  const isLoggedIn = true;
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const logout = useAuthStore((state) => state.logout);
+
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
+
+  const handleLogout = async () => {
+    logout();
+    setIsOpenDropdown(false);
+    router.push("/signin");
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -124,9 +137,29 @@ export default function DesktopHeader() {
               />
             )}
           </div>
-          <Link href="/users/1">
+          <button onClick={() => setIsOpenDropdown(true)}>
             <Avatar costumeSrc={basic} className="w-14 h-14" />
-          </Link>
+          </button>
+          {isOpenDropdown && (
+            <Dropdown
+              className="lg:top-22 lg:right-12 font-galmuri text-xl font-normal"
+              onClose={() => setIsOpenDropdown(false)}
+            >
+              <Link
+                href={"/mypage"}
+                onClick={() => setIsOpenDropdown(false)}
+                className="flex justify-center items-center px-6 py-4 hover:opacity-50 transition-colors"
+              >
+                마이페이지
+              </Link>
+              <Button
+                onClick={handleLogout}
+                className="w-full rounded-none px-6 py-4 hover:opacity-50 transition-colors"
+              >
+                로그아웃
+              </Button>
+            </Dropdown>
+          )}
         </div>
       ) : (
         <div>
