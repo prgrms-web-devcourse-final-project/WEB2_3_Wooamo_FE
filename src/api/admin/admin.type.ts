@@ -19,6 +19,46 @@ interface getAdminRecentSalesRes {
   ];
 }
 
+interface PartyDetailType {
+  partyId: number;
+  name: string;
+  recruitCap: number;
+  recruitCnt: number;
+  startDate: string;
+  endDate: string;
+  isApproved: string;
+}
+
+interface getAllPartyListRes {
+  status: string;
+  data: {
+    contents: PartyDetailType[];
+    page: number;
+    size: number;
+    totalElementes: number;
+    totalPages: number;
+    hasNext: boolean;
+  };
+}
+
+interface PartyMemberType {
+  userId: number;
+  profile: string;
+  nickname: string;
+  auth: string;
+  isAuth: string;
+}
+
+interface getPartyDetailRes {
+  status: string;
+  data: {
+    name: string;
+    context: string;
+    date: string[];
+    members: PartyMemberType[];
+  };
+}
+
 interface EventDetailType {
   partyId: number;
   image: string;
