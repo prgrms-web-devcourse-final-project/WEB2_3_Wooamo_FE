@@ -2,25 +2,54 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo.svg";
 import formatDateToTimeAgo from "../../../utils/formatDateToTimeAgo";
+import { BoardItem, BoardDetail } from "@/api/board/board.type";
+import { useEffect, useState } from "react";
+import { boardApi } from "@/api/board/board";
 
-export default function PostItem() {
+interface PostItemProps {
+  post: BoardItem;
+}
+export default function PostItem({ post }: PostItemProps) {
+  const { boardId, title, boardType, createdAt, image } = post;
+  const [boardDetail, setBoardDetail] = useState<BoardDetail | null>(null);
+
+  useEffect(() => {
+    const fetchBoardDetail = async () => {
+      try {
+        const response = await boardApi.getBoardByBoardId(boardId);
+        if (response) {
+          setBoardDetail(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch board detail:", error);
+      }
+    };
+
+    fetchBoardDetail();
+  }, [boardId]);
+
+  const formattedTitle = `[${boardType}] ${title}`;
+
   return (
-    <Link href="/boards/1">
-      <article className="flex justify-between items-center h-24 lg:h-40 pt-4 p-2.5 bg-site-white-70">
+    <Link href={`/boards/${boardId}`}>
+      <article className="flex justify-between items-center h-24 lg:h-40 p-2.5 bg-site-white-70">
         <div className="flex flex-col gap-1 lg:px-5">
-          <p className="font-semibold line-clamp-1">진짜 공부하기 싫다</p>
+          <p className="font-semibold line-clamp-1">{formattedTitle}</p>
           <p className="text-site-darkgray-02 line-clamp-1">
-            오늘은 진짜 공부하기 싫은 날이네요...
+            {boardDetail?.context}
           </p>
           <p className="text-site-darkgray-01 text-sm">
-            {formatDateToTimeAgo(new Date())}
+            {formatDateToTimeAgo(new Date(createdAt))}
           </p>
         </div>
-        <Image
-          src={Logo}
-          alt="STUV 로고 이미지"
-          className="w-20 h-20 lg:w-35 lg:h-35"
-        />
+        <div className="relative w-20 h-20 lg:w-35 lg:h-35 bg-white">
+          <Image
+            src={image || Logo}
+            alt={image ? "게시글 이미지" : "STUV 로고 이미지"}
+            fill
+            className="object-contain"
+          />
+        </div>
       </article>
     </Link>
   );

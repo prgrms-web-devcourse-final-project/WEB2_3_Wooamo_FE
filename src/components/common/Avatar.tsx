@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import Character from "./Character";
 
 interface AvatarProps {
-  costumeSrc: StaticImageData;
+  costumeSrc: string | StaticImageData;
   className?: string;
 }
 
@@ -12,7 +12,7 @@ export default function Avatar({ costumeSrc, className }: AvatarProps) {
     <div
       className={twMerge(
         "w-10 h-10 rounded-full bg-site-profile border border-site-lightgray overflow-hidden",
-        className
+        className,
       )}
     >
       <Character
