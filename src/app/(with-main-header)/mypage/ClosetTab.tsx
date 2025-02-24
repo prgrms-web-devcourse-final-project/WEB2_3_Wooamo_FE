@@ -1,12 +1,40 @@
 import Character from "@/components/common/Character";
-import { costumes } from "@/consts/costumes";
 import Image from "next/image";
 import WhiteDividerLong from "@/assets/images/WhiteDividerLong.svg";
 import basic from "@/assets/images/costumes/basic.png";
 import spotlight from "@/assets/images/spotlight.png";
 import WhiteDividerShort from "@/assets/images/WhiteDividerShort.svg";
+import { useEffect, useState } from "react";
+import { userApi } from "@/api/user/user";
 
 export default function ClosetTab() {
+  const [selectedCostume, setSelectedCostume] = useState<string | null>(null);
+  const [costumes, setCostumes] = useState<costumeType[]>([]);
+
+  const changeCostume = async (costume: costumeType) => {
+    const res = await userApi.updateUserCostume(costume.costumeId);
+    if (res?.status === "성공") {
+      setSelectedCostume(costume.image);
+    }
+  };
+
+  useEffect(() => {
+    const fetchCurrentUserCostume = async () => {
+      const user = await userApi.getCurrentUserInfo();
+      if (user) {
+        setSelectedCostume(user.data.profile);
+      }
+    };
+    const fetchCostumes = async () => {
+      const costumes = await userApi.getCurrentUserCostumes();
+      if (costumes) {
+        setCostumes(costumes.data);
+      }
+    };
+
+    fetchCurrentUserCostume();
+    fetchCostumes();
+  }, []);
   return (
     <div className="flex flex-col lg:flex-row gap-0 lg:gap-17 px-8 overflow-y-auto">
       <div className="relative w-full h-90 lg:w-117 lg:h-184 flex-shrink-0">
@@ -18,7 +46,7 @@ export default function ClosetTab() {
           fill
         />
         <Character
-          costumeSrc={basic}
+          costumeSrc={selectedCostume ?? basic}
           className="translate-y-[15%] h-58 lg:h-119"
         />
       </div>
@@ -34,15 +62,18 @@ export default function ClosetTab() {
           className="lg:hidden"
         />
         <section className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 auto-rows-auto w-full justify-items-center gap-4 lg:gap-6 h-120">
-          {costumes.map((costume, index) => (
+          {costumes.map((costume) => (
             <button
-              key={`costume-${index}`}
+              key={`costume-${costume.costumeId}`}
               className="w-full aspect-square max-w-[224px]"
+              onClick={() => changeCostume(costume)}
             >
               <article className="bg-site-white-70 rounded-[10px] relative hover:drop-shadow-6.2 transition-all h-full w-full">
                 <Image
-                  src={costume}
-                  alt="코스튬 입은 아바타 미리보기 이미지"
+                  src={costume.image}
+                  width={270}
+                  height={270}
+                  alt="내 코스튬 이미지"
                   className="w-full h-full object-contain"
                 />
               </article>
