@@ -49,8 +49,8 @@ const getPartyDetail = async (partyId: number) => {
 };
 
 const patchConfirmCertification = async (
-  partyId: string,
-  userId: string,
+  partyId: number,
+  userId: number,
   isConfirm: boolean,
 ) => {
   try {
