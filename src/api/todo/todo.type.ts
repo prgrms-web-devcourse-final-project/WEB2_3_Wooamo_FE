@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 interface getTodosRes {
-  status: "성공";
+  status: statusType;
   data: todoType[];
 }
 
