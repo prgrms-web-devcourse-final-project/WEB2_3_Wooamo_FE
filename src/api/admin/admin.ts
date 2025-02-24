@@ -26,6 +26,7 @@ const getAllEventList = async () => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/event`,
+      { next: { tags: ["event-list"] } },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getAllEventListRes = await response.json();
