@@ -5,14 +5,15 @@ interface getUserInfoReq {
 
 interface userInfoRes {
   status: statusType;
-  data: {
-    userId: number;
-    context: string;
-    link: string;
-    nickname: string;
-    point: number;
-    profile: string;
-  };
+  data: userType;
+}
+interface userType {
+  userId: number;
+  context: string;
+  link: string;
+  nickname: string;
+  point: number;
+  profile: string;
 }
 
 interface userRankingRes {
@@ -30,4 +31,37 @@ interface getTopRankingRes {
 interface topRankingUserInfo {
   nickname: string;
   studyTime: string;
+}
+
+interface getCostumesRes {
+  status: statusType;
+  data: costumeType[];
+}
+interface costumeType {
+  costumeId: number;
+  image: string;
+}
+
+interface getUserPostsRes {
+  status: statusType;
+  data: boardType[];
+}
+interface boardType {
+  boardId: number;
+  title: string;
+  context: string;
+  type: "질문" | "자유";
+  createAt: string;
+  image: string;
+}
+
+interface updateUserInfoReq {
+  context: string;
+  link: string;
+}
+interface updateUserInfoRes {
+  status: statusType;
+  data: {
+    profile: string;
+  };
 }
