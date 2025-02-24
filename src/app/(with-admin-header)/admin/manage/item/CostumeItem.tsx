@@ -1,5 +1,7 @@
 "use client";
 
+import { adminApi } from "@/api/admin/admin";
+import { revalidateTagAction } from "@/app/actions";
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import { useModalStore } from "@/store/modalStore";
@@ -7,23 +9,33 @@ import Image from "next/image";
 
 interface ShopCostumeItemProps {
   costume: string;
-  index: number;
+  costumeId: number;
   name: string;
   point: number;
 }
 
 export default function CostumeItem({
   costume,
-  index,
+  costumeId,
   name,
   point,
 }: ShopCostumeItemProps) {
   const { open, close } = useModalStore((state) => state);
+
+  const handleCostumeDelete = async (costumeId: number) => {
+    const response = await adminApi.deleteCostume(costumeId);
+
+    if (response?.status === "성공") {
+      close();
+      revalidateTagAction("costume-list");
+    }
+  };
+
   return (
     <>
       <article
         className="w-56 h-56 bg-site-white-70 rounded-[10px] relative"
-        onClick={() => open(`custuem-item${index}`)}
+        onClick={() => open(`custuem-item${costumeId}`)}
       >
         <div className="flex justify-center items-center absolute -top-7.5 right-0 w-fit px-6 h-15 bg-site-sub rounded-full">
           <span className="font-galmuri text-xl">300p</span>
@@ -36,7 +48,7 @@ export default function CostumeItem({
         />
       </article>
 
-      <Modal modalId={`custuem-item${index}`} className="w-150">
+      <Modal modalId={`custuem-item${costumeId}`} className="w-150">
         <div className="flex flex-col gap-5">
           <div className="text-xl font-semibold">아이템 수정/삭제</div>
           <div className="flex gap-5">
@@ -75,7 +87,12 @@ export default function CostumeItem({
                 </div>
               </div>
               <div className="flex gap-5">
-                <Button className="lg:h-11 lg:text-base">삭제하기</Button>
+                <Button
+                  className="lg:h-11 lg:text-base"
+                  onClick={() => handleCostumeDelete(costumeId)}
+                >
+                  삭제하기
+                </Button>
                 <Button className="lg:h-11 lg:text-base">등록하기</Button>
               </div>
             </div>

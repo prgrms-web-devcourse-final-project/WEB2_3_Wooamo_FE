@@ -15,7 +15,7 @@ export default async function page() {
         {costumeList.map((costume) => (
           <CostumeItem
             key={costume.costumeId}
-            index={costume.costumeId}
+            costumeId={costume.costumeId}
             costume={costume.image}
             name={costume.costumeName}
             point={costume.point}
