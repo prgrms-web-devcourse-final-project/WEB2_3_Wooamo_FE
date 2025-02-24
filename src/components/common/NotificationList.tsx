@@ -1,3 +1,4 @@
+import { Notification } from "@/types/notification";
 import { useRef, useEffect, RefObject } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -41,7 +42,7 @@ export default function NotificationList({
   return (
     <div
       ref={dropdownRef}
-      className={`absolute top-9 right-0 bg-white rounded-2xl w-75 lg:w-110 max-h-93 overflow-y-auto shadow-lg z-50`}
+      className={`absolute top-9 right-0 bg-white rounded-2xl w-[27.5rem]`}
     >
       <div className="p-4 flex justify-between items-center">
         <h3 className="text-xl font-semibold py-1">알림 목록</h3>
