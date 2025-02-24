@@ -22,7 +22,37 @@ const getAdminRecentSales = async () => {
   }
 };
 
+const getAllEventList = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/event`,
+      { next: { tags: ["event-list"] } },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getAllEventListRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const postEventCreate = async (body: postEventCreateReq) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/event`,
+      { method: "POST", body: JSON.stringify(body) },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const adminApi = {
   getAdminWeeklyInfo,
   getAdminRecentSales,
+  getAllEventList,
+  postEventCreate,
 };
