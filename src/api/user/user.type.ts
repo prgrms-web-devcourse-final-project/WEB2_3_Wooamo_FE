@@ -44,9 +44,9 @@ interface costumeType {
 
 interface getUserPostsRes {
   status: statusType;
-  data: boardType[];
+  data: postItemType[];
 }
-interface boardType {
+interface postItemType {
   boardId: number;
   title: string;
   context: string;
