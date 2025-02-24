@@ -1,26 +1,33 @@
 import ParticipantItem from "./ParticipantItem";
 import Button from "@/components/common/Button";
-import { useState } from "react";
 import CertificationDate from "./CertificationDate";
+import { adminApi } from "@/api/admin/admin";
 
 export default async function CertificationParty({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: number }>;
 }) {
   const { id } = await params;
+  const fetchPartyDetail = await adminApi.getPartyDetail(id);
+  const partyDetail = fetchPartyDetail?.data;
+  const partyMembers = partyDetail?.members;
+
+  if (!partyDetail) return;
+  if (!partyMembers) return;
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="text-2xl font-semibold px-4">팟 {id}</div>
+      <div className="text-2xl font-semibold px-4">{partyDetail.name}</div>
       <div className="w-full px-5 py-5 bg-site-white-70 rounded-xl border border-site-lightgray">
-        팟 {id}의 설명을 출력합니다 <br />
-        예시 : 인프런 한 입 크기로 잘라먹는 Next.js 매일 강의 하나씩 듣고 인증할
-        팟 구합니다!
+        {partyDetail.context}
       </div>
       <div className="flex flex-col gap-5">
         <div className="font-semibold text-xl">날짜 선택</div>
-        <CertificationDate />
+        <CertificationDate
+          start={partyDetail.date[0]}
+          end={partyDetail.date[partyDetail.date.length - 1]}
+        />
       </div>
       <div className="flex gap-30">
         <div className="flex flex-col gap-5">
@@ -36,14 +43,18 @@ export default async function CertificationParty({
             </div>
           </div>
           <div className="w-100 h-100 bg-site-lightgray rounded-xl flex items-center justify-center">
-            사용자가 인증한 사진은 fetch로 넣으면 됨
+            {/* <Image src={} width={400} height={400} alt="사용자가 인증한 사진" /> */}
           </div>
         </div>
         <div className="flex flex-col gap-5">
           <div className="font-semibold text-xl">팟 인원</div>
           <div className="flex flex-wrap gap-8">
-            {new Array(11).fill(0).map((_, idx) => (
-              <ParticipantItem key={idx} />
+            {partyMembers.map((member) => (
+              <ParticipantItem
+                key={member.userId}
+                profile={member.profile}
+                nickname={member.nickname}
+              />
             ))}
           </div>
         </div>

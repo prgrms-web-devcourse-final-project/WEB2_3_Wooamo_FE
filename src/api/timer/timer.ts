@@ -12,6 +12,21 @@ const getStudyTimeForWeek = async () => {
   }
 };
 
+const getStudyTimeForMonth = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/time/monthly`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data: getStudyTimeForMonthRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const timerApi = {
   getStudyTimeForWeek,
+  getStudyTimeForMonth,
 };
