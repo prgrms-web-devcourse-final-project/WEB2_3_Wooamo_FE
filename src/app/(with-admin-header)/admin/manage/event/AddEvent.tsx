@@ -37,8 +37,6 @@ export default function AddEvent() {
 
     setImagePreview(selectedFiles);
     setEventImage(filesArray);
-
-    target.value = "";
   };
 
   const resetInputFields = () => {
