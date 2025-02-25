@@ -1,4 +1,4 @@
-const getCostumeList = async (page: number) => {
+const getCostumeList = async (page?: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/costume?page=${page}&size=10`,
