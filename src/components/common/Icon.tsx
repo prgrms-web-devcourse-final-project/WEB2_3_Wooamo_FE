@@ -1,3 +1,5 @@
+"use client";
+
 import { SvgIconTypeMap } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { twMerge } from "tailwind-merge";
@@ -7,10 +9,9 @@ interface IconProps {
     muiName: string;
   };
   className?: string;
-  onClick?: () => void;
 }
 
-export default function Icon({ MuiIcon, className, onClick }: IconProps) {
+export default function Icon({ MuiIcon, className }: IconProps) {
   return (
     <MuiIcon
       className={twMerge(
