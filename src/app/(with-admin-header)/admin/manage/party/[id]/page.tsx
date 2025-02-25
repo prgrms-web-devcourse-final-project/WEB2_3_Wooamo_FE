@@ -10,7 +10,6 @@ export default async function CertificationParty({
   params: Promise<{ id: number }>;
 }) {
   const { id } = await params;
-
   const fetchPartyDetail = await adminApi.getPartyDetail(id);
   const partyDetail = fetchPartyDetail?.data;
   const partyMembers = partyDetail?.members;
