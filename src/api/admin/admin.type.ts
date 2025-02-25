@@ -68,6 +68,11 @@ interface getMemberCertificationRes {
   };
 }
 
+interface patchConfirmCertificationReq {
+  date: string;
+  auth: boolean;
+}
+
 interface EventDetailType {
   partyId: number;
   image: string;

@@ -67,16 +67,16 @@ const getMemberCertification = async (
 
 const patchConfirmCertification = async (
   partyId: number,
-  userId: number,
-  isConfirm: boolean,
+  memberId: number,
+  body: patchConfirmCertificationReq,
 ) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party/${partyId}/${userId}`,
-      { method: "PATCH", body: JSON.stringify({ auth: isConfirm }) },
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party/${partyId}/${memberId}`,
+      { method: "PATCH", body: JSON.stringify(body) },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error(error);
