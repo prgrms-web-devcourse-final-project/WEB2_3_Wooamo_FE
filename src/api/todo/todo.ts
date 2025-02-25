@@ -25,6 +25,9 @@ const getTodos = async () => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/user/todo`,
+      {
+        next: {tags: ["todos"]}
+      }
     );
     if (!response.ok) throw new Error(response.statusText);
 

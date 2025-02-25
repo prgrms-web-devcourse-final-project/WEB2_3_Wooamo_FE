@@ -1,12 +1,16 @@
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+"use client";
+
+import dynamic from "next/dynamic";
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
-import Icon from "@/components/common/Icon";
 import Button from "@/components/common/Button";
 import { useState } from "react";
 import Dropdown from "@/components/common/Dropdown";
 import { useTodoStore } from "@/store/todoStore";
 import { todoApi } from "@/api/todo/todo";
 import { twMerge } from "tailwind-merge";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+
+const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
 export default function TodoItem({ todo }: { todo: todoType }) {
   const { updateTodo: updateTodoAtStore, deleteTodo: deleteTodoAtStore } =
@@ -41,11 +45,17 @@ export default function TodoItem({ todo }: { todo: todoType }) {
           type="checkbox"
           checked={isTodoChecked}
           onChange={() => setIsTodoChecked((prev) => !prev)}
-          className="appearance-none w-6 h-6 bg-site-button rounded-[3px]"
+          className="appearance-none w-6 lg:w-7 h-6 lg:h-7 bg-site-button rounded-[3px]"
         />
-        {isTodoChecked && (
-          <CheckRoundedIcon className="absolute pointer-events-none" />
-        )}
+
+        <Icon
+          MuiIcon={CheckRoundedIcon}
+          className={twMerge(
+            "absolute pointer-events-none",
+            isTodoChecked ? "visible" : "invisible",
+          )}
+        />
+
         {isEditable ? (
           <input
             type="text"
@@ -68,7 +78,7 @@ export default function TodoItem({ todo }: { todo: todoType }) {
           <label
             htmlFor={`todo-checkbox-${todo.todo}`}
             className={twMerge(
-              "text-xl",
+              "text-xl select-none",
               isTodoChecked && "line-through opacity-50",
             )}
           >
