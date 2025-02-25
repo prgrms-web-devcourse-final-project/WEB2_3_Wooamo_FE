@@ -48,15 +48,17 @@ interface PartyMemberType {
   isAuth: string;
 }
 
+interface PartyDetailDataType {
+  name: string;
+  context: string;
+  startDate: string;
+  endDate: string;
+  members: PartyMemberType[];
+}
+
 interface getPartyDetailRes {
   status: string;
-  data: {
-    name: string;
-    context: string;
-    startDate: string;
-    endDate: string;
-    members: PartyMemberType[];
-  };
+  data: PartyDetailDataType;
 }
 
 interface getMemberCertificationRes {
