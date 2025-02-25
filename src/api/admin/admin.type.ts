@@ -63,7 +63,7 @@ interface getPartyDetailRes {
 
 interface getMemberCertificationRes {
   status: statusType;
-  date: {
+  data: {
     image: string;
   };
 }
