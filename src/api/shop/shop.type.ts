@@ -16,3 +16,8 @@ interface getCostumeListRes {
     hasNext: boolean;
   };
 }
+
+interface postCostumePurchaseReq {
+  costumeId: number;
+  point: number;
+}

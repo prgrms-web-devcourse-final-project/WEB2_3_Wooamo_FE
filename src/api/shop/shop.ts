@@ -12,6 +12,24 @@ const getCostumeList = async (page?: number) => {
   }
 };
 
+const postCostumePurchase = async (body: postCostumePurchaseReq) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/costume`,
+      {
+        method: "POST",
+        body: JSON.stringify(body),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const shopApi = {
   getCostumeList,
+  postCostumePurchase,
 };
