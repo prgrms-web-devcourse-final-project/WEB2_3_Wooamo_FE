@@ -2,6 +2,7 @@ import ParticipantItem from "./ParticipantItem";
 import Button from "@/components/common/Button";
 import CertificationDate from "./CertificationDate";
 import { adminApi } from "@/api/admin/admin";
+import React from "react";
 
 export default async function CertificationParty({
   params,
@@ -9,6 +10,7 @@ export default async function CertificationParty({
   params: Promise<{ id: number }>;
 }) {
   const { id } = await params;
+
   const fetchPartyDetail = await adminApi.getPartyDetail(id);
   const partyDetail = fetchPartyDetail?.data;
   const partyMembers = partyDetail?.members;
@@ -25,8 +27,9 @@ export default async function CertificationParty({
       <div className="flex flex-col gap-5">
         <div className="font-semibold text-xl">날짜 선택</div>
         <CertificationDate
-          start={partyDetail.date[0]}
-          end={partyDetail.date[partyDetail.date.length - 1]}
+          partyId={id}
+          start={partyDetail.startDate}
+          end={partyDetail.endDate}
         />
       </div>
       <div className="flex gap-30">
@@ -51,7 +54,7 @@ export default async function CertificationParty({
           <div className="flex flex-wrap gap-8">
             {partyMembers.map((member) => (
               <ParticipantItem
-                key={member.userId}
+                key={member.memberId}
                 profile={member.profile}
                 nickname={member.nickname}
               />
