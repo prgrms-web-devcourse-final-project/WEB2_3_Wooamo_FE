@@ -108,6 +108,23 @@ const postItemCreate = async (body: postItemCreateReq) => {
   }
 };
 
+const putCostumeEdit = async (costumeId: number, body: putCostumeEditReq) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/costume/${costumeId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(body),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const deleteCostume = async (costumeId: number) => {
   try {
     const response = await fetch(
@@ -131,5 +148,6 @@ export const adminApi = {
   getAllEventList,
   postEventCreate,
   postItemCreate,
+  putCostumeEdit,
   deleteCostume,
 };

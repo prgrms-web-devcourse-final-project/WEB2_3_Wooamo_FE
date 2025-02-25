@@ -95,3 +95,8 @@ interface postItemCreateReq {
   point: number;
   image: File[];
 }
+
+interface putCostumeEditReq {
+  costumeName: string;
+  point: number;
+}
