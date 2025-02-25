@@ -34,3 +34,25 @@ interface boardDetailResponse {
   status: string;
   data: boardDetail;
 }
+
+interface commentItem {
+  commentId: number;
+  userId: number;
+  nickname: string;
+  profile: string;
+  context: string;
+  createdAt: string;
+  isConfirm: boolean;
+}
+
+interface commentListResponse {
+  status: string;
+  data: {
+    contents: commentItem[];
+    page: number;
+    size: number;
+    totalElementes: number;
+    totalPages: number;
+    hasNext: boolean;
+  };
+}

@@ -3,7 +3,6 @@ import Link from "next/link";
 import formatDateToTimeAgo from "../../../utils/formatDateToTimeAgo";
 import { useEffect, useState } from "react";
 import { boardApi } from "@/api/board/board";
-import Logo from "@/assets/images/logo.png";
 
 interface PostItemProps {
   post: boardItem;
@@ -42,12 +41,15 @@ export default function PostItem({ post }: PostItemProps) {
           </p>
         </div>
         <div className="relative w-20 h-20 lg:w-35 lg:h-35 bg-white">
-          <Image
-            src={image || Logo}
-            alt={image ? "게시글 이미지" : "STUV 로고 이미지"}
-            fill
-            className="object-cover"
-          />
+          {post.image && (
+            <Image
+              src={post.image}
+              width={140}
+              height={140}
+              alt="게시글 이미지 첫번째 이미지"
+              className="w-20 h-20 lg:w-35 lg:h-35 object-cover"
+            />
+          )}
         </div>
       </article>
     </Link>

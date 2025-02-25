@@ -35,7 +35,29 @@ const getBoardByBoardId = async (
     throw error;
   }
 };
+
+const getCommentsByBoardId = async (
+  boardId: number,
+): Promise<commentListResponse | undefined> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}/comment`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch board comments");
+    }
+
+    const data: commentListResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    throw error;
+  }
+};
+
 export const boardApi = {
   getBoardList,
   getBoardByBoardId,
+  getCommentsByBoardId,
 };
