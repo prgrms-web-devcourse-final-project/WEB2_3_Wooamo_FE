@@ -1,18 +1,30 @@
+"use client";
+
 import ParticipantItem from "./ParticipantItem";
 import Button from "@/components/common/Button";
 import CertificationDate from "./CertificationDate";
 import { adminApi } from "@/api/admin/admin";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useSearchParams } from "next/navigation";
 
-export default async function CertificationParty({
-  params,
-}: {
-  params: Promise<{ id: number }>;
-}) {
-  const { id } = await params;
-  const fetchPartyDetail = await adminApi.getPartyDetail(id);
-  const partyDetail = fetchPartyDetail?.data;
-  const partyMembers = partyDetail?.members;
+export default function CertificationParty() {
+  const { id } = useParams();
+  const searchParams = useSearchParams();
+  const [partyDetail, setPartyDetail] = useState<PartyDetailDataType>();
+  const [partyMembers, setPartyMembers] = useState<PartyMemberType[]>();
+
+  useEffect(() => {
+    const fetchPartyDetail = async () => {
+      if (!id) return;
+      const fetchPartyDetail = await adminApi.getPartyDetail(Number(id));
+      const partyDetail = fetchPartyDetail?.data;
+      const partyMembers = partyDetail?.members;
+      setPartyDetail(partyDetail);
+      setPartyMembers(partyMembers);
+    };
+
+    fetchPartyDetail();
+  }, []);
 
   if (!partyDetail) return;
   if (!partyMembers) return;
@@ -26,7 +38,7 @@ export default async function CertificationParty({
       <div className="flex flex-col gap-5">
         <div className="font-semibold text-xl">날짜 선택</div>
         <CertificationDate
-          partyId={id}
+          partyId={Number(id)}
           start={partyDetail.startDate}
           end={partyDetail.endDate}
         />
