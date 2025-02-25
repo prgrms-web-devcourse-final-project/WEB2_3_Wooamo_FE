@@ -29,7 +29,25 @@ const postCostumePurchase = async (body: postCostumePurchaseReq) => {
   }
 };
 
+const postCostumeRandomPurchase = async (point = 100) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/costume/random`,
+      {
+        method: "POST",
+        body: JSON.stringify({ point }),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const shopApi = {
   getCostumeList,
   postCostumePurchase,
+  postCostumeRandomPurchase,
 };
