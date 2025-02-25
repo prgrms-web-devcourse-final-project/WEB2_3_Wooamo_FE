@@ -9,19 +9,9 @@ import Icon from "../../../../components/common/Icon";
 import { boardApi } from "@/api/board/board";
 import { usePathname } from "next/navigation";
 
-type CommentType = {
-  commentId: number;
-  userId: number;
-  nickname: string;
-  profile: string;
-  context: string;
-  createdAt: string;
-  isConfirm: boolean;
-};
-
 export default function Comments() {
   const [comment, setComment] = useState("");
-  const [comments, setComments] = useState<CommentType[]>([]);
+  const [comments, setComments] = useState<commentItem[]>([]);
 
   const pathname = usePathname();
   const boardId = parseInt(pathname.split("/")[2], 10);

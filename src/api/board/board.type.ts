@@ -12,7 +12,7 @@ interface boardListResponse {
     contents: boardItem[];
     page: number;
     size: number;
-    totalElementes: number;
+    totalElements: number;
     totalPages: number;
     hasNext: boolean;
   };
@@ -51,7 +51,7 @@ interface commentListResponse {
     contents: commentItem[];
     page: number;
     size: number;
-    totalElementes: number;
+    totalElements: number;
     totalPages: number;
     hasNext: boolean;
   };

@@ -2,15 +2,7 @@ import Avatar from "@/components/common/Avatar";
 import Link from "next/link";
 
 type CommentProps = {
-  data: {
-    commentId: number;
-    nickname: string;
-    profile: string;
-    context: string;
-    createdAt: string;
-    isConfirm: boolean;
-    userId: number;
-  };
+  data: commentItem;
 };
 
 export default function Comment({ data }: CommentProps) {

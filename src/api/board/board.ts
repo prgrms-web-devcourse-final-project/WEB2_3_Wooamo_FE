@@ -1,7 +1,7 @@
-const getBoardList = async (): Promise<boardListResponse | undefined> => {
+const getBoardList = async (page?: number) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/board?title=&page=1&size=10`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/board?title=&page=${page}&size=10`,
     );
 
     if (!response.ok) {

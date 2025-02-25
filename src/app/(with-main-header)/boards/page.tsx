@@ -10,16 +10,11 @@ export default function Boards() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const response = await boardApi.getBoardList();
-        if (response) {
-          setPosts(response.data.contents);
-        }
-      } catch (error) {
-        console.error("Failed to fetch posts:", error);
+      const response = await boardApi.getBoardList();
+      if (response) {
+        setPosts(response.data.contents);
       }
     };
-
     fetchPosts();
   }, []);
 

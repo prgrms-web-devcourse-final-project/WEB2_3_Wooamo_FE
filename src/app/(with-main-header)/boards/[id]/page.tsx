@@ -8,7 +8,7 @@ interface BoardDetailProps {
 }
 
 export default async function BoardDetail({ params }: BoardDetailProps) {
-  const boardId = parseInt(params.id, 10);
+  const boardId = parseInt(params.id);
   const boardDetail = await boardApi.getBoardByBoardId(boardId);
 
   return (
