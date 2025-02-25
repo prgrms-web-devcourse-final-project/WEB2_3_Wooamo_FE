@@ -3,25 +3,29 @@
 import Icon from "@/components/common/Icon";
 import Image from "next/image";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import AvatarImg from "@/assets/images/avatar.png";
 
 interface PostImageProps {
   showDeleteIcon?: boolean;
+  imageUrl: string;
 }
 
-export default function PostImage({ showDeleteIcon = true }: PostImageProps) {
+export default function PostImage({
+  showDeleteIcon = true,
+  imageUrl,
+}: PostImageProps) {
   return (
     <div
       onClick={() => console.log("큰 화면으로 보기")}
       className="w-25 lg:w-40 h-25 lg:h-40 bg-site-white-100 relative cursor-pointer"
     >
       <Image
-        src={AvatarImg}
+        src={imageUrl}
         alt="게시글 미리보기 이미지"
         className="object-cover"
         sizes="100%"
         fill
       />
+
       {showDeleteIcon && (
         <button
           onClick={(e) => {
