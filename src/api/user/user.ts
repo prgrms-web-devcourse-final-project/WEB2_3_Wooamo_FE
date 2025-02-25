@@ -1,6 +1,10 @@
+import { Tag } from "lucide-react";
+
 const getCurrentUserInfo = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`, {
+      next: { tags: ["point"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: userInfoRes = await response.json();
