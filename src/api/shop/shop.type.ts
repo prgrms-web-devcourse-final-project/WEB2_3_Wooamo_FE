@@ -29,3 +29,18 @@ interface postCostumeRandomPurchaseRes {
     costumeName: string;
   };
 }
+
+interface postPointPurchaseReq {
+  amount: number;
+  point: number;
+}
+
+interface postPointPurchaseRes {
+  status: statusType;
+  data: {
+    orderId: number;
+    paymentKey: string;
+    amount: number;
+    point: number;
+  };
+}
