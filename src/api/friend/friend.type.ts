@@ -46,3 +46,13 @@ interface getUsersRes {
   status: statusType;
   data: userType[];
 }
+
+interface requestFriendRes {
+  status: statusType;
+  data: {
+    friendId: number;
+    senderId: number;
+    receiverId: number;
+    status: string;
+  };
+}

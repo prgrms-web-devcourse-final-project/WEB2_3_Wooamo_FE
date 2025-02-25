@@ -56,17 +56,17 @@ const search = async (query: string) => {
   }
 };
 
-const requestFriend = async (friendId: number) => {
+const requestFriend = async (receiverId: number) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/friend/request/${friendId}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/friend/request/${receiverId}`,
       {
         method: "POST",
       },
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: responseType = await response.json();
+    const data: requestFriendRes = await response.json();
     return data;
   } catch (error) {
     console.error(error);
