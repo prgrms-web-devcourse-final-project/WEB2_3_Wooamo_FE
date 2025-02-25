@@ -63,9 +63,27 @@ const postPointPurchase = async (body: postPointPurchaseReq) => {
   }
 };
 
+const postPointPurchaseConfirm = async (body: postPointPurchaseConfirmReq) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/payments/confirm`,
+      {
+        method: "POST",
+        body: JSON.stringify(body),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const shopApi = {
   getCostumeList,
   postCostumePurchase,
   postCostumeRandomPurchase,
   postPointPurchase,
+  postPointPurchaseConfirm,
 };

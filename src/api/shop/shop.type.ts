@@ -44,3 +44,10 @@ interface postPointPurchaseRes {
     point: number;
   };
 }
+
+interface postPointPurchaseConfirmReq {
+  orderId: number;
+  paymentKey: string;
+  amount: number;
+  point: number;
+}
