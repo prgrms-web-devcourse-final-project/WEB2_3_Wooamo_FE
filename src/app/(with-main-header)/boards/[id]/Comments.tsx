@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 export default function Comments() {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<commentItem[]>([]);
+  const [totalElements, setTotalElements] = useState(0);
 
   const pathname = usePathname();
   const boardId = parseInt(pathname.split("/")[2], 10);
@@ -31,6 +32,7 @@ export default function Comments() {
         const data = await boardApi.getCommentsByBoardId(boardId);
         if (data) {
           setComments(data.data.contents);
+          setTotalElements(data.data.totalElements);
         }
       } catch (error) {
         console.error("댓글 불러오기 실패:", error);
@@ -50,7 +52,7 @@ export default function Comments() {
       <div className="flex items-center gap-2.5 mt-5 mb-2.5 lg:my-7">
         <Icon MuiIcon={ChatRoundedIcon} />
         <span className="lg:text-xl text-site-darkgray-02">
-          {comments.length}
+          {totalElements}
         </span>
       </div>
       <InputIcon
