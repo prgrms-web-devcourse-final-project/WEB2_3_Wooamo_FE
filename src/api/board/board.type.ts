@@ -56,3 +56,28 @@ interface commentListResponse {
     hasNext: boolean;
   };
 }
+
+interface createBoardRequest {
+  title: string;
+  boardType: "질문" | "자유";
+  context: string;
+  images?: File[];
+}
+
+interface createBoardResponse {
+  status: string;
+  data: {
+    boardId: number;
+  };
+}
+
+interface BoardAPI {
+  getBoardList: (page?: number) => Promise<boardListResponse>;
+  getBoardByBoardId: (
+    boardId: number,
+  ) => Promise<boardDetailResponse | undefined>;
+  getCommentsByBoardId: (
+    boardId: number,
+  ) => Promise<commentListResponse | undefined>;
+  createBoard: (formData: FormData) => Promise<createBoardResponse>;
+}

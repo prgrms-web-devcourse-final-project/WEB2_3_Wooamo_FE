@@ -56,8 +56,33 @@ const getCommentsByBoardId = async (
   }
 };
 
+const createBoard = async (
+  formData: FormData,
+): Promise<createBoardResponse> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/board`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to create board");
+    }
+
+    const data: createBoardResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error creating board:", error);
+    throw error;
+  }
+};
+
 export const boardApi = {
   getBoardList,
   getBoardByBoardId,
   getCommentsByBoardId,
+  createBoard,
 };
