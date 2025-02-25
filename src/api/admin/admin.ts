@@ -48,6 +48,23 @@ const getPartyDetail = async (partyId: number) => {
   }
 };
 
+const getMemberCertification = async (
+  partyId: number,
+  memberId: number,
+  date: string,
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party/${partyId}/${memberId}?date=${date}`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getMemberCertificationRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const patchConfirmCertification = async (
   partyId: number,
   userId: number,
@@ -99,6 +116,7 @@ export const adminApi = {
   getAdminRecentSales,
   getAllPartyList,
   getPartyDetail,
+  getMemberCertification,
   patchConfirmCertification,
   getAllEventList,
   postEventCreate,

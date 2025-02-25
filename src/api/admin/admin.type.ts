@@ -42,10 +42,9 @@ interface getAllPartyListRes {
 }
 
 interface PartyMemberType {
-  userId: number;
+  memberId: number;
   profile: string;
   nickname: string;
-  auth: string;
   isAuth: string;
 }
 
@@ -54,8 +53,16 @@ interface getPartyDetailRes {
   data: {
     name: string;
     context: string;
-    date: string[];
+    startDate: string;
+    endDate: string;
     members: PartyMemberType[];
+  };
+}
+
+interface getMemberCertificationRes {
+  status: statusType;
+  date: {
+    image: string;
   };
 }
 
