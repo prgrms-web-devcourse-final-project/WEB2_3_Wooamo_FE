@@ -15,7 +15,7 @@ export default function CertificationDate({ partyId, start, end }: DateProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selectedDate, setSelectedDate] = useState(
-    new Date(searchParams.get("date") || start),
+    new Date(searchParams.get("date") || new Date(start)),
   );
 
   const dateParam = searchParams.get("date");
