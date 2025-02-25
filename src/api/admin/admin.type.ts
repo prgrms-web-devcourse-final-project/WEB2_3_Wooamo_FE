@@ -42,21 +42,35 @@ interface getAllPartyListRes {
 }
 
 interface PartyMemberType {
-  userId: number;
+  memberId: number;
   profile: string;
   nickname: string;
-  auth: string;
   isAuth: string;
+}
+
+interface PartyDetailDataType {
+  name: string;
+  context: string;
+  startDate: string;
+  endDate: string;
+  members: PartyMemberType[];
 }
 
 interface getPartyDetailRes {
   status: string;
+  data: PartyDetailDataType;
+}
+
+interface getMemberCertificationRes {
+  status: statusType;
   data: {
-    name: string;
-    context: string;
-    date: string[];
-    members: PartyMemberType[];
+    image: string;
   };
+}
+
+interface patchConfirmCertificationReq {
+  date: string;
+  auth: boolean;
 }
 
 interface EventDetailType {
