@@ -29,6 +29,10 @@ export default function CertificationDate({ partyId, start, end }: DateProps) {
     router.push(`/admin/manage/party/${partyId}?date=${dateString}`);
   };
 
+  useEffect(() => {
+    handleDateSelect(new Date(start));
+  }, []);
+
   return (
     <div>
       <DatePicker

@@ -1,15 +1,15 @@
 "use client";
 
 import ParticipantItem from "./ParticipantItem";
-import Button from "@/components/common/Button";
 import CertificationDate from "./CertificationDate";
 import { adminApi } from "@/api/admin/admin";
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
+import CertificationViewer from "./CertificationViewer";
 
 export default function CertificationParty() {
   const { id } = useParams();
-  const searchParams = useSearchParams();
+
   const [partyDetail, setPartyDetail] = useState<PartyDetailDataType>();
   const [partyMembers, setPartyMembers] = useState<PartyMemberType[]>();
 
@@ -44,28 +44,14 @@ export default function CertificationParty() {
         />
       </div>
       <div className="flex gap-30">
-        <div className="flex flex-col gap-5">
-          <div className="flex justify-between items-center">
-            <div className="font-semibold text-xl">팟 인증</div>
-            <div className="flex gap-2">
-              <Button className="lg:text-sm lg:px-3 lg:h-10 bg-site-alarm text-site-white-100 font-pretendard">
-                실패
-              </Button>
-              <Button className="lg:text-sm lg:px-3 lg:h-10 bg-site-main text-site-white-100 font-pretendard">
-                성공
-              </Button>
-            </div>
-          </div>
-          <div className="w-100 h-100 bg-site-lightgray rounded-xl flex items-center justify-center">
-            {/* <Image src={} width={400} height={400} alt="사용자가 인증한 사진" /> */}
-          </div>
-        </div>
+        <CertificationViewer />
         <div className="flex flex-col gap-5">
           <div className="font-semibold text-xl">팟 인원</div>
           <div className="flex flex-wrap gap-8">
             {partyMembers.map((member) => (
               <ParticipantItem
                 key={member.memberId}
+                memberId={member.memberId}
                 profile={member.profile}
                 nickname={member.nickname}
               />
