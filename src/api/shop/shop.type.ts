@@ -38,7 +38,7 @@ interface postPointPurchaseReq {
 interface postPointPurchaseRes {
   status: statusType;
   data: {
-    orderId: number;
+    orderId: string;
     paymentKey: string;
     amount: number;
     point: number;
@@ -46,7 +46,7 @@ interface postPointPurchaseRes {
 }
 
 interface postPointPurchaseConfirmReq {
-  orderId: number;
+  orderId: string;
   paymentKey: string;
   amount: number;
   point: number;

@@ -49,7 +49,7 @@ export default function ChargeButton() {
           currency: "KRW",
           value: amount,
         },
-        orderId: "NM-A2Kigd51JLNANLPN3g",
+        orderId: responseTossPayment.orderId,
         orderName: `${point} 포인트`,
         successUrl: "http://localhost:3000/shop",
         failUrl: "http://localhost:3000/shop",
