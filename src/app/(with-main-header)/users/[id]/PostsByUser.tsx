@@ -3,7 +3,7 @@ import PostItem from "../../boards/PostItem";
 import { userApi } from "@/api/user/user";
 
 export default function PostsByUser() {
-  const [posts, setPosts] = useState<postItemType[]>([]);
+  const [posts, setPosts] = useState<boardItem[]>([]);
 
   useEffect(() => {
     const fetchMyPosts = async () => {

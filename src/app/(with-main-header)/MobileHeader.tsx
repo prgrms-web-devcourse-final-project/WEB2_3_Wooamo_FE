@@ -29,6 +29,7 @@ export default function MobileHeader() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const buttonRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +49,7 @@ export default function MobileHeader() {
     },
   ]);
 
-  const toggle = () => setIsOpen((prev) => !prev);
+  const toggleNotification = () => setIsNotificationOpen((prev) => !prev);
   const markAllAsRead = () => {
     setNotifications(
       notifications.map((notification) => ({
@@ -92,18 +93,18 @@ export default function MobileHeader() {
             </Link>
             <div className="relative">
               <div ref={buttonRef}>
-                <button onClick={toggle} className="cursor-pointer">
+                <button onClick={toggleNotification} className="cursor-pointer">
                   <Icon
                     MuiIcon={NotificationsNoneRoundedIcon}
                     className="cursor-pointer"
                   />
                 </button>
               </div>
-              {isOpen && (
+              {isNotificationOpen && (
                 <NotificationList
                   notifications={notifications}
                   onMarkAllAsRead={markAllAsRead}
-                  onClose={() => setIsOpen(false)}
+                  onClose={() => setIsNotificationOpen(false)}
                   buttonRef={buttonRef}
                   className="w-[18.75rem]"
                 />
