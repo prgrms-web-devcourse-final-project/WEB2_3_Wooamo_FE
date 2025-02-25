@@ -21,3 +21,11 @@ interface postCostumePurchaseReq {
   costumeId: number;
   point: number;
 }
+
+interface postCostumeRandomPurchaseRes {
+  status: statusType;
+  data: {
+    image: string;
+    costumeName: string;
+  };
+}

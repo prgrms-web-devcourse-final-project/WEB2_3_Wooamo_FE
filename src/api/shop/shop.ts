@@ -39,7 +39,7 @@ const postCostumeRandomPurchase = async (point = 100) => {
       },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: responseType = await response.json();
+    const data: postCostumeRandomPurchaseRes = await response.json();
     return data;
   } catch (error) {
     console.error(error);
