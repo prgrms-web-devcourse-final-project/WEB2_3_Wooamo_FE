@@ -94,6 +94,51 @@ const postEventCreate = async (body: postEventCreateReq) => {
   }
 };
 
+const postItemCreate = async (body: postItemCreateReq) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/costume`,
+      { method: "POST", body: JSON.stringify(body) },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const putCostumeEdit = async (costumeId: number, body: putCostumeEditReq) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/costume/${costumeId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(body),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const deleteCostume = async (costumeId: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/costume/${costumeId}`,
+      { method: "DELETE" },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const adminApi = {
   getAdminWeeklyInfo,
   getAdminRecentSales,
@@ -102,4 +147,7 @@ export const adminApi = {
   patchConfirmCertification,
   getAllEventList,
   postEventCreate,
+  postItemCreate,
+  putCostumeEdit,
+  deleteCostume,
 };
