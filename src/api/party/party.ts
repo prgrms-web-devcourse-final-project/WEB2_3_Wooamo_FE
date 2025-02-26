@@ -74,6 +74,19 @@ const getPartyParticipantList = async (partyId: number) => {
   }
 };
 
+const getPersonalQuestState = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/quest`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getPersonalQuestStateRes = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const partyApi = {
   getEventBanner,
   getScheduledPartyList,
@@ -81,4 +94,5 @@ export const partyApi = {
   getCompletedPartyList,
   getPartyDetail,
   getPartyParticipantList,
+  getPersonalQuestState,
 };

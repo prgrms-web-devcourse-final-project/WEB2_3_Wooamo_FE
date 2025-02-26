@@ -87,3 +87,10 @@ interface getPartyParticipantListRes {
     hasNext: boolean;
   };
 }
+
+interface getPersonalQuestStateRes {
+  status: statusType;
+  data: {
+    state: string;
+  };
+}
