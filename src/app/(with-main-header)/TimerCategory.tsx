@@ -45,7 +45,7 @@ export default function TimerCategory({ timerList }: TimerCategoryProps) {
       </button>
       <div
         className={twMerge(
-          `w-75 lg:w-110 p-2.5 pt-6 lg:px-5 lg:py-4 bg-site-sub rounded-lg flex flex-col gap-4 lg:gap-5 absolute top-18`,
+          `w-75 lg:w-110 p-2.5 pt-6 lg:px-5 lg:py-4 bg-site-sub rounded-lg flex flex-col gap-4 lg:gap-5 absolute top-18 z-10`,
           isClicked ? "flex" : "hidden",
         )}
       >
