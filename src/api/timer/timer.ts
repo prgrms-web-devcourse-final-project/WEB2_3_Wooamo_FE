@@ -9,19 +9,6 @@ const getTimerList = async () => {
   }
 };
 
-const getStudyTimeForWeek = async () => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/time/weekly`,
-    );
-    if (!response.ok) throw new Error(response.statusText);
-    const data: getStudyTimeForWeekRes = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 const getStudyTimeForMonth = async () => {
   try {
     const response = await fetch(
@@ -35,8 +22,35 @@ const getStudyTimeForMonth = async () => {
   }
 };
 
+const getStudyTimeForWeek = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/time/weekly`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getStudyTimeForWeekRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getStudyTimeForDaily = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/timer/daily`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getStudyTimeForDaily = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const timerApi = {
   getTimerList,
   getStudyTimeForWeek,
   getStudyTimeForMonth,
+  getStudyTimeForDaily,
 };

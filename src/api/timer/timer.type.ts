@@ -12,6 +12,16 @@ interface TimerCategoryType {
   studyTime: string;
 }
 
+interface getStudyTimeForMonthRes {
+  status: statusType;
+  data: studyTimeType[];
+}
+
+interface studyTimeType {
+  studyTime: string;
+  studyDate: string;
+}
+
 interface getStudyTimeForWeekRes {
   status: statusType;
   data: {
@@ -19,11 +29,7 @@ interface getStudyTimeForWeekRes {
   };
 }
 
-interface getStudyTimeForMonthRes {
+interface getStudyTimeForDaily {
   status: statusType;
   data: studyTimeType[];
-}
-interface studyTimeType {
-  studyTime: string;
-  studyDate: string;
 }
