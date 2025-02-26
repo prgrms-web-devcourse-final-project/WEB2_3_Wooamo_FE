@@ -8,8 +8,14 @@ import { useActionState, useState } from "react";
 export default function TodoListForm() {
   const [_, action, isPending] = useActionState(addTodo, null);
   const [todo, setTodo] = useState("");
+
+  const submitTodo = (payload: FormData) => {
+    if (todo.trim()) {
+      action(payload);
+    }
+  };
   return (
-    <form action={action} className="flex items-center w-full gap-2">
+    <form action={submitTodo} className="flex items-center w-full gap-2">
       <div className="flex w-full">
         <label htmlFor="todo-input" className="hidden">
           할 일 입력
