@@ -42,6 +42,7 @@ const getStudyTimeForDaily = async () => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/timer/daily`,
+      { next: { tags: ["daily-time"] } },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getStudyTimeForDailyRes = await response.json();
@@ -91,7 +92,7 @@ const postStudyTimeSave = async (categoryId: number, time: string) => {
       `${process.env.NEXT_PUBLIC_SERVER_URL}/timer/${categoryId}`,
       {
         method: "POST",
-        body: JSON.stringify(time),
+        body: JSON.stringify({ time }),
       },
     );
     if (!response.ok) throw new Error(response.statusText);
