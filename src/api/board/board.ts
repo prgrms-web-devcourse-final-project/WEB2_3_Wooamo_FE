@@ -102,10 +102,30 @@ const updateBoard = async (
   }
 };
 
+const deleteBoard = async (boardId: number): Promise<deleteBoardResponse> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}`,
+      {
+        method: "DELETE",
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to delete board");
+    }
+    const data: deleteBoardResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error deleting board:", error);
+    throw error;
+  }
+};
+
 export const boardApi = {
   getBoardList,
   getBoardByBoardId,
   getCommentsByBoardId,
   createBoard,
   updateBoard,
+  deleteBoard,
 };

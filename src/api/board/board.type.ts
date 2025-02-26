@@ -85,6 +85,10 @@ interface updateBoardResponse {
   };
 }
 
+interface deleteBoardResponse {
+  status: string;
+}
+
 interface BoardAPI {
   getBoardList: (page?: number) => Promise<boardListResponse>;
   getBoardByBoardId: (
@@ -98,4 +102,5 @@ interface BoardAPI {
     boardId: number,
     formData: FormData,
   ) => Promise<updateBoardRequest>;
+  deleteBoard: (boardId: number) => Promise<deleteBoardResponse>;
 }
