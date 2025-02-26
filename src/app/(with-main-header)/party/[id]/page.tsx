@@ -25,7 +25,14 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
   return (
     <>
       <div className="flex flex-col gap-7.5 lg:gap-13 px-5 lg:px-0">
-        <ParticipateButton />
+        {partyDetail.isJoined ? (
+          <div className="flex justify-end gap-2">
+            <Button>채팅</Button>
+            <Button>인증</Button>
+          </div>
+        ) : (
+          <ParticipateButton />
+        )}
         <div className="flex items-center w-full h-12.5 lg:h-20 border-b border-site-darkgray-02">
           <Input
             value={partyDetail.name}
