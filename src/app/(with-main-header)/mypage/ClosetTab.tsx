@@ -1,3 +1,5 @@
+"use client";
+
 import Character from "@/components/common/Character";
 import Image from "next/image";
 import WhiteDividerLong from "@/assets/images/WhiteDividerLong.svg";

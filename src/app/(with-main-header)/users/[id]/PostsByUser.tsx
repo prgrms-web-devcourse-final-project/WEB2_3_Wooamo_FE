@@ -1,18 +1,10 @@
-import { useEffect, useState } from "react";
 import PostItem from "../../boards/PostItem";
 import { userApi } from "@/api/user/user";
 
-export default function PostsByUser() {
-  const [posts, setPosts] = useState<boardItem[]>([]);
+export default async function PostsByUser() {
+  const posts = await userApi.getCurrentUserPosts();
 
-  useEffect(() => {
-    const fetchMyPosts = async () => {
-      const posts = await userApi.getCurrentUserPosts();
-      if (posts) setPosts(posts.data);
-    };
-
-    fetchMyPosts();
-  }, []);
+  if (!posts) return null;
   return (
     <section className="flex flex-col gap-2 lg:gap-8">
       <p className="flex gap-1.5 font-semibold">
@@ -20,7 +12,7 @@ export default function PostsByUser() {
         <span>6</span>
       </p>
       <div className="flex flex-col gap-5">
-        {posts.map((post) => (
+        {posts.data.map((post) => (
           <PostItem key={`post-${post.boardId}`} post={post} />
         ))}
       </div>

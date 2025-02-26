@@ -1,3 +1,5 @@
+"use client";
+
 import { timerApi } from "@/api/timer/timer";
 import Icon from "@/components/common/Icon";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
