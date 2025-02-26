@@ -7,7 +7,7 @@ export default async function TodoList() {
   return (
     <section className="w-full lg:w-120 flex flex-col gap-4">
       <TodoListForm />
-      <Suspense fallback={<BasicSkeleton count={3} />}>
+      <Suspense fallback={<BasicSkeleton className="h-47 lg:h-55" count={1} />}>
         <TodoItems />
       </Suspense>
     </section>
