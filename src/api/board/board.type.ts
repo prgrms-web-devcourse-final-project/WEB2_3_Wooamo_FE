@@ -71,6 +71,20 @@ interface createBoardResponse {
   };
 }
 
+interface updateBoardRequest {
+  title: string;
+  context: string;
+  deletedImages?: string[];
+  images?: File[];
+}
+
+interface updateBoardResponse {
+  status: string;
+  data: {
+    boardId: number;
+  };
+}
+
 interface BoardAPI {
   getBoardList: (page?: number) => Promise<boardListResponse>;
   getBoardByBoardId: (
@@ -80,4 +94,8 @@ interface BoardAPI {
     boardId: number,
   ) => Promise<commentListResponse | undefined>;
   createBoard: (formData: FormData) => Promise<createBoardResponse>;
+  updateBoard: (
+    boardId: number,
+    formData: FormData,
+  ) => Promise<updateBoardRequest>;
 }

@@ -80,9 +80,32 @@ const createBoard = async (
   }
 };
 
+const updateBoard = async (
+  boardId: number,
+  formData: FormData,
+): Promise<updateBoardResponse> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}`,
+      {
+        method: "PUT",
+        body: formData,
+      },
+    );
+    if (!response.ok) {
+    }
+    const data: updateBoardResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error updating board:", error);
+    throw error;
+  }
+};
+
 export const boardApi = {
   getBoardList,
   getBoardByBoardId,
   getCommentsByBoardId,
   createBoard,
+  updateBoard,
 };
