@@ -33,3 +33,10 @@ interface getStudyTimeForDailyRes {
   status: statusType;
   data: studyTimeType;
 }
+
+interface postTimerCategoryAddRes {
+  status: statusType;
+  data: {
+    categoryId: number;
+  };
+}

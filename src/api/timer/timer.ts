@@ -48,9 +48,45 @@ const getStudyTimeForDaily = async () => {
   }
 };
 
+const postTimerCategoryAdd = async (timer: string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/timer/category`,
+      {
+        method: "POST",
+        body: JSON.stringify(timer),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: postTimerCategoryAddRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const deleteTimerCategory = async (categoryId: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/timer/category/${categoryId}`,
+      {
+        method: "DELETE",
+        body: JSON.stringify(categoryId),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const timerApi = {
   getTimerList,
   getStudyTimeForWeek,
   getStudyTimeForMonth,
   getStudyTimeForDaily,
+  postTimerCategoryAdd,
+  deleteTimerCategory,
 };
