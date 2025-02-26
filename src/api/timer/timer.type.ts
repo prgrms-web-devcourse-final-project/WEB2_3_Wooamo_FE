@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-interface getTimerCheckRes {
+interface getTimerListRes {
   status: statusType;
   data: TimerCategoryType[];
 }

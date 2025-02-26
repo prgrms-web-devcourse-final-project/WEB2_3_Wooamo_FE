@@ -1,8 +1,8 @@
-const getTimerCheck = async () => {
+const getTimerList = async () => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/timer`);
     if (!response.ok) throw new Error(response.statusText);
-    const data: getTimerCheckRes = await response.json();
+    const data: getTimerListRes = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -36,7 +36,7 @@ const getStudyTimeForMonth = async () => {
 };
 
 export const timerApi = {
-  getTimerCheck,
+  getTimerList,
   getStudyTimeForWeek,
   getStudyTimeForMonth,
 };
