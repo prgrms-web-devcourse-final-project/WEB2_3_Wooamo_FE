@@ -22,6 +22,19 @@ const getScheduledPartyList = async () => {
   }
 };
 
+const getActivePartyList = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/party/active`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getActivePartyList = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const getCompletedPartyList = async () => {
   try {
     const response = await fetch(
@@ -38,5 +51,6 @@ const getCompletedPartyList = async () => {
 export const partyApi = {
   getEventBanner,
   getScheduledPartyList,
+  getActivePartyList,
   getCompletedPartyList,
 };
