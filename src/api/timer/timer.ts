@@ -1,10 +1,20 @@
+const getTimerCheck = async () => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/timer`);
+    if (!response.ok) throw new Error(response.statusText);
+    const data: getTimerCheckRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const getStudyTimeForWeek = async () => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/time/weekly`,
     );
     if (!response.ok) throw new Error(response.statusText);
-
     const data: getStudyTimeForWeekRes = await response.json();
     return data;
   } catch (error) {
@@ -18,7 +28,6 @@ const getStudyTimeForMonth = async () => {
       `${process.env.NEXT_PUBLIC_SERVER_URL}/time/monthly`,
     );
     if (!response.ok) throw new Error(response.statusText);
-
     const data: getStudyTimeForMonthRes = await response.json();
     return data;
   } catch (error) {
@@ -27,6 +36,7 @@ const getStudyTimeForMonth = async () => {
 };
 
 export const timerApi = {
+  getTimerCheck,
   getStudyTimeForWeek,
   getStudyTimeForMonth,
 };
