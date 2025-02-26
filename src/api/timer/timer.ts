@@ -1,6 +1,9 @@
 const getTimerList = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/timer`);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/timer`,
+      { next: { tags: ["timer-list"] } },
+    );
     if (!response.ok) throw new Error(response.statusText);
     const data: getTimerListRes = await response.json();
     return data;
