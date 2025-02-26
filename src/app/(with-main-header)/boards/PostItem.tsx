@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import formatDateToTimeAgo from "../../../utils/formatDateToTimeAgo";
+import { delay } from "@/utils/delay";
 
 interface PostItemProps {
   post: boardItem;
 }
 export default async function PostItem({ post }: PostItemProps) {
+  await delay(3000);
   const { boardId, title, boardType, createdAt, image, context } = post;
   const formattedTitle = `[${boardType}] ${title}`;
   return (
