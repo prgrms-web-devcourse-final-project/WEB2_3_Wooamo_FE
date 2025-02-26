@@ -1,6 +1,7 @@
 "use client";
 
 import { userApi } from "@/api/user/user";
+import { revalidateTagAction } from "@/app/actions";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Modal from "@/components/common/Modal";
@@ -20,6 +21,7 @@ export default function ProfileEditButton({ user }: ProfileEditButtonProps) {
     e.preventDefault();
     const res = await userApi.updateUserInfo({ context: description, link });
     if (res?.status === "성공") {
+      revalidateTagAction("user");
       close();
     }
   };

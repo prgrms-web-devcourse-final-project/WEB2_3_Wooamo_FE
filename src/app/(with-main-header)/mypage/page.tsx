@@ -4,13 +4,23 @@ import { twMerge } from "tailwind-merge";
 import ProfileTab from "./ProfileTab";
 import ClosetTab from "./ClosetTab";
 
-export default async function Mypage({
-  searchParams,
-}: {
-  searchParams: Promise<{ tab: "profile" | "closet" }>;
-}) {
-  const { tab } = await searchParams;
+interface MypageProps {
+  searchParams: Promise<{
+    tab: "profile" | "closet";
+    year: number;
+    month: number;
+  }>;
+}
+
+export const dynamic = "force-dynamic";
+
+export default async function Mypage({ searchParams }: MypageProps) {
+  const { tab, year: selectedYear, month: selectedMonth } = await searchParams;
+  const currentDate = new Date();
+
   const currentTab = tab ?? "profile";
+  const year = selectedYear ?? currentDate.getFullYear();
+  const month = selectedMonth ?? currentDate.getMonth() + 1;
   return (
     <div
       className={twMerge(
@@ -34,7 +44,7 @@ export default async function Mypage({
           </Button>
         </Link>
       </div>
-      {currentTab === "profile" && <ProfileTab />}
+      {currentTab === "profile" && <ProfileTab year={year} month={month} />}
       {currentTab === "closet" && <ClosetTab />}
     </div>
   );

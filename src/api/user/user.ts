@@ -1,7 +1,8 @@
 const getCurrentUserInfo = async () => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`, {
-      next: { tags: ["point"] },
+      next: { tags: ["point", "user"] },
+      cache: "force-cache",
     });
     if (!response.ok) throw new Error(response.statusText);
 
@@ -16,6 +17,7 @@ const getUserInfo = async (userId: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/user/${userId}`,
+      { next: { tags: [`user-${userId}`] }, cache: "force-cache" },
     );
     if (!response.ok) throw new Error(response.statusText);
 
