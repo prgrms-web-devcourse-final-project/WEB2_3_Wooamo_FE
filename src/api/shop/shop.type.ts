@@ -16,3 +16,38 @@ interface getCostumeListRes {
     hasNext: boolean;
   };
 }
+
+interface postCostumePurchaseReq {
+  costumeId: number;
+  point: number;
+}
+
+interface postCostumeRandomPurchaseRes {
+  status: statusType;
+  data: {
+    image: string;
+    costumeName: string;
+  };
+}
+
+interface postPointPurchaseReq {
+  amount: number;
+  point: number;
+}
+
+interface postPointPurchaseRes {
+  status: statusType;
+  data: {
+    orderId: string;
+    paymentKey: string;
+    amount: number;
+    point: number;
+  };
+}
+
+interface postPointPurchaseConfirmReq {
+  orderId: string;
+  paymentKey: string;
+  amount: number;
+  point: number;
+}

@@ -1,8 +1,15 @@
 "use client";
 
+import { shopApi } from "@/api/shop/shop";
+import { revalidateTagAction } from "@/app/actions";
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import { useModalStore } from "@/store/modalStore";
+import {
+  loadTossPayments,
+  TossPaymentsPayment,
+} from "@tosspayments/tosspayments-sdk";
+import React, { useEffect, useState } from "react";
 
 const payments = [
   { point: 500, price: 3000 },
@@ -12,6 +19,60 @@ const payments = [
 
 export default function ChargeButton() {
   const { open, close } = useModalStore((state) => state);
+  const [tossPayment, setTossPayment] = useState<TossPaymentsPayment>();
+  const clientKey = `${process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY}`;
+  const customerKey = `FYa_Y2i5uFxNYawNjHXuH`;
+
+  useEffect(() => {
+    const loadTossWindow = async () => {
+      const tossPayment = await loadTossPayments(clientKey);
+      const payment = tossPayment.payment({ customerKey });
+      setTossPayment(payment);
+    };
+
+    loadTossWindow();
+  }, []);
+
+  const handlePaymentInfoFetch = async (amount: number, point: number) => {
+    const requestTossPayment = await shopApi.postPointPurchase({
+      amount,
+      point,
+    });
+
+    const responseTossPayment = requestTossPayment?.data;
+
+    if (responseTossPayment) {
+      close();
+      await tossPayment?.requestPayment({
+        method: "CARD",
+        amount: {
+          currency: "KRW",
+          value: amount,
+        },
+        orderId: responseTossPayment.orderId,
+        orderName: `${point} 포인트`,
+        successUrl: "http://localhost:3000/shop",
+        failUrl: "http://localhost:3000/shop",
+        card: {
+          useEscrow: false,
+          flowMode: "DEFAULT",
+          useCardPoint: false,
+          useAppCardOnly: false,
+        },
+      });
+
+      const confirmTossPayment = await shopApi.postPointPurchaseConfirm({
+        orderId: responseTossPayment.orderId,
+        paymentKey: responseTossPayment.paymentKey,
+        amount: responseTossPayment.amount,
+        point: responseTossPayment.point,
+      });
+
+      if (confirmTossPayment?.status === "성공") {
+        revalidateTagAction("point");
+      }
+    }
+  };
 
   return (
     <>
@@ -31,7 +92,13 @@ export default function ChargeButton() {
                 <p className="font-semibold text-base lg:text-xl">
                   {payment.point}p
                 </p>
-                <Button>{payment.price.toLocaleString("ko-KR")}원</Button>
+                <Button
+                  onClick={() =>
+                    handlePaymentInfoFetch(payment.price, payment.point)
+                  }
+                >
+                  {payment.price.toLocaleString("ko-KR")}원
+                </Button>
               </div>
             ))}
           </div>
