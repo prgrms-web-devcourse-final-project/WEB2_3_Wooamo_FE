@@ -5,6 +5,7 @@ import StopCircleRoundedIcon from "@mui/icons-material/StopCircleRounded";
 import Icon from "../../components/common/Icon";
 import { timerApi } from "@/api/timer/timer";
 import { useEffect, useState } from "react";
+import Button from "@/components/common/Button";
 
 export default function TimerPlayer() {
   const [studyTimeForDaily, setStudyTimeForDaily] = useState<string>();
@@ -28,8 +29,12 @@ export default function TimerPlayer() {
         {studyTimeForDaily}
       </p>
       <div className="flex items-center gap-3">
-        <Icon MuiIcon={PlayCircleFilledRoundedIcon} />
-        <Icon MuiIcon={StopCircleRoundedIcon} />
+        <Button className="px-0 lg:px-0">
+          <Icon MuiIcon={PlayCircleFilledRoundedIcon} />
+        </Button>
+        <Button className="px-0 lg:px-0">
+          <Icon MuiIcon={StopCircleRoundedIcon} />
+        </Button>
       </div>
     </div>
   );
