@@ -79,10 +79,10 @@ interface PartyParticipantType {
 interface getPartyParticipantListRes {
   status: statusType;
   data: {
-    content: PartyParticipantType[];
+    contents: PartyParticipantType[];
     page: number;
     size: number;
-    totalElementes: number;
+    totalElements: number;
     totalPages: number;
     hasNext: boolean;
   };
