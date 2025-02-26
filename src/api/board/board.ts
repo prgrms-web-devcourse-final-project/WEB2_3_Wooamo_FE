@@ -171,6 +171,29 @@ const deleteComment = async (
   }
 };
 
+const selectComment = async (
+  commentId: number,
+): Promise<selectCommentResponse> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/comment/${commentId}`,
+      {
+        method: "PATCH",
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to select comment");
+    }
+
+    const data: selectCommentResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error selecting comment:", error);
+    throw error;
+  }
+};
+
 export const boardApi = {
   getBoardList,
   getBoardByBoardId,
@@ -180,4 +203,5 @@ export const boardApi = {
   deleteBoard,
   createComment,
   deleteComment,
+  selectComment,
 };

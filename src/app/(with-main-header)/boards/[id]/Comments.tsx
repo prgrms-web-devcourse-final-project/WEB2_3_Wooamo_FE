@@ -13,6 +13,7 @@ export default function Comments() {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<commentItem[]>([]);
   const [totalElements, setTotalElements] = useState(0);
+  const [boardInfo, setBoardInfo] = useState<boardDetail | null>(null);
 
   const pathname = usePathname();
   const boardId = parseInt(pathname.split("/")[2], 10);
@@ -20,6 +21,17 @@ export default function Comments() {
   if (!boardId) {
     return null;
   }
+
+  const fetchBoardInfo = async () => {
+    try {
+      const response = await boardApi.getBoardByBoardId(boardId);
+      if (response) {
+        setBoardInfo(response.data);
+      }
+    } catch (error) {
+      console.error("게시글 정보 불러오기 실패:", error);
+    }
+  };
 
   const fetchComments = async () => {
     try {
@@ -36,6 +48,7 @@ export default function Comments() {
 
   useEffect(() => {
     fetchComments();
+    fetchBoardInfo();
   }, [boardId]);
 
   const sendComment = async (e: FormEvent<HTMLFormElement>) => {
@@ -77,6 +90,7 @@ export default function Comments() {
             key={commentData.commentId}
             data={commentData}
             onDelete={fetchComments}
+            boardInfo={boardInfo || undefined}
           />
         ))}
       </div>

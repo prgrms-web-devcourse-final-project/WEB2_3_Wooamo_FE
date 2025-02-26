@@ -11,19 +11,23 @@ import { userApi } from "@/api/user/user";
 type CommentProps = {
   data: commentItem;
   onDelete: () => void;
+  boardInfo?: boardDetail;
 };
 
-export default function Comment({ data, onDelete }: CommentProps) {
+export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const [isBoardAuthor, setIsBoardAuthor] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(data.isConfirm);
 
   useEffect(() => {
     const checkCurrentUser = async () => {
       try {
         const currentUser = await userApi.getCurrentUserInfo();
-        if (currentUser?.data.userId === data.userId) {
-          setIsCurrentUser(true);
+        if (currentUser?.data) {
+          setIsCurrentUser(currentUser.data.userId === data.userId);
+          setIsBoardAuthor(currentUser.data.userId === boardInfo?.userId);
         }
       } catch (error) {
         console.error("사용자 정보 확인 실패:", error);
@@ -31,7 +35,7 @@ export default function Comment({ data, onDelete }: CommentProps) {
     };
 
     checkCurrentUser();
-  }, [data.userId]);
+  }, [data.userId, boardInfo?.userId]);
 
   const handleDelete = async () => {
     if (isDeleting) return;
@@ -45,6 +49,16 @@ export default function Comment({ data, onDelete }: CommentProps) {
     } finally {
       setIsDeleting(false);
       setIsOpen(false);
+    }
+  };
+
+  const handleSelect = async () => {
+    try {
+      await boardApi.selectComment(data.commentId);
+      setIsConfirmed(true);
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Error selecting comment:", error);
     }
   };
 
@@ -65,20 +79,48 @@ export default function Comment({ data, onDelete }: CommentProps) {
               {data.context}
             </p>
           </Link>
-          {isCurrentUser && (
-            <div className="relative">
-              <Button
-                onClick={() => setIsOpen((prev) => !prev)}
-                className="bg-transparent px-0 lg:px-0"
+
+          <div className="relative">
+            {(isCurrentUser ||
+              (isBoardAuthor &&
+                boardInfo?.boardType === "질문" &&
+                !isCurrentUser)) && (
+              <>
+                {isBoardAuthor &&
+                boardInfo?.boardType === "질문" &&
+                !isCurrentUser ? (
+                  isConfirmed ? (
+                    <Button
+                      className="bg-transparent px-0 lg:px-0 text-site-primary cursor-default"
+                      disabled
+                    >
+                      채택됨
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => setIsOpen((prev) => !prev)}
+                      className="bg-transparent px-0 lg:px-0"
+                    >
+                      <Icon MuiIcon={MoreHorizRoundedIcon} />
+                    </Button>
+                  )
+                ) : (
+                  <Button
+                    onClick={() => setIsOpen((prev) => !prev)}
+                    className="bg-transparent px-0 lg:px-0"
+                  >
+                    <Icon MuiIcon={MoreHorizRoundedIcon} />
+                  </Button>
+                )}
+              </>
+            )}
+            {isOpen && (
+              <Dropdown
+                onClose={() => {
+                  setIsOpen(false);
+                }}
               >
-                <Icon MuiIcon={MoreHorizRoundedIcon} />
-              </Button>
-              {isOpen && (
-                <Dropdown
-                  onClose={() => {
-                    setIsOpen(false);
-                  }}
-                >
+                {isCurrentUser ? (
                   <Button
                     onClick={handleDelete}
                     className="w-full"
@@ -86,10 +128,17 @@ export default function Comment({ data, onDelete }: CommentProps) {
                   >
                     삭제
                   </Button>
-                </Dropdown>
-              )}
-            </div>
-          )}
+                ) : (
+                  isBoardAuthor &&
+                  boardInfo?.boardType === "질문" && (
+                    <Button onClick={() => {}} className="w-full">
+                      채택
+                    </Button>
+                  )
+                )}
+              </Dropdown>
+            )}
+          </div>
         </div>
       </div>
     </article>
