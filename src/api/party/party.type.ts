@@ -27,3 +27,15 @@ interface getScheduledPartyListRes {
     hasNext: boolean;
   };
 }
+
+interface CompletedPartyType {
+  partyId: number;
+  name: string;
+  rewordPoint: number;
+  questStatus: string;
+}
+
+interface getCompletedPartyListRes {
+  status: statusType;
+  data: CompletedPartyType[];
+}
