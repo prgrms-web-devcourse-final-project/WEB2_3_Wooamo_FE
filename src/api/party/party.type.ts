@@ -52,3 +52,18 @@ interface getCompletedPartyListRes {
   status: statusType;
   data: CompletedPartyType[];
 }
+
+interface getPartyPageDetailRes {
+  status: statusType;
+  data: {
+    partyId: number;
+    name: string;
+    context: string;
+    recruitCap: number;
+    recruitCnt: number;
+    startDate: string;
+    endDate: string;
+    bettingPointCap: number;
+    isJoined: boolean;
+  };
+}
