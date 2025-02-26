@@ -29,7 +29,7 @@ interface getStudyTimeForWeekRes {
   };
 }
 
-interface getStudyTimeForDaily {
+interface getStudyTimeForDailyRes {
   status: statusType;
-  data: studyTimeType[];
+  data: studyTimeType;
 }

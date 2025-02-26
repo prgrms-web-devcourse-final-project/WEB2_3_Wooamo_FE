@@ -41,7 +41,7 @@ const getStudyTimeForDaily = async () => {
       `${process.env.NEXT_PUBLIC_SERVER_URL}/timer/daily`,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getStudyTimeForDaily = await response.json();
+    const data: getStudyTimeForDailyRes = await response.json();
     return data;
   } catch (error) {
     console.error(error);
