@@ -28,6 +28,19 @@ interface getScheduledPartyListRes {
   };
 }
 
+interface ActivePartyType {
+  partyId: number;
+  name: string;
+  recruitCap: number;
+  recruitCnt: number;
+  endDate: string;
+}
+
+interface getActivePartyList {
+  status: statusType;
+  data: ActivePartyType[];
+}
+
 interface CompletedPartyType {
   partyId: number;
   name: string;
