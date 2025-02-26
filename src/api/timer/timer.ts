@@ -12,10 +12,10 @@ const getStudyTimeForWeek = async () => {
   }
 };
 
-const getStudyTimeForMonth = async () => {
+const getStudyTimeForMonth = async (year: number, month: number) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/time/monthly`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/time/monthly?year=${year}&month=${month}`,
     );
     if (!response.ok) throw new Error(response.statusText);
 

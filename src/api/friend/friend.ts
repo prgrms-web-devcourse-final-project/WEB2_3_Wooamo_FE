@@ -2,7 +2,7 @@ const getFriends = async (page?: number, size?: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/friend?page=${page}&size=${size}`,
-      { next: { tags: ["friends"] } },
+      { next: { tags: ["friends"] }, cache: "force-cache" },
     );
     if (!response.ok) throw new Error(response.statusText);
 

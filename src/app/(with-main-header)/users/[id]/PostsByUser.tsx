@@ -1,9 +1,9 @@
-import { Suspense } from "react";
+import { delay } from "@/utils/delay";
 import PostItem from "../../boards/PostItem";
 import { userApi } from "@/api/user/user";
-import PostItemSkeleton from "@/components/common/skeletons/PostItemSkeleton";
 
 export default async function PostsByUser() {
+  await delay(3000);
   const posts = await userApi.getCurrentUserPosts();
 
   if (!posts) return null;
@@ -15,11 +15,9 @@ export default async function PostsByUser() {
       </p>
       <div className="flex flex-col gap-5">
         <div>
-          <Suspense fallback={<PostItemSkeleton count={3} />}>
-            {posts.data.map((post) => (
-              <PostItem key={`post-${post.boardId}`} post={post} />
-            ))}
-          </Suspense>
+          {posts.data.map((post) => (
+            <PostItem key={`post-${post.boardId}`} post={post} />
+          ))}
         </div>
       </div>
     </section>
