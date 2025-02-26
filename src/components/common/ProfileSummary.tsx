@@ -3,7 +3,7 @@ import basic from "@/assets/images/costumes/basic.png";
 import Link from "next/link";
 
 interface ProfileSummaryProps {
-  userId: number;
+  userId: string;
   costume: string;
   nickname: string;
   description: string;
