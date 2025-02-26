@@ -67,3 +67,23 @@ interface getPartyPageDetailRes {
     isJoined: boolean;
   };
 }
+
+interface PartyParticipantType {
+  userId: string;
+  userName: string;
+  profile: string;
+  context: string;
+  isFriend: boolean;
+}
+
+interface getPartyParticipantListRes {
+  status: statusType;
+  data: {
+    content: PartyParticipantType[];
+    page: number;
+    size: number;
+    totalElementes: number;
+    totalPages: number;
+    hasNext: boolean;
+  };
+}
