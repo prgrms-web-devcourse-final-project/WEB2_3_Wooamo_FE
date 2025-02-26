@@ -19,7 +19,7 @@ interface friendType {
 }
 
 interface getRequestFriendsRes {
-  success: statusType;
+  status: statusType;
   data: {
     contents: requestFriendType[];
     page: number;
