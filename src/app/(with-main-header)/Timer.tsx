@@ -11,7 +11,7 @@ export default async function Timer() {
 
   return (
     <section className="w-full lg:w-120 flex flex-col gap-4">
-      <TimerCategory />
+      <TimerCategory timerList={timerList} />
       <div className="px-3 py-3 bg-site-button rounded-lg">
         <TimerPlayer />
         <div className="flex flex-col gap-3">
