@@ -3,7 +3,6 @@ import ParticipateButton from "./ParticipateButton";
 import Input from "@/components/common/Input";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import Icon from "@/components/common/Icon";
-import formatDateToKR from "@/utils/formatDateToKR";
 import ProfileSummary from "@/components/common/ProfileSummary";
 import { partyApi } from "@/api/party/party";
 
@@ -14,10 +13,14 @@ interface PartyDetailProps {
 export default async function PartyDetail({ params }: PartyDetailProps) {
   const { id } = await params;
 
-  const getPartyDetail = await partyApi.getPartyDetail(id);
-  const partyDetail = getPartyDetail?.data;
+  const fetchPartyDetail = await partyApi.getPartyDetail(id);
+  const partyDetail = fetchPartyDetail?.data;
+
+  const fetchPartyParticipantList = await partyApi.getPartyParticipantList(id);
+  const partyParticipantList = fetchPartyParticipantList?.data.contents;
 
   if (!partyDetail) return;
+  if (!partyParticipantList) return;
 
   return (
     <>
@@ -97,20 +100,18 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
         <section className="flex flex-col gap-8 mt-13 px-5 lg:px-0">
           <p className="font-semibold text-xl">참여자 목록</p>
           <div className="flex flex-col gap-6">
-            {[1, 2, 3, 4].map((_, index) => (
+            {partyParticipantList.map((participant) => (
               <article
-                key={index}
+                key={participant.userId}
                 className="flex justify-between items-center"
               >
                 <ProfileSummary
-                  userId={123}
-                  costume={""}
-                  nickname={"@sooya"}
-                  description={"수쌤 아니고 수현이 :)"}
+                  userId={participant.userId}
+                  costume={participant.profile}
+                  nickname={participant.userName}
+                  description={participant.context}
                 />
-                <div>
-                  <Button>친구신청</Button>
-                </div>
+                <div>{participant.isFriend || <Button>친구신청</Button>}</div>
               </article>
             ))}
           </div>
