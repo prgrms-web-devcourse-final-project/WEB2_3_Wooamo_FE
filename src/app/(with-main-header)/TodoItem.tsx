@@ -5,17 +5,14 @@ import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import Button from "@/components/common/Button";
 import { useState } from "react";
 import Dropdown from "@/components/common/Dropdown";
-import { useTodoStore } from "@/store/todoStore";
 import { todoApi } from "@/api/todo/todo";
 import { twMerge } from "tailwind-merge";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import { revalidateTagAction } from "../actions";
 
 const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
 export default function TodoItem({ todo }: { todo: todoType }) {
-  const { updateTodo: updateTodoAtStore, deleteTodo: deleteTodoAtStore } =
-    useTodoStore((state) => state);
-
   const [isTodoChecked, setIsTodoChecked] = useState(todo.isChecked);
   const [isEditable, setIsEditable] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -25,14 +22,14 @@ export default function TodoItem({ todo }: { todo: todoType }) {
     const res = await todoApi.updateTodo(1, todo.todo);
     if (res?.status === "성공") {
       setIsEditable(false);
-      updateTodoAtStore(todo);
+      revalidateTagAction("todos");
     }
   };
 
   const deleteTodo = async () => {
     const res = await todoApi.deleteTodo(1);
     if (res?.status === "성공") {
-      deleteTodoAtStore(todo);
+      revalidateTagAction("todos");
     }
     setIsOpen(false);
   };
@@ -86,6 +83,7 @@ export default function TodoItem({ todo }: { todo: todoType }) {
           </label>
         )}
       </div>
+
       <div className="relative">
         <Button
           onClick={() => setIsOpen((prev) => !prev)}
