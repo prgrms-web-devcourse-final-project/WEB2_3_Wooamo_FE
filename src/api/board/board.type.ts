@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 interface boardItem {
   boardId: number;
   title: string;
+  context: string;
   boardType: "질문" | "자유";
   createdAt: string;
   isConfirm: boolean;
