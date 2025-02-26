@@ -87,6 +87,23 @@ const getPersonalQuestState = async () => {
   }
 };
 
+const postParticiapteParty = async (partyId: number, bettingPoint: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/party/${partyId}`,
+      {
+        method: "POST",
+        body: JSON.stringify(bettingPoint),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const partyApi = {
   getEventBanner,
   getScheduledPartyList,
@@ -95,4 +112,5 @@ export const partyApi = {
   getPartyDetail,
   getPartyParticipantList,
   getPersonalQuestState,
+  postParticiapteParty,
 };
