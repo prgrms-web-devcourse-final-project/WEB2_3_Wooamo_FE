@@ -1,6 +1,5 @@
 import TimerList from "./TimerList";
 import TimerCategory from "./TimerCategory";
-import TimerPlayer from "./TimerPlayer";
 import { timerApi } from "@/api/timer/timer";
 
 export default async function Timer() {
