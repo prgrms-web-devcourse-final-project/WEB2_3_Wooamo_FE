@@ -149,6 +149,28 @@ const createComment = async (
   }
 };
 
+const deleteComment = async (
+  commentId: number,
+): Promise<deleteCommentResponse> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/comment/${commentId}`,
+      {
+        method: "DELETE",
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to delete comment");
+    }
+    const data: deleteCommentResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    throw error;
+  }
+};
+
 export const boardApi = {
   getBoardList,
   getBoardByBoardId,
@@ -157,4 +179,5 @@ export const boardApi = {
   updateBoard,
   deleteBoard,
   createComment,
+  deleteComment,
 };

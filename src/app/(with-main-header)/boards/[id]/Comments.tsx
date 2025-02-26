@@ -73,7 +73,11 @@ export default function Comments() {
       />
       <div className="flex flex-col gap-8 lg:gap-7 mt-5 lg:mt-7">
         {comments.map((commentData) => (
-          <Comment key={commentData.commentId} data={commentData} />
+          <Comment
+            key={commentData.commentId}
+            data={commentData}
+            onDelete={fetchComments}
+          />
         ))}
       </div>
     </form>

@@ -97,6 +97,10 @@ interface createCommentResponse {
   status: string;
 }
 
+interface deleteCommentResponse {
+  status: string;
+}
+
 interface BoardAPI {
   getBoardList: (page?: number) => Promise<boardListResponse>;
   getBoardByBoardId: (
@@ -115,4 +119,5 @@ interface BoardAPI {
     boardId: number,
     data: createCommentRequest,
   ) => Promise<createCommentResponse>;
+  deleteComment: (commentId: number) => Promise<deleteCommentResponse>;
 }
