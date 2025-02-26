@@ -10,3 +10,7 @@ const getEventBanner = async () => {
     console.error(error);
   }
 };
+
+export const partyApi = {
+  getEventBanner,
+};
