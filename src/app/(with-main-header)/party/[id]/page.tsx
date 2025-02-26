@@ -31,7 +31,10 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
             <Button>인증</Button>
           </div>
         ) : (
-          <ParticipateButton />
+          <ParticipateButton
+            partyId={id}
+            bettingPoint={partyDetail.bettingPointCap}
+          />
         )}
         <div className="flex items-center w-full h-12.5 lg:h-20 border-b border-site-darkgray-02">
           <Input

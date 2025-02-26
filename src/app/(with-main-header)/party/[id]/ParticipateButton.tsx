@@ -1,29 +1,45 @@
 "use client";
 
+import { partyApi } from "@/api/party/party";
 import Button from "@/components/common/Button";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import Modal from "@/components/common/Modal";
 import useInputValidation from "@/hooks/useInputValidation";
 import { useModalStore } from "@/store/modalStore";
-import { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 
-export default function ParticipateButton() {
-  const { open } = useModalStore((state) => state);
+interface ParticipateButtonProps {
+  partyId: number;
+  bettingPoint: number;
+}
+
+export default function ParticipateButton({
+  partyId,
+  bettingPoint,
+}: ParticipateButtonProps) {
+  const { open, close } = useModalStore((state) => state);
   const { validate, ...point } = useInputValidation(0, (value) => {
-    if (!value || Number(value) < 100) {
-      return "최소 배팅 금액 이상 입력해주세요";
+    if (!value || Number(value) < bettingPoint) {
+      return `최소 배팅 금액 이상 입력해주세요`;
     }
     return null;
   });
 
-  const participateParty = (e: FormEvent<HTMLFormElement>) => {
+  const participateParty = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (validate()) {
-      console.log("팟 생성 및 참여");
+    if (!validate()) return;
+
+    const participateParty = await partyApi.postParticiapteParty(
+      partyId,
+      point.value,
+    );
+
+    if (participateParty?.status === "성공") {
       close();
     }
   };
+
   return (
     <>
       <div className="flex justify-end">
