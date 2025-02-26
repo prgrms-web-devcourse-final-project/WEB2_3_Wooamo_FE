@@ -7,6 +7,7 @@ import Input from "@/components/common/Input";
 import { FormEvent, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { boardApi } from "@/api/board/board";
+import { userApi } from "@/api/user/user";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 export default function BoardsUpdate() {
@@ -21,20 +22,34 @@ export default function BoardsUpdate() {
   const [deletedImages, setDeletedImages] = useState<string[]>([]);
 
   useEffect(() => {
-    const fetchBoardDetail = async () => {
+    const checkAuthAndFetchBoard = async () => {
       try {
-        const response = await boardApi.getBoardByBoardId(boardId);
-        if (response) {
-          setTitle(response.data.title);
-          setContext(response.data.context);
-          setExistingImages(response.data.images);
+        const [userResponse, boardResponse] = await Promise.all([
+          userApi.getCurrentUserInfo(),
+          boardApi.getBoardByBoardId(boardId),
+        ]);
+
+        if (!boardResponse) {
+          router.push("/boards");
+          return;
         }
+
+        if (userResponse?.data.userId !== boardResponse?.data.userId) {
+          alert("수정 권한이 없습니다.");
+          router.push(`/boards/${boardId}`);
+          return;
+        }
+
+        setTitle(boardResponse.data.title);
+        setContext(boardResponse.data.context);
+        setExistingImages(boardResponse.data.images);
       } catch (error) {
         console.error("게시글 정보를 불러오는데 실패:", error);
+        router.push("/boards");
       }
     };
 
-    fetchBoardDetail();
+    checkAuthAndFetchBoard();
   }, [boardId]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

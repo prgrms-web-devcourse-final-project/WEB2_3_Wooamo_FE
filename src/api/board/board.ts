@@ -121,6 +121,34 @@ const deleteBoard = async (boardId: number): Promise<deleteBoardResponse> => {
   }
 };
 
+const createComment = async (
+  boardId: number,
+  data: createCommentRequest,
+): Promise<createCommentResponse> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}/comment`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to create comment");
+    }
+
+    const responseData: createCommentResponse = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    throw error;
+  }
+};
+
 export const boardApi = {
   getBoardList,
   getBoardByBoardId,
@@ -128,4 +156,5 @@ export const boardApi = {
   createBoard,
   updateBoard,
   deleteBoard,
+  createComment,
 };

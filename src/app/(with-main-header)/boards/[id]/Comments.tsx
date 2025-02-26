@@ -18,35 +18,45 @@ export default function Comments() {
   const boardId = parseInt(pathname.split("/")[2], 10);
 
   if (!boardId) {
-    console.log("No boardId provided");
     return null;
   }
 
-  useEffect(() => {
-    setComments([]);
-
-    const fetchComments = async () => {
-      if (!boardId) return;
-
-      try {
-        const data = await boardApi.getCommentsByBoardId(boardId);
-        if (data) {
-          setComments(data.data.contents);
-          setTotalElements(data.data.totalElements);
-        }
-      } catch (error) {
-        console.error("댓글 불러오기 실패:", error);
-        setComments([]);
+  const fetchComments = async () => {
+    try {
+      const data = await boardApi.getCommentsByBoardId(boardId);
+      if (data) {
+        setComments(data.data.contents);
+        setTotalElements(data.data.totalElements);
       }
-    };
-
-    fetchComments();
-  }, [boardId, pathname]);
-
-  const sendComment = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("댓글 작성");
+    } catch (error) {
+      console.error("댓글 불러오기 실패:", error);
+      setComments([]);
+    }
   };
+
+  useEffect(() => {
+    fetchComments();
+  }, [boardId]);
+
+  const sendComment = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const trimmedComment = comment.trim();
+    if (!trimmedComment) return;
+
+    try {
+      const response = await boardApi.createComment(boardId, {
+        context: trimmedComment,
+      });
+
+      if (response.status === "성공") {
+        setComment("");
+        fetchComments();
+      }
+    } catch (error) {
+      console.error("댓글 작성 실패:", error);
+    }
+  };
+
   return (
     <form onSubmit={sendComment}>
       <div className="flex items-center gap-2.5 mt-5 mb-2.5 lg:my-7">
