@@ -5,15 +5,31 @@ import Button from "../../../../components/common/Button";
 import InputIcon from "@/components/common/InputIcon";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import PartyItem from "../PartyItem";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { partyApi } from "@/api/party/party";
 
 export default function PartyAll() {
   const [keyword, setKeyword] = useState("");
+  const [allParties, setAllParties] = useState<ScheduledPartyListContents[]>(
+    [],
+  );
+
+  useEffect(() => {
+    const fetchScheduledPartyList = async () => {
+      const scheduledPartyList = await partyApi.getScheduledPartyList();
+
+      if (!scheduledPartyList) return;
+      setAllParties(scheduledPartyList.data.contents);
+    };
+
+    fetchScheduledPartyList();
+  }, []);
 
   const search = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("팟 검색");
   };
+
   return (
     <form onSubmit={search} className="flex flex-col">
       <div className="px-5 lg:px-0">
@@ -36,8 +52,15 @@ export default function PartyAll() {
           <p className="flex-2">인원</p>
           <p className="flex-3">시작일</p>
         </div>
-        {[1, 2, 3].map((_, index) => (
-          <PartyItem key={index} />
+        {allParties.map((party) => (
+          <PartyItem
+            key={party.partyId}
+            partyId={party.partyId}
+            name={party.name}
+            recruitCap={party.recruitCap}
+            recruitCnt={party.recruitCnt}
+            startDate={party.startDate}
+          />
         ))}
       </div>
     </form>
