@@ -57,6 +57,9 @@ const getPartyDetail = async (partyId: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}`,
+      {
+        next: { tags: ["party-detail"] },
+      },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getPartyPageDetailRes = await response.json();
