@@ -104,6 +104,38 @@ const postParticiapteParty = async (partyId: number, bettingPoint: number) => {
   }
 };
 
+const postPersonalQuestReward = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/reward`,
+      {
+        method: "POST",
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const postPartyQuestReward = async (partyId: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/party/${partyId}/reward`,
+      {
+        method: "POST",
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const partyApi = {
   getEventBanner,
   getScheduledPartyList,
@@ -113,4 +145,6 @@ export const partyApi = {
   getPartyParticipantList,
   getPersonalQuestState,
   postParticiapteParty,
+  postPersonalQuestReward,
+  postPartyQuestReward,
 };
