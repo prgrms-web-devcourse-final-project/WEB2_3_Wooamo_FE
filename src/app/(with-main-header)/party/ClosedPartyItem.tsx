@@ -22,7 +22,7 @@ export default function ClosedPartyItem({
         <p className="font-semibold text-xl">{name}</p>
         <p className="font-semibold">{rewordPoint}p</p>
       </div>
-      <ClosedPartyRewardButton questStatus={questStatus} />
+      <ClosedPartyRewardButton partyId={partyId} questStatus={questStatus} />
     </article>
   );
 }
