@@ -36,7 +36,7 @@ interface ActivePartyType {
   endDate: string;
 }
 
-interface getActivePartyList {
+interface getActivePartyListRes {
   status: statusType;
   data: ActivePartyType[];
 }
