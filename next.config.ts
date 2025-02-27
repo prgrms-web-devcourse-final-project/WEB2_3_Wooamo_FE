@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
         pathname: "/DevPumpkin0113/test/**",
         search: "",
       },
+      {
+        protocol: "https",
+        hostname: "stuv-filesave.s3.ap-northeast-2.amazonaws.com",
+        port: "",
+        pathname: "/**",
+        search: "",
+      },
     ],
   },
 };
