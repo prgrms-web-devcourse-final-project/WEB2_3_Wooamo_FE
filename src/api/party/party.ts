@@ -1,7 +1,7 @@
 const getEventBanner = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/party/event`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/event`,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getEventBannerRes = await response.json();
@@ -28,7 +28,7 @@ const getActivePartyList = async () => {
       `${process.env.NEXT_PUBLIC_SERVER_URL}/party/active`,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getActivePartyList = await response.json();
+    const data: getActivePartyListRes = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -38,7 +38,7 @@ const getActivePartyList = async () => {
 const getCompletedPartyList = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/party/complete`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/complete`,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getCompletedPartyListRes = await response.json();
@@ -51,7 +51,7 @@ const getCompletedPartyList = async () => {
 const getPartyDetail = async (partyId: number) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/party/${partyId}`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}`,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getPartyPageDetailRes = await response.json();
@@ -64,7 +64,7 @@ const getPartyDetail = async (partyId: number) => {
 const getPartyParticipantList = async (partyId: number) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/party/${partyId}/users`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}/users`,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getPartyParticipantListRes = await response.json();
@@ -77,7 +77,7 @@ const getPartyParticipantList = async (partyId: number) => {
 const getPersonalQuestState = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/quest`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/user/quest`,
       { next: { tags: ["personal-quest-state"] } },
     );
     if (!response.ok) throw new Error(response.statusText);
@@ -91,7 +91,7 @@ const getPersonalQuestState = async () => {
 const postParticiapteParty = async (partyId: number, bettingPoint: number) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/party/${partyId}`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}`,
       {
         method: "POST",
         body: JSON.stringify(bettingPoint),
@@ -108,7 +108,7 @@ const postParticiapteParty = async (partyId: number, bettingPoint: number) => {
 const postPersonalQuestReward = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/reward`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/user/reward`,
       {
         method: "POST",
       },
@@ -124,7 +124,7 @@ const postPersonalQuestReward = async () => {
 const postPartyQuestReward = async (partyId: number) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/party/${partyId}/reward`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}/reward`,
       {
         method: "POST",
       },
