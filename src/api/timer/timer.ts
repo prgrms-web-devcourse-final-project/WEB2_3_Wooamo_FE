@@ -1,9 +1,10 @@
+import { fetchCustom } from "../fetchCustom";
+
 const getTimerList = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/timer`,
-      { next: { tags: ["timer-list"] } },
-    );
+    const response = await fetchCustom.get(`/timer`, {
+      next: { tags: ["timer-list"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: getTimerListRes = await response.json();
     return data;
@@ -14,8 +15,10 @@ const getTimerList = async () => {
 
 const getStudyTimeForMonth = async (year: number, month: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/time/monthly?year=${year}&month=${month}`,
+    const response = await fetchCustom.get(
+      `/time/monthly?year=${year}&month=${month}`,
+      {},
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getStudyTimeForMonthRes = await response.json();
@@ -27,9 +30,7 @@ const getStudyTimeForMonth = async (year: number, month: number) => {
 
 const getStudyTimeForWeek = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/time/weekly`,
-    );
+    const response = await fetchCustom.get(`/time/weekly`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
     const data: getStudyTimeForWeekRes = await response.json();
     return data;
@@ -40,9 +41,12 @@ const getStudyTimeForWeek = async () => {
 
 const getStudyTimeForDaily = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/timer/daily`,
-      { next: { tags: ["daily-time"] } },
+    const response = await fetchCustom.get(
+      `/timer/daily`,
+      {
+        next: { tags: ["daily-time"] },
+      },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getStudyTimeForDailyRes = await response.json();
@@ -54,13 +58,9 @@ const getStudyTimeForDaily = async () => {
 
 const postTimerCategoryAdd = async (timer: string) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/timer/category`,
-      {
-        method: "POST",
-        body: JSON.stringify(timer),
-      },
-    );
+    const response = await fetchCustom.post(`/timer/category`, {
+      body: JSON.stringify(timer),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: postTimerCategoryAddRes = await response.json();
     return data;
@@ -71,13 +71,9 @@ const postTimerCategoryAdd = async (timer: string) => {
 
 const deleteTimerCategory = async (categoryId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/timer/category/${categoryId}`,
-      {
-        method: "DELETE",
-        body: JSON.stringify(categoryId),
-      },
-    );
+    const response = await fetchCustom.delete(`/timer/category/${categoryId}`, {
+      body: JSON.stringify(categoryId),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;
@@ -88,12 +84,12 @@ const deleteTimerCategory = async (categoryId: number) => {
 
 const postStudyTimeSave = async (categoryId: number, time: string) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/timer/${categoryId}`,
+    const response = await fetchCustom.post(
+      `/timer/${categoryId}`,
       {
-        method: "POST",
         body: JSON.stringify({ time }),
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
