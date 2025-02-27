@@ -69,7 +69,7 @@ interface getPartyPageDetailRes {
 }
 
 interface PartyParticipantType {
-  userId: string;
+  userId: number;
   userName: string;
   profile: string;
   context: string;
