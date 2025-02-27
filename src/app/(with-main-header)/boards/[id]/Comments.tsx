@@ -18,10 +18,6 @@ export default function Comments() {
   const pathname = usePathname();
   const boardId = parseInt(pathname.split("/")[2], 10);
 
-  if (!boardId) {
-    return null;
-  }
-
   const fetchBoardInfo = async () => {
     try {
       const response = await boardApi.getBoardByBoardId(boardId);
@@ -69,6 +65,10 @@ export default function Comments() {
       console.error("댓글 작성 실패:", error);
     }
   };
+
+  if (!boardId) {
+    return null;
+  }
 
   return (
     <form onSubmit={sendComment}>

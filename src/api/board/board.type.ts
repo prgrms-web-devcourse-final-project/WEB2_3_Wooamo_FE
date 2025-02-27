@@ -104,25 +104,3 @@ interface deleteCommentResponse {
 interface selectCommentResponse {
   status: string;
 }
-
-interface BoardAPI {
-  getBoardList: (page?: number) => Promise<boardListResponse>;
-  getBoardByBoardId: (
-    boardId: number,
-  ) => Promise<boardDetailResponse | undefined>;
-  getCommentsByBoardId: (
-    boardId: number,
-  ) => Promise<commentListResponse | undefined>;
-  createBoard: (formData: FormData) => Promise<createBoardResponse>;
-  updateBoard: (
-    boardId: number,
-    formData: FormData,
-  ) => Promise<updateBoardRequest>;
-  deleteBoard: (boardId: number) => Promise<deleteBoardResponse>;
-  createComment: (
-    boardId: number,
-    data: createCommentRequest,
-  ) => Promise<createCommentResponse>;
-  deleteComment: (commentId: number) => Promise<deleteCommentResponse>;
-  selectComment: (commentId: number) => Promise<selectCommentResponse>;
-}

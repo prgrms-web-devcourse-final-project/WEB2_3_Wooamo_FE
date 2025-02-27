@@ -16,9 +16,7 @@ const getBoardList = async (page?: number) => {
   }
 };
 
-const getBoardByBoardId = async (
-  boardId: number,
-): Promise<boardDetailResponse | undefined> => {
+const getBoardByBoardId = async (boardId: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}`,
@@ -36,9 +34,7 @@ const getBoardByBoardId = async (
   }
 };
 
-const getCommentsByBoardId = async (
-  boardId: number,
-): Promise<commentListResponse | undefined> => {
+const getCommentsByBoardId = async (boardId: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}/comment`,
@@ -56,9 +52,7 @@ const getCommentsByBoardId = async (
   }
 };
 
-const createBoard = async (
-  formData: FormData,
-): Promise<createBoardResponse> => {
+const createBoard = async (formData: FormData) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/board`,
@@ -80,10 +74,7 @@ const createBoard = async (
   }
 };
 
-const updateBoard = async (
-  boardId: number,
-  formData: FormData,
-): Promise<updateBoardResponse> => {
+const updateBoard = async (boardId: number, formData: FormData) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}`,
@@ -102,7 +93,7 @@ const updateBoard = async (
   }
 };
 
-const deleteBoard = async (boardId: number): Promise<deleteBoardResponse> => {
+const deleteBoard = async (boardId: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}`,
@@ -121,10 +112,7 @@ const deleteBoard = async (boardId: number): Promise<deleteBoardResponse> => {
   }
 };
 
-const createComment = async (
-  boardId: number,
-  data: createCommentRequest,
-): Promise<createCommentResponse> => {
+const createComment = async (boardId: number, data: createCommentRequest) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}/comment`,
@@ -149,9 +137,7 @@ const createComment = async (
   }
 };
 
-const deleteComment = async (
-  commentId: number,
-): Promise<deleteCommentResponse> => {
+const deleteComment = async (commentId: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/board/comment/${commentId}`,
@@ -171,9 +157,7 @@ const deleteComment = async (
   }
 };
 
-const selectComment = async (
-  commentId: number,
-): Promise<selectCommentResponse> => {
+const selectComment = async (commentId: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/board/comment/${commentId}`,

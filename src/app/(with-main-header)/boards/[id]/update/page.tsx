@@ -30,13 +30,13 @@ export default function BoardsUpdate() {
         ]);
 
         if (!boardResponse) {
-          router.push("/boards");
+          router.replace("/boards");
           return;
         }
 
         if (userResponse?.data.userId !== boardResponse?.data.userId) {
           alert("수정 권한이 없습니다.");
-          router.push(`/boards/${boardId}`);
+          router.replace(`/boards/${boardId}`);
           return;
         }
 
@@ -45,7 +45,7 @@ export default function BoardsUpdate() {
         setExistingImages(boardResponse.data.images);
       } catch (error) {
         console.error("게시글 정보를 불러오는데 실패:", error);
-        router.push("/boards");
+        router.replace("/boards");
       }
     };
 
