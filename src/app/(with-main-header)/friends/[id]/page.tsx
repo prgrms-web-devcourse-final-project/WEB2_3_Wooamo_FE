@@ -9,7 +9,16 @@ export default function UserFriends() {
       </p>
       <div className="flex flex-col">
         {[1, 2, 3, 4].map((_, index) => (
-          <FriendsItem key={index} />
+          <FriendsItem
+            key={index}
+            friend={{
+              friendId: index,
+              userId: index,
+              nickname: "nickname",
+              context: "context",
+              profile: "",
+            }}
+          />
         ))}
       </div>
     </section>

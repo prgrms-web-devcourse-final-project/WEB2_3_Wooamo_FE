@@ -1,10 +1,11 @@
 import Avatar from "./Avatar";
 import basic from "@/assets/images/costumes/basic.png";
+import { StaticImageData } from "next/image";
 import Link from "next/link";
 
 interface ProfileSummaryProps {
   userId: number;
-  costume: string;
+  costume: string | StaticImageData;
   nickname: string;
   description: string;
 }

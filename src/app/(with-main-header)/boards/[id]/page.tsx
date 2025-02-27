@@ -4,11 +4,12 @@ import Post from "./Post";
 import { boardApi } from "@/api/board/board";
 
 interface BoardDetailProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function BoardDetail({ params }: BoardDetailProps) {
-  const boardId = parseInt(params.id);
+  const { id } = await params;
+  const boardId = parseInt(id);
   const boardDetail = await boardApi.getBoardByBoardId(boardId);
 
   return (

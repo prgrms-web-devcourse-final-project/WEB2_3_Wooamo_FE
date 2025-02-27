@@ -5,6 +5,7 @@ import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import Icon from "@/components/common/Icon";
 import formatDateToKR from "@/utils/formatDateToKR";
 import ProfileSummary from "@/components/common/ProfileSummary";
+import basic from "@/assets/images/costumes/basic.png";
 
 interface PartyDetailProps {
   params: Promise<{ id: string }>;
@@ -96,6 +97,8 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
               <ProfileSummary
                 nickname={"@sooya"}
                 description={"수쌤 아니고 수현이 :)"}
+                userId={index}
+                costume={basic}
               />
               <div>
                 <Button>친구신청</Button>
