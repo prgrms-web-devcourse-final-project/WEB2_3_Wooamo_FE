@@ -6,7 +6,7 @@ import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import Modal from "@/components/common/Modal";
 import useInputValidation from "@/hooks/useInputValidation";
 import { useModalStore } from "@/store/modalStore";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent } from "react";
 
 interface ParticipateButtonProps {
   partyId: number;
