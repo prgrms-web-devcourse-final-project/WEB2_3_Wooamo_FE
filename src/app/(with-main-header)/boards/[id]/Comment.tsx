@@ -95,7 +95,10 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
 
           <div className="relative">
             {isConfirmed && (
-              <Button className="bg-transparent px-0 lg:px-0 mr-6" disabled>
+              <Button
+                className="bg-transparent px-0 lg:px-0 mr-5 lg:mr-6"
+                disabled
+              >
                 <Icon MuiIcon={CheckRoundedIcon} />
               </Button>
             )}
