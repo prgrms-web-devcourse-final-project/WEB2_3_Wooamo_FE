@@ -142,6 +142,23 @@ const postPartyQuestReward = async (partyId: number) => {
   }
 };
 
+const postPartyparticipationVerify = async (partyId: number, image: File[]) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}/verify`,
+      {
+        method: "POST",
+        body: JSON.stringify(image),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const partyApi = {
   getEventBanner,
   getScheduledPartyList,
@@ -153,4 +170,5 @@ export const partyApi = {
   postParticiapteParty,
   postPersonalQuestReward,
   postPartyQuestReward,
+  postPartyparticipationVerify,
 };
