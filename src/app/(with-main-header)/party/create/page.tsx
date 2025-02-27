@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import CreatePartyButton from "./CreatePartyButton";
 import Input from "@/components/common/Input";
 import { DatePicker } from "@/components/ui/datePicker";
-import { partyApi } from "@/api/party/party";
 import formatDateToKR from "@/utils/formatDateToKR";
 
 export default function PartyCreate() {
