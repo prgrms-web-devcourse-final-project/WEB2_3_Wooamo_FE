@@ -41,6 +41,9 @@ const getCompletedPartyList = async () => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/complete`,
+      {
+        next: { tags: ["party-quest"] },
+      },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getCompletedPartyListRes = await response.json();
