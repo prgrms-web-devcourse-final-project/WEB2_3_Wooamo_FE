@@ -11,10 +11,14 @@ const getEventBanner = async () => {
   }
 };
 
-const getScheduledPartyList = async () => {
+const getScheduledPartyList = async (
+  name?: string,
+  page?: number,
+  size?: number,
+) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party?name=${name}&page=${page}&size=${size}`,
       {
         next: { tags: ["party-list"] },
       },
