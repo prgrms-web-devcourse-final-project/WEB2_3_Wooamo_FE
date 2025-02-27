@@ -5,6 +5,7 @@ import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import Icon from "@/components/common/Icon";
 import ProfileSummary from "@/components/common/ProfileSummary";
 import { partyApi } from "@/api/party/party";
+import AfterParticipateButtons from "./AfterParticipateButtons";
 
 interface PartyDetailProps {
   params: Promise<{ id: number }>;
@@ -27,8 +28,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
       <div className="flex flex-col gap-7.5 lg:gap-13 px-5 lg:px-0">
         {partyDetail.isJoined ? (
           <div className="flex justify-end gap-2">
-            <Button>채팅</Button>
-            <Button>인증</Button>
+            <AfterParticipateButtons partyId={id} />
           </div>
         ) : (
           <ParticipateButton
