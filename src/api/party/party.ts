@@ -15,6 +15,9 @@ const getScheduledPartyList = async () => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party`,
+      {
+        next: { tags: ["party-list"] },
+      },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getScheduledPartyListRes = await response.json();
@@ -162,6 +165,25 @@ const postPartyparticipationVerify = async (partyId: number, image: File[]) => {
   }
 };
 
+const postPartyCreateAndParticipate = async (
+  body: postPartyCreateAndParticipateReq,
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party`,
+      {
+        method: "POST",
+        body: JSON.stringify(body),
+      },
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: postPartyCreateAndParticipateRes = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const partyApi = {
   getEventBanner,
   getScheduledPartyList,
@@ -174,4 +196,5 @@ export const partyApi = {
   postPersonalQuestReward,
   postPartyQuestReward,
   postPartyparticipationVerify,
+  postPartyCreateAndParticipate,
 };

@@ -94,3 +94,20 @@ interface getPersonalQuestStateRes {
     state: string;
   };
 }
+
+interface postPartyCreateAndParticipateReq {
+  name: string;
+  context: string;
+  recruitCap: number;
+  startDate: string;
+  endDate: string;
+  bettingPointCap: number;
+  userBettingPoint: number;
+}
+
+interface postPartyCreateAndParticipateRes {
+  status: statusType;
+  data: {
+    partyId: string;
+  };
+}
