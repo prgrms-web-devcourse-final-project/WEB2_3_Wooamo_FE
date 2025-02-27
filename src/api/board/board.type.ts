@@ -58,3 +58,51 @@ interface commentListResponse {
     hasNext: boolean;
   };
 }
+
+interface createBoardRequest {
+  title: string;
+  boardType: "질문" | "자유";
+  context: string;
+  images?: File[];
+}
+
+interface createBoardResponse {
+  status: string;
+  data: {
+    boardId: number;
+  };
+}
+
+interface updateBoardRequest {
+  title: string;
+  context: string;
+  deletedImages?: string[];
+  images?: File[];
+}
+
+interface updateBoardResponse {
+  status: string;
+  data: {
+    boardId: number;
+  };
+}
+
+interface deleteBoardResponse {
+  status: string;
+}
+
+interface createCommentRequest {
+  context: string;
+}
+
+interface createCommentResponse {
+  status: string;
+}
+
+interface deleteCommentResponse {
+  status: string;
+}
+
+interface selectCommentResponse {
+  status: string;
+}

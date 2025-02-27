@@ -12,45 +12,70 @@ import { usePathname } from "next/navigation";
 export default function Comments() {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<commentItem[]>([]);
+  const [totalElements, setTotalElements] = useState(0);
+  const [boardInfo, setBoardInfo] = useState<boardDetail | null>(null);
 
   const pathname = usePathname();
   const boardId = parseInt(pathname.split("/")[2], 10);
 
+  const fetchBoardInfo = async () => {
+    try {
+      const response = await boardApi.getBoardByBoardId(boardId);
+      if (response) {
+        setBoardInfo(response.data);
+      }
+    } catch (error) {
+      console.error("게시글 정보 불러오기 실패:", error);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const data = await boardApi.getCommentsByBoardId(boardId);
+      if (data) {
+        setComments(data.data.contents);
+        setTotalElements(data.data.totalElements);
+      }
+    } catch (error) {
+      console.error("댓글 불러오기 실패:", error);
+      setComments([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
+    fetchBoardInfo();
+  }, [boardId]);
+
+  const sendComment = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const trimmedComment = comment.trim();
+    if (!trimmedComment) return;
+
+    try {
+      const response = await boardApi.createComment(boardId, {
+        context: trimmedComment,
+      });
+
+      if (response.status === "성공") {
+        setComment("");
+        fetchComments();
+      }
+    } catch (error) {
+      console.error("댓글 작성 실패:", error);
+    }
+  };
+
   if (!boardId) {
-    console.log("No boardId provided");
     return null;
   }
 
-  useEffect(() => {
-    setComments([]);
-
-    const fetchComments = async () => {
-      if (!boardId) return;
-
-      try {
-        const data = await boardApi.getCommentsByBoardId(boardId);
-        if (data) {
-          setComments(data.data.contents);
-        }
-      } catch (error) {
-        console.error("댓글 불러오기 실패:", error);
-        setComments([]);
-      }
-    };
-
-    fetchComments();
-  }, [boardId, pathname]);
-
-  const sendComment = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("댓글 작성");
-  };
   return (
     <form onSubmit={sendComment}>
       <div className="flex items-center gap-2.5 mt-5 mb-2.5 lg:my-7">
         <Icon MuiIcon={ChatRoundedIcon} />
         <span className="lg:text-xl text-site-darkgray-02">
-          {comments.length}
+          {totalElements}
         </span>
       </div>
       <InputIcon
@@ -61,7 +86,12 @@ export default function Comments() {
       />
       <div className="flex flex-col gap-8 lg:gap-7 mt-5 lg:mt-7">
         {comments.map((commentData) => (
-          <Comment key={commentData.commentId} data={commentData} />
+          <Comment
+            key={commentData.commentId}
+            data={commentData}
+            onDelete={fetchComments}
+            boardInfo={boardInfo || undefined}
+          />
         ))}
       </div>
     </form>
