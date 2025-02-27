@@ -7,6 +7,7 @@ import Icon from "@/components/common/Icon";
 import { useState, useEffect } from "react";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 
 type CommentProps = {
   data: commentItem;
@@ -62,8 +63,15 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
     }
   };
 
+  const isSelectableComment =
+    !isCurrentUser && isBoardAuthor && boardInfo?.boardType === "질문";
+
   return (
-    <article className="flex gap-2.5">
+    <article
+      className={`flex gap-2.5 ${
+        isSelectableComment && "hover:bg-site-white-70 rounded-4xl"
+      }`}
+    >
       <Link href={`/users/${data.userId}`}>
         <Avatar
           costumeSrc={data.profile}
@@ -73,70 +81,53 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
 
       <div className="flex flex-col lg:gap-1 flex-grow">
         <div className="flex justify-between items-center">
-          <Link href={`/users/${data.userId}`} className="w-fit">
-            <p className="font-semibold lg:text-xl">@{data.nickname}</p>
+          <div className="w-fit">
+            <Link
+              href={`/users/${data.userId}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <p className="font-semibold lg:text-xl">@{data.nickname}</p>
+            </Link>
             <p className="text-site-darkgray-02 text-sm lg:text-base">
               {data.context}
             </p>
-          </Link>
+          </div>
 
           <div className="relative">
-            {(isCurrentUser ||
-              (isBoardAuthor &&
-                boardInfo?.boardType === "질문" &&
-                !isCurrentUser)) && (
+            {isConfirmed && (
+              <Button className="bg-transparent px-0 lg:px-0 mr-6" disabled>
+                <Icon MuiIcon={CheckRoundedIcon} />
+              </Button>
+            )}
+
+            {!isConfirmed && isCurrentUser && (
               <>
-                {isBoardAuthor &&
-                boardInfo?.boardType === "질문" &&
-                !isCurrentUser ? (
-                  isConfirmed ? (
+                <Button
+                  onClick={() => setIsOpen((prev) => !prev)}
+                  className="bg-transparent px-0 lg:px-0"
+                >
+                  <Icon MuiIcon={MoreHorizRoundedIcon} />
+                </Button>
+                {isOpen && (
+                  <Dropdown onClose={() => setIsOpen(false)}>
                     <Button
-                      className="bg-transparent px-0 lg:px-0 text-site-primary cursor-default"
-                      disabled
+                      onClick={handleDelete}
+                      className="w-full"
+                      disabled={isDeleting}
                     >
-                      채택됨
+                      삭제
                     </Button>
-                  ) : (
-                    <Button
-                      onClick={() => setIsOpen((prev) => !prev)}
-                      className="bg-transparent px-0 lg:px-0"
-                    >
-                      <Icon MuiIcon={MoreHorizRoundedIcon} />
-                    </Button>
-                  )
-                ) : (
-                  <Button
-                    onClick={() => setIsOpen((prev) => !prev)}
-                    className="bg-transparent px-0 lg:px-0"
-                  >
-                    <Icon MuiIcon={MoreHorizRoundedIcon} />
-                  </Button>
+                  </Dropdown>
                 )}
               </>
             )}
-            {isOpen && (
-              <Dropdown
-                onClose={() => {
-                  setIsOpen(false);
-                }}
+            {!isConfirmed && isSelectableComment && (
+              <Button
+                onClick={handleSelect}
+                className="bg-transparent px-0 lg:px-0"
               >
-                {isCurrentUser ? (
-                  <Button
-                    onClick={handleDelete}
-                    className="w-full"
-                    disabled={isDeleting}
-                  >
-                    삭제
-                  </Button>
-                ) : (
-                  isBoardAuthor &&
-                  boardInfo?.boardType === "질문" && (
-                    <Button onClick={() => {}} className="w-full">
-                      채택
-                    </Button>
-                  )
-                )}
-              </Dropdown>
+                채택
+              </Button>
             )}
           </div>
         </div>
