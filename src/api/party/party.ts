@@ -78,6 +78,7 @@ const getPersonalQuestState = async () => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/user/quest`,
+      { next: { tags: ["personal-quest-state"] } },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getPersonalQuestStateRes = await response.json();
