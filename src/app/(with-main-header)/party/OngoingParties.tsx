@@ -1,13 +1,19 @@
 import Link from "next/link";
 import PartyItem from "./PartyItem";
+import { partyApi } from "@/api/party/party";
 
-export default function OngoingParties() {
+export default async function OngoingParties() {
+  const fetchActivePartyList = await partyApi.getActivePartyList();
+  const activePartyList = fetchActivePartyList?.data;
+
+  if (!activePartyList) return;
+
   return (
     <section className="flex flex-col gap-7 lg:mt-15">
       <div className="flex justify-between items-end px-5 lg:px-0">
         <p className="font-galmuri text-xl lg:text-2xl">
           <span>참여 중인 팟</span>
-          <span className="ml-3">6</span>
+          <span className="ml-3">{activePartyList.length}</span>
         </p>
         <Link
           href={"/party/all"}
@@ -22,8 +28,15 @@ export default function OngoingParties() {
           <p className="flex-2">인원</p>
           <p className="flex-3">시작일</p>
         </div>
-        {[1, 2, 3].map((_, index) => (
-          <PartyItem key={index} />
+        {activePartyList.map((party) => (
+          <PartyItem
+            key={party.partyId}
+            partyId={party.partyId}
+            name={party.name}
+            recruitCap={party.recruitCap}
+            recruitCnt={party.recruitCnt}
+            startDate={party.endDate}
+          />
         ))}
       </div>
     </section>
