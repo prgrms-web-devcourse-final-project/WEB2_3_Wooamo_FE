@@ -1,28 +1,24 @@
-import { useEffect, useState } from "react";
+import { delay } from "@/utils/delay";
 import PostItem from "../../boards/PostItem";
 import { userApi } from "@/api/user/user";
 
-export default function PostsByUser() {
-  const [posts, setPosts] = useState<boardItem[]>([]);
+export default async function PostsByUser() {
+  await delay(3000);
+  const posts = await userApi.getCurrentUserPosts();
 
-  useEffect(() => {
-    const fetchMyPosts = async () => {
-      const posts = await userApi.getCurrentUserPosts();
-      if (posts) setPosts(posts.data);
-    };
-
-    fetchMyPosts();
-  }, []);
+  if (!posts) return null;
   return (
     <section className="flex flex-col gap-2 lg:gap-8">
       <p className="flex gap-1.5 font-semibold">
         <span>게시글</span>
-        <span>6</span>
+        <span>{posts.data.length}</span>
       </p>
       <div className="flex flex-col gap-5">
-        {posts.map((post) => (
-          <PostItem key={`post-${post.boardId}`} post={post} />
-        ))}
+        <div>
+          {posts.data.map((post) => (
+            <PostItem key={`post-${post.boardId}`} post={post} />
+          ))}
+        </div>
       </div>
     </section>
   );

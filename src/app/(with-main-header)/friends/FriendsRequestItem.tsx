@@ -1,23 +1,13 @@
-import { friendApi } from "@/api/friend/friend";
-import { revalidateTagAction } from "@/app/actions";
-import Button from "@/components/common/Button";
 import ProfileSummary from "@/components/common/ProfileSummary";
+import FriendAcceptDenyButton from "./FriendAcceptDenyButton";
+import { delay } from "@/utils/delay";
 
-export default function FriendsRequestItem({
+export default async function FriendsRequestItem({
   friend,
 }: {
   friend: requestFriendType;
 }) {
-  const acceptFriend = async () => {
-    await friendApi.acceptFriend(friend.friendId);
-    revalidateTagAction("friends");
-  };
-
-  const deleteFriend = async () => {
-    await friendApi.deleteFriend(friend.friendId);
-    revalidateTagAction("request-friends");
-  };
-
+  await delay(5000);
   return (
     <article className="h-19 lg:h-25 flex justify-between items-center">
       <ProfileSummary
@@ -26,12 +16,7 @@ export default function FriendsRequestItem({
         nickname={friend.nickname}
         description={friend.context}
       />
-      <div className="flex gap-2.5 lg:gap-5">
-        <Button onClick={acceptFriend} className="bg-site-main text-white">
-          수락
-        </Button>
-        <Button onClick={deleteFriend}>거절</Button>
-      </div>
+      <FriendAcceptDenyButton friend={friend} />
     </article>
   );
 }

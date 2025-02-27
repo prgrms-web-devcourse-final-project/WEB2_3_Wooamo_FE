@@ -2,7 +2,7 @@ const getFriends = async (page?: number, size?: number) => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/friend?page=${page}&size=${size}`,
-      { next: { tags: ["friends"] } },
+      { next: { tags: ["friends"] }, cache: "force-cache" },
     );
     if (!response.ok) throw new Error(response.statusText);
 
@@ -17,6 +17,7 @@ const getRecommendFriends = async () => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/friend/recommend`,
+      { cache: "force-cache", next: { revalidate: 1000 * 60 * 60 * 24 } }, // 하루에 한 번씩 갱신
     );
     if (!response.ok) throw new Error(response.statusText);
 

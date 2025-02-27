@@ -1,56 +1,34 @@
 "use client";
 
 import { userApi } from "@/api/user/user";
+import { revalidateTagAction } from "@/app/actions";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Modal from "@/components/common/Modal";
 import { useModalStore } from "@/store/modalStore";
-import {
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { FormEvent, useState } from "react";
 
 interface ProfileEditButtonProps {
-  setUser: Dispatch<SetStateAction<userType | null>>;
+  user: userType;
 }
 
-export default function ProfileEditButton({ setUser }: ProfileEditButtonProps) {
+export default function ProfileEditButton({ user }: ProfileEditButtonProps) {
   const { open, close } = useModalStore((state) => state);
-  const [prevUser, setPrevUser] = useState<userType | null>(null);
-  const [description, setDescription] = useState("");
-  const [link, setLink] = useState("");
+  const [description, setDescription] = useState(user.context);
+  const [link, setLink] = useState(user.link);
 
   const editProfile = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await userApi.updateUserInfo({ context: description, link });
-    if (res?.status === "성공" && prevUser) {
-      setUser({
-        ...prevUser,
-        context: description,
-        link,
-      });
+    if (res?.status === "성공") {
+      revalidateTagAction("user");
       close();
     }
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await userApi.getCurrentUserInfo();
-      if (user) {
-        setDescription(user.data.context);
-        setLink(user.data.link);
-        setPrevUser(user.data);
-      }
-    };
-    fetchUser();
-  }, []);
-
   return (
     <>
-      <Button onClick={() => open("edit-profile")} className="">
+      <Button onClick={() => open("edit-profile")} className="min-w-fit">
         프로필 편집
       </Button>
 
@@ -66,7 +44,7 @@ export default function ProfileEditButton({ setUser }: ProfileEditButtonProps) {
             <div className="flex items-center gap-4">
               <label
                 htmlFor="description"
-                className="min-w-18 text-base lg:text-xl font-semibold"
+                className="min-w-20 text-base lg:text-xl font-semibold"
               >
                 자기소개
               </label>
@@ -80,7 +58,7 @@ export default function ProfileEditButton({ setUser }: ProfileEditButtonProps) {
             <div className="flex items-center gap-4">
               <label
                 htmlFor="link"
-                className="min-w-18 text-base lg:text-xl font-semibold"
+                className="min-w-20 text-base lg:text-xl font-semibold"
               >
                 링크
               </label>
