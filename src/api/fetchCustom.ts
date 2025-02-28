@@ -31,6 +31,7 @@ export const fetchCustom = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...init?.headers,
         ...(accessToken ? { Access: String(accessToken) } : {}),
       },
     });
