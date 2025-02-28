@@ -3,7 +3,7 @@ import { fetchCustom } from "../fetchCustom";
 const getFriends = async (page?: number, size?: number) => {
   try {
     const response = await fetchCustom.get(
-      `/friend?page=${page}&size=${size}`,
+      `/friend?page=${page ?? 0}&size=${size}`,
       { next: { tags: ["friends"] }, cache: "force-cache" },
     );
     if (!response.ok) throw new Error(response.statusText);
@@ -33,7 +33,7 @@ const getRecommendFriends = async () => {
 const getRequestFriends = async (page?: number, size?: number) => {
   try {
     const response = await fetchCustom.get(
-      `/friend/request?page=${page}&size=${size}`,
+      `/friend/request?page=${page ?? 0}&size=${size}`,
       { next: { tags: ["request-friends"] } },
     );
     if (!response.ok) throw new Error(response.statusText);

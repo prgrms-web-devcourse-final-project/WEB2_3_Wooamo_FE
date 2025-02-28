@@ -18,7 +18,7 @@ const getScheduledPartyList = async (
 ) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party?name=${name}&page=${page}&size=${size}`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party?name=${name}&page=${page ?? 0}&size=${size}`,
       {
         next: { tags: ["party-list"] },
       },

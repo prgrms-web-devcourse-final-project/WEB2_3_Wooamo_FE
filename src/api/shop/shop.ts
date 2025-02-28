@@ -3,7 +3,7 @@ import { fetchCustom } from "../fetchCustom";
 const getCostumeList = async (page?: number) => {
   try {
     const response = await fetchCustom.get(
-      `/costume?page=${page}&size=10`,
+      `/costume?page=${page ?? 0}&size=10`,
       {
         next: { tags: ["costume-list"] },
       },
