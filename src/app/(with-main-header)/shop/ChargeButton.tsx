@@ -1,7 +1,7 @@
 "use client";
 
 import { shopApi } from "@/api/shop/shop";
-import { revalidateTagAction } from "@/app/actions";
+import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import { useModalStore } from "@/store/modalStore";
@@ -9,6 +9,7 @@ import {
   loadTossPayments,
   TossPaymentsPayment,
 } from "@tosspayments/tosspayments-sdk";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const payments = [
@@ -22,6 +23,11 @@ export default function ChargeButton() {
   const [tossPayment, setTossPayment] = useState<TossPaymentsPayment>();
   const clientKey = `${process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY}`;
   const customerKey = `FYa_Y2i5uFxNYawNjHXuH`;
+  const searchParams = useSearchParams();
+  const paymentKey = searchParams.get("paymentKey");
+  const orderId = searchParams.get("orderId");
+  const amount = searchParams.get("amount");
+  const router = useRouter();
 
   useEffect(() => {
     const loadTossWindow = async () => {
@@ -39,9 +45,10 @@ export default function ChargeButton() {
       point,
     });
 
-    const responseTossPayment = requestTossPayment?.data;
+    console.log(`requestTossPayment가 나왔으면 좋겠습니다:`);
+    console.log(requestTossPayment?.data);
 
-    if (responseTossPayment) {
+    if (requestTossPayment?.status === "성공") {
       close();
       await tossPayment?.requestPayment({
         method: "CARD",
@@ -49,7 +56,8 @@ export default function ChargeButton() {
           currency: "KRW",
           value: amount,
         },
-        orderId: responseTossPayment.orderId,
+        // orderId: responseTossPayment.orderId,
+        orderId: "dkdhs-dkdjss-eejdndd-adlskdjf",
         orderName: `${point} 포인트`,
         successUrl: "http://localhost:3000/shop",
         failUrl: "http://localhost:3000/shop",
@@ -60,19 +68,35 @@ export default function ChargeButton() {
           useAppCardOnly: false,
         },
       });
-
-      const confirmTossPayment = await shopApi.postPointPurchaseConfirm({
-        orderId: responseTossPayment.orderId,
-        paymentKey: responseTossPayment.paymentKey,
-        amount: responseTossPayment.amount,
-        point: responseTossPayment.point,
-      });
-
-      if (confirmTossPayment?.status === "성공") {
-        revalidateTagAction("point");
-      }
     }
   };
+
+  useEffect(() => {
+    const confirmTossPayment = async () => {
+      if (!orderId || !paymentKey || !amount) return;
+
+      console.log(`paymentKey 값을 출력합니데이: ` + paymentKey);
+
+      const payment = payments.find(
+        (payment) => payment.price === Number(amount),
+      );
+      const confirmTossPaymentResponse = await shopApi.postPointPurchaseConfirm(
+        {
+          orderId,
+          paymentKey,
+          amount: Number(amount),
+          point: Number(payment?.point),
+        },
+      );
+
+      if (confirmTossPaymentResponse?.status === "성공") {
+        revalidateTagAction("point");
+        router.replace("/shop");
+      }
+    };
+
+    confirmTossPayment();
+  }, [paymentKey]);
 
   return (
     <>

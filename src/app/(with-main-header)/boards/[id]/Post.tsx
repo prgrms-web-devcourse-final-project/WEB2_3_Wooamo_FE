@@ -6,6 +6,7 @@ import basic from "@/assets/images/costumes/basic.png";
 import PostDeleteButton from "./PostDeleteButton";
 import { useEffect, useState } from "react";
 import { boardApi } from "@/api/board/board";
+import { userApi } from "@/api/user/user";
 import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
 
 interface PostProps {
@@ -14,23 +15,32 @@ interface PostProps {
 
 export default function Post({ boardId }: PostProps) {
   const [boardDetail, setBoardDetail] = useState<boardDetail | null>(null);
+  const [currentUser, setCurrentUser] = useState<userInfoRes | null>(null);
 
   useEffect(() => {
-    const fetchBoardDetail = async () => {
+    const fetchData = async () => {
       try {
-        const response = await boardApi.getBoardByBoardId(boardId);
-        if (response) {
-          setBoardDetail(response.data);
+        const [boardResponse, userResponse] = await Promise.all([
+          boardApi.getBoardByBoardId(boardId),
+          userApi.getCurrentUserInfo(),
+        ]);
+
+        if (boardResponse) {
+          setBoardDetail(boardResponse.data);
+        }
+        if (userResponse) {
+          setCurrentUser(userResponse);
         }
       } catch (error) {
-        console.error("Failed to fetch board detail:", error);
+        console.error("Failed to fetch data:", error);
       }
     };
 
-    fetchBoardDetail();
+    fetchData();
   }, [boardId]);
 
   if (!boardDetail) return null;
+  const isAuthor = currentUser?.data.userId === boardDetail.userId;
 
   return (
     <>
@@ -52,11 +62,13 @@ export default function Post({ boardId }: PostProps) {
             {formatDateToTimeAgo(new Date(boardDetail.createdAt))}
           </span>
         </div>
-        <p className="flex gap-2">
-          <Link href={`/boards/${boardId}/update`}>수정</Link>
-          <span>|</span>
-          <PostDeleteButton />
-        </p>
+        {isAuthor && (
+          <p className="flex gap-2">
+            <Link href={`/boards/${boardId}/update`}>수정</Link>
+            <span>|</span>
+            <PostDeleteButton />
+          </p>
+        )}
       </div>
       <div className="min-h-[200px] bg-site-white-70 p-5 lg:px-6">
         {boardDetail.context}

@@ -1,7 +1,7 @@
 "use client";
 
 import { adminApi } from "@/api/admin/admin";
-import { revalidateTagAction } from "@/app/actions";
+import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
 import Icon from "@/components/common/Icon";
 import Modal from "@/components/common/Modal";
@@ -27,8 +27,8 @@ export default function AddCustume() {
       return URL.createObjectURL(file);
     });
 
-    setImagePreview(selectedFiles);
     setItemImage(filesArray);
+    setImagePreview(selectedFiles);
   };
 
   const resetInputFields = () => {
@@ -40,16 +40,37 @@ export default function AddCustume() {
 
   const registerItem = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (itemName && itemImage && itemPoint) {
-      const request = await adminApi.postItemCreate({
-        costumeName: itemName,
-        point: itemPoint,
-        image: itemImage,
-      });
+      // const formData = new FormData();
+      // formData.append("costumeName", itemName);
+      // formData.append("point", itemPoint.toString());
+
+      // itemImage.forEach((file) => {
+      //   formData.append("image", file);
+      // });
+
+      const contents = {
+        data: {
+          costumeName: itemName,
+          point: itemPoint.toString(),
+        },
+      };
+
+      const formData = new FormData();
+      formData.append(
+        "contents",
+        new Blob([JSON.stringify(contents)], { type: "application/json" }),
+      );
+
+      formData.append("image", itemImage[0]);
+
+      const request = await adminApi.postItemCreate(formData);
 
       if (request?.status === "성공") {
         close();
         revalidateTagAction("costume-list");
+        resetInputFields();
       }
     }
   };

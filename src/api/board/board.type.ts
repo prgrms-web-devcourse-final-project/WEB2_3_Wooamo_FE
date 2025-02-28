@@ -9,7 +9,7 @@ interface boardItem {
   image: string | null;
 }
 interface boardListResponse {
-  status: string;
+  status: statusType;
   data: {
     contents: boardItem[];
     page: number;
@@ -33,7 +33,7 @@ interface boardDetail {
 }
 
 interface boardDetailResponse {
-  status: string;
+  status: statusType;
   data: boardDetail;
 }
 
@@ -48,7 +48,7 @@ interface commentItem {
 }
 
 interface commentListResponse {
-  status: string;
+  status: statusType;
   data: {
     contents: commentItem[];
     page: number;
@@ -57,4 +57,52 @@ interface commentListResponse {
     totalPages: number;
     hasNext: boolean;
   };
+}
+
+interface createBoardRequest {
+  title: string;
+  boardType: "질문" | "자유";
+  context: string;
+  images?: File[];
+}
+
+interface createBoardResponse {
+  status: statusType;
+  data: {
+    boardId: number;
+  };
+}
+
+interface updateBoardRequest {
+  title: string;
+  context: string;
+  deletedImages?: string[];
+  images?: File[];
+}
+
+interface updateBoardResponse {
+  status: statusType;
+  data: {
+    boardId: number;
+  };
+}
+
+interface deleteBoardResponse {
+  status: statusType;
+}
+
+interface createCommentRequest {
+  context: string;
+}
+
+interface createCommentResponse {
+  status: statusType;
+}
+
+interface deleteCommentResponse {
+  status: statusType;
+}
+
+interface selectCommentResponse {
+  status: statusType;
 }

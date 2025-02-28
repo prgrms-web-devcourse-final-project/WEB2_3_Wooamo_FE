@@ -5,7 +5,7 @@ import Button from "@/components/common/Button";
 import { useEffect, useState } from "react";
 import Dropdown from "@/components/common/Dropdown";
 import { timerApi } from "@/api/timer/timer";
-import { revalidateTagAction } from "../actions";
+import { revalidateTagAction } from "../../actions";
 import PlayCircleFilledRoundedIcon from "@mui/icons-material/PlayCircleFilledRounded";
 import StopCircleRoundedIcon from "@mui/icons-material/StopCircleRounded";
 import { useTimerStore } from "@/store/timerStore";

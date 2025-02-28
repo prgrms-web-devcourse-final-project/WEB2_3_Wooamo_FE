@@ -1,17 +1,13 @@
+import { setCookie } from "cookies-next";
+import { fetchCustom } from "../fetchCustom";
+
 const checkIsDuplicatedNickname = async (
   body: checkIsDuplicatedNicknameReq,
 ) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/nickname`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      },
-    );
+    const response = await fetchCustom.post(`/user/nickname`, {
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType = await response.json();
@@ -23,16 +19,9 @@ const checkIsDuplicatedNickname = async (
 
 const sendVerificationEmail = async (body: sendVerificationEmailReq) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/auth/send`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      },
-    );
+    const response = await fetchCustom.post(`/user/auth/send`, {
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType = await response.json();
@@ -44,16 +33,9 @@ const sendVerificationEmail = async (body: sendVerificationEmailReq) => {
 
 const verifyEmail = async (body: verifyEmailReq) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/auth/check`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      },
-    );
+    const response = await fetchCustom.post(`/user/auth/check`, {
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType = await response.json();
@@ -65,16 +47,9 @@ const verifyEmail = async (body: verifyEmailReq) => {
 
 const signUp = async (body: signUpReq) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/register`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      },
-    );
+    const response = await fetchCustom.post(`/user/register`, {
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType = await response.json();
@@ -86,17 +61,18 @@ const signUp = async (body: signUpReq) => {
 
 const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Remember-Me": isAutoLogin ? "true" : "false",
-        },
-        body: JSON.stringify(body),
+    const response = await fetchCustom.post(`/user/login`, {
+      headers: {
+        // "X-Remember-Me": isAutoLogin ? "true" : "false",
       },
-    );
+      body: JSON.stringify(body),
+    });
+
+    const accessToken = response.headers.get("Access");
+    if (accessToken) {
+      setCookie("accessToken", accessToken);
+    }
+
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType = await response.json();
@@ -106,10 +82,27 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
   }
 };
 
+const reissue = async () => {
+  try {
+    const response = await fetchCustom.post(`/user/reissue`);
+    if (!response.ok) throw new Error(response.statusText);
+
+    const accessToken: string | null = response.headers.get("Access");
+    if (accessToken) {
+      setCookie("accessToken", accessToken);
+    }
+    return accessToken;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export const authApi = {
   checkIsDuplicatedNickname,
   sendVerificationEmail,
   verifyEmail,
   signUp,
   signIn,
+  reissue,
 };

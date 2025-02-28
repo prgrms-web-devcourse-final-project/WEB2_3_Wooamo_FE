@@ -1,6 +1,8 @@
+import { fetchCustom } from "../fetchCustom";
+
 const getAdminWeeklyInfo = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/admin`);
+    const response = await fetchCustom.get(`/admin`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
     const data: getAdminWeeklyInfoRes = await response.json();
     return data;
@@ -11,9 +13,7 @@ const getAdminWeeklyInfo = async () => {
 
 const getAdminRecentSales = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/payment`,
-    );
+    const response = await fetchCustom.get(`/admin/payment`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
     const data: getAdminRecentSalesRes = await response.json();
     return data;
@@ -24,9 +24,7 @@ const getAdminRecentSales = async () => {
 
 const getAllPartyList = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party`,
-    );
+    const response = await fetchCustom.get(`/admin/party`);
     if (!response.ok) throw new Error(response.statusText);
     const data: getAllPartyListRes = await response.json();
     return data;
@@ -37,9 +35,7 @@ const getAllPartyList = async () => {
 
 const getPartyDetail = async (partyId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party/${partyId}`,
-    );
+    const response = await fetchCustom.get(`/admin/party/${partyId}`);
     if (!response.ok) throw new Error(response.statusText);
     const data: getPartyDetailRes = await response.json();
     return data;
@@ -54,8 +50,8 @@ const getMemberCertification = async (
   date: string,
 ) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party/${partyId}/${memberId}?date=${date}`,
+    const response = await fetchCustom.get(
+      `/admin/party/${partyId}/${memberId}?date=${date}`,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getMemberCertificationRes = await response.json();
@@ -71,9 +67,9 @@ const patchConfirmCertification = async (
   body: patchConfirmCertificationReq,
 ) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/party/${partyId}/${memberId}`,
-      { method: "PATCH", body: JSON.stringify(body) },
+    const response = await fetchCustom.patch(
+      `/admin/party/${partyId}/${memberId}`,
+      { body: JSON.stringify(body) },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
@@ -85,9 +81,10 @@ const patchConfirmCertification = async (
 
 const getAllEventList = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/event`,
+    const response = await fetchCustom.get(
+      `/admin/event`,
       { next: { tags: ["event-list"] } },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getAllEventListRes = await response.json();
@@ -99,9 +96,12 @@ const getAllEventList = async () => {
 
 const postEventCreate = async (body: postEventCreateReq) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/event`,
-      { method: "POST", body: JSON.stringify(body) },
+    const response = await fetchCustom.post(
+      `/admin/event`,
+      {
+        body: JSON.stringify(body),
+      },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
@@ -111,12 +111,14 @@ const postEventCreate = async (body: postEventCreateReq) => {
   }
 };
 
-const postItemCreate = async (body: postItemCreateReq) => {
+const postItemCreate = async (formData: FormData) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/costume`,
-      { method: "POST", body: JSON.stringify(body) },
-    );
+    const response = await fetchCustom.post(`/admin/costume`, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: formData,
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;
@@ -127,13 +129,9 @@ const postItemCreate = async (body: postItemCreateReq) => {
 
 const putCostumeEdit = async (costumeId: number, body: putCostumeEditReq) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/costume/${costumeId}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(body),
-      },
-    );
+    const response = await fetchCustom.put(`/admin/costume/${costumeId}`, {
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;
@@ -144,10 +142,7 @@ const putCostumeEdit = async (costumeId: number, body: putCostumeEditReq) => {
 
 const deleteCostume = async (costumeId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/costume/${costumeId}`,
-      { method: "DELETE" },
-    );
+    const response = await fetchCustom.delete(`/admin/costume/${costumeId}`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;

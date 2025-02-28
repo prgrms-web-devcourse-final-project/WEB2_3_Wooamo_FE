@@ -1,7 +1,7 @@
 "use client";
 
 import { friendApi } from "@/api/friend/friend";
-import { revalidateTagAction } from "@/app/actions";
+import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
 import { useRef, useState } from "react";
 

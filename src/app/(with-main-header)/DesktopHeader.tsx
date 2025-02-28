@@ -5,17 +5,19 @@ import Logo from "@/assets/images/Logo.svg";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import Icon from "@/components/common/Icon";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Avatar from "@/components/common/Avatar";
 import basic from "@/assets/images/costumes/basic.png";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import NotificationList from "../../components/common/NotificationList";
-import { Notification } from "@/types/notification";
-import { useAuthStore } from "@/store/authStore";
+import { useNotification } from "@/hooks/useNotification";
 import Dropdown from "@/components/common/Dropdown";
 import Button from "../../components/common/Button";
+import { deleteCookie, hasCookie } from "cookies-next";
+import dynamic from "next/dynamic";
+
+const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
 const routes = {
   "/boards": "게시판",
@@ -27,62 +29,26 @@ export default function DesktopHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const logout = useAuthStore((state) => state.logout);
+  const isLoggedIn = hasCookie("accessToken");
 
-  const [isOpen, setIsOpen] = useState(false);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const {
+    notifications,
+    isOpen,
+    toggleNotification,
+    closeNotification,
+    handleMarkAllAsRead,
+    handleMarkAsRead,
+  } = useNotification({ buttonRef, dropdownRef });
 
   const handleLogout = async () => {
-    logout();
+    deleteCookie("accessToken");
+    deleteCookie("refreshToken");
     setIsOpenDropdown(false);
-    router.push("/signin");
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        buttonRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  //임시
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: 1,
-      nickName: "사용자1",
-      message: "님이 회원님의 게시글에 댓글을 남겼습니다.",
-      isRead: false,
-    },
-    {
-      id: 2,
-      nickName: "사용자2",
-      message: "님이 회원님을 팔로우했습니다.",
-      isRead: true,
-    },
-  ]);
-
-  const toggle = () => setIsOpen((prev) => !prev);
-  const markAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({
-        ...notification,
-        isRead: true,
-      })),
-    );
+    router.push("/");
   };
 
   return (
@@ -120,7 +86,7 @@ export default function DesktopHeader() {
           </Link>
           <div className="relative">
             <div ref={buttonRef}>
-              <button onClick={toggle} className="cursor-pointer">
+              <button onClick={toggleNotification} className="cursor-pointer">
                 <Icon
                   MuiIcon={NotificationsNoneRoundedIcon}
                   className="cursor-pointer"
@@ -130,10 +96,12 @@ export default function DesktopHeader() {
             {isOpen && (
               <NotificationList
                 notifications={notifications}
-                onMarkAllAsRead={markAllAsRead}
-                onClose={() => setIsOpen(false)} // 이 prop이 빠져있었음
-                className="w-[27.5rem]"
+                onMarkAllAsRead={handleMarkAllAsRead}
+                onMarkAsRead={handleMarkAsRead}
+                onClose={closeNotification}
                 buttonRef={buttonRef}
+                dropdownRef={dropdownRef}
+                className="w-[27.5rem]"
               />
             )}
           </div>

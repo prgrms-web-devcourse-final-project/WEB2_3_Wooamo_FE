@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo.svg";
 import Icon from "@/components/common/Icon";
@@ -12,8 +12,9 @@ import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneR
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import NotificationList from "../../components/common/NotificationList";
-import { Notification } from "@/types/notification";
-import { useAuthStore } from "@/store/authStore";
+import { useNotification } from "@/hooks/useNotification";
+import { deleteCookie, hasCookie } from "cookies-next";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 const routes = {
   "/": "홈",
@@ -23,41 +24,31 @@ const routes = {
 } as const;
 
 export default function MobileHeader() {
+  const router = useRouter();
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0] ?? "/";
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const isLoggedIn = hasCookie("accessToken");
 
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-
   const buttonRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  //임시
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: 1,
-      nickName: "사용자1",
-      message: "님이 회원님의 게시글에 댓글을 남겼습니다.",
-      isRead: false,
-    },
-    {
-      id: 2,
-      nickName: "사용자2",
-      message: "님이 회원님을 팔로우했습니다.",
-      isRead: true,
-    },
-  ]);
+  const {
+    notifications,
+    isOpen: isNotificationOpen,
+    toggleNotification,
+    closeNotification,
+    handleMarkAllAsRead,
+    handleMarkAsRead,
+  } = useNotification({ buttonRef, dropdownRef });
 
-  const toggleNotification = () => setIsNotificationOpen((prev) => !prev);
-  const markAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({
-        ...notification,
-        isRead: true,
-      })),
-    );
+  const handleLogout = async () => {
+    deleteCookie("accessToken");
+    deleteCookie("refreshToken");
+    router.push("/");
   };
+
   const openSidebar = () => {
     setIsVisible(true);
     setTimeout(() => setIsOpen(true), 0);
@@ -103,9 +94,11 @@ export default function MobileHeader() {
               {isNotificationOpen && (
                 <NotificationList
                   notifications={notifications}
-                  onMarkAllAsRead={markAllAsRead}
-                  onClose={() => setIsNotificationOpen(false)}
+                  onMarkAllAsRead={handleMarkAllAsRead}
+                  onMarkAsRead={handleMarkAsRead}
+                  onClose={closeNotification}
                   buttonRef={buttonRef}
+                  dropdownRef={dropdownRef}
                   className="w-[18.75rem]"
                 />
               )}
@@ -150,6 +143,14 @@ export default function MobileHeader() {
               </ul>
             </nav>
           </div>
+          {isLoggedIn && (
+            <button
+              onClick={handleLogout}
+              className="absolute bottom-5 right-5"
+            >
+              <Icon MuiIcon={LogoutRoundedIcon} />
+            </button>
+          )}
         </aside>
       )}
     </>

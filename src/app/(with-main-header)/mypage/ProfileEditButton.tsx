@@ -1,7 +1,7 @@
 "use client";
 
 import { userApi } from "@/api/user/user";
-import { revalidateTagAction } from "@/app/actions";
+import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Modal from "@/components/common/Modal";

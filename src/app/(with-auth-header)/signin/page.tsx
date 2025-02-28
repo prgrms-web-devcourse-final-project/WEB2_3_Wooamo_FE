@@ -15,12 +15,10 @@ import { FormEvent, useState } from "react";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import { authApi } from "@/api/auth/auth";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/authStore";
 
 export default function SignIn() {
   const isMobile = useIsMobile();
   const router = useRouter();
-  const login = useAuthStore((state) => state.login);
 
   const [isAutoLogin, setIsAutoLogin] = useState(false);
   const { validate: emailValidate, ...email } = useInputValidation(
@@ -52,7 +50,6 @@ export default function SignIn() {
         isAutoLogin,
       });
       if (res?.status === "성공") {
-        login();
         router.push("/");
       } else {
         alert("로그인에 실패했습니다.");
@@ -115,12 +112,15 @@ export default function SignIn() {
       <div className="flex justify-center">
         <Image src={Divider} alt="구분선" className="" />
       </div>
-      <button className="w-full lg:w-150 ">
+      <Link
+        href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_SERVER_URL}/user/kakaoLogin`}
+        className="lg:w-150"
+      >
         {isMobile ? (
           <Image
             src={KakaoMobileButton}
             alt="카카오 로그인 버튼"
-            className="w-full"
+            className="max-h-11 mx-auto"
           />
         ) : (
           <Image
@@ -129,7 +129,7 @@ export default function SignIn() {
             className="w-full"
           />
         )}
-      </button>
+      </Link>
     </div>
   );
 }

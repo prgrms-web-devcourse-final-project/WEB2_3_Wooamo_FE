@@ -1,20 +1,13 @@
+import { fetchCustom } from "../fetchCustom";
+
 const addTodo = async (todo: string) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/todo`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ todo }),
-      },
-    );
+    const response = await fetchCustom.post(`/user/todo`, {
+      body: JSON.stringify({ todo }),
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: addTodoRes = await response.json();
-    if (data.status === "성공") {
-    }
     return data;
   } catch (error) {
     console.error(error);
@@ -23,12 +16,9 @@ const addTodo = async (todo: string) => {
 
 const getTodos = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/todo`,
-      {
-        next: {tags: ["todos"]}
-      }
-    );
+    const response = await fetchCustom.get(`/user/todo`, {
+      next: { tags: ["todos"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: getTodosRes = await response.json();
@@ -40,12 +30,7 @@ const getTodos = async () => {
 
 const deleteTodo = async (todoId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/todo/${todoId}`,
-      {
-        method: "DELETE",
-      },
-    );
+    const response = await fetchCustom.delete(`/user/todo/${todoId}`);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType = await response.json();
@@ -57,16 +42,9 @@ const deleteTodo = async (todoId: number) => {
 
 const updateTodo = async (todoId: number, todo: string) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/todo/${todoId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ todo }),
-      },
-    );
+    const response = await fetchCustom.put(`/user/todo/${todoId}`, {
+      body: JSON.stringify({ todo }),
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType = await response.json();
