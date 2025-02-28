@@ -39,6 +39,32 @@
       transform: translateY(0);
     }
   }
+
+  --animate-random-gotcha: random-gotcha 5s ease-out forwards;
+  @keyframes random-gotcha {
+    0%,
+    30% {
+      opacity: 0;
+      transform: translate(4rem, -10rem);
+    }
+    35% {
+      opacity: 1;
+      transform: translate(4rem, -7rem) rotate(10deg);
+    }
+    37% {
+      transform: translate(4.2rem, -7.7rem) rotate(15deg);
+    }
+    40% {
+      transform: translate(4.4rem, -7rem) rotate(20deg);
+    }
+    42% {
+      transform: translate(4.3rem, -7.3rem) rotate(40deg);
+    }
+    44%,
+    100% {
+      transform: translate(4.4rem, -7rem) rotate(60deg);
+    }
+  }
 }
 
 @layer components {
