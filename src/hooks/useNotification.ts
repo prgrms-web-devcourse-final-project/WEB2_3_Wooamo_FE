@@ -16,34 +16,28 @@ export function useNotification({
   const router = useRouter();
 
   const fetchNotifications = useCallback(async () => {
-    try {
-      const response = await notificationApi.getNotificationList();
-      if (response?.data) {
-        setNotifications(response.data);
-      }
-    } catch (error) {
-      console.error("알림 목록 조회 실패:", error);
+    const response = await notificationApi.getNotificationList();
+    if (response?.data) {
+      setNotifications(response.data);
     }
   }, []);
 
   const handleMarkAllAsRead = useCallback(async () => {
-    try {
-      await notificationApi.markAllAsRead();
+    const response = await notificationApi.markAllAsRead();
+    if (response) {
       setNotifications((prev) =>
         prev.map((notification) => ({
           ...notification,
           isRead: true,
         })),
       );
-    } catch (error) {
-      console.error("전체 알림 읽음 처리 실패:", error);
     }
   }, []);
 
   const handleMarkAsRead = useCallback(
     async (notification: notificationItem) => {
-      try {
-        await notificationApi.markAsRead(notification.alertId);
+      const response = await notificationApi.markAsRead(notification.alertId);
+      if (response) {
         setNotifications((prev) =>
           prev.map((item) =>
             item.alertId === notification.alertId
@@ -64,8 +58,6 @@ export function useNotification({
             break;
         }
         closeNotification();
-      } catch (error) {
-        console.error("알림 읽음 처리 실패:", error);
       }
     },
     [router],

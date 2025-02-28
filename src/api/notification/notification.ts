@@ -1,6 +1,8 @@
 const getNotificationList = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/alert`);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/alert`,
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch notification list");
@@ -17,7 +19,7 @@ const getNotificationList = async () => {
 const markAllAsRead = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/alert`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/alert`,
       {
         method: "PATCH",
         headers: {
@@ -42,7 +44,7 @@ const markAllAsRead = async () => {
 const markAsRead = async (alertId: number) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/alert/${alertId}`,
+      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/alert/${alertId}`,
       {
         method: "PATCH",
         headers: {

@@ -5,7 +5,7 @@ const getBoardList = async (page?: number) => {
     const response = await fetchCustom.get(
       `/board?title=&page=${page}&size=10`,
     );
-
+    console.log(response);
     if (!response.ok) {
       throw new Error("Failed to fetch board list");
     }
