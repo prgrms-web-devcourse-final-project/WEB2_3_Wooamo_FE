@@ -1,6 +1,8 @@
+import { fetchCustom } from "../fetchCustom";
+
 const getCurrentUserInfo = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`, {
+    const response = await fetchCustom.get(`/user`, {
       next: { tags: ["point", "user"] },
       cache: "force-cache",
     });
@@ -15,10 +17,10 @@ const getCurrentUserInfo = async () => {
 
 const getUserInfo = async (userId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/${userId}`,
-      { next: { tags: [`user-${userId}`] }, cache: "force-cache" },
-    );
+    const response = await fetchCustom.get(`/user/${userId}`, {
+      next: { tags: [`user-${userId}`] },
+      cache: "force-cache",
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: userInfoRes = await response.json();
@@ -30,9 +32,7 @@ const getUserInfo = async (userId: number) => {
 
 const getCurrentUserRanking = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/ranking`,
-    );
+    const response = await fetchCustom.get(`/user/ranking`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: userRankingRes = await response.json();
@@ -44,9 +44,7 @@ const getCurrentUserRanking = async () => {
 
 const getTopRanking = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/topranking`,
-    );
+    const response = await fetchCustom.get(`/user/topranking`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: getTopRankingRes = await response.json();
@@ -58,9 +56,7 @@ const getTopRanking = async () => {
 
 const getCurrentUserCostumes = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/costume`,
-    );
+    const response = await fetchCustom.get(`/user/costume`);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: getCostumesRes = await response.json();
@@ -72,9 +68,7 @@ const getCurrentUserCostumes = async () => {
 
 const getCurrentUserPosts = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/board`,
-    );
+    const response = await fetchCustom.get(`/user/board`);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: getUserPostsRes = await response.json();
@@ -86,11 +80,7 @@ const getCurrentUserPosts = async () => {
 
 const updateUserInfo = async (body: updateUserInfoReq) => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const response = await fetchCustom.put(`/user`, {
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -104,12 +94,7 @@ const updateUserInfo = async (body: updateUserInfoReq) => {
 
 const updateUserCostume = async (costumeId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/user/costume/${costumeId}`,
-      {
-        method: "PATCH",
-      },
-    );
+    const response = await fetchCustom.patch(`/user/costume/${costumeId}`);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: updateUserInfoRes = await response.json();
