@@ -90,6 +90,10 @@ input[type="number"] {
   background-color: white !important;
 }
 
+body {
+  font-family: var(--font-pretendard);
+}
+
 input,
 textarea,
 button {

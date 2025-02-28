@@ -1,9 +1,10 @@
+import { fetchCustom } from "../fetchCustom";
+
 const getCostumeList = async (page?: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/costume?page=${page}&size=10`,
-      { next: { tags: ["costume-list"] } },
-    );
+    const response = await fetchCustom.get(`/costume?page=${page}&size=10`, {
+      next: { tags: ["costume-list"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: getCostumeListRes = await response.json();
     return data;
@@ -14,12 +15,12 @@ const getCostumeList = async (page?: number) => {
 
 const postCostumePurchase = async (body: postCostumePurchaseReq) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/costume`,
+    const response = await fetchCustom.post(
+      `/costume`,
       {
-        method: "POST",
         body: JSON.stringify(body),
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
@@ -31,12 +32,12 @@ const postCostumePurchase = async (body: postCostumePurchaseReq) => {
 
 const postCostumeRandomPurchase = async (point = 100) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/costume/random`,
+    const response = await fetchCustom.post(
+      `/costume/random`,
       {
-        method: "POST",
         body: JSON.stringify({ point }),
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: postCostumeRandomPurchaseRes = await response.json();
@@ -48,12 +49,12 @@ const postCostumeRandomPurchase = async (point = 100) => {
 
 const postPointPurchase = async (body: postPointPurchaseReq) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/payments`,
+    const response = await fetchCustom.post(
+      `/payments`,
       {
-        method: "POST",
         body: JSON.stringify(body),
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: postPointPurchaseRes = await response.json();
@@ -65,12 +66,12 @@ const postPointPurchase = async (body: postPointPurchaseReq) => {
 
 const postPointPurchaseConfirm = async (body: postPointPurchaseConfirmReq) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/payments/confirm`,
+    const response = await fetchCustom.post(
+      `/payments/confirm`,
       {
-        method: "POST",
         body: JSON.stringify(body),
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();

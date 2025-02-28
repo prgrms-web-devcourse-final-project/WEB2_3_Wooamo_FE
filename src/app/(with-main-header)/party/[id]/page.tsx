@@ -4,6 +4,7 @@ import Input from "@/components/common/Input";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import Icon from "@/components/common/Icon";
 import ProfileSummary from "@/components/common/ProfileSummary";
+import basic from "@/assets/images/costumes/basic.png";
 import { partyApi } from "@/api/party/party";
 import AfterParticipateButtons from "./AfterParticipateButtons";
 

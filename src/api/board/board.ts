@@ -1,7 +1,9 @@
+import { fetchCustom } from "../fetchCustom";
+
 const getBoardList = async (page?: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/board?title=&page=${page}&size=10`,
+    const response = await fetchCustom.get(
+      `/board?title=&page=${page}&size=10`,
     );
 
     if (!response.ok) {
@@ -18,9 +20,7 @@ const getBoardList = async (page?: number) => {
 
 const getBoardByBoardId = async (boardId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}`,
-    );
+    const response = await fetchCustom.get(`/board/${boardId}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch board detail");
@@ -36,9 +36,7 @@ const getBoardByBoardId = async (boardId: number) => {
 
 const getCommentsByBoardId = async (boardId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}/comment`,
-    );
+    const response = await fetchCustom.get(`/board/${boardId}/comment`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch board comments");
@@ -54,13 +52,9 @@ const getCommentsByBoardId = async (boardId: number) => {
 
 const createBoard = async (formData: FormData) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/board`,
-      {
-        method: "POST",
-        body: formData,
-      },
-    );
+    const response = await fetchCustom.post(`/board`, {
+      body: formData,
+    });
 
     if (!response.ok) {
       throw new Error("Failed to create board");
@@ -76,13 +70,9 @@ const createBoard = async (formData: FormData) => {
 
 const updateBoard = async (boardId: number, formData: FormData) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}`,
-      {
-        method: "PUT",
-        body: formData,
-      },
-    );
+    const response = await fetchCustom.put(`/board/${boardId}`, {
+      body: formData,
+    });
     if (!response.ok) {
     }
     const data: updateBoardResponse = await response.json();
@@ -95,12 +85,7 @@ const updateBoard = async (boardId: number, formData: FormData) => {
 
 const deleteBoard = async (boardId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}`,
-      {
-        method: "DELETE",
-      },
-    );
+    const response = await fetchCustom.delete(`/board/${boardId}`);
     if (!response.ok) {
       throw new Error("Failed to delete board");
     }
@@ -114,16 +99,9 @@ const deleteBoard = async (boardId: number) => {
 
 const createComment = async (boardId: number, data: createCommentRequest) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${boardId}/comment`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      },
-    );
+    const response = await fetchCustom.post(`/board/${boardId}/comment`, {
+      body: JSON.stringify(data),
+    });
 
     if (!response.ok) {
       throw new Error("Failed to create comment");
@@ -139,12 +117,7 @@ const createComment = async (boardId: number, data: createCommentRequest) => {
 
 const deleteComment = async (commentId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/comment/${commentId}`,
-      {
-        method: "DELETE",
-      },
-    );
+    const response = await fetchCustom.delete(`/board/comment/${commentId}`);
 
     if (!response.ok) {
       throw new Error("Failed to delete comment");
@@ -159,12 +132,7 @@ const deleteComment = async (commentId: number) => {
 
 const selectComment = async (commentId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/board/comment/${commentId}`,
-      {
-        method: "PATCH",
-      },
-    );
+    const response = await fetchCustom.patch(`/board/comment/${commentId}`);
 
     if (!response.ok) {
       throw new Error("Failed to select comment");

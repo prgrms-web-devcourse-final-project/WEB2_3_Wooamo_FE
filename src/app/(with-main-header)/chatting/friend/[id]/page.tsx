@@ -1,6 +1,7 @@
 import ChattingItem from "../../ChattingItem";
 import ChattingInput from "../../ChattingInput";
 import ProfileSummary from "@/components/common/ProfileSummary";
+import basic from "@/assets/images/costumes/basic.png";
 
 interface Chatting {
   id: number;
@@ -26,6 +27,8 @@ export default async function ChattingWithFriend({
         <ProfileSummary
           nickname={`@user ${id}`}
           description="사용자의 자기소개가 출력됩니다"
+          userId={0}
+          costume={basic}
         />
       </div>
       <div className="px-5 lg-px:0 pt-12 pb-5">

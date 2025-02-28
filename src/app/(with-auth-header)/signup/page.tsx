@@ -201,7 +201,6 @@ export default function Signup() {
               <div className="flex justify-between">
                 <Input
                   id="verification-code"
-                  type="number"
                   placeholder="인증번호를 입력해주세요"
                   className="bg-site-button-input w-65 lg:w-114"
                   value={verificationCode}

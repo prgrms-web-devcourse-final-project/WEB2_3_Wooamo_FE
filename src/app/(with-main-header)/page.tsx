@@ -1,10 +1,9 @@
-import { userApi } from "@/api/user/user";
 import AfterLoginHome from "./AfterLoginHome";
 import BeforeLoginHome from "./BeforeLoginHome";
+import { hasCookie } from "cookies-next";
 
 export default async function Home() {
-  const user = await userApi.getCurrentUserInfo();
-  const isLoggedIn = user?.status === "성공";
+  const isLoggedIn = hasCookie("accessToken");
 
   return isLoggedIn ? <AfterLoginHome /> : <BeforeLoginHome />;
 }
