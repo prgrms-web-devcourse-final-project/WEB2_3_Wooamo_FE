@@ -38,7 +38,7 @@ export default function MobileHeader() {
   const handleLogout = async () => {
     deleteCookie("accessToken");
     deleteCookie("refreshToken");
-    router.push("/signin");
+    router.push("/");
   };
 
   //임시

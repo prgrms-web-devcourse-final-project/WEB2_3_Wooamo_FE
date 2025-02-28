@@ -40,7 +40,7 @@ export default function DesktopHeader() {
     deleteCookie("accessToken");
     deleteCookie("refreshToken");
     setIsOpenDropdown(false);
-    router.push("/signin");
+    router.push("/");
   };
 
   useEffect(() => {
