@@ -2,9 +2,13 @@ import { fetchCustom } from "../fetchCustom";
 
 const getCostumeList = async (page?: number) => {
   try {
-    const response = await fetchCustom.get(`/costume?page=${page}&size=10`, {
-      next: { tags: ["costume-list"] },
-    });
+    const response = await fetchCustom.get(
+      `/costume?page=${page}&size=10`,
+      {
+        next: { tags: ["costume-list"] },
+      },
+      true,
+    );
     if (!response.ok) throw new Error(response.statusText);
     const data: getCostumeListRes = await response.json();
     return data;

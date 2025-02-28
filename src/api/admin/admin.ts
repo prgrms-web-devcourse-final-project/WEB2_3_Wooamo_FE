@@ -111,10 +111,13 @@ const postEventCreate = async (body: postEventCreateReq) => {
   }
 };
 
-const postItemCreate = async (body: postItemCreateReq) => {
+const postItemCreate = async (formData: FormData) => {
   try {
     const response = await fetchCustom.post(`/admin/costume`, {
-      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: formData,
     });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
