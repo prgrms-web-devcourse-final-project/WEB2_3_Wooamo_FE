@@ -122,7 +122,7 @@ export default function SignIn() {
           <Image
             src={KakaoMobileButton}
             alt="카카오 로그인 버튼"
-            className="max-h-11"
+            className="max-h-11 mx-auto"
           />
         ) : (
           <Image
