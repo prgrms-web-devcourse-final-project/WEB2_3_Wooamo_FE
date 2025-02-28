@@ -5,7 +5,6 @@ import Logo from "@/assets/images/Logo.svg";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import Icon from "@/components/common/Icon";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Avatar from "@/components/common/Avatar";
@@ -13,9 +12,12 @@ import basic from "@/assets/images/costumes/basic.png";
 import { useState, useRef, useEffect } from "react";
 import NotificationList from "../../components/common/NotificationList";
 import { Notification } from "@/types/notification";
-import { useAuthStore } from "@/store/authStore";
 import Dropdown from "@/components/common/Dropdown";
 import Button from "../../components/common/Button";
+import { deleteCookie, hasCookie } from "cookies-next";
+import dynamic from "next/dynamic";
+
+const Icon = dynamic(() => import("@/components/common/Icon"));
 
 const routes = {
   "/boards": "게시판",
@@ -27,8 +29,7 @@ export default function DesktopHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const logout = useAuthStore((state) => state.logout);
+  const isLoggedIn = hasCookie("accessToken");
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
@@ -36,7 +37,8 @@ export default function DesktopHeader() {
   const buttonRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = async () => {
-    logout();
+    deleteCookie("accessToken");
+    deleteCookie("refreshToken");
     setIsOpenDropdown(false);
     router.push("/signin");
   };

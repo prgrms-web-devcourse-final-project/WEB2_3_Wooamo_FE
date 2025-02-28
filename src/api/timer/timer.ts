@@ -2,9 +2,13 @@ import { fetchCustom } from "../fetchCustom";
 
 const getTimerList = async () => {
   try {
-    const response = await fetchCustom.get(`/timer`, {
-      next: { tags: ["timer-list"] },
-    });
+    const response = await fetchCustom.get(
+      `/timer`,
+      {
+        next: { tags: ["timer-list"] },
+      },
+      true,
+    );
     if (!response.ok) throw new Error(response.statusText);
     const data: getTimerListRes = await response.json();
     return data;

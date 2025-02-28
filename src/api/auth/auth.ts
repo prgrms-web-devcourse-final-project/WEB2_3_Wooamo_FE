@@ -61,7 +61,6 @@ const signUp = async (body: signUpReq) => {
 
 const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
   try {
-    deleteCookie("accessToken");
     const response = await fetchCustom.post(`/user/login`, {
       headers: {
         // "X-Remember-Me": isAutoLogin ? "true" : "false",
@@ -70,8 +69,12 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
     });
 
     const accessToken = response.headers.get("Access");
+    const refreshToken = response.headers.get("Set-Cookie");
     if (accessToken) {
       setCookie("accessToken", accessToken);
+    }
+    if (refreshToken) {
+      setCookie("refreshToken", refreshToken);
     }
 
     if (!response.ok) throw new Error(response.statusText);
