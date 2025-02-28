@@ -6,7 +6,7 @@ import Button from "@/components/common/Button";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { timerApi } from "@/api/timer/timer";
-import { revalidateTagAction } from "../actions";
+import { revalidateTagAction } from "../../actions";
 
 interface TimerCategoryProps {
   timerList: TimerCategoryType[];

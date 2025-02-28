@@ -1,7 +1,7 @@
 "use client";
 
 import { partyApi } from "@/api/party/party";
-import { revalidateTagAction } from "@/app/actions";
+import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
 
 export default function ClosedPartyRewardButton({

@@ -17,7 +17,7 @@ import Button from "../../components/common/Button";
 import { deleteCookie, hasCookie } from "cookies-next";
 import dynamic from "next/dynamic";
 
-const Icon = dynamic(() => import("@/components/common/Icon"));
+const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
 const routes = {
   "/boards": "게시판",

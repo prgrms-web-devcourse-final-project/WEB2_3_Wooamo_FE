@@ -1,4 +1,4 @@
-import { deleteCookie, setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import { fetchCustom } from "../fetchCustom";
 
 const checkIsDuplicatedNickname = async (
@@ -69,12 +69,8 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
     });
 
     const accessToken = response.headers.get("Access");
-    const refreshToken = response.headers.get("Set-Cookie");
     if (accessToken) {
       setCookie("accessToken", accessToken);
-    }
-    if (refreshToken) {
-      setCookie("refreshToken", refreshToken);
     }
 
     if (!response.ok) throw new Error(response.statusText);
@@ -86,10 +82,27 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
   }
 };
 
+const reissue = async () => {
+  try {
+    const response = await fetchCustom.post(`/user/reissue`);
+    if (!response.ok) throw new Error(response.statusText);
+
+    const accessToken: string | null = response.headers.get("Access");
+    if (accessToken) {
+      setCookie("accessToken", accessToken);
+    }
+    return accessToken;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export const authApi = {
   checkIsDuplicatedNickname,
   sendVerificationEmail,
   verifyEmail,
   signUp,
   signIn,
+  reissue,
 };

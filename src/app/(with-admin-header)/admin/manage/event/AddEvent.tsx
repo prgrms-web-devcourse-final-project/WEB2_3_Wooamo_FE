@@ -11,7 +11,7 @@ import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 import { adminApi } from "@/api/admin/admin";
 import formatDateToKR from "@/utils/formatDateToKR";
-import { revalidateTagAction } from "@/app/actions";
+import { revalidateTagAction } from "@/actions";
 
 export default function AddEvent() {
   const today = new Date();

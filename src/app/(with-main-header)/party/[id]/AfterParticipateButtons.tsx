@@ -1,7 +1,7 @@
 "use client";
 
 import { partyApi } from "@/api/party/party";
-import { revalidatePathAction } from "@/app/actions";
+import { revalidatePathAction } from "@/actions";
 import Button from "@/components/common/Button";
 import Icon from "@/components/common/Icon";
 import Modal from "@/components/common/Modal";

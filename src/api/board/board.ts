@@ -3,7 +3,7 @@ import { fetchCustom } from "../fetchCustom";
 const getBoardList = async (page?: number) => {
   try {
     const response = await fetchCustom.get(
-      `/board?title=&page=${page}&size=10`,
+      `/board?title=&page=${page ?? 0}&size=10`,
     );
     console.log(response);
     if (!response.ok) {
