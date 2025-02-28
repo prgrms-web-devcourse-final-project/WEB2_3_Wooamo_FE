@@ -12,7 +12,7 @@ import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneR
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import NotificationList from "../../components/common/NotificationList";
-import { Notification } from "@/types/notification";
+import { useNotification } from "@/hooks/useNotification";
 import { deleteCookie, hasCookie } from "cookies-next";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
@@ -31,9 +31,17 @@ export default function MobileHeader() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-
   const buttonRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const {
+    notifications,
+    isOpen: isNotificationOpen,
+    toggleNotification,
+    closeNotification,
+    handleMarkAllAsRead,
+    handleMarkAsRead,
+  } = useNotification({ buttonRef, dropdownRef });
 
   const handleLogout = async () => {
     deleteCookie("accessToken");
@@ -41,31 +49,6 @@ export default function MobileHeader() {
     router.push("/");
   };
 
-  //임시
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: 1,
-      nickName: "사용자1",
-      message: "님이 회원님의 게시글에 댓글을 남겼습니다.",
-      isRead: false,
-    },
-    {
-      id: 2,
-      nickName: "사용자2",
-      message: "님이 회원님을 팔로우했습니다.",
-      isRead: true,
-    },
-  ]);
-
-  const toggleNotification = () => setIsNotificationOpen((prev) => !prev);
-  const markAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({
-        ...notification,
-        isRead: true,
-      })),
-    );
-  };
   const openSidebar = () => {
     setIsVisible(true);
     setTimeout(() => setIsOpen(true), 0);
@@ -111,9 +94,11 @@ export default function MobileHeader() {
               {isNotificationOpen && (
                 <NotificationList
                   notifications={notifications}
-                  onMarkAllAsRead={markAllAsRead}
-                  onClose={() => setIsNotificationOpen(false)}
+                  onMarkAllAsRead={handleMarkAllAsRead}
+                  onMarkAsRead={handleMarkAsRead}
+                  onClose={closeNotification}
                   buttonRef={buttonRef}
+                  dropdownRef={dropdownRef}
                   className="w-[18.75rem]"
                 />
               )}

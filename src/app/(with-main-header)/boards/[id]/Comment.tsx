@@ -18,7 +18,7 @@ type CommentProps = {
 export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const [isCommentAuthor, setIsCommentAuthor] = useState(false);
   const [isBoardAuthor, setIsBoardAuthor] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(data.isConfirm);
 
@@ -27,7 +27,7 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
       try {
         const currentUser = await userApi.getCurrentUserInfo();
         if (currentUser?.data) {
-          setIsCurrentUser(currentUser.data.userId === data.userId);
+          setIsCommentAuthor(currentUser.data.userId === data.userId);
           setIsBoardAuthor(currentUser.data.userId === boardInfo?.userId);
         }
       } catch (error) {
@@ -64,7 +64,7 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
   };
 
   const isSelectableComment =
-    !isCurrentUser && isBoardAuthor && boardInfo?.boardType === "질문";
+    !isCommentAuthor && isBoardAuthor && boardInfo?.boardType === "질문";
 
   return (
     <article
@@ -103,7 +103,7 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
               </Button>
             )}
 
-            {!isConfirmed && isCurrentUser && (
+            {!isConfirmed && isCommentAuthor && (
               <>
                 <Button
                   onClick={() => setIsOpen((prev) => !prev)}
