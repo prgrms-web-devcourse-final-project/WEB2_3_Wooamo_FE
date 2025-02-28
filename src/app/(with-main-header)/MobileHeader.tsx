@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo.svg";
 import Icon from "@/components/common/Icon";
@@ -13,7 +13,8 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import NotificationList from "../../components/common/NotificationList";
 import { Notification } from "@/types/notification";
-import { useAuthStore } from "@/store/authStore";
+import { deleteCookie, hasCookie } from "cookies-next";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 const routes = {
   "/": "홈",
@@ -23,15 +24,22 @@ const routes = {
 } as const;
 
 export default function MobileHeader() {
+  const router = useRouter();
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0] ?? "/";
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const isLoggedIn = hasCookie("accessToken");
 
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const buttonRef = useRef<HTMLDivElement>(null);
+
+  const handleLogout = async () => {
+    deleteCookie("accessToken");
+    deleteCookie("refreshToken");
+    router.push("/signin");
+  };
 
   //임시
   const [notifications, setNotifications] = useState<Notification[]>([
@@ -150,6 +158,14 @@ export default function MobileHeader() {
               </ul>
             </nav>
           </div>
+          {isLoggedIn && (
+            <button
+              onClick={handleLogout}
+              className="absolute bottom-5 right-5"
+            >
+              <Icon MuiIcon={LogoutRoundedIcon} />
+            </button>
+          )}
         </aside>
       )}
     </>
