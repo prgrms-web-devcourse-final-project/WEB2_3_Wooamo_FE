@@ -113,9 +113,7 @@ export default function SignIn() {
         <Image src={Divider} alt="구분선" className="" />
       </div>
       <Link
-        href={
-          "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=a6bbd782f7c8516f0c892c0bec9e33a3&redirect_uri=http://52.78.48.112:8080/api/user/kakaoLogin"
-        }
+        href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_SERVER_URL}user/kakaoLogin`}
         className="lg:w-150"
       >
         {isMobile ? (
