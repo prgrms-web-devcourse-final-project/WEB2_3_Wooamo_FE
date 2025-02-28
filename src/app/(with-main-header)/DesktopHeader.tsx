@@ -32,6 +32,7 @@ export default function DesktopHeader() {
 
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const {
     notifications,
@@ -39,7 +40,8 @@ export default function DesktopHeader() {
     toggleNotification,
     closeNotification,
     handleMarkAllAsRead,
-  } = useNotification({ buttonRef });
+    handleMarkAsRead,
+  } = useNotification({ buttonRef, dropdownRef });
 
   const handleLogout = async () => {
     logout();
@@ -74,61 +76,62 @@ export default function DesktopHeader() {
           </ul>
         </nav>
       </div>
-      {/* 
-      {isLoggedIn ? */}
-      (
-      <div className="flex items-center gap-2.5">
-        <Link href="/chatting">
-          <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
-        </Link>
-        <div className="relative">
-          <div ref={buttonRef}>
-            <button onClick={toggleNotification} className="cursor-pointer">
-              <Icon
-                MuiIcon={NotificationsNoneRoundedIcon}
-                className="cursor-pointer"
+
+      {isLoggedIn ? (
+        <div className="flex items-center gap-2.5">
+          <Link href="/chatting">
+            <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
+          </Link>
+          <div className="relative">
+            <div ref={buttonRef}>
+              <button onClick={toggleNotification} className="cursor-pointer">
+                <Icon
+                  MuiIcon={NotificationsNoneRoundedIcon}
+                  className="cursor-pointer"
+                />
+              </button>
+            </div>
+            {isOpen && (
+              <NotificationList
+                notifications={notifications}
+                onMarkAllAsRead={handleMarkAllAsRead}
+                onMarkAsRead={handleMarkAsRead}
+                onClose={closeNotification}
+                buttonRef={buttonRef}
+                dropdownRef={dropdownRef}
+                className="w-[27.5rem]"
               />
-            </button>
+            )}
           </div>
-          {isOpen && (
-            <NotificationList
-              notifications={notifications}
-              onMarkAllAsRead={handleMarkAllAsRead}
-              onClose={closeNotification}
-              className="w-[27.5rem]"
-              buttonRef={buttonRef}
-            />
+          <button onClick={() => setIsOpenDropdown(true)}>
+            <Avatar costumeSrc={basic} className="w-14 h-14" />
+          </button>
+          {isOpenDropdown && (
+            <Dropdown
+              className="lg:top-22 lg:right-12 font-galmuri text-xl font-normal"
+              onClose={() => setIsOpenDropdown(false)}
+            >
+              <Link
+                href={"/mypage"}
+                onClick={() => setIsOpenDropdown(false)}
+                className="flex justify-center items-center px-6 py-4 hover:opacity-50 transition-colors"
+              >
+                마이페이지
+              </Link>
+              <Button
+                onClick={handleLogout}
+                className="w-full rounded-none px-6 py-4 hover:opacity-50 transition-colors"
+              >
+                로그아웃
+              </Button>
+            </Dropdown>
           )}
         </div>
-        <button onClick={() => setIsOpenDropdown(true)}>
-          <Avatar costumeSrc={basic} className="w-14 h-14" />
-        </button>
-        {isOpenDropdown && (
-          <Dropdown
-            className="lg:top-22 lg:right-12 font-galmuri text-xl font-normal"
-            onClose={() => setIsOpenDropdown(false)}
-          >
-            <Link
-              href={"/mypage"}
-              onClick={() => setIsOpenDropdown(false)}
-              className="flex justify-center items-center px-6 py-4 hover:opacity-50 transition-colors"
-            >
-              마이페이지
-            </Link>
-            <Button
-              onClick={handleLogout}
-              className="w-full rounded-none px-6 py-4 hover:opacity-50 transition-colors"
-            >
-              로그아웃
-            </Button>
-          </Dropdown>
-        )}
-      </div>
       ) : (
-      <div>
-        <Link href={"/signin"}>로그인</Link>
-      </div>
-      ){/* } */}
+        <div>
+          <Link href={"/signin"}>로그인</Link>
+        </div>
+      )}
     </header>
   );
 }

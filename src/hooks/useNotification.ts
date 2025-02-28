@@ -1,13 +1,19 @@
 import { useState, useEffect, useCallback, RefObject } from "react";
 import { notificationApi } from "@/api/notification/notification";
+import { useRouter } from "next/navigation";
 
 interface UseNotificationProps {
   buttonRef: RefObject<HTMLDivElement | null>;
+  dropdownRef: RefObject<HTMLDivElement | null>;
 }
 
-export function useNotification({ buttonRef }: UseNotificationProps) {
+export function useNotification({
+  buttonRef,
+  dropdownRef,
+}: UseNotificationProps) {
   const [notifications, setNotifications] = useState<notificationItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const fetchNotifications = useCallback(async () => {
     try {
@@ -34,20 +40,36 @@ export function useNotification({ buttonRef }: UseNotificationProps) {
     }
   }, []);
 
-  const handleMarkAsRead = useCallback(async (alertId: number) => {
-    try {
-      await notificationApi.markAsRead(alertId);
-      setNotifications((prev) =>
-        prev.map((notification) =>
-          notification.alertId === alertId
-            ? { ...notification, isRead: true }
-            : notification,
-        ),
-      );
-    } catch (error) {
-      console.error("알림 읽음 처리 실패:", error);
-    }
-  }, []);
+  const handleMarkAsRead = useCallback(
+    async (notification: notificationItem) => {
+      try {
+        await notificationApi.markAsRead(notification.alertId);
+        setNotifications((prev) =>
+          prev.map((item) =>
+            item.alertId === notification.alertId
+              ? { ...item, isRead: true }
+              : item,
+          ),
+        );
+
+        switch (notification.type) {
+          case "COMMENT":
+          case "CONFIRM":
+            if (notification.typeId) {
+              router.push(`/boards/${notification.typeId}`);
+            }
+            break;
+          case "FOLLOW":
+            router.push("/friends");
+            break;
+        }
+        closeNotification();
+      } catch (error) {
+        console.error("알림 읽음 처리 실패:", error);
+      }
+    },
+    [router],
+  );
 
   const toggleNotification = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -59,7 +81,12 @@ export function useNotification({ buttonRef }: UseNotificationProps) {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (isOpen && !buttonRef.current?.contains(event.target as Node)) {
+      if (
+        isOpen &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node) &&
+        !dropdownRef.current?.contains(event.target as Node)
+      ) {
         closeNotification();
       }
     };

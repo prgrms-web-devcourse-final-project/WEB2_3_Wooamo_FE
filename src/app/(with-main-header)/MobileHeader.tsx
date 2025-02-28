@@ -30,6 +30,7 @@ export default function MobileHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const {
     notifications,
@@ -37,7 +38,8 @@ export default function MobileHeader() {
     toggleNotification,
     closeNotification,
     handleMarkAllAsRead,
-  } = useNotification({ buttonRef });
+    handleMarkAsRead,
+  } = useNotification({ buttonRef, dropdownRef });
 
   const openSidebar = () => {
     setIsVisible(true);
@@ -67,32 +69,34 @@ export default function MobileHeader() {
             blurDataURL={"../assets/images/Logo.svg"}
           />
         </Link>
-        {/* {isLoggedIn &&  */}(
-        <div className="flex gap-2.5">
-          <Link href="/chatting">
-            <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
-          </Link>
-          <div className="relative">
-            <div ref={buttonRef}>
-              <button onClick={toggleNotification} className="cursor-pointer">
-                <Icon
-                  MuiIcon={NotificationsNoneRoundedIcon}
-                  className="cursor-pointer"
+        {isLoggedIn && (
+          <div className="flex gap-2.5">
+            <Link href="/chatting">
+              <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
+            </Link>
+            <div className="relative">
+              <div ref={buttonRef}>
+                <button onClick={toggleNotification} className="cursor-pointer">
+                  <Icon
+                    MuiIcon={NotificationsNoneRoundedIcon}
+                    className="cursor-pointer"
+                  />
+                </button>
+              </div>
+              {isNotificationOpen && (
+                <NotificationList
+                  notifications={notifications}
+                  onMarkAllAsRead={handleMarkAllAsRead}
+                  onMarkAsRead={handleMarkAsRead}
+                  onClose={closeNotification}
+                  buttonRef={buttonRef}
+                  dropdownRef={dropdownRef}
+                  className="w-[18.75rem]"
                 />
-              </button>
+              )}
             </div>
-            {isNotificationOpen && (
-              <NotificationList
-                notifications={notifications}
-                onMarkAllAsRead={handleMarkAllAsRead}
-                onClose={closeNotification}
-                buttonRef={buttonRef}
-                className="w-[18.75rem]"
-              />
-            )}
           </div>
-        </div>
-        ){/* } */}
+        )}
       </header>
       {isVisible && (
         <aside
