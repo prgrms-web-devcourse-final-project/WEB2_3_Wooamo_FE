@@ -1,4 +1,5 @@
 import ProfileSummary from "@/components/common/ProfileSummary";
+import basic from "@/assets/images/costumes/basic.png";
 
 export default function ChattingCreate() {
   return (
@@ -12,6 +13,8 @@ export default function ChattingCreate() {
             key={idx}
             nickname={`@user${idx}`}
             description="사용자의 자기소개가 출력됩니다"
+            userId={0}
+            costume={basic}
           />
         ))}
       </div>
