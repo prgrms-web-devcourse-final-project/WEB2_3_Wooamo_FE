@@ -7,6 +7,7 @@ const getCostumeList = async (page?: number) => {
       {
         next: { tags: ["costume-list"] },
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: getCostumeListRes = await response.json();
