@@ -10,9 +10,9 @@ import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneR
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Avatar from "@/components/common/Avatar";
 import basic from "@/assets/images/costumes/basic.png";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import NotificationList from "../../components/common/NotificationList";
-import { Notification } from "@/types/notification";
+import { useNotification } from "@/hooks/useNotification";
 import { useAuthStore } from "@/store/authStore";
 import Dropdown from "@/components/common/Dropdown";
 import Button from "../../components/common/Button";
@@ -30,59 +30,21 @@ export default function DesktopHeader() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const logout = useAuthStore((state) => state.logout);
 
-  const [isOpen, setIsOpen] = useState(false);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
+
+  const {
+    notifications,
+    isOpen,
+    toggleNotification,
+    closeNotification,
+    handleMarkAllAsRead,
+  } = useNotification({ buttonRef });
 
   const handleLogout = async () => {
     logout();
     setIsOpenDropdown(false);
     router.push("/signin");
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        buttonRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  //임시
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: 1,
-      nickName: "사용자1",
-      message: "님이 회원님의 게시글에 댓글을 남겼습니다.",
-      isRead: false,
-    },
-    {
-      id: 2,
-      nickName: "사용자2",
-      message: "님이 회원님을 팔로우했습니다.",
-      isRead: true,
-    },
-  ]);
-
-  const toggle = () => setIsOpen((prev) => !prev);
-  const markAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({
-        ...notification,
-        isRead: true,
-      })),
-    );
   };
 
   return (
@@ -112,60 +74,61 @@ export default function DesktopHeader() {
           </ul>
         </nav>
       </div>
-
-      {isLoggedIn ? (
-        <div className="flex items-center gap-2.5">
-          <Link href="/chatting">
-            <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
-          </Link>
-          <div className="relative">
-            <div ref={buttonRef}>
-              <button onClick={toggle} className="cursor-pointer">
-                <Icon
-                  MuiIcon={NotificationsNoneRoundedIcon}
-                  className="cursor-pointer"
-                />
-              </button>
-            </div>
-            {isOpen && (
-              <NotificationList
-                notifications={notifications}
-                onMarkAllAsRead={markAllAsRead}
-                onClose={() => setIsOpen(false)} // 이 prop이 빠져있었음
-                className="w-[27.5rem]"
-                buttonRef={buttonRef}
+      {/* 
+      {isLoggedIn ? */}
+      (
+      <div className="flex items-center gap-2.5">
+        <Link href="/chatting">
+          <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
+        </Link>
+        <div className="relative">
+          <div ref={buttonRef}>
+            <button onClick={toggleNotification} className="cursor-pointer">
+              <Icon
+                MuiIcon={NotificationsNoneRoundedIcon}
+                className="cursor-pointer"
               />
-            )}
+            </button>
           </div>
-          <button onClick={() => setIsOpenDropdown(true)}>
-            <Avatar costumeSrc={basic} className="w-14 h-14" />
-          </button>
-          {isOpenDropdown && (
-            <Dropdown
-              className="lg:top-22 lg:right-12 font-galmuri text-xl font-normal"
-              onClose={() => setIsOpenDropdown(false)}
-            >
-              <Link
-                href={"/mypage"}
-                onClick={() => setIsOpenDropdown(false)}
-                className="flex justify-center items-center px-6 py-4 hover:opacity-50 transition-colors"
-              >
-                마이페이지
-              </Link>
-              <Button
-                onClick={handleLogout}
-                className="w-full rounded-none px-6 py-4 hover:opacity-50 transition-colors"
-              >
-                로그아웃
-              </Button>
-            </Dropdown>
+          {isOpen && (
+            <NotificationList
+              notifications={notifications}
+              onMarkAllAsRead={handleMarkAllAsRead}
+              onClose={closeNotification}
+              className="w-[27.5rem]"
+              buttonRef={buttonRef}
+            />
           )}
         </div>
+        <button onClick={() => setIsOpenDropdown(true)}>
+          <Avatar costumeSrc={basic} className="w-14 h-14" />
+        </button>
+        {isOpenDropdown && (
+          <Dropdown
+            className="lg:top-22 lg:right-12 font-galmuri text-xl font-normal"
+            onClose={() => setIsOpenDropdown(false)}
+          >
+            <Link
+              href={"/mypage"}
+              onClick={() => setIsOpenDropdown(false)}
+              className="flex justify-center items-center px-6 py-4 hover:opacity-50 transition-colors"
+            >
+              마이페이지
+            </Link>
+            <Button
+              onClick={handleLogout}
+              className="w-full rounded-none px-6 py-4 hover:opacity-50 transition-colors"
+            >
+              로그아웃
+            </Button>
+          </Dropdown>
+        )}
+      </div>
       ) : (
-        <div>
-          <Link href={"/signin"}>로그인</Link>
-        </div>
-      )}
+      <div>
+        <Link href={"/signin"}>로그인</Link>
+      </div>
+      ){/* } */}
     </header>
   );
 }

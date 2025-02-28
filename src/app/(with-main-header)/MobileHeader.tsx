@@ -12,8 +12,8 @@ import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneR
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import NotificationList from "../../components/common/NotificationList";
-import { Notification } from "@/types/notification";
 import { useAuthStore } from "@/store/authStore";
+import { useNotification } from "@/hooks/useNotification";
 
 const routes = {
   "/": "홈",
@@ -29,35 +29,16 @@ export default function MobileHeader() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-
   const buttonRef = useRef<HTMLDivElement>(null);
 
-  //임시
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: 1,
-      nickName: "사용자1",
-      message: "님이 회원님의 게시글에 댓글을 남겼습니다.",
-      isRead: false,
-    },
-    {
-      id: 2,
-      nickName: "사용자2",
-      message: "님이 회원님을 팔로우했습니다.",
-      isRead: true,
-    },
-  ]);
+  const {
+    notifications,
+    isOpen: isNotificationOpen,
+    toggleNotification,
+    closeNotification,
+    handleMarkAllAsRead,
+  } = useNotification({ buttonRef });
 
-  const toggleNotification = () => setIsNotificationOpen((prev) => !prev);
-  const markAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({
-        ...notification,
-        isRead: true,
-      })),
-    );
-  };
   const openSidebar = () => {
     setIsVisible(true);
     setTimeout(() => setIsOpen(true), 0);
@@ -86,32 +67,32 @@ export default function MobileHeader() {
             blurDataURL={"../assets/images/Logo.svg"}
           />
         </Link>
-        {isLoggedIn && (
-          <div className="flex gap-2.5">
-            <Link href="/chatting">
-              <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
-            </Link>
-            <div className="relative">
-              <div ref={buttonRef}>
-                <button onClick={toggleNotification} className="cursor-pointer">
-                  <Icon
-                    MuiIcon={NotificationsNoneRoundedIcon}
-                    className="cursor-pointer"
-                  />
-                </button>
-              </div>
-              {isNotificationOpen && (
-                <NotificationList
-                  notifications={notifications}
-                  onMarkAllAsRead={markAllAsRead}
-                  onClose={() => setIsNotificationOpen(false)}
-                  buttonRef={buttonRef}
-                  className="w-[18.75rem]"
+        {/* {isLoggedIn &&  */}(
+        <div className="flex gap-2.5">
+          <Link href="/chatting">
+            <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
+          </Link>
+          <div className="relative">
+            <div ref={buttonRef}>
+              <button onClick={toggleNotification} className="cursor-pointer">
+                <Icon
+                  MuiIcon={NotificationsNoneRoundedIcon}
+                  className="cursor-pointer"
                 />
-              )}
+              </button>
             </div>
+            {isNotificationOpen && (
+              <NotificationList
+                notifications={notifications}
+                onMarkAllAsRead={handleMarkAllAsRead}
+                onClose={closeNotification}
+                buttonRef={buttonRef}
+                className="w-[18.75rem]"
+              />
+            )}
           </div>
-        )}
+        </div>
+        ){/* } */}
       </header>
       {isVisible && (
         <aside

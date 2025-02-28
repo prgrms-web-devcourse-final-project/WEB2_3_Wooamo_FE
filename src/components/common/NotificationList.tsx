@@ -1,9 +1,10 @@
-import { Notification } from "@/types/notification";
 import { useRef, useEffect, RefObject } from "react";
 import { twMerge } from "tailwind-merge";
+import { boardApi } from "@/api/board/board";
+import { useState } from "react";
 
 interface NotificationListProps {
-  notifications: Notification[];
+  notifications: notificationItem[];
   onMarkAllAsRead: () => void;
   onClose: () => void;
   buttonRef: RefObject<HTMLDivElement | null>;
@@ -39,6 +40,19 @@ export default function NotificationList({
     };
   }, [onClose, buttonRef]);
 
+  const getNotificationMessage = (notification: notificationItem) => {
+    switch (notification.type) {
+      case "COMMENT":
+        return "님이 [게시글제목]에 댓글을 남겼습니다";
+      case "FOLLOW":
+        return "님이 친구를 요청했습니다";
+      case "CONFIRM":
+        return "[게시글제목]의 댓글이 채택되었습니다";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div
       ref={dropdownRef}
@@ -64,7 +78,7 @@ export default function NotificationList({
         <ul className={twMerge("mx-2.5 mb-2.5", listClassName)}>
           {notifications.map((notification) => (
             <li
-              key={notification.id}
+              key={notification.alertId}
               className={twMerge(
                 "cursor-pointer",
                 itemClassName,
@@ -76,8 +90,10 @@ export default function NotificationList({
               onClick={(e) => e.stopPropagation()}
             >
               <p className="text-base my-3 text-black line-clamp-2 overflow-hidden">
-                <span className="font-semibold">{notification.nickName}</span>
-                <span className="font-normal">{notification.message}</span>
+                <span className="font-semibold">{notification.nickname}</span>
+                <span className="font-normal">
+                  {getNotificationMessage(notification)}
+                </span>
               </p>
             </li>
           ))}
