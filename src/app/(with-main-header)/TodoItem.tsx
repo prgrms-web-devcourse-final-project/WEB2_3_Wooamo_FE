@@ -8,7 +8,7 @@ import Dropdown from "@/components/common/Dropdown";
 import { todoApi } from "@/api/todo/todo";
 import { twMerge } from "tailwind-merge";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import { revalidateTagAction } from "../actions";
+import { revalidateTagAction } from "../../actions";
 
 const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
