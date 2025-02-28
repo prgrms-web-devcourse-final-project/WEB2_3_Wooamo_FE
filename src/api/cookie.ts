@@ -9,3 +9,11 @@ export async function setCookieAtServer(key: string, value: string) {
 export async function getCookieAtServer(key: string) {
   return (await cookies()).get(key)?.value;
 }
+
+export async function removeCookieAtServer(key: string) {
+  (await cookies()).delete(key);
+}
+
+export async function hasCookieAtServer(key: string) {
+  return (await cookies()).has(key);
+}

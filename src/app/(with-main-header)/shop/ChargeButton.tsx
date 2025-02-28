@@ -1,7 +1,7 @@
 "use client";
 
 import { shopApi } from "@/api/shop/shop";
-import { revalidateTagAction } from "@/app/actions";
+import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import { useModalStore } from "@/store/modalStore";

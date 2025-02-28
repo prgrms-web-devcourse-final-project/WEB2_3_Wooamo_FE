@@ -1,7 +1,7 @@
 "use client";
 
 import { partyApi } from "@/api/party/party";
-import { revalidatePathAction } from "@/app/actions";
+import { revalidatePathAction } from "@/actions";
 
 export default function PersonalQuest({
   personalQuestState,

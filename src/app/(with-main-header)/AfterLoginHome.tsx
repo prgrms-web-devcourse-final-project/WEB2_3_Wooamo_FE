@@ -6,6 +6,7 @@ import Timer from "./Timer";
 import TodoList from "./TodoList";
 import WhiteDividerShort from "@/assets/images/WhiteDividerShort.svg";
 import { userApi } from "@/api/user/user";
+import ButtonExample from "./ButtonExample";
 
 export default async function AfterLoginHome() {
   const topRankings = await userApi.getTopRanking();
@@ -49,6 +50,7 @@ export default async function AfterLoginHome() {
         <Image src={WhiteDividerShort} alt="구분선 이미지" />
         <TodoList />
       </div>
+      <ButtonExample />
     </div>
   );
 }

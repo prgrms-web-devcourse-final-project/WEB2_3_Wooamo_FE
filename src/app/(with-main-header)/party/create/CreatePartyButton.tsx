@@ -1,5 +1,5 @@
 import { partyApi } from "@/api/party/party";
-import { revalidateTagAction } from "@/app/actions";
+import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import Modal from "@/components/common/Modal";

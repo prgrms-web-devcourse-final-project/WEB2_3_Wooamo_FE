@@ -9,7 +9,7 @@ interface boardItem {
   image: string | null;
 }
 interface boardListResponse {
-  status: string;
+  status: statusType;
   data: {
     contents: boardItem[];
     page: number;
@@ -33,7 +33,7 @@ interface boardDetail {
 }
 
 interface boardDetailResponse {
-  status: string;
+  status: statusType;
   data: boardDetail;
 }
 
@@ -48,7 +48,7 @@ interface commentItem {
 }
 
 interface commentListResponse {
-  status: string;
+  status: statusType;
   data: {
     contents: commentItem[];
     page: number;
@@ -67,7 +67,7 @@ interface createBoardRequest {
 }
 
 interface createBoardResponse {
-  status: string;
+  status: statusType;
   data: {
     boardId: number;
   };
@@ -81,14 +81,14 @@ interface updateBoardRequest {
 }
 
 interface updateBoardResponse {
-  status: string;
+  status: statusType;
   data: {
     boardId: number;
   };
 }
 
 interface deleteBoardResponse {
-  status: string;
+  status: statusType;
 }
 
 interface createCommentRequest {
@@ -96,13 +96,13 @@ interface createCommentRequest {
 }
 
 interface createCommentResponse {
-  status: string;
+  status: statusType;
 }
 
 interface deleteCommentResponse {
-  status: string;
+  status: statusType;
 }
 
 interface selectCommentResponse {
-  status: string;
+  status: statusType;
 }
