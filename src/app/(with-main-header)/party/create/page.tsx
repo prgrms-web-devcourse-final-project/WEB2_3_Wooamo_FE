@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import CreatePartyButton from "./CreatePartyButton";
 import Input from "@/components/common/Input";
 import { DatePicker } from "@/components/ui/datePicker";
+import formatDateToKR from "@/utils/formatDateToKR";
 
 export default function PartyCreate() {
   const today = new Date();
   const tomorrow = new Date(today).setDate(today.getDate() + 1);
 
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [maxPeople, setMaxPeople] = useState(1);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date(tomorrow));
@@ -22,7 +24,14 @@ export default function PartyCreate() {
   return (
     <form className="flex flex-col gap-7.5 lg:gap-13">
       <div className="flex justify-end">
-        <CreatePartyButton />
+        <CreatePartyButton
+          title={title}
+          description={description}
+          maxPeople={maxPeople}
+          startDate={String(formatDateToKR(startDate))}
+          endDate={String(formatDateToKR(endDate))}
+          minBetting={minBetting}
+        />
       </div>
       <div className="flex items-center h-12.5 lg:h-20 border-b border-site-darkgray-02">
         <Input
@@ -35,6 +44,8 @@ export default function PartyCreate() {
         />
       </div>
       <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
         className="min-h-50 bg-site-white-70 px-6 py-5 resize-none"
         spellCheck="false"
         placeholder={`팟 인원 수, 수행 퀘스트 등 팟에 대해 설명해주세요!

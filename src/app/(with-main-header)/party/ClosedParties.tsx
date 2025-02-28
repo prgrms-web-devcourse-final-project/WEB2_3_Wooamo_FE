@@ -1,5 +1,13 @@
+import { partyApi } from "@/api/party/party";
 import Button from "../../../components/common/Button";
-export default function ClosedParties() {
+import ClosedPartyItem from "./ClosedPartyItem";
+
+export default async function ClosedParties() {
+  const fetchCompletedPartyList = await partyApi.getCompletedPartyList();
+  const completedPartyList = fetchCompletedPartyList?.data;
+
+  if (!completedPartyList) return;
+
   return (
     <section className="flex flex-col gap-7 mt-15">
       <p className="font-galmuri text-xl lg:text-2xl px-5 lg:px-0">
@@ -7,17 +15,14 @@ export default function ClosedParties() {
         <span className="ml-3">3</span>
       </p>
       <div className="flex flex-col gap-2.5 lg:gap-3">
-        {[1, 2, 3].map((_, index) => (
-          <article
-            key={index}
-            className="flex justify-between items-center h-14 lg:h-25 bg-site-button px-5"
-          >
-            <div className="flex gap-2.5 items-end">
-              <p className="font-semibold text-xl">팟 이름</p>
-              <p className="font-semibold">+500p</p>
-            </div>
-            <Button className="bg-site-main text-white">보상받기</Button>
-          </article>
+        {completedPartyList.map((party) => (
+          <ClosedPartyItem
+            key={party.partyId}
+            partyId={party.partyId}
+            name={party.name}
+            questStatus={party.questStatus}
+            rewordPoint={party.rewordPoint}
+          />
         ))}
       </div>
     </section>
