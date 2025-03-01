@@ -10,7 +10,6 @@ interface HeaderProps {
 
 export default function Header({ serverIsLoggedIn }: HeaderProps) {
   const isMobile = useIsMobile();
-  console.log(isMobile);
   return isMobile ? (
     <MobileHeader serverIsLoggedIn={serverIsLoggedIn} />
   ) : (
