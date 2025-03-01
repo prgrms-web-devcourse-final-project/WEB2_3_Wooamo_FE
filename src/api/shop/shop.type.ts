@@ -7,6 +7,7 @@ interface CostumeType {
 
 interface getCostumeListRes {
   status: statusType;
+  message?: string;
   data: {
     contents: CostumeType[];
     page: number;

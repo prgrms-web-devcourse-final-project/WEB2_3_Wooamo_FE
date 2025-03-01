@@ -53,12 +53,14 @@ export default function ShopCostumeItem({
         </article>
       </button>
       <Modal modalId={`shop-costume-preview${costumeId}`}>
-        <div className="flex justify-center font-galmuri text-xl">{name}</div>
-        <Character costumeSrc={costume} className="h-60" />
-        <div className="flex justify-center">
-          <Button onClick={() => handlePurchaseCostume(costumeId, point)}>
-            구매하기
-          </Button>
+        <div className="flex flex-col gap-5">
+          <div className="flex justify-center font-galmuri text-xl">{name}</div>
+          <Character costumeSrc={costume} className="h-60" />
+          <div className="flex justify-center">
+            <Button onClick={() => handlePurchaseCostume(costumeId, point)}>
+              구매하기
+            </Button>
+          </div>
         </div>
       </Modal>
     </>

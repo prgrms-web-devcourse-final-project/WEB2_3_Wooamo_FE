@@ -31,6 +31,7 @@ interface PartyDetailType {
 
 interface getAllPartyListRes {
   status: string;
+  message?: string;
   data: {
     contents: PartyDetailType[];
     page: number;
