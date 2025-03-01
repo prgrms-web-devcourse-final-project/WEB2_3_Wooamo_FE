@@ -14,22 +14,22 @@ export default function ClosetTab() {
   const [costumes, setCostumes] = useState<costumeType[]>([]);
 
   const changeCostume = async (costume: costumeType) => {
-    const res = await userApi.updateUserCostume(costume.costumeId);
-    if (res?.status === "성공") {
-      setSelectedCostume(costume.image);
+    const currentCostume = await userApi.updateUserCostume(costume.costumeId);
+    if (currentCostume?.data) {
+      setSelectedCostume(currentCostume.data.profile);
     }
   };
 
   useEffect(() => {
     const fetchCurrentUserCostume = async () => {
       const user = await userApi.getCurrentUserInfo();
-      if (user) {
+      if (user?.data) {
         setSelectedCostume(user.data.profile);
       }
     };
     const fetchCostumes = async () => {
       const costumes = await userApi.getCurrentUserCostumes();
-      if (costumes) {
+      if (costumes?.data) {
         setCostumes(costumes.data);
       }
     };
