@@ -1,24 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import MobileHeader from "./MobileHeader";
 import DesktopHeader from "./DesktopHeader";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
-export default function Header() {
-  const [isMobile, setIsMobile] = useState(false);
+interface HeaderProps {
+  serverIsLoggedIn: boolean;
+}
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024);
-    };
-
-    handleResize(); // 초기 렌더링 시 한 번 실행
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  return isMobile ? <MobileHeader /> : <DesktopHeader />;
+export default function Header({ serverIsLoggedIn }: HeaderProps) {
+  const isMobile = useIsMobile();
+  console.log(isMobile);
+  return isMobile ? (
+    <MobileHeader serverIsLoggedIn={serverIsLoggedIn} />
+  ) : (
+    <DesktopHeader serverIsLoggedIn={serverIsLoggedIn} />
+  );
 }
