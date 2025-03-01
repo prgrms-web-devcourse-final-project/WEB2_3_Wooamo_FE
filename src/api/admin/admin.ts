@@ -22,9 +22,11 @@ const getAdminRecentSales = async () => {
   }
 };
 
-const getAllPartyList = async () => {
+const getAllPartyList = async (page?: number, size?: number) => {
   try {
-    const response = await fetchCustom.get(`/admin/party`);
+    const response = await fetchCustom.get(
+      `/admin/party?page=${page ?? 0}&size=${size ?? 10}`,
+    );
     if (!response.ok) throw new Error(response.statusText);
     const data: getAllPartyListRes = await response.json();
     return data;
