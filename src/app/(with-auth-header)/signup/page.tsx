@@ -140,12 +140,12 @@ export default function Signup() {
             <label htmlFor="nickname" className="text-xl font-semibold">
               닉네임
             </label>
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-3">
               <InputWithErrorMsg
                 id="nickname"
                 type="text"
                 placeholder="닉네임을 입력해주세요"
-                className="bg-site-button-input w-65 lg:w-114"
+                className="bg-site-button-input w-full lg:w-114"
                 value={nickname.value}
                 onChange={(e) => {
                   setIsVerifiedNickname(false);
@@ -166,12 +166,12 @@ export default function Signup() {
             <label htmlFor="email" className="text-xl font-semibold">
               이메일
             </label>
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-3">
               <InputWithErrorMsg
                 id="email"
                 type="text"
                 placeholder="이메일을 입력해주세요"
-                className="bg-site-button-input w-65 lg:w-114"
+                className="bg-site-button-input w-full lg:w-114"
                 value={email.value}
                 onChange={(e) => {
                   setIsVerifiedEmail(false);
@@ -198,11 +198,11 @@ export default function Signup() {
               >
                 인증번호 확인
               </label>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-3">
                 <Input
                   id="verification-code"
                   placeholder="인증번호를 입력해주세요"
-                  className="bg-site-button-input w-65 lg:w-114"
+                  className="bg-site-button-input w-full lg:w-114"
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value)}
                   autoFocus
