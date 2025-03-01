@@ -1,11 +1,12 @@
 "use client";
 
 import { useModalStore } from "@/store/modalStore";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import Modal from "../../../components/common/Modal";
 import Character from "../../../components/common/Character";
 import Button from "@/components/common/Button";
 import { shopApi } from "@/api/shop/shop";
+import { useToastStore } from "@/store/toastStore";
 
 interface ShopCostumeItemProps {
   costumeId: number;
@@ -21,15 +22,23 @@ export default function ShopCostumeItem({
   point,
 }: ShopCostumeItemProps) {
   const { open, close } = useModalStore((state) => state);
+  const showToast = useToastStore((state) => state.showToast);
 
   const handlePurchaseCostume = async (costumeId: number, point: number) => {
-    if (!costumeId || !point) return;
+    if (!costumeId) return showToast("코스튬 정보가 없습니다.");
+    if (!point) return showToast("포인트가 부족합니다.");
+
     const purchaseCostume = await shopApi.postCostumePurchase({
       costumeId,
       point,
     });
 
-    if (purchaseCostume?.status === "성공") close();
+    if (purchaseCostume?.status === "성공") {
+      showToast("코스튬 구매에 성공했습니다.");
+    } else {
+      showToast("코스튬 구매에 실패했습니다.");
+    }
+    close();
   };
 
   return (
