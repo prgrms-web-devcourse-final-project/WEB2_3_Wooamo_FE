@@ -3,6 +3,7 @@ import { Bitbitv2, Galmuri9, Pretendard } from "./fonts";
 import "@/assets/css/globals.css";
 import "swiper/css";
 import "swiper/css/pagination";
+import Toast from "@/components/common/Toast";
 
 export const metadata: Metadata = {
   title: "STUV",
@@ -21,6 +22,7 @@ export default function RootLayout({
       >
         {children}
         <div id="modal-root"></div>
+        <Toast />
       </body>
     </html>
   );
