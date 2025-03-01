@@ -145,7 +145,7 @@ const postPartyQuestReward = async (partyId: number) => {
       },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: responseType = await response.json();
+    const data: postPartyQuestRewardRes = await response.json();
     return data;
   } catch (error) {
     console.error(error);

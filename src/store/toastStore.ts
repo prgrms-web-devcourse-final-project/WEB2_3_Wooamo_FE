@@ -11,16 +11,17 @@ interface ToastStore {
   showToast: (message: string) => void;
 }
 
-let id = 0;
+let toastId = 0;
 
 export const useToastStore = create<ToastStore>((set, get) => ({
   toasts: [],
   showToast: (message: string) => {
-    const newToast = { id: `${id}-${message}`, message, isAnimating: true };
+    const id = `${toastId}-${message}`;
+    const newToast = { id, message, isAnimating: true };
     set((prev) => ({
       toasts: [...prev.toasts, newToast],
     }));
-    id = ++id % Number.MAX_SAFE_INTEGER;
+    toastId = ++toastId % Number.MAX_SAFE_INTEGER;
 
     setTimeout(() => {
       set((prev) => ({
@@ -31,7 +32,7 @@ export const useToastStore = create<ToastStore>((set, get) => ({
     }, 3000);
     setTimeout(() => {
       set((prev) => ({
-        toasts: prev.toasts.filter((toast) => toast.message !== message),
+        toasts: prev.toasts.filter((toast) => toast.id !== id),
       }));
     }, 3300);
   },

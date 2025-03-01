@@ -111,3 +111,10 @@ interface postPartyCreateAndParticipateRes {
     partyId: string;
   };
 }
+
+interface postPartyQuestRewardRes {
+  status: statusType;
+  data: {
+    point: number;
+  };
+}
