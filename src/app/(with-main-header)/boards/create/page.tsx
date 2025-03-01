@@ -38,9 +38,13 @@ export default function BoardsCreate() {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("title", title);
-      formData.append("context", context);
-      formData.append("boardType", selectedBoardType as "질문" | "자유");
+      const contents = {
+        title,
+        context,
+        boardType: selectedBoardType as "질문" | "자유",
+      };
+
+      formData.append("contents", new Blob([JSON.stringify(contents)]));
 
       images.forEach((image) => {
         formData.append("images", image);

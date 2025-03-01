@@ -53,9 +53,11 @@ const getCommentsByBoardId = async (boardId: number) => {
 const createBoard = async (formData: FormData) => {
   try {
     const response = await fetchCustom.post(`/board`, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
       body: formData,
     });
-
     if (!response.ok) {
       throw new Error("Failed to create board");
     }
