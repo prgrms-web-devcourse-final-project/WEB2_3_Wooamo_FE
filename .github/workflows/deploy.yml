@@ -28,4 +28,4 @@ jobs:
             pm2 kill
             pnpm install
             pnpm build
-            pm2 start "pnpm start"
+            pm2 start "sudo pnpm start"
