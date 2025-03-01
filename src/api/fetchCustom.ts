@@ -15,7 +15,7 @@ const fetchCustomBase = async (
 
   const response = await fetch(`${baseUrl}${url}`, {
     ...init,
-    credentials: "include",
+    ...(isMockApi ? {} : { credentials: "include" }),
     headers: {
       ...init?.headers,
       ...(accessToken && { access: String(accessToken) }),
@@ -49,7 +49,7 @@ export const fetchCustom = {
       {
         ...init,
         method: "POST",
-        headers: { ...init?.headers, "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...init?.headers },
       },
       isMockApi,
     );
@@ -61,7 +61,7 @@ export const fetchCustom = {
       {
         ...init,
         method: "PUT",
-        headers: { ...init?.headers, "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...init?.headers },
       },
       isMockApi,
     );
@@ -73,10 +73,7 @@ export const fetchCustom = {
       {
         ...init,
         method: "PATCH",
-        headers: {
-          ...init?.headers,
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json", ...init?.headers },
       },
       isMockApi,
     );
@@ -89,8 +86,8 @@ export const fetchCustom = {
         ...init,
         method: "DELETE",
         headers: {
-          ...init?.headers,
           "Content-Type": "application/json",
+          ...init?.headers,
         },
       },
       isMockApi,
