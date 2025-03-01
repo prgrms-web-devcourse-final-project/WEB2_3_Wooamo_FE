@@ -10,7 +10,7 @@ const getBoardList = async (page?: number) => {
       throw new Error("Failed to fetch board list");
     }
 
-    const data: boardListResponse = await response.json();
+    const data: paginationType<boardItem[]> = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching board list:", error);
@@ -26,7 +26,7 @@ const getBoardByBoardId = async (boardId: number) => {
       throw new Error("Failed to fetch board detail");
     }
 
-    const data: boardDetailResponse = await response.json();
+    const data: responseType<boardDetail> = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching board detail:", error);
@@ -42,7 +42,7 @@ const getCommentsByBoardId = async (boardId: number) => {
       throw new Error("Failed to fetch board comments");
     }
 
-    const data: commentListResponse = await response.json();
+    const data: paginationType<commentItem[]> = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching comments:", error);
@@ -62,7 +62,7 @@ const createBoard = async (formData: FormData) => {
       throw new Error("Failed to create board");
     }
 
-    const data: createBoardResponse = await response.json();
+    const data: responseType<createBoardResponse> = await response.json();
     return data;
   } catch (error) {
     console.error("Error creating board:", error);
@@ -77,7 +77,7 @@ const updateBoard = async (boardId: number, formData: FormData) => {
     });
     if (!response.ok) {
     }
-    const data: updateBoardResponse = await response.json();
+    const data: responseType<updateBoardResponse> = await response.json();
     return data;
   } catch (error) {
     console.error("Error updating board:", error);
@@ -91,7 +91,7 @@ const deleteBoard = async (boardId: number) => {
     if (!response.ok) {
       throw new Error("Failed to delete board");
     }
-    const data: deleteBoardResponse = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error("Error deleting board:", error);
@@ -109,7 +109,7 @@ const createComment = async (boardId: number, data: createCommentRequest) => {
       throw new Error("Failed to create comment");
     }
 
-    const responseData: createCommentResponse = await response.json();
+    const responseData: responseType = await response.json();
     return responseData;
   } catch (error) {
     console.error("Error creating comment:", error);
@@ -124,7 +124,7 @@ const deleteComment = async (commentId: number) => {
     if (!response.ok) {
       throw new Error("Failed to delete comment");
     }
-    const data: deleteCommentResponse = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error("Error deleting comment:", error);
@@ -140,7 +140,7 @@ const selectComment = async (commentId: number) => {
       throw new Error("Failed to select comment");
     }
 
-    const data: selectCommentResponse = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error("Error selecting comment:", error);

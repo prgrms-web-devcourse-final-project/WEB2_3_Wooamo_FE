@@ -4,7 +4,7 @@ const getEventBanner = async () => {
       `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/event`,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getEventBannerRes = await response.json();
+    const data: responseType<EventBannerType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -24,7 +24,8 @@ const getScheduledPartyList = async (
       },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getScheduledPartyListRes = await response.json();
+    const data: responseType<ScheduledPartyListContents[]> =
+      await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -37,7 +38,7 @@ const getActivePartyList = async () => {
       `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/active`,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getActivePartyListRes = await response.json();
+    const data: responseType<ActivePartyType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -53,7 +54,7 @@ const getCompletedPartyList = async () => {
       },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getCompletedPartyListRes = await response.json();
+    const data: responseType<CompletedPartyType[]> = await response.json();
     return data;
   } catch (error) {
     console.log(error);
@@ -69,7 +70,7 @@ const getPartyDetail = async (partyId: number) => {
       },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getPartyPageDetailRes = await response.json();
+    const data: responseType<PartyDetailType> = await response.json();
     return data;
   } catch (error) {
     console.log(error);
@@ -82,7 +83,7 @@ const getPartyParticipantList = async (partyId: number) => {
       `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}/users`,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getPartyParticipantListRes = await response.json();
+    const data: responseType<PartyParticipantType[]> = await response.json();
     return data;
   } catch (error) {
     console.log(error);
@@ -96,7 +97,7 @@ const getPersonalQuestState = async () => {
       { next: { tags: ["personal-quest-state"] } },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getPersonalQuestStateRes = await response.json();
+    const data: responseType<{ state: string }> = await response.json();
     return data;
   } catch (error) {
     console.log(error);
@@ -145,7 +146,7 @@ const postPartyQuestReward = async (partyId: number) => {
       },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: postPartyQuestRewardRes = await response.json();
+    const data: responseType<{ point: number }> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -181,7 +182,7 @@ const postPartyCreateAndParticipate = async (
       },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: postPartyCreateAndParticipateRes = await response.json();
+    const data: responseType<{ partyId: string }> = await response.json();
     return data;
   } catch (error) {
     console.error(error);

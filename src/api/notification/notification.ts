@@ -8,7 +8,7 @@ const getNotificationList = async () => {
       throw new Error("Failed to fetch notification list");
     }
 
-    const data: notificationResponse = await response.json();
+    const data: responseType<notificationItem[]> = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching notification list:", error);
@@ -33,7 +33,7 @@ const markAllAsRead = async () => {
       throw new Error("Failed to mark all notifications as read");
     }
 
-    const data: markAllAsReadResponse = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error("Error marking all notifications as read:", error);
@@ -58,7 +58,7 @@ const markAsRead = async (alertId: number) => {
       throw new Error("Failed to mark notification as read");
     }
 
-    const data: MarkAsReadResponse = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error("Error marking notification as read:", error);

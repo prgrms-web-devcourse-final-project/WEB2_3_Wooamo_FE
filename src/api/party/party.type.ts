@@ -1,11 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 interface EventBannerType {
   image: string;
   partyId: number;
-}
-
-interface getEventBannerRes {
-  status: statusType;
-  data: EventBannerType[];
 }
 
 interface ScheduledPartyListContents {
@@ -16,29 +12,12 @@ interface ScheduledPartyListContents {
   startDate: string;
 }
 
-interface getScheduledPartyListRes {
-  status: statusType;
-  data: {
-    contents: ScheduledPartyListContents[];
-    page: number;
-    size: number;
-    totalElementes: number;
-    totalPages: number;
-    hasNext: boolean;
-  };
-}
-
 interface ActivePartyType {
   partyId: number;
   name: string;
   recruitCap: number;
   recruitCnt: number;
   endDate: string;
-}
-
-interface getActivePartyListRes {
-  status: statusType;
-  data: ActivePartyType[];
 }
 
 interface CompletedPartyType {
@@ -48,24 +27,16 @@ interface CompletedPartyType {
   questStatus: string;
 }
 
-interface getCompletedPartyListRes {
-  status: statusType;
-  data: CompletedPartyType[];
-}
-
-interface getPartyPageDetailRes {
-  status: statusType;
-  data: {
-    partyId: number;
-    name: string;
-    context: string;
-    recruitCap: number;
-    recruitCnt: number;
-    startDate: string;
-    endDate: string;
-    bettingPointCap: number;
-    isJoined: boolean;
-  };
+interface PartyDetailType {
+  partyId: number;
+  name: string;
+  context: string;
+  recruitCap: number;
+  recruitCnt: number;
+  startDate: string;
+  endDate: string;
+  bettingPointCap: number;
+  isJoined: boolean;
 }
 
 interface PartyParticipantType {
@@ -74,25 +45,6 @@ interface PartyParticipantType {
   profile: string;
   context: string;
   isFriend: boolean;
-}
-
-interface getPartyParticipantListRes {
-  status: statusType;
-  data: {
-    contents: PartyParticipantType[];
-    page: number;
-    size: number;
-    totalElements: number;
-    totalPages: number;
-    hasNext: boolean;
-  };
-}
-
-interface getPersonalQuestStateRes {
-  status: statusType;
-  data: {
-    state: string;
-  };
 }
 
 interface postPartyCreateAndParticipateReq {
@@ -105,16 +57,3 @@ interface postPartyCreateAndParticipateReq {
   userBettingPoint: number;
 }
 
-interface postPartyCreateAndParticipateRes {
-  status: statusType;
-  data: {
-    partyId: string;
-  };
-}
-
-interface postPartyQuestRewardRes {
-  status: statusType;
-  data: {
-    point: number;
-  };
-}

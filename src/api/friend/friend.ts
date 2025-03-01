@@ -8,7 +8,7 @@ const getFriends = async (page?: number, size?: number) => {
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getFriendsRes = await response.json();
+    const data: paginationType<friendType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -23,7 +23,7 @@ const getRecommendFriends = async () => {
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getUsersRes = await response.json();
+    const data: responseType<userType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -38,7 +38,7 @@ const getRequestFriends = async (page?: number, size?: number) => {
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getRequestFriendsRes = await response.json();
+    const data: paginationType<requestFriendType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -50,7 +50,7 @@ const search = async (query: string) => {
     const response = await fetchCustom.get(`/friend/search?query=${query}`);
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getUsersRes = await response.json();
+    const data: paginationType<userType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -64,7 +64,7 @@ const requestFriend = async (receiverId: number) => {
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: requestFriendRes = await response.json();
+    const data: responseType<requestFriendType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);

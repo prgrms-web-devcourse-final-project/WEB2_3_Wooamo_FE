@@ -9,7 +9,7 @@ const getCostumeList = async (page?: number, size?: number) => {
       },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getCostumeListRes = await response.json();
+    const data: paginationType<CostumeType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -39,7 +39,7 @@ const postCostumeRandomPurchase = async (point = 100) => {
       true,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: postCostumeRandomPurchaseRes = await response.json();
+    const data: responseType<CostumeType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -56,7 +56,7 @@ const postPointPurchase = async (body: postPointPurchaseReq) => {
       true,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: postPointPurchaseRes = await response.json();
+    const data: responseType<paymentType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
