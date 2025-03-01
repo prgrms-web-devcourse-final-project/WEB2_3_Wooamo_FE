@@ -10,6 +10,7 @@ interface userType {
   nickname: string;
   point: number;
   profile: string;
+  role: "USER" | "ADMIN";
 }
 
 interface topRankingUserInfo {

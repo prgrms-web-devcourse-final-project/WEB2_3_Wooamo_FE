@@ -1,8 +1,8 @@
+import { fetchCustom } from "../fetchCustom";
+
 const getEventBanner = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/event`,
-    );
+    const response = await fetchCustom.get(`/party/event`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<EventBannerType[]> = await response.json();
     return data;
@@ -17,11 +17,12 @@ const getScheduledPartyList = async (
   size?: number,
 ) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party?name=${name}&page=${page ?? 0}&size=${size}`,
+    const response = await fetchCustom.get(
+      `/party?name=${name}&page=${page ?? 0}&size=${size}`,
       {
         next: { tags: ["party-list"] },
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<ScheduledPartyListContents[]> =
@@ -34,9 +35,7 @@ const getScheduledPartyList = async (
 
 const getActivePartyList = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/active`,
-    );
+    const response = await fetchCustom.get(`/party/active`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<ActivePartyType[]> = await response.json();
     return data;
@@ -47,11 +46,12 @@ const getActivePartyList = async () => {
 
 const getCompletedPartyList = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/complete`,
+    const response = await fetchCustom.get(
+      `/party/complete`,
       {
         next: { tags: ["party-quest"] },
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<CompletedPartyType[]> = await response.json();
@@ -63,11 +63,12 @@ const getCompletedPartyList = async () => {
 
 const getPartyDetail = async (partyId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}`,
+    const response = await fetchCustom.get(
+      `/party/${partyId}`,
       {
         next: { tags: ["party-detail"] },
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<PartyDetailType> = await response.json();
@@ -79,9 +80,7 @@ const getPartyDetail = async (partyId: number) => {
 
 const getPartyParticipantList = async (partyId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}/users`,
-    );
+    const response = await fetchCustom.get(`/party/${partyId}/users`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<PartyParticipantType[]> = await response.json();
     return data;
@@ -92,9 +91,12 @@ const getPartyParticipantList = async (partyId: number) => {
 
 const getPersonalQuestState = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/user/quest`,
-      { next: { tags: ["personal-quest-state"] } },
+    const response = await fetchCustom.get(
+      `/user/quest`,
+      {
+        next: { tags: ["personal-quest-state"] },
+      },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ state: string }> = await response.json();
@@ -106,12 +108,12 @@ const getPersonalQuestState = async () => {
 
 const postParticiapteParty = async (partyId: number, bettingPoint: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}`,
+    const response = await fetchCustom.post(
+      `/party/${partyId}`,
       {
-        method: "POST",
         body: JSON.stringify(bettingPoint),
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
@@ -123,12 +125,7 @@ const postParticiapteParty = async (partyId: number, bettingPoint: number) => {
 
 const postPersonalQuestReward = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/user/reward`,
-      {
-        method: "POST",
-      },
-    );
+    const response = await fetchCustom.post(`/user/reward`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;
@@ -139,11 +136,10 @@ const postPersonalQuestReward = async () => {
 
 const postPartyQuestReward = async (partyId: number) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}/reward`,
-      {
-        method: "POST",
-      },
+    const response = await fetchCustom.post(
+      `/party/${partyId}/reward`,
+      {},
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ point: number }> = await response.json();
@@ -155,12 +151,12 @@ const postPartyQuestReward = async (partyId: number) => {
 
 const postPartyparticipationVerify = async (partyId: number, image: File[]) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party/${partyId}/verify`,
+    const response = await fetchCustom.post(
+      `/party/${partyId}/verify`,
       {
-        method: "POST",
         body: JSON.stringify(image),
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
@@ -174,12 +170,12 @@ const postPartyCreateAndParticipate = async (
   body: postPartyCreateAndParticipateReq,
 ) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/party`,
+    const response = await fetchCustom.post(
+      `/party`,
       {
-        method: "POST",
         body: JSON.stringify(body),
       },
+      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ partyId: string }> = await response.json();

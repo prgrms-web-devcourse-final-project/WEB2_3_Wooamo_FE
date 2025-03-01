@@ -14,7 +14,7 @@ interface requestFriendType {
   nickname: string;
   context: string;
   receiverId: number;
-  status: string;
+  status: "PENDING" | "ACCEPTED";
 }
 
 interface searchFriendsRes {
