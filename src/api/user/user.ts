@@ -8,7 +8,7 @@ const getCurrentUserInfo = async () => {
     });
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: userInfoRes = await response.json();
+    const data: responseType<userType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -23,7 +23,7 @@ const getUserInfo = async (userId: number) => {
     });
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: userInfoRes = await response.json();
+    const data: responseType<userType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -35,7 +35,7 @@ const getCurrentUserRanking = async () => {
     const response = await fetchCustom.get(`/user/ranking`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: userRankingRes = await response.json();
+    const data: responseType<{ ranking: number }> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -47,7 +47,7 @@ const getTopRanking = async () => {
     const response = await fetchCustom.get(`/user/topranking`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getTopRankingRes = await response.json();
+    const data: responseType<topRankingUserInfo[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -59,7 +59,7 @@ const getCurrentUserCostumes = async () => {
     const response = await fetchCustom.get(`/user/costume`);
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getCostumesRes = await response.json();
+    const data: responseType<costumeType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -71,7 +71,7 @@ const getCurrentUserPosts = async () => {
     const response = await fetchCustom.get(`/user/board`);
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getUserPostsRes = await response.json();
+    const data: responseType<boardItem[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -97,7 +97,7 @@ const updateUserCostume = async (costumeId: number) => {
     const response = await fetchCustom.patch(`/user/costume/${costumeId}`);
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: updateUserInfoRes = await response.json();
+    const data: responseType<{ profile: string }> = await response.json();
     return data;
   } catch (error) {
     console.error(error);

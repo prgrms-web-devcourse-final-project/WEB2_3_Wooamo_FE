@@ -7,7 +7,7 @@ const addTodo = async (todo: string) => {
     });
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: addTodoRes = await response.json();
+    const data: responseType<{ todoId: number }> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -21,7 +21,7 @@ const getTodos = async () => {
     });
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getTodosRes = await response.json();
+    const data: responseType<todoType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);

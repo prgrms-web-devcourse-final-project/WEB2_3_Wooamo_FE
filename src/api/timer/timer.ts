@@ -10,7 +10,7 @@ const getTimerList = async () => {
       true,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getTimerListRes = await response.json();
+    const data: responseType<TimerCategoryType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -25,7 +25,7 @@ const getStudyTimeForMonth = async (year: number, month: number) => {
       true,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getStudyTimeForMonthRes = await response.json();
+    const data: responseType<studyTimeType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -36,7 +36,7 @@ const getStudyTimeForWeek = async () => {
   try {
     const response = await fetchCustom.get(`/time/weekly`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
-    const data: getStudyTimeForWeekRes = await response.json();
+    const data: responseType<{ studyTime: string }> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -53,7 +53,7 @@ const getStudyTimeForDaily = async () => {
       true,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getStudyTimeForDailyRes = await response.json();
+    const data: responseType<studyTimeType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -66,7 +66,7 @@ const postTimerCategoryAdd = async (timer: string) => {
       body: JSON.stringify(timer),
     });
     if (!response.ok) throw new Error(response.statusText);
-    const data: postTimerCategoryAddRes = await response.json();
+    const data: responseType<{ categoryId: number }> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
