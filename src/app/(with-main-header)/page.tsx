@@ -9,9 +9,5 @@ export default async function Home() {
   const serverIsLoggedIn = await hasCookieAtServer("accessToken");
   const isLoggedIn = clientIsLoggedIn || serverIsLoggedIn;
 
-  return isLoggedIn ? (
-    <AfterLoginHome />
-  ) : (
-    <BeforeLoginHome />
-  );
+  return isLoggedIn ? <AfterLoginHome /> : <BeforeLoginHome />;
 }
