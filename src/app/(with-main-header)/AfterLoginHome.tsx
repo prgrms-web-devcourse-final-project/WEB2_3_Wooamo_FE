@@ -6,13 +6,12 @@ import Timer from "./Timer";
 import TodoList from "./TodoList";
 import WhiteDividerShort from "@/assets/images/WhiteDividerShort.svg";
 import { userApi } from "@/api/user/user";
-import ButtonExample from "./ButtonExample";
 
 export default async function AfterLoginHome() {
   const topRankings = await userApi.getTopRanking();
-  if (!topRankings) return;
+  if (!topRankings?.data) return;
 
-  const [first, second, third] = topRankings?.data;
+  const [first, second, third] = topRankings.data;
   return (
     <div className="flex flex-col lg:flex-row gap-30 justify-center px-5 lg:px-0">
       <div className="flex flex-col gap-15">
@@ -50,7 +49,6 @@ export default async function AfterLoginHome() {
         <Image src={WhiteDividerShort} alt="구분선 이미지" />
         <TodoList />
       </div>
-      <ButtonExample />
     </div>
   );
 }
