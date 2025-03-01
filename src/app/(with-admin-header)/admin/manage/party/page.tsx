@@ -19,7 +19,7 @@ export default async function page() {
         {allPartyList.map((party) => (
           <PartyList
             key={party.partyId}
-            index={party.partyId}
+            partyId={party.partyId}
             title={party.name}
             totalHeadcount={party.recruitCap}
             headcount={party.recruitCnt}

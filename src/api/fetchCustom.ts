@@ -15,7 +15,7 @@ const fetchCustomBase = async (
 
   const response = await fetch(`${baseUrl}${url}`, {
     ...init,
-    credentials: "include",
+    ...(isMockApi ? {} : { credentials: "include" }),
     headers: {
       ...init?.headers,
       ...(accessToken && { access: String(accessToken) }),

@@ -21,7 +21,7 @@ export default async function Shop() {
       <section className="xl:sticky xl:top-38 flex flex-col w-147 items-center gap-10 relative">
         <div className="flex items-center">
           <span className="font-galmuri text-xl lg:text-2xl">
-            {currentUserPoint
+            {fetchCurrentUserInfo
               ? `보유 포인트 ${currentUserPoint}p`
               : `로그인해주세요`}
           </span>

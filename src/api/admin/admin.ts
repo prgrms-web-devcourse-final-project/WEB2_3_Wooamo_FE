@@ -4,7 +4,7 @@ const getAdminWeeklyInfo = async () => {
   try {
     const response = await fetchCustom.get(`/admin`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
-    const data: getAdminWeeklyInfoRes = await response.json();
+    const data: responseType<getAdminWeeklyInfoRes> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -15,18 +15,20 @@ const getAdminRecentSales = async () => {
   try {
     const response = await fetchCustom.get(`/admin/payment`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
-    const data: getAdminRecentSalesRes = await response.json();
+    const data: responseType<getAdminRecentSalesRes[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
   }
 };
 
-const getAllPartyList = async () => {
+const getAllPartyList = async (page?: number, size?: number) => {
   try {
-    const response = await fetchCustom.get(`/admin/party`);
+    const response = await fetchCustom.get(
+      `/admin/party?page=${page ?? 0}&size=${size ?? 10}`,
+    );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getAllPartyListRes = await response.json();
+    const data: paginationType<PartyDetailType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -37,7 +39,7 @@ const getPartyDetail = async (partyId: number) => {
   try {
     const response = await fetchCustom.get(`/admin/party/${partyId}`);
     if (!response.ok) throw new Error(response.statusText);
-    const data: getPartyDetailRes = await response.json();
+    const data: responseType<PartyDetailDataType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -54,7 +56,7 @@ const getMemberCertification = async (
       `/admin/party/${partyId}/${memberId}?date=${date}`,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getMemberCertificationRes = await response.json();
+    const data: responseType<getMemberCertificationRes> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -87,7 +89,7 @@ const getAllEventList = async () => {
       true,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getAllEventListRes = await response.json();
+    const data: responseType<getAllEventListRes> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
