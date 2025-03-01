@@ -19,7 +19,7 @@ export default function TodoItem({ todo }: { todo: todoType }) {
   const [editedTodo, setEditedTodo] = useState(todo.todo);
 
   const updateTodo = async (todo: todoType) => {
-    const res = await todoApi.updateTodo(1, todo.todo);
+    const res = await todoApi.updateTodo(todo.todoId, todo.todo);
     if (res?.status === "성공") {
       setIsEditable(false);
       revalidateTagAction("todos");
@@ -27,7 +27,7 @@ export default function TodoItem({ todo }: { todo: todoType }) {
   };
 
   const deleteTodo = async () => {
-    const res = await todoApi.deleteTodo(1);
+    const res = await todoApi.deleteTodo(todo.todoId);
     if (res?.status === "성공") {
       revalidateTagAction("todos");
     }
