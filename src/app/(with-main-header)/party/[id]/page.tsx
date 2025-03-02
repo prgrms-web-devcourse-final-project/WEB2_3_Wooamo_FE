@@ -19,7 +19,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
   const partyDetail = fetchPartyDetail?.data;
 
   const fetchPartyParticipantList = await partyApi.getPartyParticipantList(id);
-  const partyParticipantList = fetchPartyParticipantList?.data.contents;
+  const partyParticipantList = fetchPartyParticipantList?.data?.contents;
 
   if (!partyDetail) return;
   if (!partyParticipantList) return;
