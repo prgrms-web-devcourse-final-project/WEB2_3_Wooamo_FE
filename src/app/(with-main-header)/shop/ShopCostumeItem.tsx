@@ -13,6 +13,7 @@ interface ShopCostumeItemProps {
   name: string;
   costume: string;
   point: number;
+  currentUserPoint: number;
 }
 
 export default function ShopCostumeItem({
@@ -20,13 +21,17 @@ export default function ShopCostumeItem({
   name,
   costume,
   point,
+  currentUserPoint,
 }: ShopCostumeItemProps) {
   const { open, close } = useModalStore((state) => state);
   const showToast = useToastStore((state) => state.showToast);
 
   const handlePurchaseCostume = async (costumeId: number, point: number) => {
     if (!costumeId) return showToast("코스튬 정보가 없습니다.");
-    if (!point) return showToast("포인트가 부족합니다.");
+    if (currentUserPoint - point < 0) {
+      close();
+      return showToast("포인트가 부족합니다.");
+    }
 
     const purchaseCostume = await shopApi.postCostumePurchase({
       costumeId,
