@@ -51,7 +51,12 @@ export default function BoardsCreate() {
         boardType: selectedBoardType as "질문" | "자유",
       };
 
-      formData.append("contents", new Blob([JSON.stringify(contents)]));
+      formData.append(
+        "contents",
+        new Blob([JSON.stringify(contents)], {
+          type: "application/json",
+        }),
+      );
 
       images.forEach((image) => {
         formData.append("images", image);
@@ -59,10 +64,10 @@ export default function BoardsCreate() {
 
       const response = await boardApi.createBoard(formData);
 
-      console.log("Created board response:", response); // 응답 확인
-      console.log("New board ID:", response.data.boardId); // boardId 확인
+      console.log("Created board response:", response);
+      console.log("New board ID:", response.data?.boardId);
 
-      router.push(`/boards/${response.data.boardId}`);
+      router.push(`/boards/${response.data?.boardId}`);
     } catch (error) {
       console.error("게시글 작성 실패:", error);
     }
