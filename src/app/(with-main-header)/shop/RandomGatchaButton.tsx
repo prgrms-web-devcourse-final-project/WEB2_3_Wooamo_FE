@@ -17,7 +17,6 @@ export default function RandomGachaButton() {
   const [isGotchaing, setIsGotchaing] = useState<boolean>(false);
 
   const handlePurchaseRandomCostume = async (point = 100) => {
-    if (!point) return;
     setIsGotchaing(true);
 
     setTimeout(async () => {

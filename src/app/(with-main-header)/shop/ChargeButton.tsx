@@ -47,8 +47,6 @@ export default function ChargeButton() {
       point,
     });
 
-    if (!requestTossPayment?.data?.orderId) return;
-
     if (requestTossPayment?.status === "성공") {
       close();
       await tossPayment?.requestPayment({
