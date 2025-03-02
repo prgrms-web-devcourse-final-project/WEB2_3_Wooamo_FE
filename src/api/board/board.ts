@@ -78,6 +78,12 @@ const updateBoard = async (boardId: number, formData: FormData) => {
       body: formData,
     });
     if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      console.error("Response status:", response.status);
+      console.error("Error data:", errorData);
+      throw new Error(
+        `Failed to update board: ${response.status} ${response.statusText}`,
+      );
     }
     const data: responseType<updateBoardResponse> = await response.json();
     return data;
@@ -104,6 +110,9 @@ const deleteBoard = async (boardId: number) => {
 const createComment = async (boardId: number, data: createCommentRequest) => {
   try {
     const response = await fetchCustom.post(`/board/${boardId}/comment`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     });
 

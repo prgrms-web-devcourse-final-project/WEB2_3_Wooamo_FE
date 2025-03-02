@@ -32,6 +32,13 @@ export default function BoardsCreate() {
     setImages((prevImages) =>
       prevImages.filter((_, index) => index !== indexToDelete),
     );
+
+    const fileInput = document.getElementById(
+      "board-images",
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
   };
 
   const createPost = async (e: FormEvent<HTMLFormElement>) => {
