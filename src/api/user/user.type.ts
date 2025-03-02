@@ -14,8 +14,10 @@ interface userType {
 }
 
 interface topRankingUserInfo {
+  userId: number;
   nickname: string;
   studyTime: string;
+  profile: string;
 }
 
 interface costumeType {

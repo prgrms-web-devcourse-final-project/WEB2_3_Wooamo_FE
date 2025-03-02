@@ -18,11 +18,21 @@ export default function TodoItem({ todo }: { todo: todoType }) {
   const [isOpen, setIsOpen] = useState(false);
   const [editedTodo, setEditedTodo] = useState(todo.todo);
 
+  const checkTodo = async () => {
+    const res = await todoApi.updateTodo(
+      todo.todoId,
+      todo.todo,
+      !isTodoChecked,
+    );
+    if (res?.status === "성공") {
+      setIsTodoChecked((prev) => !prev);
+    }
+  };
+
   const updateTodo = async (todo: todoType) => {
-    const res = await todoApi.updateTodo(todo.todoId, todo.todo);
+    const res = await todoApi.updateTodo(todo.todoId, todo.todo, isTodoChecked);
     if (res?.status === "성공") {
       setIsEditable(false);
-      revalidateTagAction("todos");
     }
   };
 
@@ -41,8 +51,8 @@ export default function TodoItem({ todo }: { todo: todoType }) {
           id={`todo-checkbox-${todo.todo}`}
           type="checkbox"
           checked={isTodoChecked}
-          onChange={() => setIsTodoChecked((prev) => !prev)}
-          className="appearance-none w-6 lg:w-7 h-6 lg:h-7 bg-site-button rounded-[3px]"
+          onChange={checkTodo}
+          className="appearance-none w-6 lg:w-7 h-6 lg:h-7 bg-site-button rounded-[3px] cursor-pointer"
         />
 
         <Icon
@@ -75,7 +85,7 @@ export default function TodoItem({ todo }: { todo: todoType }) {
           <label
             htmlFor={`todo-checkbox-${todo.todo}`}
             className={twMerge(
-              "text-xl select-none",
+              "text-xl select-none cursor-pointer",
               isTodoChecked && "line-through opacity-50",
             )}
           >
