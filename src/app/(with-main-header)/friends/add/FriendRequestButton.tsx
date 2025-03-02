@@ -16,9 +16,8 @@ export default function FriendRequestButton({ user }: { user: userType }) {
 
     timer.current = setTimeout(async () => {
       const res = await friendApi.requestFriend(user.userId);
-      if (res?.status === "성공") {
+      if (res?.data) {
         setFriendId(res.data.friendId);
-        revalidateTagAction("friends");
       }
     }, 1000);
   };
@@ -33,7 +32,6 @@ export default function FriendRequestButton({ user }: { user: userType }) {
       const res = await friendApi.deleteFriend(friendId);
       if (res?.status === "성공") {
         setFriendId(null);
-        revalidateTagAction("friends");
       }
     }, 1000);
   };

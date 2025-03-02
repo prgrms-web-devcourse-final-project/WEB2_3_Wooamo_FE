@@ -25,11 +25,18 @@ const routes = {
   "/party": "팟 페이지",
 } as const;
 
-export default function DesktopHeader() {
+interface DesktopHeaderProps {
+  serverIsLoggedIn: boolean;
+}
+
+export default function DesktopHeader({
+  serverIsLoggedIn,
+}: DesktopHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
-  const isLoggedIn = hasCookie("accessToken");
+  const clientIsLoggedIn = hasCookie("accessToken");
+  const isLoggedIn = clientIsLoggedIn || serverIsLoggedIn;
 
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
