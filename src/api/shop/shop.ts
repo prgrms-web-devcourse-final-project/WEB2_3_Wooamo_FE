@@ -19,6 +19,7 @@ const getCostumeList = async (page?: number, size?: number) => {
 const postCostumePurchase = async (body: postCostumePurchaseReq) => {
   try {
     const response = await fetchCustom.post(`/costume`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -31,13 +32,10 @@ const postCostumePurchase = async (body: postCostumePurchaseReq) => {
 
 const postCostumeRandomPurchase = async (point = 100) => {
   try {
-    const response = await fetchCustom.post(
-      `/costume/random`,
-      {
-        body: JSON.stringify({ point }),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/costume/random`, {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ point }),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<CostumeType> = await response.json();
     return data;
@@ -48,13 +46,10 @@ const postCostumeRandomPurchase = async (point = 100) => {
 
 const postPointPurchase = async (body: postPointPurchaseReq) => {
   try {
-    const response = await fetchCustom.post(
-      `/payments`,
-      {
-        body: JSON.stringify(body),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/payments`, {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<paymentType> = await response.json();
     return data;
@@ -65,13 +60,10 @@ const postPointPurchase = async (body: postPointPurchaseReq) => {
 
 const postPointPurchaseConfirm = async (body: postPointPurchaseConfirmReq) => {
   try {
-    const response = await fetchCustom.post(
-      `/payments/confirm`,
-      {
-        body: JSON.stringify(body),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/payments/confirm`, {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;

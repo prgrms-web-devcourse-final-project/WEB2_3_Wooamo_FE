@@ -2,13 +2,9 @@ import { fetchCustom } from "../fetchCustom";
 
 const getTimerList = async () => {
   try {
-    const response = await fetchCustom.get(
-      `/timer`,
-      {
-        next: { tags: ["timer-list"] },
-      },
-      true,
-    );
+    const response = await fetchCustom.get(`/timer`, {
+      next: { tags: ["timer-list"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<TimerCategoryType[]> = await response.json();
     return data;
@@ -22,7 +18,6 @@ const getStudyTimeForMonth = async (year: number, month: number) => {
     const response = await fetchCustom.get(
       `/time/monthly?year=${year}&month=${month}`,
       {},
-      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<studyTimeType[]> = await response.json();
@@ -45,13 +40,9 @@ const getStudyTimeForWeek = async () => {
 
 const getStudyTimeForDaily = async () => {
   try {
-    const response = await fetchCustom.get(
-      `/timer/daily`,
-      {
-        next: { tags: ["daily-time"] },
-      },
-      true,
-    );
+    const response = await fetchCustom.get(`/time/daily`, {
+      next: { tags: ["daily-time"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<studyTimeType> = await response.json();
     return data;
@@ -63,7 +54,8 @@ const getStudyTimeForDaily = async () => {
 const postTimerCategoryAdd = async (timer: string) => {
   try {
     const response = await fetchCustom.post(`/timer/category`, {
-      body: JSON.stringify(timer),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ timer }),
     });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ categoryId: number }> = await response.json();
@@ -88,13 +80,10 @@ const deleteTimerCategory = async (categoryId: number) => {
 
 const postStudyTimeSave = async (categoryId: number, time: string) => {
   try {
-    const response = await fetchCustom.post(
-      `/timer/${categoryId}`,
-      {
-        body: JSON.stringify({ time }),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/timer/${categoryId}`, {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ time }),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;

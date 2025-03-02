@@ -16,8 +16,7 @@ export default function RandomGachaButton() {
   const [costumeImage, setCostumeImage] = useState<string>("");
   const [isGotchaing, setIsGotchaing] = useState<boolean>(false);
 
-  const handlePurchaseRandomCostume = async (point = 100) => {
-    if (!point) return;
+  const handlePurchaseRandomCostume = async (point = 300) => {
     setIsGotchaing(true);
 
     setTimeout(async () => {
@@ -43,11 +42,11 @@ export default function RandomGachaButton() {
         )}
       />
       <Button
-        onClick={() => handlePurchaseRandomCostume(100)}
+        onClick={() => handlePurchaseRandomCostume(300)}
         disabled={isGotchaing}
         className="bg-site-sub"
       >
-        {isGotchaing ? "뽑는 중..." : "랜덤뽑기 100p"}
+        {isGotchaing ? "뽑는 중..." : "랜덤뽑기 300p"}
       </Button>
 
       <Modal modalId="random-gacha">
