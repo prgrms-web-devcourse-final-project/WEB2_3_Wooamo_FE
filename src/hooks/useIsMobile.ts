@@ -11,9 +11,9 @@ export const useIsMobile = () => {
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
           userAgent,
         );
-      setIsMobile(
-        mobile || ("ontouchstart" in window && window.innerWidth <= 1024),
-      );
+
+      const isMobileDevice = mobile || window.innerWidth <= 1024;
+      setIsMobile(isMobileDevice);
     };
 
     checkIsMobile();
