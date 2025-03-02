@@ -5,9 +5,14 @@ const getBoardList = async (page?: number) => {
     const response = await fetchCustom.get(
       `/board?title=&page=${page ?? 0}&size=10`,
     );
-    console.log(response);
+
     if (!response.ok) {
-      throw new Error("Failed to fetch board list");
+      const errorData = await response.json().catch(() => null);
+      console.error("Response status:", response.status);
+      console.error("Error data:", errorData);
+      throw new Error(
+        `Failed to fetch board list: ${response.status} ${response.statusText}`,
+      );
     }
 
     const data: paginationType<boardItem[]> = await response.json();
@@ -53,9 +58,6 @@ const getCommentsByBoardId = async (boardId: number) => {
 const createBoard = async (formData: FormData) => {
   try {
     const response = await fetchCustom.post(`/board`, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
       body: formData,
     });
     if (!response.ok) {
