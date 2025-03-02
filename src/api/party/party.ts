@@ -18,11 +18,10 @@ const getScheduledPartyList = async (
 ) => {
   try {
     const response = await fetchCustom.get(
-      `/party?name=${name}&page=${page ?? 0}&size=${size}`,
+      `/party?name=${name}&page=${page ?? 0}&size=${size ?? 10}`,
       {
         next: { tags: ["party-list"] },
       },
-      true,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: paginationType<ScheduledPartyListContents[]> =
@@ -35,7 +34,7 @@ const getScheduledPartyList = async (
 
 const getActivePartyList = async () => {
   try {
-    const response = await fetchCustom.get(`/party/active`, {}, true);
+    const response = await fetchCustom.get(`/party/active`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<ActivePartyType[]> = await response.json();
     return data;
