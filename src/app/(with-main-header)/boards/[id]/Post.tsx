@@ -15,7 +15,9 @@ interface PostProps {
 
 export default function Post({ boardId }: PostProps) {
   const [boardDetail, setBoardDetail] = useState<boardDetail | null>(null);
-  const [currentUser, setCurrentUser] = useState<userInfoRes | null>(null);
+  const [currentUser, setCurrentUser] = useState<responseType<userType> | null>(
+    null,
+  );
 
   useEffect(() => {
     const fetchData = async () => {
