@@ -4,14 +4,14 @@ type statusType = "성공";
 interface responseType<T = null> {
   status: statusType;
   message?: string;
-  data?: T;
+  data: T;
 }
 
 interface paginationType<T = null> {
   status: statusType;
   message?: string;
   data: {
-    contents: T[];
+    contents: T;
     page: number;
     size: number;
     totalElements: number;
