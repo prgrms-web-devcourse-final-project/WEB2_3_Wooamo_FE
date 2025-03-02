@@ -17,7 +17,6 @@ const getStudyTimeForMonth = async (year: number, month: number) => {
   try {
     const response = await fetchCustom.get(
       `/time/monthly?year=${year}&month=${month}`,
-      {},
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<studyTimeType[]> = await response.json();
@@ -29,7 +28,7 @@ const getStudyTimeForMonth = async (year: number, month: number) => {
 
 const getStudyTimeForWeek = async () => {
   try {
-    const response = await fetchCustom.get(`/time/weekly`, {}, true);
+    const response = await fetchCustom.get(`/time/weekly`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ studyTime: string }> = await response.json();
     return data;
