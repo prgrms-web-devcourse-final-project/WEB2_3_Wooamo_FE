@@ -43,7 +43,7 @@ export default async function OngoingParties() {
           </div>
         </>
       ) : (
-        <div className="flex flex-col gap-5 px-5">
+        <div className="flex flex-col gap-5 px-5 lg:px-0">
           <p className="font-galmuri text-xl lg:text-2xl">
             <span>참여 중인 팟</span>
             <span className="ml-3">0</span>

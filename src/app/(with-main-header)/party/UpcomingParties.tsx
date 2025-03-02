@@ -45,7 +45,7 @@ export default async function UpcomingParties() {
           </div>
         </>
       ) : (
-        <div className="flex flex-col gap-5 px-5 mb-10">
+        <div className="flex flex-col gap-5 px-5 lg:px-0 mb-10 lg:mb-0">
           <p className="font-galmuri text-xl lg:text-2xl">
             <span>시작 전인 팟</span>
             <span className="ml-3">0</span>
