@@ -47,8 +47,7 @@ export default function ChargeButton() {
       point,
     });
 
-    console.log(`requestTossPayment가 나왔으면 좋겠습니다:`);
-    console.log(requestTossPayment?.data);
+    if (!requestTossPayment?.data?.orderId) return;
 
     if (requestTossPayment?.status === "성공") {
       close();
@@ -58,8 +57,7 @@ export default function ChargeButton() {
           currency: "KRW",
           value: amount,
         },
-        // orderId: responseTossPayment.orderId,
-        orderId: "dkdhs-dkdjss-eejdndd-adlskdjf",
+        orderId: requestTossPayment.data?.orderId,
         orderName: `${point} 포인트`,
         successUrl: "http://localhost:3000/shop",
         failUrl: "http://localhost:3000/shop",
