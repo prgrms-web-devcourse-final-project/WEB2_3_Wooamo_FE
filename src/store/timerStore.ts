@@ -3,7 +3,7 @@ import { create } from "zustand";
 interface TimerData {
   time: string;
   intervalId: NodeJS.Timeout | null;
-  lastStartTime?: number;
+  lastStartTime: number | null;
 }
 
 interface TimerStore {
@@ -72,6 +72,7 @@ export const useTimerStore = create<TimerStore>((set) => ({
         [categoryId]: {
           time: "00:00:00",
           intervalId: null,
+          lastStartTime: null,
         },
       },
     })),
