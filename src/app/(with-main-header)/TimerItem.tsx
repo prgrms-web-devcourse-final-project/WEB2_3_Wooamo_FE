@@ -14,7 +14,6 @@ import dynamic from "next/dynamic";
 const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
 interface TimerItemProps {
-  timerId: number;
   categoryId: number;
   name: string;
   studyDate: string;
@@ -22,7 +21,6 @@ interface TimerItemProps {
 }
 
 export default function TimerItem({
-  timerId,
   categoryId,
   name,
   studyDate,
