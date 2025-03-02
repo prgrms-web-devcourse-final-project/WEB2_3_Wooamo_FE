@@ -3,7 +3,7 @@ import { create } from "zustand";
 interface TimerData {
   time: string;
   intervalId: NodeJS.Timeout | null;
-  lastStartTime?: number | null;
+  lastStartTime: number | null;
 }
 
 interface TimerStore {
