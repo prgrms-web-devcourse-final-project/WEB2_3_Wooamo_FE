@@ -11,7 +11,7 @@ interface paginationType<T = null> {
   status: statusType;
   message?: string;
   data: {
-    contents: T[];
+    contents: T;
     page: number;
     size: number;
     totalElements: number;
