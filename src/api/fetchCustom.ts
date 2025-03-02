@@ -49,7 +49,7 @@ export const fetchCustom = {
       {
         ...init,
         method: "POST",
-        headers: { "Content-Type": "application/json", ...init?.headers },
+        headers: { ...init?.headers },
       },
       isMockApi,
     );
@@ -61,7 +61,7 @@ export const fetchCustom = {
       {
         ...init,
         method: "PUT",
-        headers: { "Content-Type": "application/json", ...init?.headers },
+        headers: { ...init?.headers },
       },
       isMockApi,
     );
@@ -73,7 +73,7 @@ export const fetchCustom = {
       {
         ...init,
         method: "PATCH",
-        headers: { "Content-Type": "application/json", ...init?.headers },
+        headers: { ...init?.headers },
       },
       isMockApi,
     );

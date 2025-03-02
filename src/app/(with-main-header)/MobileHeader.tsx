@@ -23,11 +23,16 @@ const routes = {
   "/party": "팟 페이지",
 } as const;
 
-export default function MobileHeader() {
+interface MobileHeaderProps {
+  serverIsLoggedIn: boolean;
+}
+
+export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0] ?? "/";
-  const isLoggedIn = hasCookie("accessToken");
+  const clientIsLoggedIn = hasCookie("accessToken");
+  const isLoggedIn = clientIsLoggedIn || serverIsLoggedIn;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
