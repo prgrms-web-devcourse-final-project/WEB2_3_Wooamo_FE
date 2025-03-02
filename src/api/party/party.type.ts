@@ -56,4 +56,3 @@ interface postPartyCreateAndParticipateReq {
   bettingPointCap: number;
   userBettingPoint: number;
 }
-

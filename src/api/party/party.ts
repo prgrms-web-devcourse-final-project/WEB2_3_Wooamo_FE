@@ -81,7 +81,7 @@ const getPartyParticipantList = async (partyId: number) => {
   try {
     const response = await fetchCustom.get(`/party/${partyId}/users`, {}, true);
     if (!response.ok) throw new Error(response.statusText);
-    const data: responseType<PartyParticipantType[]> = await response.json();
+    const data: paginationType<PartyParticipantType[]> = await response.json();
     return data;
   } catch (error) {
     console.log(error);
