@@ -25,7 +25,7 @@ const getScheduledPartyList = async (
       true,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: responseType<ScheduledPartyListContents[]> =
+    const data: paginationType<ScheduledPartyListContents[]> =
       await response.json();
     return data;
   } catch (error) {
