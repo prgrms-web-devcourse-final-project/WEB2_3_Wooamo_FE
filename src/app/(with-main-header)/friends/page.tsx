@@ -16,7 +16,7 @@ export default async function Friends() {
 
   if (!friends || !requestFriends) return null;
   return (
-    <div className="flex flex-col gap-5 lg:gap-8 items-center">
+    <div className="flex flex-col gap-5 lg:gap-8 items-center px-5 lg:px-0">
       <section className="flex flex-col w-full gap-5 lg:gap-8">
         <p className="flex items-center gap-2.5 font-galmuri text-xl lg:text-2xl">
           <span>친구요청</span>
@@ -24,12 +24,18 @@ export default async function Friends() {
         </p>
         <div className="flex flex-col">
           <Suspense fallback={<FriendItemSkeleton count={3} />}>
-            {requestFriends.data.contents.map((friend) => (
-              <FriendsRequestItem
-                key={`requestFriends-${friend.friendId}`}
-                friend={friend}
-              />
-            ))}
+            {requestFriends.data.contents.length === 0 ? (
+              <div className="h-19 lg:h-25 flex justify-center items-center">
+                <p className="text-site-darkgray-02">친구 요청이 없습니다.</p>
+              </div>
+            ) : (
+              requestFriends.data.contents.map((friend) => (
+                <FriendsRequestItem
+                  key={`requestFriends-${friend.friendId}`}
+                  friend={friend}
+                />
+              ))
+            )}
           </Suspense>
         </div>
       </section>
@@ -57,9 +63,15 @@ export default async function Friends() {
         </div>
         <div className="flex flex-col">
           <Suspense fallback={<FriendItemSkeleton count={3} />}>
-            {friends.data.contents.map((friend) => (
-              <FriendsItem key={`friends-${friend.userId}`} friend={friend} />
-            ))}
+            {friends.data.contents.length === 0 ? (
+              <div className="h-19 lg:h-25 flex justify-center items-center">
+                <p className="text-site-darkgray-02">친구가 없습니다.</p>
+              </div>
+            ) : (
+              friends.data.contents.map((friend) => (
+                <FriendsItem key={`friends-${friend.userId}`} friend={friend} />
+              ))
+            )}
           </Suspense>
         </div>
       </section>
