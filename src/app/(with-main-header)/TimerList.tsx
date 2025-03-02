@@ -22,8 +22,8 @@ export default async function TimerList({ timerList }: TimerListProps) {
       <div className="flex flex-col gap-3">
         {timerList.map((timer) => (
           <TimerItem
-            key={timer.timerId}
-            timerId={timer.timerId}
+            key={timer.categoryId}
+            timerId={timer.categoryId}
             categoryId={timer.categoryId}
             name={timer.name}
             studyDate={timer.studyDate}
