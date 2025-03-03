@@ -45,13 +45,9 @@ const getActivePartyList = async () => {
 
 const getCompletedPartyList = async () => {
   try {
-    const response = await fetchCustom.get(
-      `/party/complete`,
-      {
-        next: { tags: ["party-quest"] },
-      },
-      true,
-    );
+    const response = await fetchCustom.get(`/party/complete`, {
+      next: { tags: ["party-quest"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<CompletedPartyType[]> = await response.json();
     return data;
