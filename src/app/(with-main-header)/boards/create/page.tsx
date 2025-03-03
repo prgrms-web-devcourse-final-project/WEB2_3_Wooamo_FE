@@ -5,7 +5,7 @@ import Button from "@/components/common/Button";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Input from "@/components/common/Input";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useRef } from "react";
 import Dropdown from "@/components/common/Dropdown";
 import { boardApi } from "@/api/board/board";
 import { useRouter } from "next/navigation";
@@ -18,6 +18,7 @@ export default function BoardsCreate() {
   const [selectedBoardType, setSelectedBoardType] = useState("자유");
   const [images, setImages] = useState<File[]>([]);
   const [context, setContext] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -33,11 +34,8 @@ export default function BoardsCreate() {
       prevImages.filter((_, index) => index !== indexToDelete),
     );
 
-    const fileInput = document.getElementById(
-      "board-images",
-    ) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = "";
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
