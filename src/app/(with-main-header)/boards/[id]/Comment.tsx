@@ -64,11 +64,14 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
   };
 
   const isSelectableComment =
-    !isCommentAuthor && isBoardAuthor && boardInfo?.boardType === "질문";
+    !isCommentAuthor &&
+    isBoardAuthor &&
+    boardInfo?.boardType === "질문" &&
+    !boardInfo?.isConfirm;
 
   return (
     <article
-      className={`flex gap-2.5 ${
+      className={`flex gap-2.5 group ${
         isSelectableComment && "hover:bg-site-white-70 rounded-4xl"
       }`}
     >
@@ -96,10 +99,10 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
           <div className="relative">
             {isConfirmed && (
               <Button
-                className="bg-transparent px-0 lg:px-0 mr-5 lg:mr-6"
+                className="bg-transparent  px-0 lg:px-0 mr-5 lg:mr-6"
                 disabled
               >
-                <Icon MuiIcon={CheckRoundedIcon} />
+                <Icon MuiIcon={CheckRoundedIcon} className="text-site-main" />
               </Button>
             )}
 
@@ -107,7 +110,7 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
               <>
                 <Button
                   onClick={() => setIsOpen((prev) => !prev)}
-                  className="bg-transparent px-0 lg:px-0"
+                  className="bg-transparent px-0 lg:px-0 mr-5 lg:mr-6 "
                 >
                   <Icon MuiIcon={MoreHorizRoundedIcon} />
                 </Button>
@@ -127,7 +130,7 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
             {!isConfirmed && isSelectableComment && (
               <Button
                 onClick={handleSelect}
-                className="bg-transparent px-0 lg:px-0"
+                className="bg-site-button hidden group-hover:block"
               >
                 채택
               </Button>
