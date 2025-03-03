@@ -1,6 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 import AvatarImg from "@/assets/images/avatar.png";
 import { twMerge } from "tailwind-merge";
+import basic from "@/assets/images/costumes/basic.png";
 
 interface CharacterProps {
   costumeSrc: string | StaticImageData;
@@ -19,7 +20,7 @@ export default function Character({ costumeSrc, className }: CharacterProps) {
         priority
       />
       <Image
-        src={costumeSrc}
+        src={costumeSrc || basic}
         alt={"유저 코스튬 이미지"}
         className="object-contain absolute bottom-0"
         sizes="100%"
