@@ -8,6 +8,7 @@ import spotlight from "@/assets/images/spotlight.png";
 import WhiteDividerShort from "@/assets/images/WhiteDividerShort.svg";
 import { useEffect, useState } from "react";
 import { userApi } from "@/api/user/user";
+import { revalidateTagAction } from "@/actions";
 
 export default function ClosetTab() {
   const [selectedCostume, setSelectedCostume] = useState<string | null>(null);
@@ -15,8 +16,9 @@ export default function ClosetTab() {
 
   const changeCostume = async (costume: costumeType) => {
     const currentCostume = await userApi.updateUserCostume(costume.costumeId);
-    if (currentCostume?.data) {
+    if (currentCostume?.status === "성공") {
       setSelectedCostume(currentCostume.data.profile);
+      revalidateTagAction("user");
     }
   };
 
