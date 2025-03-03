@@ -62,7 +62,7 @@ export default function ShopCostumeItem({
               alt={name}
               className="object-contain"
               fill
-              sizes=""
+              sizes="100%"
             />
           </div>
         </article>
