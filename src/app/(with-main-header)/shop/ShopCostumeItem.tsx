@@ -59,9 +59,10 @@ export default function ShopCostumeItem({
           <div className="relative w-full h-full">
             <Image
               src={costume}
-              alt="코스튬 입은 아바타 미리보기 이미지"
+              alt={name}
               className="object-contain"
               fill
+              sizes=""
             />
           </div>
         </article>
