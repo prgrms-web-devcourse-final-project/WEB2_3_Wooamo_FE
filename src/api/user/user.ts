@@ -6,6 +6,7 @@ const getCurrentUserInfo = async () => {
       next: { tags: ["point", "user"] },
       cache: "force-cache",
     });
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<userType> = await response.json();
