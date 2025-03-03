@@ -4,13 +4,11 @@ import Icon from "@/components/common/Icon";
 import Link from "next/link";
 import ProfileEditButton from "./ProfileEditButton";
 import { userApi } from "@/api/user/user";
-import { friendApi } from "@/api/friend/friend";
 
 export default async function MyProfile() {
   const user = await userApi.getCurrentUserInfo();
-  const friends = await friendApi.getFriends();
 
-  if (!user?.data || !friends?.data) return;
+  if (!user?.data) return;
   return (
     <section className="flex flex-col min-w-full lg:min-w-100 gap-2.5 lg:gap-7 px-2.5">
       <p className="font-bitbitv2 text-2xl lg:text-[28px]">
@@ -31,9 +29,7 @@ export default async function MyProfile() {
               <Link href={"/friends"} className="mr-3">
                 친구
               </Link>
-              <span className="text-site-darkgray-02">
-                {friends.data.totalElements}
-              </span>
+              <span className="text-site-darkgray-02">{user.data.friends}</span>
             </p>
           </div>
           <ProfileEditButton user={user.data} />

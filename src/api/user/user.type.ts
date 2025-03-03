@@ -10,6 +10,9 @@ interface userType {
   nickname: string;
   point: number;
   profile: string;
+  friends: number;
+  friendId: number | null;
+  status: "ACCEPTED" | "PENDING" | null;
   role: "USER" | "ADMIN";
 }
 
