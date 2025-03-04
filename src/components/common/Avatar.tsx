@@ -1,10 +1,8 @@
-import { StaticImageData } from "next/image";
 import { twMerge } from "tailwind-merge";
 import Character from "./Character";
-import basic from "@/assets/images/costumes/basic.png";
 
 interface AvatarProps {
-  costumeSrc: StaticImageData | string;
+  costumeSrc: string;
   className?: string;
 }
 
@@ -17,7 +15,7 @@ export default function Avatar({ costumeSrc, className }: AvatarProps) {
       )}
     >
       <Character
-        costumeSrc={costumeSrc || basic}
+        costumeSrc={costumeSrc}
         className="w-full h-full -translate-y-1/8"
       />
     </div>
