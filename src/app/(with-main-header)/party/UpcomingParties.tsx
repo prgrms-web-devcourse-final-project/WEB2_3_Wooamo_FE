@@ -26,7 +26,7 @@ export default async function UpcomingParties() {
               전체보기
             </Link>
           </div>
-          <div className="flex flex-col gap-2.5 lg:gap-3">
+          <div className="flex flex-col gap-2.5 lg:gap-3 mb-10">
             <div className="flex items-center font-semibold lg:text-xl px-5 lg:px-7">
               <p className="flex-5">팟</p>
               <p className="flex-2">인원</p>
