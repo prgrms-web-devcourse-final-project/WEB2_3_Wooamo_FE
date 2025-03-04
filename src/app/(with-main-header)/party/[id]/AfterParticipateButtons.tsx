@@ -42,9 +42,12 @@ export default function AfterParticipateButtons({
     e.preventDefault();
 
     if (verifyImage) {
+      const formData = new FormData();
+      formData.append("image", verifyImage[0]);
+
       const request = await partyApi.postPartyparticipationVerify(
         partyId,
-        verifyImage,
+        formData,
       );
 
       if (request?.status === "성공") {
