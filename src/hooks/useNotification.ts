@@ -23,6 +23,12 @@ export function useNotification({
   }, []);
 
   const handleMarkAllAsRead = useCallback(async () => {
+    const allRead = notifications.every((notification) => notification.isRead);
+    if (allRead) {
+      console.log("이미 전체 읽음");
+      return;
+    }
+
     const response = await notificationApi.markAllAsRead();
     if (response) {
       setNotifications((prev) =>
@@ -32,35 +38,50 @@ export function useNotification({
         })),
       );
     }
-  }, []);
+  }, [notifications]);
+
+  const navigateToNotification = useCallback(
+    (notification: notificationItem) => {
+      switch (notification.type) {
+        case "COMMENT":
+        case "CONFIRM":
+          if (notification.typeId) {
+            router.push(`/boards/${notification.typeId}`);
+          }
+          break;
+        case "FOLLOW":
+          router.push("/friends");
+          break;
+      }
+      closeNotification();
+    },
+    [router],
+  );
 
   const handleMarkAsRead = useCallback(
     async (notification: notificationItem) => {
-      const response = await notificationApi.markAsRead(notification.alertId);
-      if (response) {
-        setNotifications((prev) =>
-          prev.map((item) =>
-            item.alertId === notification.alertId
-              ? { ...item, isRead: true }
-              : item,
-          ),
-        );
-
-        switch (notification.type) {
-          case "COMMENT":
-          case "CONFIRM":
-            if (notification.typeId) {
-              router.push(`/boards/${notification.typeId}`);
-            }
-            break;
-          case "FOLLOW":
-            router.push("/friends");
-            break;
+      try {
+        if (!notification.isRead) {
+          const response = await notificationApi.markAsRead(
+            notification.alertId,
+          );
+          if (response) {
+            setNotifications((prev) =>
+              prev.map((item) =>
+                item.alertId === notification.alertId
+                  ? { ...item, isRead: true }
+                  : item,
+              ),
+            );
+          }
         }
-        closeNotification();
+        navigateToNotification(notification);
+      } catch (error) {
+        console.error("Error handling notification:", error);
+        navigateToNotification(notification);
       }
     },
-    [router],
+    [navigateToNotification],
   );
 
   const toggleNotification = useCallback(() => {
