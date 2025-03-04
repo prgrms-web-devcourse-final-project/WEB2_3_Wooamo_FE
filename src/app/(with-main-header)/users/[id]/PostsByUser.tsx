@@ -7,7 +7,6 @@ interface PostsByUserProps {
 }
 
 export default async function PostsByUser({ userId }: PostsByUserProps) {
-  await delay(3000);
   const posts = await userApi.getUserPosts(userId);
   if (!posts) return;
   return (
