@@ -16,7 +16,7 @@ export default async function MyProfile() {
       </p>
       <div className="flex items-center lg:items-end gap-13">
         <Avatar
-          costumeSrc={user.data.profile}
+          costumeSrc={user.data.profile ?? ""}
           className="w-32.5 lg:w-40 h-32.5 lg:h-40"
         />
         <div className="flex flex-col justify-end items-center gap-6 lg:gap-7.5">

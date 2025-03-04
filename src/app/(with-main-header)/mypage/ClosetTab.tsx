@@ -25,7 +25,7 @@ export default function ClosetTab() {
     const fetchCurrentUserCostume = async () => {
       const user = await userApi.getCurrentUserInfo();
       if (user?.data) {
-        setSelectedCostume(user.data.profile);
+        setSelectedCostume(user.data.profile ?? "");
       }
     };
     const fetchCostumes = async () => {

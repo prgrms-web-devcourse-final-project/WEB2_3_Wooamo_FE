@@ -9,7 +9,7 @@ interface userType {
   link: string;
   nickname: string;
   point: number;
-  profile: string;
+  profile: string | null;
   friends: number;
   friendId: number | null;
   status: "ACCEPTED" | "PENDING" | null;

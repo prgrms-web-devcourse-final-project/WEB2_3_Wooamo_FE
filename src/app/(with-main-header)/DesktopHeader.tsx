@@ -125,7 +125,7 @@ export default function DesktopHeader({
             )}
           </div>
           <button onClick={() => setIsOpenDropdown(true)}>
-            <Avatar costumeSrc={user.profile} className="w-14 h-14" />
+            <Avatar costumeSrc={user.profile ?? ""} className="w-14 h-14" />
           </button>
           {isOpenDropdown && (
             <Dropdown
