@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface ProfileSummaryProps {
   userId: number;
-  costume: string | StaticImageData;
+  costume: string;
   nickname: string;
   description: string;
 }

@@ -25,13 +25,6 @@ export default function PartySearch() {
     }
   };
 
-  useEffect(() => {
-    const searchValue = searchParams.get("name");
-    if (searchValue) {
-      setKeyword(searchValue);
-    }
-  }, [searchParams]);
-
   return (
     <InputIcon
       value={keyword}

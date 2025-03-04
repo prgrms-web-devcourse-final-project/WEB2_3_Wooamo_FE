@@ -1,3 +1,4 @@
+import { revalidatePathAction } from "@/actions";
 import { adminApi } from "@/api/admin/admin";
 import Button from "@/components/common/Button";
 import Image from "next/image";
@@ -30,10 +31,19 @@ export default function CertificationViewer() {
 
   const handleConfirmCertification = async (auth: boolean) => {
     if (!date) return;
-    await adminApi.patchConfirmCertification(Number(id), Number(memberId), {
-      date,
-      auth,
-    });
+    console.log(date, auth);
+    const confirmCertification = await adminApi.patchConfirmCertification(
+      Number(id),
+      Number(memberId),
+      {
+        date,
+        auth,
+      },
+    );
+
+    if (confirmCertification?.status === "성공") {
+      revalidatePathAction("member-list");
+    }
   };
 
   return (
@@ -43,13 +53,19 @@ export default function CertificationViewer() {
         <div className="flex gap-2">
           <Button
             className="lg:text-sm lg:px-3 lg:h-10 bg-site-alarm text-site-white-100 font-pretendard"
-            onClick={() => handleConfirmCertification(false)}
+            onClick={() => {
+              handleConfirmCertification(false);
+              console.log(`인증 실패`);
+            }}
           >
             실패
           </Button>
           <Button
             className="lg:text-sm lg:px-3 lg:h-10 bg-site-main text-site-white-100 font-pretendard"
-            onClick={() => handleConfirmCertification(true)}
+            onClick={() => {
+              handleConfirmCertification(true);
+              console.log(`인증 성공`);
+            }}
           >
             성공
           </Button>

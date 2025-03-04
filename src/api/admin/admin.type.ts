@@ -25,7 +25,7 @@ interface PartyMemberType {
   memberId: number;
   profile: string;
   nickname: string;
-  isAuth: string;
+  isAuth: boolean;
 }
 
 interface PartyDetailDataType {
@@ -59,18 +59,6 @@ interface getAllEventListRes {
   totalElements: number;
   totalPages: number;
   hasNext: boolean;
-}
-
-interface postEventCreateReq {
-  party: {
-    name: string;
-    context: string;
-    recruitCap: number;
-    startDate: string;
-    endDate: string;
-    bettingPointCap: number;
-  };
-  image: File[];
 }
 
 interface putCostumeEditReq {
