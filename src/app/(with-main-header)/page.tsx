@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { hasCookieAtServer } from "@/api/cookie";
 import AfterLoginHome from "./AfterLoginHome";
 import BeforeLoginHome from "./BeforeLoginHome";

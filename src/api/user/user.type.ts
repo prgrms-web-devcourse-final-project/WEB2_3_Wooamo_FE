@@ -9,13 +9,18 @@ interface userType {
   link: string;
   nickname: string;
   point: number;
-  profile: string;
+  profile: string | null;
+  friends: number;
+  friendId: number | null;
+  status: "ACCEPTED" | "PENDING" | null;
   role: "USER" | "ADMIN";
 }
 
 interface topRankingUserInfo {
+  userId: number;
   nickname: string;
   studyTime: string;
+  profile: string;
 }
 
 interface costumeType {

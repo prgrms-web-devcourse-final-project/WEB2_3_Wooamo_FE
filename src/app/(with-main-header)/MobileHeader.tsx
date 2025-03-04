@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo.svg";
 import Icon from "@/components/common/Icon";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
@@ -15,6 +15,8 @@ import NotificationList from "../../components/common/NotificationList";
 import { useNotification } from "@/hooks/useNotification";
 import { deleteCookie, hasCookie } from "cookies-next";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { userApi } from "@/api/user/user";
+import Avatar from "@/components/common/Avatar";
 
 const routes = {
   "/": "홈",
@@ -34,6 +36,7 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
   const clientIsLoggedIn = hasCookie("accessToken");
   const isLoggedIn = clientIsLoggedIn || serverIsLoggedIn;
 
+  const [user, setUser] = useState<userType | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
@@ -64,6 +67,17 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
     setTimeout(() => setIsVisible(false), 200);
   };
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await userApi.getCurrentUserInfo();
+      if (user?.status === "성공") {
+        setUser(user.data);
+      }
+    };
+    fetchUser();
+  }, [pathname]);
+
+  if (!user) return;
   return (
     <>
       <header className="fixed w-full top-0 z-50 flex justify-between px-5 h-15 items-center bg-[#8CCDF3]">
@@ -123,9 +137,25 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
           </button>
 
           <div className="flex flex-col gap-10 mt-27 font-semibold">
-            <Link onClick={closeSidebar} href={"/signin"}>
-              로그인
-            </Link>
+            {isLoggedIn ? (
+              <Link
+                href={`/users/${user.userId}`}
+                onClick={closeSidebar}
+                className="flex items-center gap-2.5"
+              >
+                <Avatar className="w-12.5 h-12.5" costumeSrc={user.profile} />
+                <div className="flex flex-col gap-1">
+                  <p className="font-semibold">{user.nickname}</p>
+                  <p className="text-sm text-site-darkgray-02 line-clamp-1">
+                    {user.context}
+                  </p>
+                </div>
+              </Link>
+            ) : (
+              <Link onClick={closeSidebar} href={"/signin"}>
+                로그인
+              </Link>
+            )}
             <nav>
               <ul className="flex flex-col gap-4 items-start">
                 {Object.keys(routes).map((path) => (

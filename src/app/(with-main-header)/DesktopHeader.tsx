@@ -8,14 +8,14 @@ import { twMerge } from "tailwind-merge";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Avatar from "@/components/common/Avatar";
-import basic from "@/assets/images/costumes/basic.png";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import NotificationList from "../../components/common/NotificationList";
 import { useNotification } from "@/hooks/useNotification";
 import Dropdown from "@/components/common/Dropdown";
 import Button from "../../components/common/Button";
 import { deleteCookie, hasCookie } from "cookies-next";
 import dynamic from "next/dynamic";
+import { userApi } from "@/api/user/user";
 
 const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
@@ -38,6 +38,7 @@ export default function DesktopHeader({
   const clientIsLoggedIn = hasCookie("accessToken");
   const isLoggedIn = clientIsLoggedIn || serverIsLoggedIn;
 
+  const [user, setUser] = useState<userType | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -58,6 +59,17 @@ export default function DesktopHeader({
     router.push("/");
   };
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await userApi.getCurrentUserInfo();
+      if (user?.status === "성공") {
+        setUser(user.data);
+      }
+    };
+    fetchUser();
+  }, [pathname]);
+
+  if (!user) return null;
   return (
     <header className="fixed w-full top-0 z-50 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-[#8CCDF3]">
       <div className="flex gap-20 items-center">
@@ -113,13 +125,20 @@ export default function DesktopHeader({
             )}
           </div>
           <button onClick={() => setIsOpenDropdown(true)}>
-            <Avatar costumeSrc={basic} className="w-14 h-14" />
+            <Avatar costumeSrc={user.profile ?? ""} className="w-14 h-14" />
           </button>
           {isOpenDropdown && (
             <Dropdown
               className="lg:top-22 lg:right-12 font-galmuri text-xl font-normal"
               onClose={() => setIsOpenDropdown(false)}
             >
+              <Link
+                href={"/friends"}
+                onClick={() => setIsOpenDropdown(false)}
+                className="flex justify-center items-center px-6 py-4 hover:opacity-50 transition-colors"
+              >
+                친구
+              </Link>
               <Link
                 href={"/mypage"}
                 onClick={() => setIsOpenDropdown(false)}
