@@ -5,6 +5,7 @@ const getTimerList = async () => {
     const response = await fetchCustom.get(`/timer`, {
       next: { tags: ["timer-list"] },
     });
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<TimerCategoryType[]> = await response.json();
     return data;
@@ -39,6 +40,7 @@ const getStudyTimeForMonth = async (
 const getStudyTimeForWeek = async () => {
   try {
     const response = await fetchCustom.get(`/time/weekly`);
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ studyTime: string }> = await response.json();
     return data;

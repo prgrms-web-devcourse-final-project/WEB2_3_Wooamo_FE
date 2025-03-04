@@ -35,16 +35,16 @@ export default async function AfterLoginHome() {
               rank={1}
               nickname={first?.nickname || "-"}
               time={first?.studyTime || "공부 시작! 🚀"}
-              userId={second?.userId}
-              profile={second?.profile}
+              userId={first?.userId}
+              profile={first?.profile}
               className="scale-110 drop-shadow-6.2 -rotate-14 hover:rotate-0 hover:scale-120 z-10 hover:z-30"
             />
             <RankingCard
               rank={3}
               nickname={third?.nickname || "-"}
               time={third?.studyTime || "공부 시작! 🚀"}
-              userId={second?.userId}
-              profile={second?.profile}
+              userId={third?.userId}
+              profile={third?.profile}
               className="-translate-x-10 drop-shadow-50 rotate-6 hover:rotate-0 hover:scale-120 hover:z-30"
             />
           </div>

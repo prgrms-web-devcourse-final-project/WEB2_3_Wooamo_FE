@@ -10,7 +10,7 @@ export async function getCookieAtServer(key: string) {
   return (await cookies()).get(key)?.value;
 }
 
-export async function removeCookieAtServer(key: string) {
+export async function deleteCookieAtServer(key: string) {
   (await cookies()).delete(key);
 }
 

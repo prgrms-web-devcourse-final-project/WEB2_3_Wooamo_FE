@@ -34,6 +34,7 @@ const getUserInfo = async (userId: number) => {
 const getCurrentUserRanking = async () => {
   try {
     const response = await fetchCustom.get(`/user/ranking`);
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<{ ranking: number }> = await response.json();
