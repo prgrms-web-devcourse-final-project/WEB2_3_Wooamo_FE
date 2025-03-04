@@ -1,7 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import Character from "@/components/common/Character";
-import { userApi } from "@/api/user/user";
 
 interface RankingCardProps {
   rank: number;
@@ -20,10 +19,8 @@ export default async function RankingCard({
   profile,
   className,
 }: RankingCardProps) {
-  const currentUser = await userApi.getCurrentUserInfo();
-  if (!currentUser) return;
   return (
-    <Link href={`/users/${userId || currentUser.data.userId}`}>
+    <Link href={userId ? `/users/${userId}` : "/"}>
       <article
         className={twMerge(
           "flex flex-col justify-end items-center gap-3 lg:gap-4 relative w-32 lg:w-52.5 h-41 lg:h-68 p-2 pt-4 lg:p-4 bg-site-button border-5 border-white rounded-[10px] transition-all",
