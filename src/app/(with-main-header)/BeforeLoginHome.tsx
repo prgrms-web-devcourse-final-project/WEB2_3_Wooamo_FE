@@ -2,8 +2,8 @@ import Image from "next/image";
 import weekRanking from "@/assets/images/weekRanking.png";
 import RankingCard from "./RankingCard";
 import EventParties from "./party/EventParties";
-import OngoingParties from "./party/OngoingParties";
 import { userApi } from "@/api/user/user";
+import UpcomingParties from "./party/UpcomingParties";
 
 export default async function BeforeLoginHome() {
   const topRankings = await userApi.getTopRanking();
@@ -47,7 +47,7 @@ export default async function BeforeLoginHome() {
       </section>
       <div className="flex flex-col gap-13 mt-10 lg:mt-24">
         <EventParties />
-        <OngoingParties />
+        <UpcomingParties />
       </div>
     </>
   );

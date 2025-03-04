@@ -2,7 +2,7 @@ import { fetchCustom } from "../fetchCustom";
 
 const getEventBanner = async () => {
   try {
-    const response = await fetchCustom.get(`/party/event`, {}, true);
+    const response = await fetchCustom.get(`/party/event`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<EventBannerType[]> = await response.json();
     return data;
@@ -18,7 +18,7 @@ const getScheduledPartyList = async (
 ) => {
   try {
     const response = await fetchCustom.get(
-      `/party?name=${name}&page=${page ?? 0}&size=${size ?? 10}`,
+      `/party?name=${name ?? ""}&page=${page ?? 0}&size=${size ?? 10}`,
       {
         next: { tags: ["party-list"] },
       },
@@ -45,13 +45,9 @@ const getActivePartyList = async () => {
 
 const getCompletedPartyList = async () => {
   try {
-    const response = await fetchCustom.get(
-      `/party/complete`,
-      {
-        next: { tags: ["party-quest"] },
-      },
-      true,
-    );
+    const response = await fetchCustom.get(`/party/complete`, {
+      next: { tags: ["party-quest"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<CompletedPartyType[]> = await response.json();
     return data;
@@ -62,13 +58,9 @@ const getCompletedPartyList = async () => {
 
 const getPartyDetail = async (partyId: number) => {
   try {
-    const response = await fetchCustom.get(
-      `/party/${partyId}`,
-      {
-        next: { tags: ["party-detail"] },
-      },
-      true,
-    );
+    const response = await fetchCustom.get(`/party/${partyId}`, {
+      next: { tags: ["party-detail"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<PartyDetailType> = await response.json();
     return data;
@@ -77,11 +69,17 @@ const getPartyDetail = async (partyId: number) => {
   }
 };
 
-const getPartyParticipantList = async (partyId: number) => {
+const getPartyParticipantList = async (
+  partyId: number,
+  page?: number,
+  size?: number,
+) => {
   try {
-    const response = await fetchCustom.get(`/party/${partyId}/users`, {}, true);
+    const response = await fetchCustom.get(
+      `/party/${partyId}/users?page=${page ?? 0}&size=${size ?? 10}`,
+    );
     if (!response.ok) throw new Error(response.statusText);
-    const data: responseType<PartyParticipantType[]> = await response.json();
+    const data: paginationType<PartyParticipantType[]> = await response.json();
     return data;
   } catch (error) {
     console.log(error);
@@ -107,13 +105,9 @@ const getPersonalQuestState = async () => {
 
 const postParticiapteParty = async (partyId: number, bettingPoint: number) => {
   try {
-    const response = await fetchCustom.post(
-      `/party/${partyId}`,
-      {
-        body: JSON.stringify(bettingPoint),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/party/${partyId}`, {
+      body: JSON.stringify(bettingPoint),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;
@@ -169,13 +163,10 @@ const postPartyCreateAndParticipate = async (
   body: postPartyCreateAndParticipateReq,
 ) => {
   try {
-    const response = await fetchCustom.post(
-      `/party`,
-      {
-        body: JSON.stringify(body),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/party`, {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ partyId: string }> = await response.json();
     return data;

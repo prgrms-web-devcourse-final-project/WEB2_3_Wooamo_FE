@@ -71,7 +71,10 @@ const patchConfirmCertification = async (
   try {
     const response = await fetchCustom.patch(
       `/admin/party/${partyId}/${memberId}`,
-      { body: JSON.stringify(body) },
+      {
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
@@ -116,9 +119,6 @@ const postEventCreate = async (body: postEventCreateReq) => {
 const postItemCreate = async (formData: FormData) => {
   try {
     const response = await fetchCustom.post(`/admin/costume`, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
       body: formData,
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -132,6 +132,7 @@ const postItemCreate = async (formData: FormData) => {
 const putCostumeEdit = async (costumeId: number, body: putCostumeEditReq) => {
   try {
     const response = await fetchCustom.put(`/admin/costume/${costumeId}`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
