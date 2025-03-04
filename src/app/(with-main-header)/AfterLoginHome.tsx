@@ -6,13 +6,12 @@ import Timer from "./Timer";
 import TodoList from "./TodoList";
 import WhiteDividerShort from "@/assets/images/WhiteDividerShort.svg";
 import { userApi } from "@/api/user/user";
-import ButtonExample from "./ButtonExample";
 
 export default async function AfterLoginHome() {
   const topRankings = await userApi.getTopRanking();
-  if (!topRankings) return;
+  if (!topRankings?.data) return;
 
-  const [first, second, third] = topRankings?.data;
+  const [first, second, third] = topRankings.data;
   return (
     <div className="flex flex-col lg:flex-row gap-30 justify-center px-5 lg:px-0">
       <div className="flex flex-col gap-15">
@@ -26,20 +25,26 @@ export default async function AfterLoginHome() {
           <div className="flex justify-center items-center">
             <RankingCard
               rank={2}
-              nickname={second.nickname}
-              time={second.studyTime}
+              nickname={second?.nickname || "-"}
+              time={second?.studyTime || "공부 시작! 🚀"}
+              userId={second?.userId}
+              profile={second?.profile}
               className="translate-x-10 drop-shadow-50 -rotate-6 hover:rotate-0 hover:scale-120 hover:z-30"
             />
             <RankingCard
               rank={1}
-              nickname={first.nickname}
-              time={first.studyTime}
+              nickname={first?.nickname || "-"}
+              time={first?.studyTime || "공부 시작! 🚀"}
+              userId={second?.userId}
+              profile={second?.profile}
               className="scale-110 drop-shadow-6.2 -rotate-14 hover:rotate-0 hover:scale-120 z-10 hover:z-30"
             />
             <RankingCard
               rank={3}
-              nickname={third.nickname}
-              time={third.studyTime}
+              nickname={third?.nickname || "-"}
+              time={third?.studyTime || "공부 시작! 🚀"}
+              userId={second?.userId}
+              profile={second?.profile}
               className="-translate-x-10 drop-shadow-50 rotate-6 hover:rotate-0 hover:scale-120 hover:z-30"
             />
           </div>
@@ -50,7 +55,6 @@ export default async function AfterLoginHome() {
         <Image src={WhiteDividerShort} alt="구분선 이미지" />
         <TodoList />
       </div>
-      <ButtonExample />
     </div>
   );
 }

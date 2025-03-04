@@ -47,7 +47,9 @@ const getRequestFriends = async (page?: number, size?: number) => {
 
 const search = async (query: string) => {
   try {
-    const response = await fetchCustom.get(`/friend/search?query=${query}`);
+    const response = await fetchCustom.get(
+      `/friend/search?query=${query ?? ""}`,
+    );
     if (!response.ok) throw new Error(response.statusText);
 
     const data: paginationType<userType[]> = await response.json();

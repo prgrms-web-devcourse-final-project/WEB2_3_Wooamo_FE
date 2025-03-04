@@ -14,7 +14,6 @@ import dynamic from "next/dynamic";
 const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
 interface TimerItemProps {
-  timerId: number;
   categoryId: number;
   name: string;
   studyDate: string;
@@ -22,7 +21,6 @@ interface TimerItemProps {
 }
 
 export default function TimerItem({
-  timerId,
   categoryId,
   name,
   studyDate,
@@ -42,16 +40,16 @@ export default function TimerItem({
   } = useTimerStore();
 
   useEffect(() => {
-    if (
-      !timers[categoryId] &&
-      (!isRunning || currentCategoryId !== categoryId)
-    ) {
+    if (!timers[categoryId]) {
       initializeTimer(categoryId);
+      if (studyTime !== "00:00:00") {
+        setTimer(categoryId, studyTime);
+      }
     }
   }, [categoryId, timers, isRunning, currentCategoryId, initializeTimer]);
 
   const saveStudyTime = async (categoryId: number) => {
-    const currentTime = timers[categoryId]?.time || "00:00:00";
+    const currentTime = timers[categoryId]?.time || studyTime;
     await timerApi.postStudyTimeSave(categoryId, currentTime);
     revalidateTagAction("timer-list");
     revalidateTagAction("daily-time");
@@ -64,28 +62,8 @@ export default function TimerItem({
     setCurrentCategoryId(categoryId);
     startTimer(categoryId);
 
-    setTimer(categoryId, studyTime);
-
-    const currentTimer = timers[categoryId];
-    if (currentTimer?.lastStartTime) {
-      const elapsedSeconds = Math.floor(
-        (Date.now() - currentTimer.lastStartTime) / 1000,
-      );
-      if (elapsedSeconds > 0) {
-        setTimer(categoryId, (prevTime) => {
-          const [hours, minutes, seconds] = prevTime.split(":").map(Number);
-          const totalSeconds =
-            hours * 3600 + minutes * 60 + seconds + elapsedSeconds;
-          const newHours = Math.floor(totalSeconds / 3600);
-          const newMinutes = Math.floor((totalSeconds % 3600) / 60);
-          const newSeconds = totalSeconds % 60;
-
-          return `${String(newHours).padStart(2, "0")}:${String(
-            newMinutes,
-          ).padStart(2, "0")}:${String(newSeconds).padStart(2, "0")}`;
-        });
-      }
-    }
+    const savedTime = timers[categoryId].time || studyTime;
+    setTimer(categoryId, savedTime);
 
     const interval = setInterval(() => {
       setTimer(categoryId, (prevTime) => {
@@ -124,6 +102,7 @@ export default function TimerItem({
     }
     setIsRunning(false);
     setCurrentCategoryId(null);
+    setTimer(categoryId, currentTimer.time || "00:00:00");
     await saveStudyTime(categoryId);
   };
 

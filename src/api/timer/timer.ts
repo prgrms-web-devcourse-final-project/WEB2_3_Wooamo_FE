@@ -13,11 +13,20 @@ const getTimerList = async () => {
   }
 };
 
-const getStudyTimeForMonth = async (year: number, month: number) => {
+const getStudyTimeForMonth = async (
+  userId: number,
+  year: number,
+  month: number,
+) => {
   try {
     const response = await fetchCustom.get(
-      `/time/monthly?year=${year}&month=${month}`,
-      {},
+      `/time/monthly/${userId}?year=${year}&month=${month}`,
+      {
+        cache: "force-cache",
+        next: {
+          revalidate: 1000 * 60 * 10, // 10분마다 갱신
+        },
+      },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<studyTimeType[]> = await response.json();
@@ -29,7 +38,7 @@ const getStudyTimeForMonth = async (year: number, month: number) => {
 
 const getStudyTimeForWeek = async () => {
   try {
-    const response = await fetchCustom.get(`/time/weekly`, {}, true);
+    const response = await fetchCustom.get(`/time/weekly`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ studyTime: string }> = await response.json();
     return data;

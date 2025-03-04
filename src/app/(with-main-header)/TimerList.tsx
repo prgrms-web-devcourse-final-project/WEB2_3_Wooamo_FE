@@ -22,7 +22,6 @@ export default async function TimerList({ timerList }: TimerListProps) {
         {timerList.map((timer) => (
           <TimerItem
             key={timer.categoryId}
-            timerId={timer.categoryId}
             categoryId={timer.categoryId}
             name={timer.name}
             studyDate={timer.studyDate}

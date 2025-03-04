@@ -1,5 +1,6 @@
 import { getCookie } from "cookies-next";
 import { getCookieAtServer } from "./cookie";
+import { authApi } from "./auth/auth";
 
 const fetchCustomBase = async (
   url: string,
@@ -22,19 +23,20 @@ const fetchCustomBase = async (
     },
   });
 
-  // if (response.status === 401) {
-  //   const newAccessToken = await authApi.reissue();
-  //   if (!newAccessToken) return response;
+  if (response.status === 401) {
+    const newAccessToken = await authApi.reissue();
+    if (!newAccessToken) return response;
 
-  //   const retryResponse: Response = await fetch(`${baseUrl}${url}`, {
-  //     ...init,
-  //     headers: {
-  //       ...init?.headers,
-  //       access: String(newAccessToken),
-  //     },
-  //   });
-  //   return retryResponse;
-  // }
+    const retryResponse: Response = await fetch(`${baseUrl}${url}`, {
+      ...init,
+      ...(isMockApi ? {} : { credentials: "include" }),
+      headers: {
+        ...init?.headers,
+        access: String(newAccessToken),
+      },
+    });
+    return retryResponse;
+  }
   return response;
 };
 
