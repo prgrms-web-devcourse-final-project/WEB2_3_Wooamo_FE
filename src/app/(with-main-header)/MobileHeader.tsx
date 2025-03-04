@@ -42,6 +42,7 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
   const [isVisible, setIsVisible] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const {
     notifications,
@@ -76,6 +77,27 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
     };
     fetchUser();
   }, [pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        closeSidebar();
+      }
+    };
+
+    if (isVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isVisible]);
 
   if (!user) return;
   return (
@@ -127,6 +149,7 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
       </header>
       {isVisible && (
         <aside
+          ref={sidebarRef}
           className={twMerge(
             "fixed -top-15 left-0 w-65 h-screen px-6 mt-15 bg-site-button backdrop:blur-lg transition-transform duration-200 ease-out z-50",
             isOpen ? "translate-x-0" : "-translate-x-full",
