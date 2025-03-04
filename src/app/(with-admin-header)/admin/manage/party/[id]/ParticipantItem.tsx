@@ -9,12 +9,14 @@ interface ParticipantItemProps {
   memberId: number;
   profile: string;
   nickname: string;
+  isAuth: boolean;
 }
 
 export default function ParticipantItem({
   memberId,
   profile,
   nickname,
+  isAuth,
 }: ParticipantItemProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -28,7 +30,13 @@ export default function ParticipantItem({
 
   return (
     <button
-      className="w-40 px-5 py-5 bg-site-white-50 rounded-sm flex flex-col gap-4 items-center"
+      className={`w-40 px-5 py-5 ${
+        isAuth === true
+          ? "bg-site-button-input"
+          : isAuth === false
+          ? "bg-site-alarm"
+          : "bg-site-white-50"
+      } rounded-sm flex flex-col gap-4 items-center`}
       onClick={handleMemberSelect}
     >
       <div className="w-18 h-18 rounded-full">
