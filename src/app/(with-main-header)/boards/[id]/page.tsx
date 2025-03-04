@@ -17,7 +17,13 @@ export default async function BoardDetail({ params }: BoardDetailProps) {
       <Post boardId={boardId} />
       <div className="flex gap-2.5 items-center">
         {boardDetail?.data.images.map((imageUrl, idx) => (
-          <PostImage key={idx} showDeleteIcon={false} imageUrl={imageUrl} />
+          <PostImage
+            key={idx}
+            showDeleteIcon={false}
+            imageUrl={imageUrl}
+            images={boardDetail.data.images}
+            currentIndex={idx}
+          />
         ))}
       </div>
       <Comments />
