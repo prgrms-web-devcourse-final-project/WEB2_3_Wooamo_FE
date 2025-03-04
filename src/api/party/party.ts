@@ -91,13 +91,9 @@ const getPartyParticipantList = async (
 
 const getPersonalQuestState = async () => {
   try {
-    const response = await fetchCustom.get(
-      `/user/quest`,
-      {
-        next: { tags: ["personal-quest-state"] },
-      },
-      true,
-    );
+    const response = await fetchCustom.get(`/user/quest`, {
+      next: { tags: ["personal-quest-state"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ state: string }> = await response.json();
     return data;
@@ -122,7 +118,7 @@ const postParticiapteParty = async (partyId: number, bettingPoint: number) => {
 
 const postPersonalQuestReward = async () => {
   try {
-    const response = await fetchCustom.post(`/user/reward`, {}, true);
+    const response = await fetchCustom.post(`/user/reward`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;
@@ -133,11 +129,7 @@ const postPersonalQuestReward = async () => {
 
 const postPartyQuestReward = async (partyId: number) => {
   try {
-    const response = await fetchCustom.post(
-      `/party/${partyId}/reward`,
-      {},
-      true,
-    );
+    const response = await fetchCustom.post(`/party/${partyId}/reward`, {});
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ point: number }> = await response.json();
     return data;
@@ -146,10 +138,13 @@ const postPartyQuestReward = async (partyId: number) => {
   }
 };
 
-const postPartyparticipationVerify = async (partyId: number, image: File[]) => {
+const postPartyparticipationVerify = async (
+  partyId: number,
+  formData: FormData,
+) => {
   try {
     const response = await fetchCustom.post(`/party/${partyId}/verify`, {
-      body: JSON.stringify(image),
+      body: formData,
     });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
