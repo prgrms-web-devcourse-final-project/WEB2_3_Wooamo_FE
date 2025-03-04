@@ -2,7 +2,7 @@ import { fetchCustom } from "../fetchCustom";
 
 const getAdminWeeklyInfo = async () => {
   try {
-    const response = await fetchCustom.get(`/admin`, {}, true);
+    const response = await fetchCustom.get(`/admin`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<getAdminWeeklyInfoRes> = await response.json();
     return data;
@@ -13,7 +13,7 @@ const getAdminWeeklyInfo = async () => {
 
 const getAdminRecentSales = async () => {
   try {
-    const response = await fetchCustom.get(`/admin/payment`, {}, true);
+    const response = await fetchCustom.get(`/admin/payment`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<getAdminRecentSalesRes[]> = await response.json();
     return data;
