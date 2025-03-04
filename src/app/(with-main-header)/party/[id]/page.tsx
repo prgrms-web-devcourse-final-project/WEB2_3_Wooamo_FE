@@ -4,10 +4,10 @@ import Input from "@/components/common/Input";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import Icon from "@/components/common/Icon";
 import ProfileSummary from "@/components/common/ProfileSummary";
-import basic from "@/assets/images/costumes/basic.png";
 import { partyApi } from "@/api/party/party";
 import AfterParticipateButtons from "./AfterParticipateButtons";
 import { userApi } from "@/api/user/user";
+import FriendRequestButton from "../../friends/add/FriendRequestButton";
 
 interface PartyDetailProps {
   params: Promise<{ id: number }>;
@@ -131,7 +131,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
                   userId === participant.userId ? (
                     <></>
                   ) : (
-                    <Button>친구신청</Button>
+                    <FriendRequestButton user={participant} />
                   )}
                 </div>
               </article>
