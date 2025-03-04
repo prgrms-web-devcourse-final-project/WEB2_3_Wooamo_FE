@@ -9,6 +9,7 @@ import { useModalStore } from "@/store/modalStore";
 import Image from "next/image";
 import React, { useState } from "react";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
+import { Link } from "lucide-react";
 
 export default function AfterParticipateButtons({
   partyId,
@@ -59,7 +60,9 @@ export default function AfterParticipateButtons({
 
   return (
     <>
-      <Button>채팅</Button>
+      <Link href={`/chatting/party/${partyId}`}>
+        <Button>채팅</Button>
+      </Link>
       <Button onClick={() => open(`verify-participate`)}>인증</Button>
 
       <Modal modalId="verify-participate" onClose={resetForm}>
