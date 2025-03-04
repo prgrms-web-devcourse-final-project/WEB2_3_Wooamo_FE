@@ -15,6 +15,10 @@ export function useNotification({
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
+  const hasUnreadNotifications = useCallback(() => {
+    return notifications.some((notification) => !notification.isRead);
+  }, [notifications]);
+
   const fetchNotifications = useCallback(async () => {
     const response = await notificationApi.getNotificationList();
     if (response?.data) {
@@ -122,5 +126,6 @@ export function useNotification({
     handleMarkAllAsRead,
     handleMarkAsRead,
     fetchNotifications,
+    hasUnreadNotifications,
   };
 }
