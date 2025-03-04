@@ -27,9 +27,11 @@ export default async function ProfileTab({ year, month }: ProfileTabProps) {
       </div>
       <section className="flex flex-col w-full lg:w-206 gap-7.5 lg:gap-13">
         <StudyTimeJandy userId={user.data.userId} year={year} month={month} />
-        <Suspense fallback={<PostItemSkeleton count={3} />}>
-          <PostsByUser userId={user.data.userId} />
-        </Suspense>
+        <div>
+          <Suspense fallback={<PostItemSkeleton count={3} />}>
+            <PostsByUser userId={user.data.userId} />
+          </Suspense>
+        </div>
       </section>
     </div>
   );
