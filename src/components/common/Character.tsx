@@ -9,7 +9,7 @@ interface CharacterProps {
 }
 
 export default function Character({ costumeSrc, className }: CharacterProps) {
-  const modifiedProfile = costumeSrc.includes("null") ? basic : costumeSrc;
+  const modifiedProfile = costumeSrc?.includes("null") ? basic : costumeSrc;
   return (
     <div className={twMerge("w-full h-46 relative", className)}>
       <Image
