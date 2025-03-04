@@ -1,4 +1,4 @@
-import { revalidatePathAction } from "@/actions";
+import { revalidateTagAction } from "@/actions";
 import { adminApi } from "@/api/admin/admin";
 import Button from "@/components/common/Button";
 import Image from "next/image";
@@ -42,7 +42,7 @@ export default function CertificationViewer() {
     );
 
     if (confirmCertification?.status === "성공") {
-      revalidatePathAction("member-list");
+      revalidateTagAction("member-list");
     }
   };
 
@@ -56,6 +56,7 @@ export default function CertificationViewer() {
             onClick={() => {
               handleConfirmCertification(false);
               console.log(`인증 실패`);
+              revalidateTagAction("member-list");
             }}
           >
             실패
@@ -65,6 +66,7 @@ export default function CertificationViewer() {
             onClick={() => {
               handleConfirmCertification(true);
               console.log(`인증 성공`);
+              revalidateTagAction("member-list");
             }}
           >
             성공
