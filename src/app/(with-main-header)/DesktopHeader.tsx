@@ -13,9 +13,10 @@ import NotificationList from "../../components/common/NotificationList";
 import { useNotification } from "@/hooks/useNotification";
 import Dropdown from "@/components/common/Dropdown";
 import Button from "../../components/common/Button";
-import { deleteCookie, hasCookie } from "cookies-next";
+import { hasCookie } from "cookies-next";
 import dynamic from "next/dynamic";
 import { userApi } from "@/api/user/user";
+import { authApi } from "@/api/auth/auth";
 
 const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
@@ -54,10 +55,8 @@ export default function DesktopHeader({
   } = useNotification({ buttonRef, dropdownRef });
 
   const handleLogout = async () => {
-    deleteCookie("accessToken");
-    deleteCookie("refreshToken");
+    await authApi.logout();
     setIsOpenDropdown(false);
-    router.push("/");
   };
 
   useEffect(() => {
@@ -69,8 +68,6 @@ export default function DesktopHeader({
     };
     fetchUser();
   }, [pathname]);
-
-  if (!user) return null;
   return (
     <header className="fixed w-full top-0 z-50 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-[#8CCDF3]">
       <div className="flex gap-20 items-center">
@@ -131,7 +128,7 @@ export default function DesktopHeader({
             )}
           </div>
           <button onClick={() => setIsOpenDropdown(true)}>
-            <Avatar costumeSrc={user.profile ?? ""} className="w-14 h-14" />
+            <Avatar costumeSrc={user?.profile ?? ""} className="w-14 h-14" />
           </button>
           {isOpenDropdown && (
             <Dropdown

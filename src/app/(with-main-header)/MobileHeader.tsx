@@ -13,10 +13,11 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import NotificationList from "../../components/common/NotificationList";
 import { useNotification } from "@/hooks/useNotification";
-import { deleteCookie, hasCookie } from "cookies-next";
+import { hasCookie } from "cookies-next";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { userApi } from "@/api/user/user";
 import Avatar from "@/components/common/Avatar";
+import { authApi } from "@/api/auth/auth";
 
 const routes = {
   "/": "홈",
@@ -53,9 +54,8 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
   } = useNotification({ buttonRef, dropdownRef });
 
   const handleLogout = async () => {
-    deleteCookie("accessToken");
-    deleteCookie("refreshToken");
-    router.push("/");
+    await authApi.logout();
+    closeSidebar();
   };
 
   const openSidebar = () => {
@@ -149,7 +149,10 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
                 onClick={closeSidebar}
                 className="flex items-center gap-2.5"
               >
-                <Avatar className="w-12.5 h-12.5" costumeSrc={user.profile} />
+                <Avatar
+                  className="w-12.5 h-12.5"
+                  costumeSrc={user.profile || ""}
+                />
                 <div className="flex flex-col gap-1">
                   <p className="font-semibold">{user.nickname}</p>
                   <p className="text-sm text-site-darkgray-02 line-clamp-1">

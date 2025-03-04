@@ -20,6 +20,7 @@ const getTodos = async () => {
     const response = await fetchCustom.get(`/user/todo`, {
       next: { tags: ["todos"] },
     });
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<todoType[]> = await response.json();
