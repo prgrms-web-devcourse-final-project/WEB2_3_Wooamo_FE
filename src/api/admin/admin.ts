@@ -37,7 +37,9 @@ const getAllPartyList = async (page?: number, size?: number) => {
 
 const getPartyDetail = async (partyId: number) => {
   try {
-    const response = await fetchCustom.get(`/admin/party/${partyId}`);
+    const response = await fetchCustom.get(`/admin/party/${partyId}`, {
+      next: { tags: ["member-list"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<PartyDetailDataType> = await response.json();
     return data;
@@ -97,10 +99,10 @@ const getAllEventList = async () => {
   }
 };
 
-const postEventCreate = async (body: postEventCreateReq) => {
+const postEventCreate = async (formData: FormData) => {
   try {
     const response = await fetchCustom.post(`/admin/event`, {
-      body: JSON.stringify(body),
+      body: formData,
     });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
