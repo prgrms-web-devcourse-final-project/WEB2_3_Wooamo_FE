@@ -34,10 +34,10 @@ export default async function PostItem({ post }: PostItemProps) {
             <div className="w-full h-full bg-transparent"></div>
           )}
           {isConfirm && (
-            <div className="absolute top-0 right-0">
+            <div className="absolute top-1 right-1 lg:top-2 lg:right-2">
               <Icon
                 MuiIcon={CheckRoundedIcon}
-                className="text-white bg-site-main"
+                className="text-site-main bg-site-white-70 rounded-2xl "
               />
             </div>
           )}

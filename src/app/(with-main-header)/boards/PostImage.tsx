@@ -6,9 +6,11 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Pagination, Keyboard, Mousewheel } from "swiper/modules";
+import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
+import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 interface PostImageProps {
@@ -25,6 +27,7 @@ export default function PostImage({
   currentIndex = 0,
 }: PostImageProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const displayImages = images.length > 0 ? images : [imageUrl];
 
   return (
@@ -57,30 +60,42 @@ export default function PostImage({
       {isOpen &&
         createPortal(
           <div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            className="fixed inset-0 backdrop-blur-md flex items-center justify-center z-50"
             onClick={(e) => {
               if (e.target === e.currentTarget) {
                 setIsOpen(false);
               }
             }}
           >
-            <div className="relative w-[90vw] h-[90vh] max-w-[1200px] max-h-[800px]">
+            <div className="relative w-[90vw] h-[90vh] max-w-[1000px] max-h-[600px]">
               <button
-                onClick={() => setIsOpen(false)}
-                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
+                onClick={() => swiper?.slidePrev()}
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 z-10"
               >
-                <Icon MuiIcon={CloseRoundedIcon} className="text-white" />
+                <Icon
+                  MuiIcon={ChevronLeftRoundedIcon}
+                  className="text-site-main bg-site-white-70 rounded-2xl"
+                />
               </button>
-
+              <button
+                onClick={() => swiper?.slideNext()}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 z-10"
+              >
+                <Icon
+                  MuiIcon={ChevronRightRoundedIcon}
+                  className="text-site-main bg-site-white-70 rounded-2xl"
+                />
+              </button>
               <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
+                modules={[Pagination, Keyboard, Mousewheel]}
                 pagination={{ clickable: true }}
+                keyboard={{ enabled: true }}
+                mousewheel={{ enabled: true }}
                 initialSlide={currentIndex}
                 className="w-full h-full"
                 spaceBetween={30}
-                effect="fade"
                 speed={500}
+                onSwiper={(swiper) => setSwiper(swiper)}
               >
                 {displayImages.map((image, index) => (
                   <SwiperSlide
@@ -99,28 +114,6 @@ export default function PostImage({
                   </SwiperSlide>
                 ))}
               </Swiper>
-
-              <style jsx global>{`
-                .swiper-button-next,
-                .swiper-button-prev {
-                  color: white !important;
-                  background: rgba(0, 0, 0, 0.5);
-                  width: 40px !important;
-                  height: 40px !important;
-                  border-radius: 50%;
-                }
-                .swiper-button-next:after,
-                .swiper-button-prev:after {
-                  font-size: 20px !important;
-                }
-                .swiper-pagination-bullet {
-                  background: white !important;
-                  opacity: 0.5;
-                }
-                .swiper-pagination-bullet-active {
-                  opacity: 1;
-                }
-              `}</style>
             </div>
           </div>,
           document.getElementById("modal-root") as HTMLElement,
