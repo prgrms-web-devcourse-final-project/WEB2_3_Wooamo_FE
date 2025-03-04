@@ -1,15 +1,13 @@
 "use client";
 
 import Avatar from "@/components/common/Avatar";
-import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
 interface ParticipantItemProps {
   memberId: number;
   profile: string;
   nickname: string;
-  isAuth: boolean;
+  isAuth: string;
 }
 
 export default function ParticipantItem({
@@ -31,13 +29,13 @@ export default function ParticipantItem({
   return (
     <button
       className={`w-40 px-5 py-5 ${
-        isAuth === true
-          ? "bg-site-button-input"
-          : isAuth === false
+        isAuth === "SUCCESS"
+          ? "bg-site-main text-site-white-100"
+          : isAuth === "FAIL"
           ? "bg-site-alarm"
           : "bg-site-white-50"
       } rounded-sm flex flex-col gap-4 items-center`}
-      onClick={handleMemberSelect}
+      onClick={() => isAuth === "PENDING" && handleMemberSelect()}
     >
       <div className="w-18 h-18 rounded-full">
         <Avatar costumeSrc={profile} className="w-18 h-18" />
