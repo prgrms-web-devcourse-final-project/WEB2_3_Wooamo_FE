@@ -2,11 +2,14 @@ import { delay } from "@/utils/delay";
 import PostItem from "../../boards/PostItem";
 import { userApi } from "@/api/user/user";
 
-export default async function PostsByUser() {
-  await delay(3000);
-  const posts = await userApi.getCurrentUserPosts();
+interface PostsByUserProps {
+  userId: number;
+}
 
-  if (!posts?.data) return null;
+export default async function PostsByUser({ userId }: PostsByUserProps) {
+  await delay(3000);
+  const posts = await userApi.getUserPosts(userId);
+  if (!posts) return;
   return (
     <section className="flex flex-col gap-2 lg:gap-8">
       <p className="flex gap-1.5 font-semibold">

@@ -18,7 +18,6 @@ export default function StudyTimeJandyDateChanger() {
     new Date(year, month - 1, 1),
   );
 
-  console.log(year, month, selectedDate);
   const selectPrevMonth = () => {
     const prevMonth = new Date(
       selectedDate.setMonth(selectedDate.getMonth() - 1),
@@ -31,7 +30,7 @@ export default function StudyTimeJandyDateChanger() {
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       router.push(`?year=${year}&month=${month}`);
-    }, 500);
+    }, 300);
   };
   const selectNextMonth = () => {
     const nextMonth = new Date(
@@ -45,7 +44,7 @@ export default function StudyTimeJandyDateChanger() {
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       router.push(`?year=${year}&month=${month}`);
-    }, 500);
+    }, 300);
   };
   return (
     <div className="flex justify-between items-center">

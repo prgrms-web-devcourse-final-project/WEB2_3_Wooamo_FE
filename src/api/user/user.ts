@@ -66,9 +66,12 @@ const getCurrentUserCostumes = async () => {
   }
 };
 
-const getCurrentUserPosts = async () => {
+const getUserPosts = async (userId: number) => {
   try {
-    const response = await fetchCustom.get(`/user/board`);
+    const response = await fetchCustom.get(`/user/board/${userId}`, {
+      cache: "force-cache",
+      next: { tags: [`posts-${userId}`] },
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<boardItem[]> = await response.json();
@@ -117,7 +120,7 @@ export const userApi = {
   getCurrentUserRanking,
   getTopRanking,
   getCurrentUserCostumes,
-  getCurrentUserPosts,
+  getUserPosts,
   updateUserInfo,
   updateUserCostume,
 };
