@@ -15,6 +15,7 @@ export default async function PartyAll({ searchParams }: PartyAllProps) {
   const parties = await partyApi.getScheduledPartyList(name);
 
   if (!parties) return;
+
   return (
     <div className="flex flex-col">
       <div className="px-5 lg:px-0">

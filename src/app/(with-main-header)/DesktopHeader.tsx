@@ -51,6 +51,7 @@ export default function DesktopHeader({
     closeNotification,
     handleMarkAllAsRead,
     handleMarkAsRead,
+    hasUnreadNotifications,
   } = useNotification({ buttonRef, dropdownRef });
 
   const handleLogout = async () => {
@@ -102,11 +103,17 @@ export default function DesktopHeader({
           </Link>
           <div className="relative">
             <div ref={buttonRef}>
-              <button onClick={toggleNotification} className="cursor-pointer">
+              <button
+                onClick={toggleNotification}
+                className="cursor-pointer relative"
+              >
                 <Icon
                   MuiIcon={NotificationsNoneRoundedIcon}
                   className="cursor-pointer"
                 />
+                {hasUnreadNotifications() && (
+                  <div className="absolute top-2 right-1 w-2 h-2 bg-site-alarm rounded-full" />
+                )}
               </button>
             </div>
             {isOpen && (
@@ -114,7 +121,6 @@ export default function DesktopHeader({
                 notifications={notifications}
                 onMarkAllAsRead={handleMarkAllAsRead}
                 onMarkAsRead={handleMarkAsRead}
-                onClose={closeNotification}
                 buttonRef={buttonRef}
                 dropdownRef={dropdownRef}
                 className="w-[27.5rem]"

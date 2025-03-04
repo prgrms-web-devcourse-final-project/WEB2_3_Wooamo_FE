@@ -40,6 +40,7 @@ interface PartyDetailType {
 }
 
 interface PartyParticipantType {
+  friendId: number | null;
   userId: number;
   nickname: string;
   profile: string;

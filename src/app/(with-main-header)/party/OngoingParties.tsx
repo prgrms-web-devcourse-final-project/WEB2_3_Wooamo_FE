@@ -17,12 +17,6 @@ export default async function OngoingParties() {
               <span>참여 중인 팟</span>
               <span className="ml-3">{activePartyList.length}</span>
             </p>
-            <Link
-              href={"/party/all"}
-              className="text-base lg:text-xl text-site-darkgray-01"
-            >
-              전체보기
-            </Link>
           </div>
           <div className="flex flex-col gap-3">
             <div className="flex items-center font-semibold lg:text-xl px-5 lg:px-7">

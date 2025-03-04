@@ -5,7 +5,11 @@ import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
 import { useRef, useState } from "react";
 
-export default function FriendRequestButton({ user }: { user: userType }) {
+export default function FriendRequestButton({
+  user,
+}: {
+  user: userType | PartyParticipantType;
+}) {
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [isRequestFriend, setIsRequestFriend] = useState(false);
   const [friendId, setFriendId] = useState<number | null>(null);
