@@ -115,7 +115,6 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
                   notifications={notifications}
                   onMarkAllAsRead={handleMarkAllAsRead}
                   onMarkAsRead={handleMarkAsRead}
-                  onClose={closeNotification}
                   buttonRef={buttonRef}
                   dropdownRef={dropdownRef}
                   className="w-[18.75rem]"

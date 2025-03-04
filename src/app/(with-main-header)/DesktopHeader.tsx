@@ -117,7 +117,6 @@ export default function DesktopHeader({
                 notifications={notifications}
                 onMarkAllAsRead={handleMarkAllAsRead}
                 onMarkAsRead={handleMarkAsRead}
-                onClose={closeNotification}
                 buttonRef={buttonRef}
                 dropdownRef={dropdownRef}
                 className="w-[27.5rem]"
