@@ -21,7 +21,7 @@ export default async function UpcomingParties() {
             </p>
             <Link
               href={"/party/all"}
-              className="text-base lg:text-xl text-site-darkgray-01"
+              className="text-base lg:text-xl text-site-darkgray-02"
             >
               전체보기
             </Link>
