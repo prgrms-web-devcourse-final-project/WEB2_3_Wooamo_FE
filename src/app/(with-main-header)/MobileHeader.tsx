@@ -113,7 +113,7 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
                     className="cursor-pointer"
                   />
                   {hasUnreadNotifications() && (
-                    <div className="absolute top-2 right-1 w-2 h-2 bg-site-alarm rounded-full" />
+                    <div className="absolute top-1 right-0.5 w-2 h-2 bg-site-alarm rounded-full" />
                   )}
                 </button>
               </div>
