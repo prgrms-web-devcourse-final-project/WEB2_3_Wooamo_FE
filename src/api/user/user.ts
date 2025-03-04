@@ -33,7 +33,7 @@ const getUserInfo = async (userId: number) => {
 
 const getCurrentUserRanking = async () => {
   try {
-    const response = await fetchCustom.get(`/user/ranking`, {}, true);
+    const response = await fetchCustom.get(`/user/ranking`);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<{ ranking: number }> = await response.json();
@@ -45,7 +45,7 @@ const getCurrentUserRanking = async () => {
 
 const getTopRanking = async () => {
   try {
-    const response = await fetchCustom.get(`/user/topranking`, {}, true);
+    const response = await fetchCustom.get(`/user/topranking`);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<topRankingUserInfo[]> = await response.json();
@@ -67,9 +67,12 @@ const getCurrentUserCostumes = async () => {
   }
 };
 
-const getCurrentUserPosts = async () => {
+const getUserPosts = async (userId: number) => {
   try {
-    const response = await fetchCustom.get(`/user/board`);
+    const response = await fetchCustom.get(`/user/board/${userId}`, {
+      cache: "force-cache",
+      next: { tags: [`posts-${userId}`] },
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<boardItem[]> = await response.json();
@@ -82,6 +85,9 @@ const getCurrentUserPosts = async () => {
 const updateUserInfo = async (body: updateUserInfoReq) => {
   try {
     const response = await fetchCustom.put(`/user`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -95,7 +101,11 @@ const updateUserInfo = async (body: updateUserInfoReq) => {
 
 const updateUserCostume = async (costumeId: number) => {
   try {
-    const response = await fetchCustom.patch(`/user/costume/${costumeId}`);
+    const response = await fetchCustom.patch(`/user/costume/${costumeId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<{ profile: string }> = await response.json();
@@ -111,7 +121,7 @@ export const userApi = {
   getCurrentUserRanking,
   getTopRanking,
   getCurrentUserCostumes,
-  getCurrentUserPosts,
+  getUserPosts,
   updateUserInfo,
   updateUserCostume,
 };

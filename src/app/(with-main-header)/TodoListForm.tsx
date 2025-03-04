@@ -11,6 +11,7 @@ export default function TodoListForm() {
 
   const submitTodo = (payload: FormData) => {
     if (todo.trim()) {
+      setTodo("");
       action(payload);
     }
   };
@@ -27,6 +28,7 @@ export default function TodoListForm() {
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
           placeholder="오늘 할 일을 입력해주세요"
+          disabled={isPending}
         />
       </div>
       <Button disabled={isPending} className="min-w-fit">
