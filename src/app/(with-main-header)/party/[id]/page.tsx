@@ -7,6 +7,7 @@ import ProfileSummary from "@/components/common/ProfileSummary";
 import basic from "@/assets/images/costumes/basic.png";
 import { partyApi } from "@/api/party/party";
 import AfterParticipateButtons from "./AfterParticipateButtons";
+import { userApi } from "@/api/user/user";
 
 interface PartyDetailProps {
   params: Promise<{ id: number }>;
@@ -20,6 +21,9 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
 
   const fetchPartyParticipantList = await partyApi.getPartyParticipantList(id);
   const partyParticipantList = fetchPartyParticipantList?.data?.contents;
+
+  const fetchCurrentUser = await userApi.getCurrentUserInfo();
+  const userId = fetchCurrentUser?.data.userId;
 
   if (!partyDetail) return;
   if (!partyParticipantList) return;
@@ -119,10 +123,17 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
                 <ProfileSummary
                   userId={participant.userId}
                   costume={participant.profile}
-                  nickname={participant.userName}
+                  nickname={participant.nickname}
                   description={participant.context}
                 />
-                <div>{participant.isFriend || <Button>친구신청</Button>}</div>
+                <div>
+                  {participant.status === "FRIEND" ||
+                  userId === participant.userId ? (
+                    <></>
+                  ) : (
+                    <Button>친구신청</Button>
+                  )}
+                </div>
               </article>
             ))}
           </div>
