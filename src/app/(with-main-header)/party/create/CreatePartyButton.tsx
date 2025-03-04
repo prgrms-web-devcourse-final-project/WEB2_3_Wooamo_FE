@@ -28,7 +28,7 @@ export default function CreatePartyButton({
 }: CreatePartyProps) {
   const { open, close } = useModalStore((state) => state);
   const { validate, ...point } = useInputValidation(0, (value) => {
-    if (!value || Number(value) < 100) {
+    if (!value || Number(value) < minBetting) {
       return "최소 배팅 금액 이상 입력해주세요";
     }
     return null;
