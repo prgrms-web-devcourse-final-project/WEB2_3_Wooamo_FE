@@ -9,7 +9,7 @@ import { useModalStore } from "@/store/modalStore";
 import Image from "next/image";
 import React, { useState } from "react";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
-import { Link } from "lucide-react";
+import Link from "next/link";
 
 export default function AfterParticipateButtons({
   partyId,
