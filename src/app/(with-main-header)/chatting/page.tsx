@@ -1,25 +1,41 @@
-import { chattingApi } from "@/api/chatting/chatting";
+"use client";
+
+import { useSocketStore } from "@/store/socketStore";
 import ChattingHeader from "./ChattingHeader";
 import ChattingListItem from "./ChattingListItem";
+import { useEffect, useState } from "react";
 import { userApi } from "@/api/user/user";
 
-export default async function Chatting() {
-  const fetchCurrentUser = await userApi.getCurrentUserInfo();
-  const userId = fetchCurrentUser?.data.userId;
-  if (!userId) return;
+export default function Chatting() {
+  const { connect, disconnect, getRooms } = useSocketStore();
+  const [rooms, setRooms] = useState<RoomType[]>([]);
 
-  const fetchChattingList = await chattingApi.getChattingList(userId);
-  const chattingList = fetchChattingList?.data;
+  useEffect(() => {
+    const connectAndGetRooms = async () => {
+      const user = await userApi.getCurrentUserInfo();
+      if (!user) return;
 
-  console.log(fetchChattingList?.message);
+      const stompClient = await connect();
+      stompClient.subscribe(`/topic/rooms/${user.data.userId}`, (message) => {
+        const rooms: responseType<RoomType[]> = JSON.parse(message.body);
+        setRooms(rooms.data);
+        console.log("rooms: ", rooms);
+      });
+      getRooms(user.data.userId);
+    };
+
+    connectAndGetRooms();
+    return () => disconnect();
+  }, [connect, disconnect, getRooms]);
 
   return (
     <div className="flex flex-col gap-13">
       <ChattingHeader />
       <section className="flex flex-col">
-        {chattingList ? (
-          chattingList.map((chatting) => (
+        {rooms ? (
+          rooms.map((chatting) => (
             <ChattingListItem
+              key={chatting.roomId}
               roomId={chatting.roomId}
               roomType={chatting.roomType}
               roomName={chatting.roomName}

@@ -1,5 +1,4 @@
 import Avatar from "@/components/common/Avatar";
-import basic from "@/assets/images/costumes/basic.png";
 import Link from "next/link";
 
 interface ChattingListItemProps {
@@ -10,6 +9,7 @@ interface ChattingListItemProps {
   lastMessage: string;
   profile: string;
   unreadCount: number;
+  userInfo?: userType;
 }
 
 // 친구 채팅인지 팟 채팅인지 확인 후 라우팅 및 name 처리 해주시면 됩니다!
@@ -21,13 +21,14 @@ export default function ChattingListItem({
   lastMessage,
   profile,
   unreadCount,
+  userInfo,
 }: ChattingListItemProps) {
   return (
     <Link
       href={
         roomType === "PRIVATE"
-          ? `/chatting/friend/${roomId}`
-          : `chatting/party/${roomId}`
+          ? `/chatting/friend/${userInfo?.userId}?roomId=${roomId}`
+          : `chatting/party/${userInfo?.userId}?roomId=${roomId}`
       }
     >
       <article
