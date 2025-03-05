@@ -93,7 +93,6 @@ const kakaoLogin = async (code: string) => {
       },
       body: JSON.stringify({ code }),
     });
-
     if (!response.ok) throw new Error(response.statusText);
 
     const accessToken = response.headers.get("Access");
@@ -135,12 +134,12 @@ const reissue = async () => {
 
 const logout = async () => {
   try {
-    await deleteCookieAtServer("accessToken");
-    await deleteCookie("accessToken");
-
     const response = await fetchCustom.post(`/user/logout`);
     if (response.status === 401) return await revalidatePathAction("/");
     if (!response.ok) throw new Error(response.statusText);
+
+    await deleteCookieAtServer("accessToken");
+    await deleteCookie("accessToken");
 
     await revalidatePathAction("/");
   } catch (error) {
