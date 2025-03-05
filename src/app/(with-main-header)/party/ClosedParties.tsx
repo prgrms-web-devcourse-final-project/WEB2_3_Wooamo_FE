@@ -22,7 +22,7 @@ export default async function ClosedParties() {
               partyId={party.partyId}
               name={party.name}
               questStatus={party.questStatus}
-              rewordPoint={party.rewordPoint}
+              rewardPoint={party.rewardPoint}
             />
           ))
         ) : (
