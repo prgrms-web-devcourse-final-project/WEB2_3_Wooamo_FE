@@ -1,6 +1,6 @@
 import { deleteCookie, setCookie } from "cookies-next";
 import { fetchCustom } from "../fetchCustom";
-import { deleteCookieAtServer, setCookieAtServer } from "../cookie";
+import { setCookieAtServer } from "../cookie";
 import { redirect } from "next/navigation";
 import { revalidateTagAction } from "@/actions";
 
@@ -75,9 +75,8 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
 
     const accessToken = response.headers.get("Access");
     if (accessToken) {
-      setCookie("accessToken", accessToken);
+      await setCookie("accessToken", accessToken);
     }
-
     const data: responseType<{ role: "회원" | "관리자" }> =
       await response.json();
     return data;
@@ -96,14 +95,7 @@ const kakaoLogin = async (code: string) => {
     });
     if (!response.ok) throw new Error(response.statusText);
 
-    const accessToken = response.headers.get("Access");
-    if (accessToken) {
-      setCookie("accessToken", accessToken);
-      redirect("/");
-    }
-
-    const data: responseType = await response.json();
-    return data;
+    redirect("/");
   } catch (error) {
     console.error(error);
   }
@@ -139,9 +131,7 @@ const logout = async () => {
     if (response.status === 401) return await revalidateTagAction("user");
     if (!response.ok) throw new Error(response.statusText);
 
-    await deleteCookieAtServer("accessToken");
     await deleteCookie("accessToken");
-
     await revalidateTagAction("user");
   } catch (error) {
     console.error(error);
