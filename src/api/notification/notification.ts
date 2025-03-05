@@ -4,6 +4,7 @@ const getNotificationList = async () => {
   try {
     const response = await fetchCustom.get("/alert");
 
+    if (response.status === 401) return null;
     if (!response.ok) {
       throw new Error("Failed to fetch notification list");
     }
