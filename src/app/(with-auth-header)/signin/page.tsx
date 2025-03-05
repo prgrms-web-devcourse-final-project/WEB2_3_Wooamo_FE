@@ -56,7 +56,11 @@ export default function SignIn() {
       if (res?.status === "성공") {
         await deleteCookie("accessToken");
         await deleteCookieAtServer("accessToken");
-        router.replace("/");
+        if (res.data.role === "관리자") {
+          router.replace("/admin");
+        } else {
+          router.replace("/");
+        }
       } else {
         alert("로그인에 실패했습니다.");
       }
