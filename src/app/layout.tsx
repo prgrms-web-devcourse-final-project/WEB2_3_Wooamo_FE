@@ -4,6 +4,7 @@ import "@/assets/css/globals.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import Toast from "@/components/common/Toast";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
   title: "STUV",
@@ -20,9 +21,11 @@ export default function RootLayout({
       <body
         className={`${Pretendard.variable} ${Galmuri9.variable} ${Bitbitv2.variable} antialiased`}
       >
-        {children}
-        <div id="modal-root"></div>
-        <Toast />
+        <TooltipProvider>
+          {children}
+          <div id="modal-root"></div>
+          <Toast />
+        </TooltipProvider>
       </body>
     </html>
   );

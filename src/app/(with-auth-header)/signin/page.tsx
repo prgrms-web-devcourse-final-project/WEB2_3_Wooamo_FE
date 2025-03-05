@@ -15,6 +15,8 @@ import { FormEvent, useEffect, useState } from "react";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import { authApi } from "@/api/auth/auth";
 import { useRouter, useSearchParams } from "next/navigation";
+import { deleteCookie } from "cookies-next";
+import { deleteCookieAtServer } from "@/api/cookie";
 
 export default function SignIn() {
   const isMobile = useIsMobile();
@@ -52,6 +54,8 @@ export default function SignIn() {
         isAutoLogin,
       });
       if (res?.status === "성공") {
+        await deleteCookie("accessToken");
+        await deleteCookieAtServer("accessToken");
         router.replace("/");
       } else {
         alert("로그인에 실패했습니다.");
@@ -62,6 +66,8 @@ export default function SignIn() {
   useEffect(() => {
     const kakaoLogin = async () => {
       if (code) {
+        await deleteCookie("accessToken");
+        await deleteCookieAtServer("accessToken");
         await authApi.kakaoLogin(code);
         router.replace("/");
       }
