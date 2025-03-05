@@ -2,7 +2,7 @@ import { deleteCookie, setCookie } from "cookies-next";
 import { fetchCustom } from "../fetchCustom";
 import { deleteCookieAtServer, setCookieAtServer } from "../cookie";
 import { redirect } from "next/navigation";
-import { revalidatePathAction } from "@/actions";
+import { revalidateTagAction } from "@/actions";
 
 const checkIsDuplicatedNickname = async (
   body: checkIsDuplicatedNicknameReq,
@@ -78,7 +78,8 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
       setCookie("accessToken", accessToken);
     }
 
-    const data: responseType = await response.json();
+    const data: responseType<{ role: "회원" | "관리자" }> =
+      await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -135,13 +136,13 @@ const reissue = async () => {
 const logout = async () => {
   try {
     const response = await fetchCustom.post(`/user/logout`);
-    if (response.status === 401) return await revalidatePathAction("/");
+    if (response.status === 401) return await revalidateTagAction("user");
     if (!response.ok) throw new Error(response.statusText);
 
     await deleteCookieAtServer("accessToken");
     await deleteCookie("accessToken");
 
-    await revalidatePathAction("/");
+    await revalidateTagAction("user");
   } catch (error) {
     console.error(error);
   }
