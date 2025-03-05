@@ -1,4 +1,5 @@
 import Avatar from "../../../components/common/Avatar";
+import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
 
 interface ChattingItemProps {
   chatTime: string;
@@ -22,8 +23,8 @@ export default function ChattingItem({
       {isMe ? (
         <div className="flex justify-end my-5">
           <div className="flex flex-col justify-end mr-2 lg:mr-3 text-site-darkgray-02">
-            <p className="text-sm">{unreadCount}</p>
-            <p className="text-xs">{chatTime}</p>
+            <p className="text-sm">{unreadCount > 0 && unreadCount}</p>
+            <p className="text-xs">{formatDateToTimeAgo(new Date(chatTime))}</p>
           </div>
           <div className="flex items-start gap-3 lg:gap-5">
             <div className="px-5 lg:px-7 py-4 bg-site-profile rounded-xl lg:max-w-190">
@@ -55,8 +56,8 @@ export default function ChattingItem({
             </div>
           </div>
           <div className="flex flex-col justify-end ml-2 lg:ml-3 text-site-darkgray-02">
-            <p className="text-sm">{unreadCount}</p>
-            <p className="text-xs">{chatTime}</p>
+            <p className="text-sm">{unreadCount > 0 && unreadCount}</p>
+            <p className="text-xs">{formatDateToTimeAgo(new Date(chatTime))}</p>
           </div>
         </div>
       )}
