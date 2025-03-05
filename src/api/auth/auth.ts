@@ -117,6 +117,7 @@ const reissue = async () => {
       },
     });
     if (response.status === 400) return null;
+    if (response.status === 401) return null;
     if (response.status === 500) return null;
     if (!response.ok) throw new Error(response.statusText);
 
