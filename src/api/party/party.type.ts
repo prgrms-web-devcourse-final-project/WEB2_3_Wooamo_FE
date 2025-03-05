@@ -23,7 +23,7 @@ interface ActivePartyType {
 interface CompletedPartyType {
   partyId: number;
   name: string;
-  rewordPoint: number;
+  rewardPoint: number;
   questStatus: string;
 }
 
