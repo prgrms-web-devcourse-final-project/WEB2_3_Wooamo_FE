@@ -135,11 +135,13 @@ const reissue = async () => {
 
 const logout = async () => {
   try {
-    const response = await fetchCustom.post(`/user/logout`);
-    if (!response.ok) throw new Error(response.statusText);
-
     await deleteCookieAtServer("accessToken");
     await deleteCookie("accessToken");
+
+    const response = await fetchCustom.post(`/user/logout`);
+    if (response.status === 401) return await revalidatePathAction("/");
+    if (!response.ok) throw new Error(response.statusText);
+
     await revalidatePathAction("/");
   } catch (error) {
     console.error(error);
