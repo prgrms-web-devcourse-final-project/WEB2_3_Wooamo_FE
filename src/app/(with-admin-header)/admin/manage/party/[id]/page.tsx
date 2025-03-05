@@ -4,14 +4,20 @@ import Certification from "./Certification";
 
 export default async function CertificationParty({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ date: string }>;
 }) {
   const { id } = await params;
-  const fetchPartyDetail = await adminApi.getPartyDetail(Number(id));
-  const partyDetail = fetchPartyDetail?.data;
+  const { date } = await searchParams;
 
-  console.log(partyDetail);
+  const fetchPartyDetail = await adminApi.getPartyDetail(
+    Number(id),
+    date ?? "",
+  );
+
+  const partyDetail = fetchPartyDetail?.data;
 
   if (!partyDetail) return;
 

@@ -1,10 +1,11 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import CertificationDate from "./CertificationDate";
 import CertificationViewer from "./CertificationViewer";
 import ParticipantItem from "./ParticipantItem";
 import { useState } from "react";
+import formatDateToKR from "@/utils/formatDateToKR";
 
 export default function Certification({
   partyDetail,
@@ -12,6 +13,7 @@ export default function Certification({
   partyDetail: PartyDetailDataType;
 }) {
   const { id } = useParams();
+  const router = useRouter();
   const partyMembers = partyDetail.members;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedMember, setSelectedMember] = useState<PartyMemberType>(
@@ -23,6 +25,8 @@ export default function Certification({
 
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
+    const stringDate = formatDateToKR(date);
+    router.replace(`?date=${stringDate}`);
   };
 
   const handleUserSelect = (member: PartyMemberType) => {
