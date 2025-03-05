@@ -1,12 +1,13 @@
 "use client";
 
+import { revalidateTagAction } from "@/actions";
 import { partyApi } from "@/api/party/party";
 import Button from "@/components/common/Button";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import Modal from "@/components/common/Modal";
 import useInputValidation from "@/hooks/useInputValidation";
 import { useModalStore } from "@/store/modalStore";
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 
 interface ParticipateButtonProps {
   partyId: number;
@@ -36,6 +37,7 @@ export default function ParticipateButton({
     );
 
     if (participateParty?.status === "성공") {
+      revalidateTagAction("participant-list");
       close();
     }
   };

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface ProfileSummaryProps {
   userId: number;
-  costume: string | StaticImageData;
+  costume: string;
   nickname: string;
   description: string;
 }
@@ -26,7 +26,7 @@ export default function ProfileSummary({
       </Link>
       <div className="flex flex-col gap-1">
         <Link href={`/users/${userId}`}>
-          <span className="font-semibold lg:text-xl">{nickname}</span>
+          <span className="font-semibold lg:text-xl">@{nickname}</span>
         </Link>
         <span className="text-sm lg:text-base text-site-darkgray-02">
           {description}

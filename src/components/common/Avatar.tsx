@@ -1,9 +1,8 @@
-import { StaticImageData } from "next/image";
 import { twMerge } from "tailwind-merge";
 import Character from "./Character";
 
 interface AvatarProps {
-  costumeSrc: StaticImageData | string;
+  costumeSrc: string;
   className?: string;
 }
 

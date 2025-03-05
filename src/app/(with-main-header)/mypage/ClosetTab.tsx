@@ -3,33 +3,34 @@
 import Character from "@/components/common/Character";
 import Image from "next/image";
 import WhiteDividerLong from "@/assets/images/WhiteDividerLong.svg";
-import basic from "@/assets/images/costumes/basic.png";
 import spotlight from "@/assets/images/spotlight.png";
 import WhiteDividerShort from "@/assets/images/WhiteDividerShort.svg";
 import { useEffect, useState } from "react";
 import { userApi } from "@/api/user/user";
+import { revalidateTagAction } from "@/actions";
 
 export default function ClosetTab() {
-  const [selectedCostume, setSelectedCostume] = useState<string | null>(null);
+  const [selectedCostume, setSelectedCostume] = useState("");
   const [costumes, setCostumes] = useState<costumeType[]>([]);
 
   const changeCostume = async (costume: costumeType) => {
-    const res = await userApi.updateUserCostume(costume.costumeId);
-    if (res?.status === "성공") {
-      setSelectedCostume(costume.image);
+    const currentCostume = await userApi.updateUserCostume(costume.costumeId);
+    if (currentCostume?.status === "성공") {
+      setSelectedCostume(currentCostume.data.profile);
+      revalidateTagAction("user");
     }
   };
 
   useEffect(() => {
     const fetchCurrentUserCostume = async () => {
       const user = await userApi.getCurrentUserInfo();
-      if (user) {
-        setSelectedCostume(user.data.profile);
+      if (user?.data) {
+        setSelectedCostume(user.data.profile ?? "");
       }
     };
     const fetchCostumes = async () => {
       const costumes = await userApi.getCurrentUserCostumes();
-      if (costumes) {
+      if (costumes?.data) {
         setCostumes(costumes.data);
       }
     };
@@ -48,7 +49,7 @@ export default function ClosetTab() {
           fill
         />
         <Character
-          costumeSrc={selectedCostume ?? basic}
+          costumeSrc={selectedCostume}
           className="translate-y-[15%] h-58 lg:h-119"
         />
       </div>

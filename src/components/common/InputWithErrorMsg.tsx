@@ -16,7 +16,7 @@ export default function InputWithErrorMsg({
   ...props
 }: InputWithErrorMsgProps) {
   return (
-    <div className="flex flex-col gap-2 lg:gap-4">
+    <div className="flex flex-col gap-2 lg:gap-4 w-full">
       <Input
         value={String(value)}
         onChange={onChange}

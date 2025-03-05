@@ -54,6 +54,7 @@ export default function CertificationParty() {
                 memberId={member.memberId}
                 profile={member.profile}
                 nickname={member.nickname}
+                isAuth={member.isAuth}
               />
             ))}
           </div>

@@ -3,6 +3,7 @@ import { fetchCustom } from "../fetchCustom";
 const addTodo = async (todo: string) => {
   try {
     const response = await fetchCustom.post(`/user/todo`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ todo }),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -19,6 +20,7 @@ const getTodos = async () => {
     const response = await fetchCustom.get(`/user/todo`, {
       next: { tags: ["todos"] },
     });
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<todoType[]> = await response.json();
@@ -40,10 +42,11 @@ const deleteTodo = async (todoId: number) => {
   }
 };
 
-const updateTodo = async (todoId: number, todo: string) => {
+const updateTodo = async (todoId: number, todo: string, isChecked: boolean) => {
   try {
     const response = await fetchCustom.put(`/user/todo/${todoId}`, {
-      body: JSON.stringify({ todo }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ todo, isChecked }),
     });
     if (!response.ok) throw new Error(response.statusText);
 

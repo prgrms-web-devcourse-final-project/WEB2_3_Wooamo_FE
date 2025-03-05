@@ -2,7 +2,7 @@ import { fetchCustom } from "../fetchCustom";
 
 const getAdminWeeklyInfo = async () => {
   try {
-    const response = await fetchCustom.get(`/admin`, {}, true);
+    const response = await fetchCustom.get(`/admin`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<getAdminWeeklyInfoRes> = await response.json();
     return data;
@@ -13,7 +13,7 @@ const getAdminWeeklyInfo = async () => {
 
 const getAdminRecentSales = async () => {
   try {
-    const response = await fetchCustom.get(`/admin/payment`, {}, true);
+    const response = await fetchCustom.get(`/admin/payment`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<getAdminRecentSalesRes[]> = await response.json();
     return data;
@@ -37,7 +37,9 @@ const getAllPartyList = async (page?: number, size?: number) => {
 
 const getPartyDetail = async (partyId: number) => {
   try {
-    const response = await fetchCustom.get(`/admin/party/${partyId}`);
+    const response = await fetchCustom.get(`/admin/party/${partyId}`, {
+      next: { tags: ["member-list"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<PartyDetailDataType> = await response.json();
     return data;
@@ -71,7 +73,10 @@ const patchConfirmCertification = async (
   try {
     const response = await fetchCustom.patch(
       `/admin/party/${partyId}/${memberId}`,
-      { body: JSON.stringify(body) },
+      {
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
@@ -83,11 +88,9 @@ const patchConfirmCertification = async (
 
 const getAllEventList = async () => {
   try {
-    const response = await fetchCustom.get(
-      `/admin/event`,
-      { next: { tags: ["event-list"] } },
-      true,
-    );
+    const response = await fetchCustom.get(`/admin/event`, {
+      next: { tags: ["event-list"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<getAllEventListRes> = await response.json();
     return data;
@@ -96,15 +99,11 @@ const getAllEventList = async () => {
   }
 };
 
-const postEventCreate = async (body: postEventCreateReq) => {
+const postEventCreate = async (formData: FormData) => {
   try {
-    const response = await fetchCustom.post(
-      `/admin/event`,
-      {
-        body: JSON.stringify(body),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/admin/event`, {
+      body: formData,
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;
@@ -116,9 +115,6 @@ const postEventCreate = async (body: postEventCreateReq) => {
 const postItemCreate = async (formData: FormData) => {
   try {
     const response = await fetchCustom.post(`/admin/costume`, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
       body: formData,
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -132,6 +128,7 @@ const postItemCreate = async (formData: FormData) => {
 const putCostumeEdit = async (costumeId: number, body: putCostumeEditReq) => {
   try {
     const response = await fetchCustom.put(`/admin/costume/${costumeId}`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);

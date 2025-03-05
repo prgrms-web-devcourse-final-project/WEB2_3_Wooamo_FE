@@ -40,11 +40,12 @@ interface PartyDetailType {
 }
 
 interface PartyParticipantType {
+  friendId: number | null;
   userId: number;
-  userName: string;
+  nickname: string;
   profile: string;
   context: string;
-  isFriend: boolean;
+  status: string;
 }
 
 interface postPartyCreateAndParticipateReq {
@@ -56,4 +57,3 @@ interface postPartyCreateAndParticipateReq {
   bettingPointCap: number;
   userBettingPoint: number;
 }
-

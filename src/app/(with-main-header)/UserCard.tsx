@@ -12,11 +12,11 @@ export default async function UserCard() {
       <div className="flex gap-4 lg:gap-10 items-center w-full lg:w-130 px-5 py-7 bg-site-button rounded-lg border-4 border-site-white-100">
         <div className="bg-site-profile rounded-full relative overflow-hidden">
           <Character
-            costumeSrc={user.data.profile}
+            costumeSrc={user.data.profile ?? ""}
             className="w-24 lg:w-45 h-24 lg:h-45 -translate-y-3 lg:-translate-y-5"
           />
         </div>
-        <div className="flex flex-col gap-2.5 lg:gap-5 font-galmuri text-xl lg:text-2xl">
+        <div className="flex flex-col max-w-47.5 lg:max-w-55.5 gap-2.5 lg:gap-5 font-galmuri text-xl lg:text-2xl">
           <div className="font-bitbitv2 text-2xl lg:text-[28px]">
             {user.data.nickname}
           </div>
