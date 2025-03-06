@@ -49,7 +49,6 @@ export default function FriendList({ friends, myUserId }: FriendListProps) {
           </button>
         ))
       )}
-      ;
     </>
   );
 }
