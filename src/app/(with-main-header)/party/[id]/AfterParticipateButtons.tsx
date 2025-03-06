@@ -7,10 +7,9 @@ import Icon from "@/components/common/Icon";
 import Modal from "@/components/common/Modal";
 import { useModalStore } from "@/store/modalStore";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Link from "next/link";
-import { start } from "repl";
 
 export default function AfterParticipateButtons({
   partyId,
@@ -107,7 +106,11 @@ export default function AfterParticipateButtons({
                 ))}
             </div>
             <div className="flex flex-col flex-1 justify-between gap-5">
-              <Button type="submit" className="lg:h-11 lg:text-base">
+              <Button
+                disabled={verifyImage.length === 0}
+                type="submit"
+                className="lg:h-11 lg:text-base"
+              >
                 인증하기
               </Button>
             </div>
