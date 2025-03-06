@@ -4,13 +4,17 @@ import { boardApi } from "@/api/board/board";
 import { Suspense } from "react";
 import PostItemSkeleton from "@/components/common/skeletons/PostItemSkeleton";
 
-export default async function Boards({
-  searchParams,
-}: {
-  searchParams: { title?: string; page?: string };
-}) {
-  const title = searchParams.title?.trim() || "";
-  const page = Math.max(0, parseInt(searchParams.page || "0"));
+interface PageProps {
+  searchParams: Promise<{
+    title?: string;
+    page?: string;
+  }>;
+}
+
+export default async function Boards({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const title = params?.title?.trim() || "";
+  const page = Math.max(0, Number(params?.page || "0"));
 
   try {
     const posts = await boardApi.getBoardList(page, title);

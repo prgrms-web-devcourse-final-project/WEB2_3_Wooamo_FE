@@ -3,7 +3,7 @@
 import Icon from "@/components/common/Icon";
 import Image from "next/image";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Keyboard, Mousewheel } from "swiper/modules";
@@ -29,6 +29,24 @@ export default function PostImage({
   const [isOpen, setIsOpen] = useState(false);
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const displayImages = images.length > 0 ? images : [imageUrl];
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.removeEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   return (
     <>

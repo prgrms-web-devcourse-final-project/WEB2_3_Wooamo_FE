@@ -1,4 +1,4 @@
-import formatDateToKR from "@/utils/formatDateToKR";
+import { userApi } from "@/api/user/user";
 import Link from "next/link";
 
 interface PartyItemProps {
@@ -9,16 +9,17 @@ interface PartyItemProps {
   startDate: string;
 }
 
-export default function PartyItem({
+export default async function PartyItem({
   partyId,
   name,
   recruitCap,
   recruitCnt,
   startDate,
 }: PartyItemProps) {
+  const user = await userApi.getCurrentUserInfo();
   return (
     <Link
-      href={`/party/${partyId}`}
+      href={`${user ? `/party/${partyId}` : `/party/all`}`}
       className="flex items-center font-semibold lg:text-xl h-25 px-5 lg:px-7 bg-site-button"
     >
       <p className="flex-5 line-clamp-1">{name}</p>
