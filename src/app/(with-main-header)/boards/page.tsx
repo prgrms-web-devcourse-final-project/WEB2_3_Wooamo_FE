@@ -5,10 +5,10 @@ import { Suspense } from "react";
 import PostItemSkeleton from "@/components/common/skeletons/PostItemSkeleton";
 
 interface PageProps {
-  searchParams: {
+  searchParams: Promise<{
     title?: string;
     page?: string;
-  };
+  }>;
 }
 
 export default async function Boards({ searchParams }: PageProps) {
