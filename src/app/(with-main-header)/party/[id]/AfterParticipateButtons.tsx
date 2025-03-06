@@ -70,7 +70,7 @@ export default function AfterParticipateButtons({
         <Button>채팅</Button>
       </Link>
       <Button
-        disabled={start < today}
+        disabled={today < start}
         onClick={() => open(`verify-participate`)}
       >
         인증
