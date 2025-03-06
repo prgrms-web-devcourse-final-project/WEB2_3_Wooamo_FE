@@ -35,14 +35,16 @@ export default function Chatting() {
         {rooms ? (
           rooms.map((chatting) => (
             <ChattingListItem
-              key={chatting.roomId}
+              key={`${chatting.roomType}-${chatting.roomId}`}
               roomId={chatting.roomId}
               roomType={chatting.roomType}
               roomName={chatting.roomName}
-              lastSenderId={chatting.lastSenderId}
               lastMessage={chatting.lastMessage}
-              profile={chatting.profile}
               unreadCount={chatting.unreadCount}
+              userInfo={chatting.userInfo}
+              groupInfo={chatting.groupInfo}
+              createdAt={chatting.createdAt}
+              lastUserInfo={chatting.lastUserInfo}
             />
           ))
         ) : (
