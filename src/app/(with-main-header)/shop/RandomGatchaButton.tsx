@@ -10,7 +10,11 @@ import Image from "next/image";
 import gotchaBall from "@/assets/images/gotchaBall.png";
 import { twMerge } from "tailwind-merge";
 
-export default function RandomGachaButton() {
+export default function RandomGachaButton({
+  currentUserPoint,
+}: {
+  currentUserPoint: number;
+}) {
   const { open, close } = useModalStore((state) => state);
   const [costumeName, setCostumeName] = useState<string>("");
   const [costumeImage, setCostumeImage] = useState<string>("");
@@ -43,7 +47,7 @@ export default function RandomGachaButton() {
       />
       <Button
         onClick={() => handlePurchaseRandomCostume(300)}
-        disabled={isGotchaing}
+        disabled={isGotchaing || currentUserPoint < 300}
         className="bg-site-sub"
       >
         {isGotchaing ? "뽑는 중..." : "랜덤뽑기 300p"}

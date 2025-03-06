@@ -13,6 +13,7 @@ interface ShopCostumeItemProps {
   name: string;
   costume: string;
   point: number;
+  currentUser: responseType<userType> | undefined | null;
   currentUserPoint: number;
 }
 
@@ -21,16 +22,21 @@ export default function ShopCostumeItem({
   name,
   costume,
   point,
+  currentUser,
   currentUserPoint,
 }: ShopCostumeItemProps) {
   const { open, close } = useModalStore((state) => state);
   const showToast = useToastStore((state) => state.showToast);
 
   const handlePurchaseCostume = async (costumeId: number, point: number) => {
-    if (!costumeId) return showToast("코스튬 정보가 없습니다.");
+    if (!costumeId) return showToast("코스튬 정보가 없습니다");
+    if (!currentUser) {
+      close();
+      return showToast("로그인 후 구매 가능합니다");
+    }
     if (currentUserPoint - point < 0) {
       close();
-      return showToast("포인트가 부족합니다.");
+      return showToast("포인트가 부족합니다");
     }
 
     const purchaseCostume = await shopApi.postCostumePurchase({

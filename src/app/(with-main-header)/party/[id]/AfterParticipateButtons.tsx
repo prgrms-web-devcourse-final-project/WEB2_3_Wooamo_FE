@@ -13,8 +13,10 @@ import Link from "next/link";
 
 export default function AfterParticipateButtons({
   partyId,
+  startDate,
 }: {
   partyId: number;
+  startDate: string;
 }) {
   const { open, close } = useModalStore((state) => state);
 
@@ -58,12 +60,20 @@ export default function AfterParticipateButtons({
     }
   };
 
+  const today = new Date();
+  const start = new Date(startDate);
+
   return (
     <>
       <Link href={`/chatting/party/${partyId}`}>
         <Button>채팅</Button>
       </Link>
-      <Button onClick={() => open(`verify-participate`)}>인증</Button>
+      <Button
+        disabled={today < start}
+        onClick={() => open(`verify-participate`)}
+      >
+        인증
+      </Button>
 
       <Modal modalId="verify-participate" onClose={resetForm}>
         <form onSubmit={verifyParticipate}>
@@ -96,7 +106,11 @@ export default function AfterParticipateButtons({
                 ))}
             </div>
             <div className="flex flex-col flex-1 justify-between gap-5">
-              <Button type="submit" className="lg:h-11 lg:text-base">
+              <Button
+                disabled={verifyImage.length === 0}
+                type="submit"
+                className="lg:h-11 lg:text-base"
+              >
                 인증하기
               </Button>
             </div>
