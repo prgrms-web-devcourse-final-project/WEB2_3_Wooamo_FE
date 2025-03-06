@@ -54,7 +54,6 @@ export const useTimerStore = create<TimerStore>((set) => ({
         },
       },
     })),
-
   setIntervalId: (categoryId, intervalId) =>
     set((state) => ({
       timers: {
