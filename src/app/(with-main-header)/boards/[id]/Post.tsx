@@ -69,7 +69,7 @@ export default function Post({ boardId }: PostProps) {
             <Avatar costumeSrc={boardDetail.profile || basic.src} />
             <span className="font-semibold">@{boardDetail.nickname}</span>
           </Link>
-          <span className="font-semibold text-sm text-site-darkgray-02">
+          <span className="text-xs lg:text-sm text-site-darkgray-01">
             {formatDateToTimeAgo(new Date(boardDetail.createdAt))}
           </span>
         </div>
