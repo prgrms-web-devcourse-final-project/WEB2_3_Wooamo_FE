@@ -5,7 +5,11 @@ import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
 import { useRef, useState } from "react";
 
-export default function FriendRequestButton({ user }: { user: userType }) {
+export default function FriendRequestButton({
+  user,
+}: {
+  user: userType | PartyParticipantType;
+}) {
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [isRequestFriend, setIsRequestFriend] = useState(false);
   const [friendId, setFriendId] = useState<number | null>(null);
@@ -16,9 +20,8 @@ export default function FriendRequestButton({ user }: { user: userType }) {
 
     timer.current = setTimeout(async () => {
       const res = await friendApi.requestFriend(user.userId);
-      if (res?.status === "성공") {
+      if (res?.data) {
         setFriendId(res.data.friendId);
-        revalidateTagAction("friends");
       }
     }, 1000);
   };
@@ -33,7 +36,6 @@ export default function FriendRequestButton({ user }: { user: userType }) {
       const res = await friendApi.deleteFriend(friendId);
       if (res?.status === "성공") {
         setFriendId(null);
-        revalidateTagAction("friends");
       }
     }, 1000);
   };

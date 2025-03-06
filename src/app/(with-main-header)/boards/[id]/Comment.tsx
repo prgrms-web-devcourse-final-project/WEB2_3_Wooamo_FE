@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
 
 type CommentProps = {
   data: commentItem;
@@ -64,11 +65,14 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
   };
 
   const isSelectableComment =
-    !isCommentAuthor && isBoardAuthor && boardInfo?.boardType === "질문";
+    !isCommentAuthor &&
+    isBoardAuthor &&
+    boardInfo?.boardType === "질문" &&
+    !boardInfo?.isConfirm;
 
   return (
     <article
-      className={`flex gap-2.5 ${
+      className={`flex gap-2.5 group ${
         isSelectableComment && "hover:bg-site-white-70 rounded-4xl"
       }`}
     >
@@ -82,12 +86,17 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
       <div className="flex flex-col lg:gap-1 flex-grow">
         <div className="flex justify-between items-center">
           <div className="w-fit">
-            <Link
-              href={`/users/${data.userId}`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <p className="font-semibold lg:text-xl">@{data.nickname}</p>
-            </Link>
+            <div className="flex items-center gap-2.5">
+              <Link
+                href={`/users/${data.userId}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <p className="font-semibold text-base">@{data.nickname}</p>
+              </Link>
+              <span className="text-site-darkgray-01 text-xs lg:text-sm">
+                {formatDateToTimeAgo(new Date(data.createdAt))}
+              </span>
+            </div>
             <p className="text-site-darkgray-02 text-sm lg:text-base">
               {data.context}
             </p>
@@ -96,10 +105,10 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
           <div className="relative">
             {isConfirmed && (
               <Button
-                className="bg-transparent px-0 lg:px-0 mr-5 lg:mr-6"
+                className="bg-transparent  px-0 lg:px-0 mr-5 lg:mr-6"
                 disabled
               >
-                <Icon MuiIcon={CheckRoundedIcon} />
+                <Icon MuiIcon={CheckRoundedIcon} className="text-site-main" />
               </Button>
             )}
 
@@ -107,7 +116,7 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
               <>
                 <Button
                   onClick={() => setIsOpen((prev) => !prev)}
-                  className="bg-transparent px-0 lg:px-0"
+                  className="bg-transparent px-0 lg:px-0 mr-5 lg:mr-6 "
                 >
                   <Icon MuiIcon={MoreHorizRoundedIcon} />
                 </Button>
@@ -127,7 +136,7 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
             {!isConfirmed && isSelectableComment && (
               <Button
                 onClick={handleSelect}
-                className="bg-transparent px-0 lg:px-0"
+                className="bg-site-button hidden group-hover:block"
               >
                 채택
               </Button>

@@ -1,22 +1,32 @@
 "use client";
 
+import { revalidateTagAction } from "@/actions";
+import { chattingApi } from "@/api/chatting/chatting";
 import { partyApi } from "@/api/party/party";
 import Button from "@/components/common/Button";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import Modal from "@/components/common/Modal";
 import useInputValidation from "@/hooks/useInputValidation";
 import { useModalStore } from "@/store/modalStore";
+import { useSocketStore } from "@/store/socketStore";
 import React, { FormEvent } from "react";
 
 interface ParticipateButtonProps {
   partyId: number;
+  partyName: string;
+  maxMembers: number;
+  userId?: number;
   bettingPoint: number;
 }
 
 export default function ParticipateButton({
   partyId,
+  partyName,
+  maxMembers,
+  userId,
   bettingPoint,
 }: ParticipateButtonProps) {
+  const { connect, disconnect, join } = useSocketStore();
   const { open, close } = useModalStore((state) => state);
   const { validate, ...point } = useInputValidation(0, (value) => {
     if (!value || Number(value) < bettingPoint) {
@@ -28,7 +38,7 @@ export default function ParticipateButton({
   const participateParty = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!validate()) return;
+    if (!userId || !validate()) return;
 
     const participateParty = await partyApi.postParticiapteParty(
       partyId,
@@ -36,7 +46,20 @@ export default function ParticipateButton({
     );
 
     if (participateParty?.status === "성공") {
-      close();
+      await connect();
+      const roomId = await chattingApi.createGroupChatRoom({
+        groupId: String(partyId),
+        groupName: partyName,
+        userId,
+        maxMembers,
+      });
+
+      if (roomId?.status === "성공") {
+        join(roomId.data, userId);
+        disconnect();
+        revalidateTagAction("participant-list");
+        close();
+      }
     }
   };
 

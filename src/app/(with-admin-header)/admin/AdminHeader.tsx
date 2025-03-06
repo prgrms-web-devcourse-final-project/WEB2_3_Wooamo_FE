@@ -1,8 +1,9 @@
 import Logo from "@/assets/images/Logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import LogoutButton from "./LogoutButton";
 
-export default function AdminHeader() {
+export default async function AdminHeader() {
   return (
     <div className="fixed z-10 w-full pl-22 pr-15 h-25 bg-site-button flex justify-between items-center">
       <div>
@@ -13,8 +14,10 @@ export default function AdminHeader() {
         </div>
       </div>
       <div className="flex gap-5 font-semibold">
-        <div className="px-4 py-3 bg-site-white-70 rounded-lg">Grapana</div>
-        <div className="px-4 py-3 bg-site-white-70 rounded-lg">Logout</div>
+        <button className="px-4 py-3 bg-site-white-70 rounded-lg cursor-pointer">
+          Grapana
+        </button>
+        <LogoutButton />
       </div>
     </div>
   );

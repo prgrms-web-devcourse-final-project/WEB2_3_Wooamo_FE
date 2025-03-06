@@ -8,17 +8,6 @@ interface boardItem {
   isConfirm: boolean;
   image: string | null;
 }
-interface boardListResponse {
-  status: statusType;
-  data: {
-    contents: boardItem[];
-    page: number;
-    size: number;
-    totalElements: number;
-    totalPages: number;
-    hasNext: boolean;
-  };
-}
 
 interface boardDetail {
   title: string;
@@ -32,11 +21,6 @@ interface boardDetail {
   images: string[];
 }
 
-interface boardDetailResponse {
-  status: statusType;
-  data: boardDetail;
-}
-
 interface commentItem {
   commentId: number;
   userId: number;
@@ -47,18 +31,6 @@ interface commentItem {
   isConfirm: boolean;
 }
 
-interface commentListResponse {
-  status: statusType;
-  data: {
-    contents: commentItem[];
-    page: number;
-    size: number;
-    totalElements: number;
-    totalPages: number;
-    hasNext: boolean;
-  };
-}
-
 interface createBoardRequest {
   title: string;
   boardType: "질문" | "자유";
@@ -67,10 +39,7 @@ interface createBoardRequest {
 }
 
 interface createBoardResponse {
-  status: statusType;
-  data: {
-    boardId: number;
-  };
+  boardId: number;
 }
 
 interface updateBoardRequest {
@@ -81,28 +50,9 @@ interface updateBoardRequest {
 }
 
 interface updateBoardResponse {
-  status: statusType;
-  data: {
-    boardId: number;
-  };
-}
-
-interface deleteBoardResponse {
-  status: statusType;
+  boardId: number;
 }
 
 interface createCommentRequest {
   context: string;
-}
-
-interface createCommentResponse {
-  status: statusType;
-}
-
-interface deleteCommentResponse {
-  status: statusType;
-}
-
-interface selectCommentResponse {
-  status: statusType;
 }

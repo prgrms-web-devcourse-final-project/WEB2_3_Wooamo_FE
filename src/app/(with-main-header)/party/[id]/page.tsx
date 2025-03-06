@@ -4,9 +4,10 @@ import Input from "@/components/common/Input";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import Icon from "@/components/common/Icon";
 import ProfileSummary from "@/components/common/ProfileSummary";
-import basic from "@/assets/images/costumes/basic.png";
 import { partyApi } from "@/api/party/party";
 import AfterParticipateButtons from "./AfterParticipateButtons";
+import { userApi } from "@/api/user/user";
+import FriendRequestButton from "../../friends/add/FriendRequestButton";
 
 interface PartyDetailProps {
   params: Promise<{ id: number }>;
@@ -19,7 +20,10 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
   const partyDetail = fetchPartyDetail?.data;
 
   const fetchPartyParticipantList = await partyApi.getPartyParticipantList(id);
-  const partyParticipantList = fetchPartyParticipantList?.data.contents;
+  const partyParticipantList = fetchPartyParticipantList?.data?.contents;
+
+  const fetchCurrentUser = await userApi.getCurrentUserInfo();
+  const userId = fetchCurrentUser?.data.userId;
 
   if (!partyDetail) return;
   if (!partyParticipantList) return;
@@ -29,11 +33,20 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
       <div className="flex flex-col gap-7.5 lg:gap-13 px-5 lg:px-0">
         {partyDetail.isJoined ? (
           <div className="flex justify-end gap-2">
-            <AfterParticipateButtons partyId={id} />
+            <AfterParticipateButtons
+              userId={userId}
+              partyId={id}
+              partyName={partyDetail.name}
+              maxMembers={partyDetail.recruitCap}
+              startDate={partyDetail.startDate}
+            />
           </div>
         ) : (
           <ParticipateButton
+            userId={userId}
             partyId={id}
+            partyName={partyDetail.name}
+            maxMembers={partyDetail.recruitCap}
             bettingPoint={partyDetail.bettingPointCap}
           />
         )}
@@ -119,10 +132,17 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
                 <ProfileSummary
                   userId={participant.userId}
                   costume={participant.profile}
-                  nickname={participant.userName}
+                  nickname={participant.nickname}
                   description={participant.context}
                 />
-                <div>{participant.isFriend || <Button>친구신청</Button>}</div>
+                <div>
+                  {participant.status === "FRIEND" ||
+                  userId === participant.userId ? (
+                    <></>
+                  ) : (
+                    <FriendRequestButton user={participant} />
+                  )}
+                </div>
               </article>
             ))}
           </div>

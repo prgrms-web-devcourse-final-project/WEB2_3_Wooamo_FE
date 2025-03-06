@@ -33,7 +33,12 @@ export default function Comments() {
     try {
       const data = await boardApi.getCommentsByBoardId(boardId);
       if (data) {
-        setComments(data.data.contents);
+        const sortedComments = [...data.data.contents].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        );
+
+        setComments(sortedComments);
         setTotalElements(data.data.totalElements);
       }
     } catch (error) {

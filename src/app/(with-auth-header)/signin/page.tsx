@@ -11,14 +11,18 @@ import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import Button from "@/components/common/Button";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useInputValidation from "@/hooks/useInputValidation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import { authApi } from "@/api/auth/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { deleteCookie } from "cookies-next";
+import { deleteCookieAtServer } from "@/api/cookie";
 
 export default function SignIn() {
   const isMobile = useIsMobile();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
 
   const [isAutoLogin, setIsAutoLogin] = useState(false);
   const { validate: emailValidate, ...email } = useInputValidation(
@@ -50,12 +54,29 @@ export default function SignIn() {
         isAutoLogin,
       });
       if (res?.status === "성공") {
-        router.push("/");
+        if (res.data.role === "관리자") {
+          router.replace("/admin");
+        } else {
+          router.replace("/");
+        }
       } else {
         alert("로그인에 실패했습니다.");
       }
     }
   };
+
+  useEffect(() => {
+    const kakaoLogin = async () => {
+      if (code) {
+        await deleteCookie("accessToken");
+        await deleteCookieAtServer("accessToken");
+        await authApi.kakaoLogin(code);
+        router.replace("/");
+      }
+    };
+
+    kakaoLogin();
+  }, [code, router]);
 
   return (
     <div className="w-full lg:w-150 flex flex-col gap-7 mx-auto mt-[52px] mb-7">
@@ -113,7 +134,7 @@ export default function SignIn() {
         <Image src={Divider} alt="구분선" className="" />
       </div>
       <Link
-        href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_SERVER_URL}/user/kakaoLogin`}
+        href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY}&redirect_uri=https://localhost:3000/api/kakaoLogin`}
         className="lg:w-150"
       >
         {isMobile ? (

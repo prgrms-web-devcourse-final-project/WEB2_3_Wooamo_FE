@@ -3,33 +3,35 @@
 import Character from "@/components/common/Character";
 import Image from "next/image";
 import WhiteDividerLong from "@/assets/images/WhiteDividerLong.svg";
-import basic from "@/assets/images/costumes/basic.png";
 import spotlight from "@/assets/images/spotlight.png";
 import WhiteDividerShort from "@/assets/images/WhiteDividerShort.svg";
 import { useEffect, useState } from "react";
 import { userApi } from "@/api/user/user";
+import { revalidateTagAction } from "@/actions";
+import basic from "@/assets/images/costumes/basic.png";
 
 export default function ClosetTab() {
-  const [selectedCostume, setSelectedCostume] = useState<string | null>(null);
+  const [selectedCostume, setSelectedCostume] = useState("");
   const [costumes, setCostumes] = useState<costumeType[]>([]);
 
   const changeCostume = async (costume: costumeType) => {
-    const res = await userApi.updateUserCostume(costume.costumeId);
-    if (res?.status === "성공") {
-      setSelectedCostume(costume.image);
+    const currentCostume = await userApi.updateUserCostume(costume.entityId);
+    if (currentCostume?.status === "성공") {
+      setSelectedCostume(currentCostume.data.profile);
+      revalidateTagAction("user");
     }
   };
 
   useEffect(() => {
     const fetchCurrentUserCostume = async () => {
       const user = await userApi.getCurrentUserInfo();
-      if (user) {
-        setSelectedCostume(user.data.profile);
+      if (user?.data) {
+        setSelectedCostume(user.data.profile ?? "");
       }
     };
     const fetchCostumes = async () => {
       const costumes = await userApi.getCurrentUserCostumes();
-      if (costumes) {
+      if (costumes?.data) {
         setCostumes(costumes.data);
       }
     };
@@ -48,7 +50,7 @@ export default function ClosetTab() {
           fill
         />
         <Character
-          costumeSrc={selectedCostume ?? basic}
+          costumeSrc={selectedCostume}
           className="translate-y-[15%] h-58 lg:h-119"
         />
       </div>
@@ -66,13 +68,13 @@ export default function ClosetTab() {
         <section className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 auto-rows-auto w-full justify-items-center gap-4 lg:gap-6 h-120">
           {costumes.map((costume) => (
             <button
-              key={`costume-${costume.costumeId}`}
+              key={`costume-${costume.entityId}`}
               className="w-full aspect-square max-w-[224px]"
               onClick={() => changeCostume(costume)}
             >
               <article className="bg-site-white-70 rounded-[10px] relative hover:drop-shadow-6.2 transition-all h-full w-full">
                 <Image
-                  src={costume.image}
+                  src={costume.newFileName ?? basic}
                   width={270}
                   height={270}
                   alt="내 코스튬 이미지"

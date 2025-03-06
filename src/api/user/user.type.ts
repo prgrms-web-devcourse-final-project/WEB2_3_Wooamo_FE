@@ -3,49 +3,31 @@ interface getUserInfoReq {
   userId: number;
 }
 
-interface userInfoRes {
-  status: statusType;
-  data: userType;
-}
 interface userType {
   userId: number;
   context: string;
   link: string;
   nickname: string;
   point: number;
-  profile: string;
-}
-
-interface userRankingRes {
-  status: statusType;
-  data: {
-    ranking: number;
-  };
-}
-
-interface getTopRankingRes {
-  status: statusType;
-  data: topRankingUserInfo[];
+  profile: string | null;
+  friends: number;
+  friendId: number | null;
+  status: "ACCEPTED" | "PENDING" | null;
+  role: "USER" | "ADMIN";
 }
 
 interface topRankingUserInfo {
+  userId: number;
   nickname: string;
   studyTime: string;
+  profile: string;
 }
 
-interface getCostumesRes {
-  status: statusType;
-  data: costumeType[];
-}
 interface costumeType {
-  costumeId: number;
-  image: string;
+  entityId: number;
+  newFileName: string;
 }
 
-interface getUserPostsRes {
-  status: statusType;
-  data: boardItem[];
-}
 interface postItemType {
   boardId: number;
   title: string;
@@ -58,10 +40,4 @@ interface postItemType {
 interface updateUserInfoReq {
   context: string;
   link: string;
-}
-interface updateUserInfoRes {
-  status: statusType;
-  data: {
-    profile: string;
-  };
 }

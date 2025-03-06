@@ -63,15 +63,21 @@ export default function BoardsUpdate() {
     e.preventDefault();
 
     const formData = new FormData();
-    const postData = {
+    const contents = {
       title,
-      context: context,
+      context,
       deletedImages,
     };
 
-    formData.append("post", JSON.stringify(postData));
-    images.forEach((file) => {
-      formData.append("files", file);
+    formData.append(
+      "contents",
+      new Blob([JSON.stringify(contents)], {
+        type: "application/json",
+      }),
+    );
+
+    images.forEach((image) => {
+      formData.append("images", image);
     });
 
     try {

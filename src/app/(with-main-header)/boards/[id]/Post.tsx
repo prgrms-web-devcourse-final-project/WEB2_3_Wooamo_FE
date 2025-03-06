@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
 import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
+import renderContextWithLineBreaks from "@/utils/renderContextWithLineBreaks";
 
 interface PostProps {
   boardId: number;
@@ -15,7 +16,9 @@ interface PostProps {
 
 export default function Post({ boardId }: PostProps) {
   const [boardDetail, setBoardDetail] = useState<boardDetail | null>(null);
-  const [currentUser, setCurrentUser] = useState<userInfoRes | null>(null);
+  const [currentUser, setCurrentUser] = useState<responseType<userType> | null>(
+    null,
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,10 +58,10 @@ export default function Post({ boardId }: PostProps) {
             href={`/users/${boardDetail.userId}`}
             className="flex items-center gap-2.5"
           >
-            <Avatar costumeSrc={boardDetail.profile || basic} />
+            <Avatar costumeSrc={boardDetail.profile || basic.src} />
             <span className="font-semibold">@{boardDetail.nickname}</span>
           </Link>
-          <span className="font-semibold text-sm text-site-darkgray-02">
+          <span className="text-xs lg:text-sm text-site-darkgray-01">
             {formatDateToTimeAgo(new Date(boardDetail.createdAt))}
           </span>
         </div>
@@ -71,7 +74,7 @@ export default function Post({ boardId }: PostProps) {
         )}
       </div>
       <div className="min-h-[200px] bg-site-white-70 p-5 lg:px-6">
-        {boardDetail.context}
+        {renderContextWithLineBreaks(boardDetail.context)}
       </div>
     </>
   );

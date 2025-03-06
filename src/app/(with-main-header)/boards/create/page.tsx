@@ -5,7 +5,7 @@ import Button from "@/components/common/Button";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Input from "@/components/common/Input";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useRef } from "react";
 import Dropdown from "@/components/common/Dropdown";
 import { boardApi } from "@/api/board/board";
 import { useRouter } from "next/navigation";
@@ -18,6 +18,7 @@ export default function BoardsCreate() {
   const [selectedBoardType, setSelectedBoardType] = useState("자유");
   const [images, setImages] = useState<File[]>([]);
   const [context, setContext] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -32,15 +33,28 @@ export default function BoardsCreate() {
     setImages((prevImages) =>
       prevImages.filter((_, index) => index !== indexToDelete),
     );
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const createPost = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("title", title);
-      formData.append("context", context);
-      formData.append("boardType", selectedBoardType as "질문" | "자유");
+      const contents = {
+        title,
+        context,
+        boardType: selectedBoardType as "질문" | "자유",
+      };
+
+      formData.append(
+        "contents",
+        new Blob([JSON.stringify(contents)], {
+          type: "application/json",
+        }),
+      );
 
       images.forEach((image) => {
         formData.append("images", image);
@@ -48,10 +62,10 @@ export default function BoardsCreate() {
 
       const response = await boardApi.createBoard(formData);
 
-      console.log("Created board response:", response); // 응답 확인
-      console.log("New board ID:", response.data.boardId); // boardId 확인
+      console.log("Created board response:", response);
+      console.log("New board ID:", response.data?.boardId);
 
-      router.push(`/boards/${response.data.boardId}`);
+      router.push(`/boards/${response.data?.boardId}`);
     } catch (error) {
       console.error("게시글 작성 실패:", error);
     }

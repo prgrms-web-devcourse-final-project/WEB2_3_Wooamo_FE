@@ -7,7 +7,8 @@ import useInputValidation from "@/hooks/useInputValidation";
 import { useModalStore } from "@/store/modalStore";
 import { useRouter } from "next/navigation";
 
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { userApi } from "@/api/user/user";
 
 interface CreatePartyProps {
   title: string;
@@ -27,9 +28,24 @@ export default function CreatePartyButton({
   minBetting,
 }: CreatePartyProps) {
   const { open, close } = useModalStore((state) => state);
+  const [userPoint, setUserPoint] = useState<number | undefined>(0);
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      const currentUserInfo = await userApi.getCurrentUserInfo();
+      const currentUserPoint = currentUserInfo?.data.point;
+      setUserPoint(currentUserPoint);
+    };
+
+    fetchCurrentUser();
+  }, []);
+
   const { validate, ...point } = useInputValidation(0, (value) => {
-    if (!value || Number(value) < 100) {
+    if (!value || Number(value) < minBetting) {
       return "최소 배팅 금액 이상 입력해주세요";
+    }
+    if ((userPoint ?? 0) < value) {
+      return "보유하신 포인트가 부족합니다";
     }
     return null;
   });

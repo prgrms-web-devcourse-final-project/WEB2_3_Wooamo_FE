@@ -5,6 +5,7 @@ import PartySearch from "./PartySearch";
 import { partyApi } from "@/api/party/party";
 import { Suspense } from "react";
 import BasicSkeleton from "@/components/common/skeletons/BasicSkeleton";
+import { userApi } from "@/api/user/user";
 
 interface PartyAllProps {
   searchParams: Promise<{ name: string }>;
@@ -13,15 +14,19 @@ interface PartyAllProps {
 export default async function PartyAll({ searchParams }: PartyAllProps) {
   const { name } = await searchParams;
   const parties = await partyApi.getScheduledPartyList(name);
+  const user = await userApi.getCurrentUserInfo();
 
   if (!parties) return;
+
   return (
     <div className="flex flex-col">
       <div className="px-5 lg:px-0">
         <div className="flex justify-between items-center mb-5 lg:mb-7">
           <p className="font-galmuri text-xl lg:text-[28px]">전체</p>
           <Link href={"/party/create"}>
-            <Button type="button">팟 생성</Button>
+            <Button type="button" disabled={!user}>
+              팟 생성
+            </Button>
           </Link>
         </div>
         <Suspense fallback={<BasicSkeleton count={1} />}>

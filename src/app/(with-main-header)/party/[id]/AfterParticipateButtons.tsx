@@ -9,13 +9,28 @@ import { useModalStore } from "@/store/modalStore";
 import Image from "next/image";
 import React, { useState } from "react";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
+import { useToastStore } from "@/store/toastStore";
+import { useRouter } from "next/navigation";
+import { chattingApi } from "@/api/chatting/chatting";
+
+interface AfterParticipateButtonsProps {
+  partyId: number;
+  partyName: string;
+  maxMembers: number;
+  startDate: string;
+  userId?: number;
+}
 
 export default function AfterParticipateButtons({
   partyId,
-}: {
-  partyId: number;
-}) {
+  userId,
+  partyName,
+  maxMembers,
+  startDate,
+}: AfterParticipateButtonsProps) {
   const { open, close } = useModalStore((state) => state);
+  const router = useRouter();
+  const showToast = useToastStore((state) => state.showToast);
 
   const [verifyImage, setVerifyIamge] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -42,22 +57,50 @@ export default function AfterParticipateButtons({
     e.preventDefault();
 
     if (verifyImage) {
+      const formData = new FormData();
+      formData.append("image", verifyImage[0]);
+
       const request = await partyApi.postPartyparticipationVerify(
         partyId,
-        verifyImage,
+        formData,
       );
 
       if (request?.status === "성공") {
         close();
         revalidatePathAction("party-detail");
+      } else {
+        close();
+        showToast("이미 인증을 완료했습니다");
       }
     }
   };
 
+  const participateChatting = async () => {
+    if (!userId) return;
+    const res = await chattingApi.createGroupChatRoom({
+      groupId: String(partyId),
+      groupName: partyName,
+      userId,
+      maxMembers,
+    });
+    console.log(res);
+    if (res?.status === "성공") {
+      router.push(`/chatting/party/${partyId}?roomId=${res.data}`);
+    }
+  };
+
+  const today = new Date();
+  const start = new Date(startDate);
+
   return (
     <>
-      <Button>채팅</Button>
-      <Button onClick={() => open(`verify-participate`)}>인증</Button>
+      <Button onClick={participateChatting}>채팅</Button>
+      <Button
+        disabled={today < start}
+        onClick={() => open(`verify-participate`)}
+      >
+        인증
+      </Button>
 
       <Modal modalId="verify-participate" onClose={resetForm}>
         <form onSubmit={verifyParticipate}>
@@ -83,14 +126,19 @@ export default function AfterParticipateButtons({
                   <Image
                     key={index}
                     src={image}
-                    width={320}
-                    height={320}
                     alt="이미지 미리보기"
+                    fill
+                    sizes="100%"
+                    className="object-cover rounded-2xl"
                   />
                 ))}
             </div>
             <div className="flex flex-col flex-1 justify-between gap-5">
-              <Button type="submit" className="lg:h-11 lg:text-base">
+              <Button
+                disabled={verifyImage.length === 0}
+                type="submit"
+                className="lg:h-11 lg:text-base"
+              >
                 인증하기
               </Button>
             </div>

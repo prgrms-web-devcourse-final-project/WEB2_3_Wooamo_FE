@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { hasCookieAtServer } from "@/api/cookie";
 import AfterLoginHome from "./AfterLoginHome";
 import BeforeLoginHome from "./BeforeLoginHome";
@@ -9,9 +8,5 @@ export default async function Home() {
   const serverIsLoggedIn = await hasCookieAtServer("accessToken");
   const isLoggedIn = clientIsLoggedIn || serverIsLoggedIn;
 
-  return isLoggedIn ? (
-    <AfterLoginHome />
-  ) : (
-    <BeforeLoginHome />
-  );
+  return isLoggedIn ? <AfterLoginHome /> : <BeforeLoginHome />;
 }

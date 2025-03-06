@@ -1,23 +1,26 @@
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import Character from "@/components/common/Character";
-import basic from "@/assets/images/costumes/basic.png";
 
 interface RankingCardProps {
   rank: number;
   nickname: string;
   time: string;
+  profile: string;
+  userId?: number;
   className?: string;
 }
 
-export default function RankingCard({
+export default async function RankingCard({
   rank,
   nickname,
   time,
+  userId,
+  profile,
   className,
 }: RankingCardProps) {
   return (
-    <Link href="/users/1">
+    <Link href={userId ? `/users/${userId}` : "/"}>
       <article
         className={twMerge(
           "flex flex-col justify-end items-center gap-3 lg:gap-4 relative w-32 lg:w-52.5 h-41 lg:h-68 p-2 pt-4 lg:p-4 bg-site-button border-5 border-white rounded-[10px] transition-all",
@@ -30,7 +33,7 @@ export default function RankingCard({
           </span>
         </div>
         <div className="flex justify-center items-center w-20 lg:w-34 h-20 lg:h-34 rounded-full bg-site-profile">
-          <Character className="scale-90 -translate-y-2" costumeSrc={basic} />
+          <Character className="scale-90 -translate-y-2" costumeSrc={profile} />
         </div>
         <div className="flex flex-col gap-0 lg:gap-2 items-center w-full h-17 font-galmuri bg-site-profile">
           <p className="font-normal lg:text-xl">{nickname}</p>

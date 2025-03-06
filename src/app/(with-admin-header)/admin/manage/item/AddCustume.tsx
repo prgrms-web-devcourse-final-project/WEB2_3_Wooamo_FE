@@ -42,22 +42,12 @@ export default function AddCustume() {
     e.preventDefault();
 
     if (itemName && itemImage && itemPoint) {
-      // const formData = new FormData();
-      // formData.append("costumeName", itemName);
-      // formData.append("point", itemPoint.toString());
-
-      // itemImage.forEach((file) => {
-      //   formData.append("image", file);
-      // });
-
+      const formData = new FormData();
       const contents = {
-        data: {
-          costumeName: itemName,
-          point: itemPoint.toString(),
-        },
+        costumeName: itemName,
+        point: itemPoint.toString(),
       };
 
-      const formData = new FormData();
       formData.append(
         "contents",
         new Blob([JSON.stringify(contents)], { type: "application/json" }),

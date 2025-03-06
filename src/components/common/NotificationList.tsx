@@ -1,12 +1,10 @@
-import { useRef, useEffect, RefObject, useState } from "react";
+import { RefObject } from "react";
 import { twMerge } from "tailwind-merge";
-import { boardApi } from "@/api/board/board";
 
 interface NotificationListProps {
   notifications: notificationItem[];
   onMarkAllAsRead: () => void;
   onMarkAsRead: (notification: notificationItem) => void;
-  onClose: () => void;
   buttonRef: RefObject<HTMLDivElement | null>;
   dropdownRef: RefObject<HTMLDivElement | null>;
   className?: string;
@@ -14,69 +12,18 @@ interface NotificationListProps {
   itemClassName?: string;
 }
 
-interface BoardTitles {
-  [key: number]: string;
-}
-
 export default function NotificationList({
   notifications,
   onMarkAllAsRead,
   onMarkAsRead,
-  onClose,
-  buttonRef,
   dropdownRef,
   listClassName,
   itemClassName,
 }: NotificationListProps) {
-  const [boardTitles, setBoardTitles] = useState<BoardTitles>({});
-
-  useEffect(() => {
-    const fetchBoardTitles = async () => {
-      const titlePromises = notifications
-        .filter(
-          (notification) =>
-            notification.typeId !== null &&
-            (notification.type === "COMMENT" ||
-              notification.type === "CONFIRM"),
-        )
-        .map(async (notification) => {
-          try {
-            const response = await boardApi.getBoardByBoardId(
-              notification.typeId!,
-            );
-            return { id: notification.typeId!, title: response.data.title };
-          } catch (error) {
-            console.error(
-              `게시글 정보 조회 실패 (ID: ${notification.typeId}):`,
-              error,
-            );
-            return { id: notification.typeId!, title: "삭제된 게시글" };
-          }
-        });
-
-      const titles = await Promise.all(titlePromises);
-      const titleMap = titles.reduce((acc, { id, title }) => {
-        acc[id] = title;
-        return acc;
-      }, {} as BoardTitles);
-
-      setBoardTitles(titleMap);
-    };
-
-    if (notifications.length > 0) {
-      fetchBoardTitles();
-    }
-  }, [notifications]);
-
   const getNotificationMessage = (notification: notificationItem) => {
-    const boardTitle = notification.typeId
-      ? boardTitles[notification.typeId] || ""
-      : "";
-
+    const title = notification.title || "";
     const truncatedTitle =
-      boardTitle.length > 5
-        ? `[${boardTitle.slice(0, 5)}...]`
-        : `[${boardTitle}]`;
+      title.length > 7 ? `[${title.slice(0, 7)}...]` : `[${title}]`;
 
     switch (notification.type) {
       case "COMMENT":
@@ -120,7 +67,7 @@ export default function NotificationList({
         </button>
       </div>
       {notifications.length === 0 ? (
-        <div className="p-4 text-center text-site-darkgray-02">
+        <div className="p-4 text-center text-sm text-site-darkgray-01">
           알림이 없습니다
         </div>
       ) : (

@@ -6,7 +6,7 @@ export default async function SearchedUserItem({ user }: { user: userType }) {
     <article className="h-19 lg:h-25 flex justify-between items-center">
       <ProfileSummary
         userId={user.userId}
-        costume={user.profile}
+        costume={user.profile ?? ""}
         nickname={user.nickname}
         description={user.context}
       />

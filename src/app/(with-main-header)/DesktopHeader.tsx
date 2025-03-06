@@ -8,14 +8,15 @@ import { twMerge } from "tailwind-merge";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Avatar from "@/components/common/Avatar";
-import basic from "@/assets/images/costumes/basic.png";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import NotificationList from "../../components/common/NotificationList";
 import { useNotification } from "@/hooks/useNotification";
 import Dropdown from "@/components/common/Dropdown";
 import Button from "../../components/common/Button";
-import { deleteCookie, hasCookie } from "cookies-next";
+import { hasCookie } from "cookies-next";
 import dynamic from "next/dynamic";
+import { userApi } from "@/api/user/user";
+import { authApi } from "@/api/auth/auth";
 
 const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
@@ -25,12 +26,20 @@ const routes = {
   "/party": "팟 페이지",
 } as const;
 
-export default function DesktopHeader() {
+interface DesktopHeaderProps {
+  serverIsLoggedIn: boolean;
+}
+
+export default function DesktopHeader({
+  serverIsLoggedIn,
+}: DesktopHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
-  const isLoggedIn = hasCookie("accessToken");
+  const clientIsLoggedIn = hasCookie("accessToken");
+  const isLoggedIn = clientIsLoggedIn || serverIsLoggedIn;
 
+  const [user, setUser] = useState<userType | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -42,15 +51,23 @@ export default function DesktopHeader() {
     closeNotification,
     handleMarkAllAsRead,
     handleMarkAsRead,
+    hasUnreadNotifications,
   } = useNotification({ buttonRef, dropdownRef });
 
   const handleLogout = async () => {
-    deleteCookie("accessToken");
-    deleteCookie("refreshToken");
+    await authApi.logout();
     setIsOpenDropdown(false);
-    router.push("/");
   };
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await userApi.getCurrentUserInfo();
+      if (user?.status === "성공") {
+        setUser(user.data);
+      }
+    };
+    fetchUser();
+  }, [pathname]);
   return (
     <header className="fixed w-full top-0 z-50 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-[#8CCDF3]">
       <div className="flex gap-20 items-center">
@@ -86,11 +103,17 @@ export default function DesktopHeader() {
           </Link>
           <div className="relative">
             <div ref={buttonRef}>
-              <button onClick={toggleNotification} className="cursor-pointer">
+              <button
+                onClick={toggleNotification}
+                className="cursor-pointer relative"
+              >
                 <Icon
                   MuiIcon={NotificationsNoneRoundedIcon}
                   className="cursor-pointer"
                 />
+                {hasUnreadNotifications() && (
+                  <div className="absolute top-2 right-1 w-2 h-2 bg-site-alarm rounded-full" />
+                )}
               </button>
             </div>
             {isOpen && (
@@ -98,7 +121,6 @@ export default function DesktopHeader() {
                 notifications={notifications}
                 onMarkAllAsRead={handleMarkAllAsRead}
                 onMarkAsRead={handleMarkAsRead}
-                onClose={closeNotification}
                 buttonRef={buttonRef}
                 dropdownRef={dropdownRef}
                 className="w-[27.5rem]"
@@ -106,13 +128,20 @@ export default function DesktopHeader() {
             )}
           </div>
           <button onClick={() => setIsOpenDropdown(true)}>
-            <Avatar costumeSrc={basic} className="w-14 h-14" />
+            <Avatar costumeSrc={user?.profile ?? ""} className="w-14 h-14" />
           </button>
           {isOpenDropdown && (
             <Dropdown
               className="lg:top-22 lg:right-12 font-galmuri text-xl font-normal"
               onClose={() => setIsOpenDropdown(false)}
             >
+              <Link
+                href={"/friends"}
+                onClick={() => setIsOpenDropdown(false)}
+                className="flex justify-center items-center px-6 py-4 hover:opacity-50 transition-colors"
+              >
+                친구
+              </Link>
               <Link
                 href={"/mypage"}
                 onClick={() => setIsOpenDropdown(false)}

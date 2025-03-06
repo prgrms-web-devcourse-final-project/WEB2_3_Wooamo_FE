@@ -3,12 +3,12 @@ import { fetchCustom } from "../fetchCustom";
 const getFriends = async (page?: number, size?: number) => {
   try {
     const response = await fetchCustom.get(
-      `/friend?page=${page ?? 0}&size=${size}`,
+      `/friend?page=${page ?? 0}&size=${size ?? 10}`,
       { next: { tags: ["friends"] }, cache: "force-cache" },
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getFriendsRes = await response.json();
+    const data: paginationType<friendType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -23,7 +23,7 @@ const getRecommendFriends = async () => {
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getUsersRes = await response.json();
+    const data: responseType<userType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -33,12 +33,12 @@ const getRecommendFriends = async () => {
 const getRequestFriends = async (page?: number, size?: number) => {
   try {
     const response = await fetchCustom.get(
-      `/friend/request?page=${page ?? 0}&size=${size}`,
+      `/friend/request?page=${page ?? 0}&size=${size ?? 10}`,
       { next: { tags: ["request-friends"] } },
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getRequestFriendsRes = await response.json();
+    const data: paginationType<requestFriendType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -47,10 +47,12 @@ const getRequestFriends = async (page?: number, size?: number) => {
 
 const search = async (query: string) => {
   try {
-    const response = await fetchCustom.get(`/friend/search?query=${query}`);
+    const response = await fetchCustom.get(
+      `/friend/search?query=${query ?? ""}`,
+    );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: getUsersRes = await response.json();
+    const data: paginationType<userType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -59,12 +61,10 @@ const search = async (query: string) => {
 
 const requestFriend = async (receiverId: number) => {
   try {
-    const response = await fetchCustom.post(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/friend/request/${receiverId}`,
-    );
+    const response = await fetchCustom.post(`/friend/request/${receiverId}`);
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: requestFriendRes = await response.json();
+    const data: responseType<requestFriendType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -73,9 +73,7 @@ const requestFriend = async (receiverId: number) => {
 
 const acceptFriend = async (friendId: number) => {
   try {
-    const response = await fetchCustom.patch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/friend/${friendId}`,
-    );
+    const response = await fetchCustom.patch(`/friend/${friendId}`);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType = await response.json();
@@ -87,9 +85,7 @@ const acceptFriend = async (friendId: number) => {
 
 const deleteFriend = async (friendId: number) => {
   try {
-    const response = await fetchCustom.delete(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/friend/${friendId}`,
-    );
+    const response = await fetchCustom.delete(`/friend/${friendId}`);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType = await response.json();

@@ -1,16 +1,15 @@
 import { fetchCustom } from "../fetchCustom";
 
-const getCostumeList = async (page?: number) => {
+const getCostumeList = async (page?: number, size?: number) => {
   try {
     const response = await fetchCustom.get(
-      `/costume?page=${page ?? 0}&size=10`,
+      `/costume?page=${page ?? 0}&size=${size ?? 10}`,
       {
         next: { tags: ["costume-list"] },
       },
-      true,
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getCostumeListRes = await response.json();
+    const data: paginationType<CostumeType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -19,13 +18,10 @@ const getCostumeList = async (page?: number) => {
 
 const postCostumePurchase = async (body: postCostumePurchaseReq) => {
   try {
-    const response = await fetchCustom.post(
-      `/costume`,
-      {
-        body: JSON.stringify(body),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/costume`, {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;
@@ -36,15 +32,12 @@ const postCostumePurchase = async (body: postCostumePurchaseReq) => {
 
 const postCostumeRandomPurchase = async (point = 100) => {
   try {
-    const response = await fetchCustom.post(
-      `/costume/random`,
-      {
-        body: JSON.stringify({ point }),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/costume/random`, {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ point }),
+    });
     if (!response.ok) throw new Error(response.statusText);
-    const data: postCostumeRandomPurchaseRes = await response.json();
+    const data: responseType<CostumeType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -53,15 +46,12 @@ const postCostumeRandomPurchase = async (point = 100) => {
 
 const postPointPurchase = async (body: postPointPurchaseReq) => {
   try {
-    const response = await fetchCustom.post(
-      `/payments`,
-      {
-        body: JSON.stringify(body),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/payments`, {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
-    const data: postPointPurchaseRes = await response.json();
+    const data: responseType<paymentType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -70,13 +60,10 @@ const postPointPurchase = async (body: postPointPurchaseReq) => {
 
 const postPointPurchaseConfirm = async (body: postPointPurchaseConfirmReq) => {
   try {
-    const response = await fetchCustom.post(
-      `/payments/confirm`,
-      {
-        body: JSON.stringify(body),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/payments/confirm`, {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;
