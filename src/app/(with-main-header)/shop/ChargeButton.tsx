@@ -61,8 +61,8 @@ export default function ChargeButton({
         },
         orderId: requestTossPayment.data?.orderId,
         orderName: `${point} 포인트`,
-        successUrl: "http://localhost:3000/shop",
-        failUrl: "http://localhost:3000/shop",
+        successUrl: "https://localhost:3000/shop",
+        failUrl: "https://localhost:3000/shop",
         card: {
           useEscrow: false,
           flowMode: "DEFAULT",
@@ -76,8 +76,6 @@ export default function ChargeButton({
   useEffect(() => {
     const confirmTossPayment = async () => {
       if (!orderId || !paymentKey || !amount) return;
-
-      console.log(`paymentKey 값을 출력합니데이: ` + paymentKey);
 
       const payment = payments.find(
         (payment) => payment.price === Number(amount),
