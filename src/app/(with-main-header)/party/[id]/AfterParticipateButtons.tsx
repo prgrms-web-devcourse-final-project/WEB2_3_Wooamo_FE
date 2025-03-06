@@ -10,6 +10,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Link from "next/link";
+import { useToastStore } from "@/store/toastStore";
 
 export default function AfterParticipateButtons({
   partyId,
@@ -19,6 +20,7 @@ export default function AfterParticipateButtons({
   startDate: string;
 }) {
   const { open, close } = useModalStore((state) => state);
+  const showToast = useToastStore((state) => state.showToast);
 
   const [verifyImage, setVerifyIamge] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -56,6 +58,9 @@ export default function AfterParticipateButtons({
       if (request?.status === "성공") {
         close();
         revalidatePathAction("party-detail");
+      } else {
+        close();
+        showToast("이미 인증을 완료했습니다");
       }
     }
   };
@@ -99,9 +104,10 @@ export default function AfterParticipateButtons({
                   <Image
                     key={index}
                     src={image}
-                    width={320}
-                    height={320}
                     alt="이미지 미리보기"
+                    fill
+                    sizes="100%"
+                    className="object-cover rounded-2xl"
                   />
                 ))}
             </div>

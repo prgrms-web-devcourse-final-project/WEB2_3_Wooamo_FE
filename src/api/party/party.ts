@@ -147,6 +147,7 @@ const postPartyparticipationVerify = async (
     const response = await fetchCustom.post(`/party/${partyId}/verify`, {
       body: formData,
     });
+    if (response.status === 400) return null;
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;
