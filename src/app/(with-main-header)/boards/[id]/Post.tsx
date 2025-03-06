@@ -44,6 +44,15 @@ export default function Post({ boardId }: PostProps) {
   if (!boardDetail) return null;
   const isAuthor = currentUser?.data.userId === boardDetail.userId;
 
+  const renderContextWithLineBreaks = (context: string) => {
+    return context.split("\n").map((line, index) => (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    ));
+  };
+
   return (
     <>
       <div className="border-b border-site-darkgray-02">
@@ -57,7 +66,7 @@ export default function Post({ boardId }: PostProps) {
             href={`/users/${boardDetail.userId}`}
             className="flex items-center gap-2.5"
           >
-            <Avatar costumeSrc={boardDetail.profile || basic} />
+            <Avatar costumeSrc={boardDetail.profile || basic.src} />
             <span className="font-semibold">@{boardDetail.nickname}</span>
           </Link>
           <span className="font-semibold text-sm text-site-darkgray-02">
@@ -73,7 +82,7 @@ export default function Post({ boardId }: PostProps) {
         )}
       </div>
       <div className="min-h-[200px] bg-site-white-70 p-5 lg:px-6">
-        {boardDetail.context}
+        {renderContextWithLineBreaks(boardDetail.context)}
       </div>
     </>
   );

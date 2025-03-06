@@ -35,6 +35,7 @@ const getScheduledPartyList = async (
 const getActivePartyList = async () => {
   try {
     const response = await fetchCustom.get(`/party/active`);
+    if (response.status === 401) return;
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<ActivePartyType[]> = await response.json();
     return data;
@@ -146,6 +147,7 @@ const postPartyparticipationVerify = async (
     const response = await fetchCustom.post(`/party/${partyId}/verify`, {
       body: formData,
     });
+    if (response.status === 400) return null;
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;

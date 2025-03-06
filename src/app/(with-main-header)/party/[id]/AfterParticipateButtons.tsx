@@ -10,13 +10,17 @@ import Image from "next/image";
 import React, { useState } from "react";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Link from "next/link";
+import { useToastStore } from "@/store/toastStore";
 
 export default function AfterParticipateButtons({
   partyId,
+  startDate,
 }: {
   partyId: number;
+  startDate: string;
 }) {
   const { open, close } = useModalStore((state) => state);
+  const showToast = useToastStore((state) => state.showToast);
 
   const [verifyImage, setVerifyIamge] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -54,16 +58,27 @@ export default function AfterParticipateButtons({
       if (request?.status === "성공") {
         close();
         revalidatePathAction("party-detail");
+      } else {
+        close();
+        showToast("이미 인증을 완료했습니다");
       }
     }
   };
+
+  const today = new Date();
+  const start = new Date(startDate);
 
   return (
     <>
       <Link href={`/chatting/party/${partyId}`}>
         <Button>채팅</Button>
       </Link>
-      <Button onClick={() => open(`verify-participate`)}>인증</Button>
+      <Button
+        disabled={today < start}
+        onClick={() => open(`verify-participate`)}
+      >
+        인증
+      </Button>
 
       <Modal modalId="verify-participate" onClose={resetForm}>
         <form onSubmit={verifyParticipate}>
@@ -89,14 +104,19 @@ export default function AfterParticipateButtons({
                   <Image
                     key={index}
                     src={image}
-                    width={320}
-                    height={320}
                     alt="이미지 미리보기"
+                    fill
+                    sizes="100%"
+                    className="object-cover rounded-2xl"
                   />
                 ))}
             </div>
             <div className="flex flex-col flex-1 justify-between gap-5">
-              <Button type="submit" className="lg:h-11 lg:text-base">
+              <Button
+                disabled={verifyImage.length === 0}
+                type="submit"
+                className="lg:h-11 lg:text-base"
+              >
                 인증하기
               </Button>
             </div>

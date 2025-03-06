@@ -71,7 +71,7 @@ export default function EventParties() {
         >
           {eventBanners.map((banner, index) => (
             <SwiperSlide key={index}>
-              <Link href={`/party/${banner.partyId}`}>
+              <Link href={`${user ? `/party/${banner.partyId}` : `/party`}`}>
                 <Image
                   src={banner.image}
                   alt="이벤트 팟 이미지"
