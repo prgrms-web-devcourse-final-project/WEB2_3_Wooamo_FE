@@ -26,7 +26,9 @@ export default async function PostItem({ post }: PostItemProps) {
       <article className="flex justify-between items-center h-24 lg:h-40 p-2.5 bg-site-white-70">
         <div className="flex flex-col gap-1 lg:px-5">
           <p className="font-semibold line-clamp-1">{formattedTitle}</p>
-          <p className="text-site-darkgray-02 line-clamp-1">{context}</p>
+          <p className="text-site-darkgray-02 line-clamp-1">
+            {renderContextWithLineBreaks(context)}
+          </p>
           <p className="text-site-darkgray-01 text-sm">
             {formatDateToTimeAgo(new Date(createdAt))}
           </p>
