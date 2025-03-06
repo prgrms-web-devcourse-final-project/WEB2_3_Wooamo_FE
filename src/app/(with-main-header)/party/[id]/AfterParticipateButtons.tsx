@@ -7,14 +7,17 @@ import Icon from "@/components/common/Icon";
 import Modal from "@/components/common/Modal";
 import { useModalStore } from "@/store/modalStore";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Link from "next/link";
+import { start } from "repl";
 
 export default function AfterParticipateButtons({
   partyId,
+  startDate,
 }: {
   partyId: number;
+  startDate: string;
 }) {
   const { open, close } = useModalStore((state) => state);
 
@@ -58,12 +61,20 @@ export default function AfterParticipateButtons({
     }
   };
 
+  const today = new Date();
+  const start = new Date(startDate);
+
   return (
     <>
       <Link href={`/chatting/party/${partyId}`}>
         <Button>채팅</Button>
       </Link>
-      <Button onClick={() => open(`verify-participate`)}>인증</Button>
+      <Button
+        disabled={start < today}
+        onClick={() => open(`verify-participate`)}
+      >
+        인증
+      </Button>
 
       <Modal modalId="verify-participate" onClose={resetForm}>
         <form onSubmit={verifyParticipate}>
