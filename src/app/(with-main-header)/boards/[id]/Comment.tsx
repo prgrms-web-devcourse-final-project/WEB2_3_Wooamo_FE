@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
 
 type CommentProps = {
   data: commentItem;
@@ -85,12 +86,17 @@ export default function Comment({ data, onDelete, boardInfo }: CommentProps) {
       <div className="flex flex-col lg:gap-1 flex-grow">
         <div className="flex justify-between items-center">
           <div className="w-fit">
-            <Link
-              href={`/users/${data.userId}`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <p className="font-semibold lg:text-xl">@{data.nickname}</p>
-            </Link>
+            <div className="flex items-center gap-2.5">
+              <Link
+                href={`/users/${data.userId}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <p className="font-semibold text-base">@{data.nickname}</p>
+              </Link>
+              <span className="text-site-darkgray-01 text-xs lg:text-sm">
+                {formatDateToTimeAgo(new Date(data.createdAt))}
+              </span>
+            </div>
             <p className="text-site-darkgray-02 text-sm lg:text-base">
               {data.context}
             </p>

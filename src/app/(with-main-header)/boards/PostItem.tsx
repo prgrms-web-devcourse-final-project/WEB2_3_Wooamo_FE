@@ -4,6 +4,7 @@ import formatDateToTimeAgo from "../../../utils/formatDateToTimeAgo";
 import Icon from "@/components/common/Icon";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { userApi } from "@/api/user/user";
+import renderContextWithLineBreaks from "@/utils/renderContextWithLineBreaks";
 
 interface PostItemProps {
   post: boardItem;
@@ -13,15 +14,6 @@ export default async function PostItem({ post }: PostItemProps) {
     post;
   const formattedTitle = `[${boardType}] ${title}`;
   const userInfo = await userApi.getCurrentUserInfo();
-
-  const renderContextWithLineBreaks = (context: string) => {
-    return context.split("\n").map((line, index) => (
-      <span key={index}>
-        {line}
-        <br />
-      </span>
-    ));
-  };
 
   return (
     <Link href={userInfo?.data ? `/boards/${boardId}` : "/signin"}>

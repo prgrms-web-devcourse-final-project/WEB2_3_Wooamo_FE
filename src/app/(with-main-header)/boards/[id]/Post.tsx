@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
 import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
+import renderContextWithLineBreaks from "@/utils/renderContextWithLineBreaks";
 
 interface PostProps {
   boardId: number;
@@ -44,15 +45,6 @@ export default function Post({ boardId }: PostProps) {
   if (!boardDetail) return null;
   const isAuthor = currentUser?.data.userId === boardDetail.userId;
 
-  const renderContextWithLineBreaks = (context: string) => {
-    return context.split("\n").map((line, index) => (
-      <span key={index}>
-        {line}
-        <br />
-      </span>
-    ));
-  };
-
   return (
     <>
       <div className="border-b border-site-darkgray-02">
@@ -69,7 +61,7 @@ export default function Post({ boardId }: PostProps) {
             <Avatar costumeSrc={boardDetail.profile || basic.src} />
             <span className="font-semibold">@{boardDetail.nickname}</span>
           </Link>
-          <span className="font-semibold text-sm text-site-darkgray-02">
+          <span className="text-xs lg:text-sm text-site-darkgray-01">
             {formatDateToTimeAgo(new Date(boardDetail.createdAt))}
           </span>
         </div>
