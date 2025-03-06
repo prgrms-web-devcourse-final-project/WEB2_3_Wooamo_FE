@@ -33,11 +33,20 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
       <div className="flex flex-col gap-7.5 lg:gap-13 px-5 lg:px-0">
         {partyDetail.isJoined ? (
           <div className="flex justify-end gap-2">
-            <AfterParticipateButtons partyId={id} />
+            <AfterParticipateButtons
+              userId={userId}
+              partyId={id}
+              partyName={partyDetail.name}
+              maxMembers={partyDetail.recruitCap}
+              startDate={partyDetail.startDate}
+            />
           </div>
         ) : (
           <ParticipateButton
+            userId={userId}
             partyId={id}
+            partyName={partyDetail.name}
+            maxMembers={partyDetail.recruitCap}
             bettingPoint={partyDetail.bettingPointCap}
           />
         )}

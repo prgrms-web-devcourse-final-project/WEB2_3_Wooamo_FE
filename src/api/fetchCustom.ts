@@ -1,14 +1,14 @@
-import { getCookie, setCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { getCookieAtServer } from "./cookie";
 import { authApi } from "./auth/auth";
-import { redirect } from "next/navigation";
 
 const fetchCustomBase = async (
   url: string,
   init?: RequestInit,
   isMockApi?: boolean,
+  skipReissue?: boolean,
 ) => {
-  const clientAccessToken = getCookie("accessToken");
+  const clientAccessToken = await getCookie("accessToken");
   const serverAccessToken = await getCookieAtServer("accessToken");
   const accessToken = clientAccessToken || serverAccessToken;
   const baseUrl = isMockApi
@@ -20,16 +20,16 @@ const fetchCustomBase = async (
     ...(isMockApi ? {} : { credentials: "include" }),
     headers: {
       ...init?.headers,
-      ...(accessToken && { access: String(accessToken) }),
+      ...(accessToken && { access: accessToken }),
     },
   });
 
-  if (response.status === 401) {
+  if (response.status === 401 && !skipReissue) {
     const newAccessToken = await authApi.reissue();
     if (newAccessToken) {
-      await setCookie("accessToken", newAccessToken);
+      return await fetchCustomBase(url, init, isMockApi, true);
     } else {
-      redirect("/signin");
+      return response;
     }
   }
 

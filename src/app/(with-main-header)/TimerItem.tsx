@@ -2,7 +2,7 @@
 
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import Button from "@/components/common/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Dropdown from "@/components/common/Dropdown";
 import { timerApi } from "@/api/timer/timer";
 import { revalidateTagAction } from "../../actions";
@@ -27,6 +27,7 @@ export default function TimerItem({
   studyTime,
 }: TimerItemProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const lastSavedTimeRef = useRef("00:00:00");
   const {
     isRunning,
     currentCategoryId,
@@ -48,8 +49,8 @@ export default function TimerItem({
     }
   }, [categoryId, timers, isRunning, currentCategoryId, initializeTimer]);
 
-  const saveStudyTime = async (categoryId: number) => {
-    const currentTime = timers[categoryId]?.time || studyTime;
+  const saveStudyTime = async (categoryId: number, timeToSave?: string) => {
+    const currentTime = timeToSave || timers[categoryId]?.time || studyTime;
     await timerApi.postStudyTimeSave(categoryId, currentTime);
     revalidateTagAction("timer-list");
     revalidateTagAction("daily-time");
@@ -64,9 +65,10 @@ export default function TimerItem({
 
     const savedTime = timers[categoryId].time || studyTime;
     setTimer(categoryId, savedTime);
+    lastSavedTimeRef.current = savedTime;
 
     const interval = setInterval(() => {
-      setTimer(categoryId, (prevTime) => {
+      setTimer(categoryId, (prevTime: string) => {
         const [hours, minutes, seconds] = prevTime.split(":").map(Number);
         let newSeconds = seconds + 1;
         let newMinutes = minutes;
@@ -81,13 +83,20 @@ export default function TimerItem({
           newHours += 1;
         }
 
-        if (newMinutes % 5 === 0 && newSeconds === 0) {
-          saveStudyTime(categoryId);
-        }
-
-        return `${String(newHours).padStart(2, "0")}:${String(
+        const newTime = `${String(newHours).padStart(2, "0")}:${String(
           newMinutes,
         ).padStart(2, "0")}:${String(newSeconds).padStart(2, "0")}`;
+
+        if (
+          newSeconds === 0 &&
+          newMinutes % 5 === 0 &&
+          newTime !== lastSavedTimeRef.current
+        ) {
+          lastSavedTimeRef.current = newTime;
+          saveStudyTime(categoryId, newTime);
+        }
+
+        return newTime;
       });
     }, 1000);
 
