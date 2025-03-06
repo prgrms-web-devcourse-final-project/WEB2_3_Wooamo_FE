@@ -3,11 +3,13 @@ interface RoomType {
   roomId: string;
   roomType: string;
   roomName: string;
-  lastSenderId: number;
   lastMessage: string;
   createdAt: string;
   profile: string;
   unreadCount: number;
+  userInfo: userType | null;
+  groupInfo: groupType | null;
+  lastUserInfo: userType | null;
 }
 
 interface createPersonalChatRoomReq {
@@ -22,4 +24,17 @@ interface ChatMessageType {
   message: string;
   readByCount: number;
   createdAt: string;
+}
+
+interface groupType {
+  groupId: number;
+  groupName: string;
+  totalMembers: number;
+}
+
+interface createGroupChatRoomReq {
+  groupId: string;
+  groupName: string;
+  userId: number;
+  maxMembers: number;
 }
