@@ -5,21 +5,18 @@ import ChattingList from "./ChattingList";
 
 interface ChattingWithFriendProps {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ roomId: string }>;
 }
 
 export default async function ChattingWithFriend({
   params,
-  searchParams,
 }: ChattingWithFriendProps) {
   const { id } = await params;
-  const { roomId } = await searchParams;
   const currentUser = await userApi.getCurrentUserInfo();
   const user = await userApi.getUserInfo(Number(id));
   if (!currentUser || !user) return;
   return (
     <div className="relative">
-      <div className="fixed w-full top-15 lg:top-25 left-0 bg-site-button py-2 lg:py-5 px-5 lg:px-8">
+      <div className="fixed w-full top-15 lg:top-25 left-0 bg-site-button py-2 lg:py-5 px-5 lg:px-8 z-10">
         <ProfileSummary
           nickname={user.data.nickname}
           description={user.data.context}
@@ -31,7 +28,7 @@ export default async function ChattingWithFriend({
         <ChattingList userId={currentUser.data.userId} />
       </div>
       <div>
-        <ChattingInput currentUser={currentUser.data} roomId={roomId} />
+        <ChattingInput currentUser={currentUser.data} />
       </div>
     </div>
   );

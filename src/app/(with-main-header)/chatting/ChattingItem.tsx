@@ -27,10 +27,15 @@ export default function ChattingItem({
             <p className="text-xs">{formatDateToTimeAgo(new Date(chatTime))}</p>
           </div>
           <div className="flex items-start gap-3 lg:gap-5">
-            <div className="px-5 lg:px-7 py-4 bg-site-profile rounded-xl lg:max-w-190">
-              <span className="text-sm lg:text-base text-black">
-                {chatting}
+            <div className="flex flex-col items-end gap-1">
+              <span className="lg:text-lg text-site-darkgray-02">
+                {nickname}
               </span>
+              <div className="px-5 lg:px-7 py-4 bg-site-profile rounded-xl lg:max-w-190">
+                <span className="text-sm lg:text-base text-black">
+                  {chatting}
+                </span>
+              </div>
             </div>
             <div className="flex">
               <Avatar
@@ -49,10 +54,15 @@ export default function ChattingItem({
                 costumeSrc={profile ?? ""}
               />
             </div>
-            <div className="px-5 lg:px-7 py-4 bg-site-white-100 rounded-xl lg:max-w-190">
-              <span className="text-sm lg:text-base text-black">
-                {chatting}
+            <div className="flex flex-col gap-1">
+              <span className="lg:text-lg text-site-darkgray-02">
+                {nickname}
               </span>
+              <div className="px-5 lg:px-7 py-4 bg-site-white-100 rounded-xl lg:max-w-190">
+                <span className="text-sm lg:text-base text-black">
+                  {chatting}
+                </span>
+              </div>
             </div>
           </div>
           <div className="flex flex-col justify-end ml-2 lg:ml-3 text-site-darkgray-02">

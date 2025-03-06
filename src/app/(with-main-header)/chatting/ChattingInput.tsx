@@ -4,23 +4,22 @@ import React, { FormEvent, useState } from "react";
 import InputIcon from "@/components/common/InputIcon";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { useSocketStore } from "@/store/socketStore";
+import { useSearchParams } from "next/navigation";
 
 interface ChattingInputProps {
   currentUser: userType;
-  roomId: string;
 }
 
-export default function ChattingInput({
-  currentUser,
-  roomId,
-}: ChattingInputProps) {
+export default function ChattingInput({ currentUser }: ChattingInputProps) {
   const { disconnect, sendMessage } = useSocketStore();
   const [chatting, setChatting] = useState("");
+  const searchParams = useSearchParams();
+  const roomId = searchParams.get("roomId");
 
   const sendChatting = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedChatting = chatting.trim();
-    if (trimmedChatting === "") return;
+    if (!roomId || trimmedChatting === "") return;
 
     console.log("currentUser: ", currentUser);
     sendMessage({
