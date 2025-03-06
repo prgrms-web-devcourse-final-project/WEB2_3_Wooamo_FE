@@ -35,11 +35,14 @@ const getAllPartyList = async (page?: number, size?: number) => {
   }
 };
 
-const getPartyDetail = async (partyId: number) => {
+const getPartyDetail = async (partyId: number, date: string) => {
   try {
-    const response = await fetchCustom.get(`/admin/party/${partyId}`, {
-      next: { tags: ["member-list"] },
-    });
+    const response = await fetchCustom.get(
+      `/admin/party/${partyId}?date=${date}`,
+      {
+        next: { tags: ["member-list"] },
+      },
+    );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<PartyDetailDataType> = await response.json();
     return data;
@@ -56,7 +59,11 @@ const getMemberCertification = async (
   try {
     const response = await fetchCustom.get(
       `/admin/party/${partyId}/${memberId}?date=${date}`,
+      {
+        next: { tags: ["certification-status"] },
+      },
     );
+    if (response.status === 404) return null;
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<getMemberCertificationRes> = await response.json();
     return data;

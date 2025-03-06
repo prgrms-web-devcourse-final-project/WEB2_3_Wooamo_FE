@@ -25,7 +25,7 @@ interface PartyMemberType {
   memberId: number;
   profile: string;
   nickname: string;
-  isAuth: boolean;
+  isAuth: string;
 }
 
 interface PartyDetailDataType {

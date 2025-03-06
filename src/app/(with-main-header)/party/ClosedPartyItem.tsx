@@ -3,14 +3,14 @@ import ClosedPartyRewardButton from "./ClosedPartyRewardButton";
 interface ClosedPartyItemProps {
   partyId: number;
   name: string;
-  rewordPoint: number;
+  rewardPoint: number;
   questStatus: string;
 }
 
 export default function ClosedPartyItem({
   partyId,
   name,
-  rewordPoint,
+  rewardPoint,
   questStatus,
 }: ClosedPartyItemProps) {
   return (
@@ -20,7 +20,7 @@ export default function ClosedPartyItem({
     >
       <div className="flex gap-2.5 items-end">
         <p className="font-semibold text-xl">{name}</p>
-        <p className="font-semibold">{rewordPoint}p</p>
+        <p className="font-semibold">{rewardPoint}p</p>
       </div>
       <ClosedPartyRewardButton partyId={partyId} questStatus={questStatus} />
     </article>

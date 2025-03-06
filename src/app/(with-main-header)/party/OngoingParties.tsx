@@ -22,7 +22,7 @@ export default async function OngoingParties() {
             <div className="flex items-center font-semibold lg:text-xl px-5 lg:px-7">
               <p className="flex-5">팟</p>
               <p className="flex-2">인원</p>
-              <p className="flex-3">시작일</p>
+              <p className="flex-3">마감일</p>
             </div>
             {activePartyList.map((party) => (
               <PartyItem

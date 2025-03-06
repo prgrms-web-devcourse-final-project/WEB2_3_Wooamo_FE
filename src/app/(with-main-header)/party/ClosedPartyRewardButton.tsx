@@ -19,6 +19,7 @@ export default function ClosedPartyRewardButton({
 
     if (partyQuestReward?.status === "성공") {
       revalidateTagAction("party-quest");
+      revalidateTagAction("point");
       showToast(
         `팟 미션 클리어! ${partyQuestReward.data.point}포인트를 획득했습니다.`,
       );

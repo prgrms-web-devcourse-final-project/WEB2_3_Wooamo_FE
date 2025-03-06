@@ -1,7 +1,7 @@
 "use client";
 
 import { partyApi } from "@/api/party/party";
-import { revalidatePathAction } from "@/actions";
+import { revalidateTagAction } from "@/actions";
 import { useToastStore } from "@/store/toastStore";
 
 export default function PersonalQuest({
@@ -15,8 +15,8 @@ export default function PersonalQuest({
     const personalQuestReward = await partyApi.postPersonalQuestReward();
 
     if (personalQuestReward?.status === "성공") {
-      revalidatePathAction("personal-quest-state");
-      revalidatePathAction("point");
+      revalidateTagAction("personal-quest-state");
+      revalidateTagAction("point");
       showToast("일일 미션 클리어! 3포인트를 획득했습니다.");
     } else {
       showToast("일일 미션 보상 수령에 실패했습니다.");
