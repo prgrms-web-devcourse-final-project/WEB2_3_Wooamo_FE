@@ -54,8 +54,6 @@ export default function SignIn() {
         isAutoLogin,
       });
       if (res?.status === "성공") {
-        await deleteCookie("accessToken");
-        await deleteCookieAtServer("accessToken");
         if (res.data.role === "관리자") {
           router.replace("/admin");
         } else {
@@ -136,7 +134,7 @@ export default function SignIn() {
         <Image src={Divider} alt="구분선" className="" />
       </div>
       <Link
-        href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY}&redirect_uri=http://localhost:3000/api/kakaoLogin`}
+        href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY}&redirect_uri=https://localhost:3000/api/kakaoLogin`}
         className="lg:w-150"
       >
         {isMobile ? (

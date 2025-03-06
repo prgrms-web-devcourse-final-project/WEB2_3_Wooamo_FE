@@ -1,6 +1,5 @@
 import { deleteCookie, setCookie } from "cookies-next";
 import { fetchCustom } from "../fetchCustom";
-import { setCookieAtServer } from "../cookie";
 import { redirect } from "next/navigation";
 import { revalidateTagAction } from "@/actions";
 
@@ -79,6 +78,7 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
     }
     const data: responseType<{ role: "회원" | "관리자" }> =
       await response.json();
+
     return data;
   } catch (error) {
     console.error(error);
@@ -94,6 +94,11 @@ const kakaoLogin = async (code: string) => {
       body: JSON.stringify({ code }),
     });
     if (!response.ok) throw new Error(response.statusText);
+
+    const accessToken = response.headers.get("Access");
+    if (accessToken) {
+      await setCookie("accessToken", accessToken);
+    }
 
     redirect("/");
   } catch (error) {
@@ -115,8 +120,7 @@ const reissue = async () => {
 
     const accessToken: string | null = response.headers.get("Access");
     if (accessToken) {
-      setCookie("accessToken", accessToken);
-      setCookieAtServer("accessToken", accessToken);
+      await setCookie("accessToken", accessToken);
     }
     return accessToken;
   } catch (error) {

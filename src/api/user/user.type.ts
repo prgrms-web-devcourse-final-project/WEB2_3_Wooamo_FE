@@ -24,8 +24,8 @@ interface topRankingUserInfo {
 }
 
 interface costumeType {
-  costumeId: number;
-  image: string;
+  entityId: number;
+  newFileName: string;
 }
 
 interface postItemType {
