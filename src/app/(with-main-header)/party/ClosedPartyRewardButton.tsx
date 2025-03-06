@@ -3,6 +3,7 @@
 import { partyApi } from "@/api/party/party";
 import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
+import { useToastStore } from "@/store/toastStore";
 
 export default function ClosedPartyRewardButton({
   questStatus,
@@ -11,13 +12,17 @@ export default function ClosedPartyRewardButton({
   questStatus: string;
   partyId: number;
 }) {
+  const showToast = useToastStore((state) => state.showToast);
+
   const getPartyQuestReward = async () => {
     const partyQuestReward = await partyApi.postPartyQuestReward(partyId);
 
     if (partyQuestReward?.status === "성공") {
       revalidateTagAction("party-quest");
-
-      // 보상 획득 시 얼마 획득했다고 나오는 토스트 추가
+      revalidateTagAction("point");
+      showToast(
+        `팟 미션 클리어! ${partyQuestReward.data.point}포인트를 획득했습니다.`,
+      );
     }
   };
 

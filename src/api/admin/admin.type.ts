@@ -1,22 +1,14 @@
 interface getAdminWeeklyInfoRes {
-  status: string;
-  data: {
-    weeklySignupUser: number;
-    image: string;
-    weeklyPointSales: number;
-  };
+  weeklySignupUser: number;
+  image: string;
+  weeklyPointSales: number;
 }
 
 interface getAdminRecentSalesRes {
-  status: string;
-  data: [
-    {
-      createdAt: string;
-      nickname: string;
-      amount: number;
-      point: number;
-    },
-  ];
+  createdAt: string;
+  nickname: string;
+  amount: number;
+  point: number;
 }
 
 interface PartyDetailType {
@@ -27,18 +19,6 @@ interface PartyDetailType {
   startDate: string;
   endDate: string;
   isApproved: string;
-}
-
-interface getAllPartyListRes {
-  status: string;
-  data: {
-    contents: PartyDetailType[];
-    page: number;
-    size: number;
-    totalElementes: number;
-    totalPages: number;
-    hasNext: boolean;
-  };
 }
 
 interface PartyMemberType {
@@ -56,16 +36,8 @@ interface PartyDetailDataType {
   members: PartyMemberType[];
 }
 
-interface getPartyDetailRes {
-  status: string;
-  data: PartyDetailDataType;
-}
-
 interface getMemberCertificationRes {
-  status: statusType;
-  data: {
-    image: string;
-  };
+  image: string;
 }
 
 interface patchConfirmCertificationReq {
@@ -81,27 +53,12 @@ interface EventDetailType {
 }
 
 interface getAllEventListRes {
-  status: string;
-  data: {
-    contents: EventDetailType[];
-    page: number;
-    size: number;
-    totalElements: number;
-    totalPages: number;
-    hasNext: boolean;
-  };
-}
-
-interface postEventCreateReq {
-  party: {
-    name: string;
-    context: string;
-    recruitCap: number;
-    startDate: string;
-    endDate: string;
-    bettingPointCap: number;
-  };
-  image: File[];
+  contents: EventDetailType[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  hasNext: boolean;
 }
 
 interface putCostumeEditReq {

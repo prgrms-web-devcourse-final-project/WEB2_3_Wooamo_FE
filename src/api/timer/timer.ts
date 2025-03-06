@@ -2,30 +2,35 @@ import { fetchCustom } from "../fetchCustom";
 
 const getTimerList = async () => {
   try {
-    const response = await fetchCustom.get(
-      `/timer`,
-      {
-        next: { tags: ["timer-list"] },
-      },
-      true,
-    );
+    const response = await fetchCustom.get(`/timer`, {
+      next: { tags: ["timer-list"] },
+    });
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
-    const data: getTimerListRes = await response.json();
+    const data: responseType<TimerCategoryType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
   }
 };
 
-const getStudyTimeForMonth = async (year: number, month: number) => {
+const getStudyTimeForMonth = async (
+  userId: number,
+  year: number,
+  month: number,
+) => {
   try {
     const response = await fetchCustom.get(
-      `/time/monthly?year=${year}&month=${month}`,
-      {},
-      true,
+      `/time/monthly/${userId}?year=${year}&month=${month}`,
+      {
+        cache: "force-cache",
+        next: {
+          revalidate: 1000 * 60 * 10, // 10분마다 갱신
+        },
+      },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: getStudyTimeForMonthRes = await response.json();
+    const data: responseType<studyTimeType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -34,9 +39,10 @@ const getStudyTimeForMonth = async (year: number, month: number) => {
 
 const getStudyTimeForWeek = async () => {
   try {
-    const response = await fetchCustom.get(`/time/weekly`, {}, true);
+    const response = await fetchCustom.get(`/time/weekly`);
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
-    const data: getStudyTimeForWeekRes = await response.json();
+    const data: responseType<{ studyTime: string }> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -45,15 +51,11 @@ const getStudyTimeForWeek = async () => {
 
 const getStudyTimeForDaily = async () => {
   try {
-    const response = await fetchCustom.get(
-      `/timer/daily`,
-      {
-        next: { tags: ["daily-time"] },
-      },
-      true,
-    );
+    const response = await fetchCustom.get(`/time/daily`, {
+      next: { tags: ["daily-time"] },
+    });
     if (!response.ok) throw new Error(response.statusText);
-    const data: getStudyTimeForDailyRes = await response.json();
+    const data: responseType<studyTimeType> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -63,10 +65,11 @@ const getStudyTimeForDaily = async () => {
 const postTimerCategoryAdd = async (timer: string) => {
   try {
     const response = await fetchCustom.post(`/timer/category`, {
-      body: JSON.stringify(timer),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ timer }),
     });
     if (!response.ok) throw new Error(response.statusText);
-    const data: postTimerCategoryAddRes = await response.json();
+    const data: responseType<{ categoryId: number }> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -88,13 +91,10 @@ const deleteTimerCategory = async (categoryId: number) => {
 
 const postStudyTimeSave = async (categoryId: number, time: string) => {
   try {
-    const response = await fetchCustom.post(
-      `/timer/${categoryId}`,
-      {
-        body: JSON.stringify({ time }),
-      },
-      true,
-    );
+    const response = await fetchCustom.post(`/timer/${categoryId}`, {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ time }),
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType = await response.json();
     return data;

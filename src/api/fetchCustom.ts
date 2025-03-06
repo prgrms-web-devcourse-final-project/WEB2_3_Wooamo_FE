@@ -1,5 +1,7 @@
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { getCookieAtServer } from "./cookie";
+import { authApi } from "./auth/auth";
+import { redirect } from "next/navigation";
 
 const fetchCustomBase = async (
   url: string,
@@ -15,26 +17,22 @@ const fetchCustomBase = async (
 
   const response = await fetch(`${baseUrl}${url}`, {
     ...init,
-    credentials: "include",
+    ...(isMockApi ? {} : { credentials: "include" }),
     headers: {
       ...init?.headers,
       ...(accessToken && { access: String(accessToken) }),
     },
   });
 
-  // if (response.status === 401) {
-  //   const newAccessToken = await authApi.reissue();
-  //   if (!newAccessToken) return response;
+  if (response.status === 401) {
+    const newAccessToken = await authApi.reissue();
+    if (newAccessToken) {
+      await setCookie("accessToken", newAccessToken);
+    } else {
+      redirect("/signin");
+    }
+  }
 
-  //   const retryResponse: Response = await fetch(`${baseUrl}${url}`, {
-  //     ...init,
-  //     headers: {
-  //       ...init?.headers,
-  //       access: String(newAccessToken),
-  //     },
-  //   });
-  //   return retryResponse;
-  // }
   return response;
 };
 
@@ -49,7 +47,7 @@ export const fetchCustom = {
       {
         ...init,
         method: "POST",
-        headers: { ...init?.headers, "Content-Type": "application/json" },
+        headers: { ...init?.headers },
       },
       isMockApi,
     );
@@ -61,7 +59,7 @@ export const fetchCustom = {
       {
         ...init,
         method: "PUT",
-        headers: { ...init?.headers, "Content-Type": "application/json" },
+        headers: { ...init?.headers },
       },
       isMockApi,
     );
@@ -73,10 +71,7 @@ export const fetchCustom = {
       {
         ...init,
         method: "PATCH",
-        headers: {
-          ...init?.headers,
-          "Content-Type": "application/json",
-        },
+        headers: { ...init?.headers },
       },
       isMockApi,
     );
@@ -89,8 +84,8 @@ export const fetchCustom = {
         ...init,
         method: "DELETE",
         headers: {
-          ...init?.headers,
           "Content-Type": "application/json",
+          ...init?.headers,
         },
       },
       isMockApi,

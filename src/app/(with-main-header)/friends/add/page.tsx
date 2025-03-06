@@ -17,7 +17,7 @@ export default async function FriendsAdd({
 
   if (!recommendedUsers) return;
   return (
-    <div className="flex flex-col items-center gap-5 lg:gap-8">
+    <div className="flex flex-col items-center gap-5 lg:gap-8 px-5 lg:px-0">
       <section className="w-full">
         <div className="flex flex-col gap-4 lg:gap-7">
           <FriendSearch />
@@ -39,9 +39,18 @@ export default async function FriendsAdd({
         <p className="font-galmuri text-xl lg:text-2xl">추천 친구</p>
         <div className="flex flex-col">
           <Suspense fallback={<FriendItemSkeleton count={3} />}>
-            {recommendedUsers.data.map((user) => (
-              <SearchedUserItem key={`recommend-${user.userId}`} user={user} />
-            ))}
+            {recommendedUsers.data.length === 0 ? (
+              <div className="h-19 lg:h-25 flex justify-center items-center">
+                <p className="text-site-darkgray-02">추천 친구가 없습니다.</p>
+              </div>
+            ) : (
+              recommendedUsers.data.map((user) => (
+                <SearchedUserItem
+                  key={`recommend-${user.userId}`}
+                  user={user}
+                />
+              ))
+            )}
           </Suspense>
         </div>
       </section>

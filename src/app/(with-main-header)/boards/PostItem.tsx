@@ -1,14 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import formatDateToTimeAgo from "../../../utils/formatDateToTimeAgo";
-import { delay } from "@/utils/delay";
+import Icon from "@/components/common/Icon";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 
 interface PostItemProps {
   post: boardItem;
 }
 export default async function PostItem({ post }: PostItemProps) {
-  await delay(3000);
-  const { boardId, title, boardType, createdAt, image, context } = post;
+  const { boardId, title, boardType, createdAt, image, context, isConfirm } =
+    post;
   const formattedTitle = `[${boardType}] ${title}`;
   return (
     <Link href={`/boards/${boardId}`}>
@@ -20,15 +21,27 @@ export default async function PostItem({ post }: PostItemProps) {
             {formatDateToTimeAgo(new Date(createdAt))}
           </p>
         </div>
-        {image && (
-          <Image
-            src={image}
-            width={140}
-            height={140}
-            alt="게시글 이미지 첫번째 이미지"
-            className="min-w-20 min-h-20 lg:w-35 lg:h-35 object-cover"
-          />
-        )}
+        <div className="relative min-w-20 min-h-20 lg:w-35 lg:h-35">
+          {image ? (
+            <Image
+              src={image}
+              width={140}
+              height={140}
+              alt="게시글 이미지 첫번째 이미지"
+              className="min-w-20 min-h-20 lg:w-35 lg:h-35 object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-transparent"></div>
+          )}
+          {isConfirm && (
+            <div className="absolute top-1 right-1 lg:top-2 lg:right-2">
+              <Icon
+                MuiIcon={CheckRoundedIcon}
+                className="text-site-main bg-site-white-70 rounded-2xl "
+              />
+            </div>
+          )}
+        </div>
       </article>
     </Link>
   );

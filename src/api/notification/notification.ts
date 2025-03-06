@@ -1,14 +1,15 @@
+import { fetchCustom } from "../fetchCustom";
+
 const getNotificationList = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/alert`,
-    );
+    const response = await fetchCustom.get("/alert");
 
+    if (response.status === 401) return null;
     if (!response.ok) {
       throw new Error("Failed to fetch notification list");
     }
 
-    const data: notificationResponse = await response.json();
+    const data: responseType<notificationItem[]> = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching notification list:", error);
@@ -18,22 +19,13 @@ const getNotificationList = async () => {
 
 const markAllAsRead = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/alert`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      },
-    );
+    const response = await fetchCustom.patch("/alert");
 
     if (!response.ok) {
       throw new Error("Failed to mark all notifications as read");
     }
 
-    const data: markAllAsReadResponse = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error("Error marking all notifications as read:", error);
@@ -41,24 +33,18 @@ const markAllAsRead = async () => {
   }
 };
 
-const markAsRead = async (alertId: number) => {
+const markAsRead = async (alertId: string) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_MOCK_SERVER_URL}/alert/${alertId}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      },
-    );
+    const response = await fetchCustom.patch(`/alert/${alertId}`);
 
     if (!response.ok) {
-      throw new Error("Failed to mark notification as read");
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || "Failed to mark notification as read",
+      );
     }
 
-    const data: MarkAsReadResponse = await response.json();
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error("Error marking notification as read:", error);

@@ -1,44 +1,36 @@
 "use client";
 
-import Image from "next/image";
+import Avatar from "@/components/common/Avatar";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
 interface ParticipantItemProps {
-  memberId: number;
-  profile: string;
-  nickname: string;
+  member: PartyMemberType;
+  onChange: (member: PartyMemberType) => void;
+  selectedMember: PartyMemberType;
 }
 
 export default function ParticipantItem({
-  memberId,
-  profile,
-  nickname,
+  member,
+  onChange,
+  selectedMember,
 }: ParticipantItemProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const { id } = useParams();
-  const date = searchParams.get("date");
-
-  const handleMemberSelect = () => {
-    router.push(`/admin/manage/party/${id}?date=${date}&memberId=${memberId}`);
-  };
-
   return (
     <button
-      className="w-40 px-5 py-5 bg-site-white-50 rounded-sm flex flex-col gap-4 items-center"
-      onClick={handleMemberSelect}
+      className={`w-40 px-5 py-5 ${
+        member.isAuth === "SUCCESS"
+          ? "bg-site-main text-site-white-100"
+          : member.isAuth === "FAIL"
+          ? "bg-site-alarm"
+          : "bg-site-white-50"
+      } rounded-sm flex flex-col gap-4 items-center`}
+      onClick={() => onChange(member)}
     >
-      <div className="w-18 h-18 bg-site-white-100 rounded-full">
-        <Image
-          src={profile}
-          width={72}
-          height={72}
-          alt="사용자 아바타 이미지"
-        />
+      <div className="w-18 h-18 rounded-full">
+        <Avatar costumeSrc={member.profile} className="w-18 h-18" />
       </div>
-      <div className="text-xs font-galmuri line-clamp-2">@{nickname}</div>
+      <div className="text-xs font-galmuri line-clamp-2">
+        @{member.nickname}
+      </div>
     </button>
   );
 }

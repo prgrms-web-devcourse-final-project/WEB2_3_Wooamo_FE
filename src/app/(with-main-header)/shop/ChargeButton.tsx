@@ -11,6 +11,7 @@ import {
 } from "@tosspayments/tosspayments-sdk";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useToastStore } from "@/store/toastStore";
 
 const payments = [
   { point: 500, price: 3000 },
@@ -20,6 +21,7 @@ const payments = [
 
 export default function ChargeButton() {
   const { open, close } = useModalStore((state) => state);
+  const showToast = useToastStore((state) => state.showToast);
   const [tossPayment, setTossPayment] = useState<TossPaymentsPayment>();
   const clientKey = `${process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY}`;
   const customerKey = `FYa_Y2i5uFxNYawNjHXuH`;
@@ -45,9 +47,6 @@ export default function ChargeButton() {
       point,
     });
 
-    console.log(`requestTossPayment가 나왔으면 좋겠습니다:`);
-    console.log(requestTossPayment?.data);
-
     if (requestTossPayment?.status === "성공") {
       close();
       await tossPayment?.requestPayment({
@@ -56,8 +55,7 @@ export default function ChargeButton() {
           currency: "KRW",
           value: amount,
         },
-        // orderId: responseTossPayment.orderId,
-        orderId: "dkdhs-dkdjss-eejdndd-adlskdjf",
+        orderId: requestTossPayment.data?.orderId,
         orderName: `${point} 포인트`,
         successUrl: "http://localhost:3000/shop",
         failUrl: "http://localhost:3000/shop",
@@ -92,6 +90,10 @@ export default function ChargeButton() {
       if (confirmTossPaymentResponse?.status === "성공") {
         revalidateTagAction("point");
         router.replace("/shop");
+        showToast(`${payment?.point}p 충전이 완료되었습니다.`);
+      } else {
+        router.replace("/shop");
+        showToast("충전에 실패했습니다.");
       }
     };
 

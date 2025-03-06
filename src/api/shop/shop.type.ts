@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 interface CostumeType {
   costumeId: number;
   image: string;
@@ -5,29 +6,9 @@ interface CostumeType {
   point: number;
 }
 
-interface getCostumeListRes {
-  status: statusType;
-  data: {
-    contents: CostumeType[];
-    page: number;
-    size: number;
-    totalElements: number;
-    totalPages: number;
-    hasNext: boolean;
-  };
-}
-
 interface postCostumePurchaseReq {
   costumeId: number;
   point: number;
-}
-
-interface postCostumeRandomPurchaseRes {
-  status: statusType;
-  data: {
-    image: string;
-    costumeName: string;
-  };
 }
 
 interface postPointPurchaseReq {
@@ -35,13 +16,10 @@ interface postPointPurchaseReq {
   point: number;
 }
 
-interface postPointPurchaseRes {
-  status: statusType;
-  data: {
-    orderId: string;
-    amount: number;
-    point: number;
-  };
+interface paymentType {
+  orderId: string;
+  amount: number;
+  point: number;
 }
 
 interface postPointPurchaseConfirmReq {

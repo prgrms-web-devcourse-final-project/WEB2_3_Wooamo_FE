@@ -61,17 +61,25 @@ export default function AddEvent() {
       eventPoint &&
       eventImage
     ) {
-      const request = await adminApi.postEventCreate({
-        party: {
-          name: eventName,
-          context: eventDescription,
-          recruitCap: eventPoint,
-          startDate: String(formatDateToKR(startDate)),
-          endDate: String(formatDateToKR(endDate)),
-          bettingPointCap: eventPoint,
-        },
-        image: eventImage,
-      });
+      e.preventDefault();
+      const formData = new FormData();
+      const contents = {
+        name: eventName,
+        context: eventDescription,
+        recruitCap: eventHeadcount,
+        startDate: String(formatDateToKR(startDate)),
+        endDate: String(formatDateToKR(endDate)),
+        bettingPointCap: eventPoint,
+      };
+
+      formData.append(
+        "contents",
+        new Blob([JSON.stringify(contents)], { type: "application/json" }),
+      );
+
+      formData.append("image", eventImage[0]);
+
+      const request = await adminApi.postEventCreate(formData);
 
       if (request?.status === "성공") {
         close();

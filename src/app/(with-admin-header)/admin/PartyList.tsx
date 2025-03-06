@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 interface PartyListProps {
-  index: number;
+  partyId: number;
   title: string;
   totalHeadcount: number;
   headcount: number;
@@ -13,7 +13,7 @@ interface PartyListProps {
 }
 
 export default function PartyList({
-  index,
+  partyId,
   title,
   totalHeadcount,
   headcount,
@@ -24,7 +24,7 @@ export default function PartyList({
   return (
     <>
       <Link
-        href={`/admin/manage/party/${index}`}
+        href={`/admin/manage/party/${partyId}`}
         className="flex px-5 py-10 bg-site-white-70 cursor-pointer"
       >
         <div className="flex-2">{title}</div>
