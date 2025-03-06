@@ -1,4 +1,3 @@
-import { partyApi } from "@/api/party/party";
 import ClosedParties from "./ClosedParties";
 import EventParties from "./EventParties";
 import OngoingParties from "./OngoingParties";
