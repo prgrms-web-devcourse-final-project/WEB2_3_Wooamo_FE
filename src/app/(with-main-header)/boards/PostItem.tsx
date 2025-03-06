@@ -11,6 +11,16 @@ export default async function PostItem({ post }: PostItemProps) {
   const { boardId, title, boardType, createdAt, image, context, isConfirm } =
     post;
   const formattedTitle = `[${boardType}] ${title}`;
+
+  const renderContextWithLineBreaks = (context: string) => {
+    return context.split("\n").map((line, index) => (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    ));
+  };
+
   return (
     <Link href={`/boards/${boardId}`}>
       <article className="flex justify-between items-center h-24 lg:h-40 p-2.5 bg-site-white-70">
