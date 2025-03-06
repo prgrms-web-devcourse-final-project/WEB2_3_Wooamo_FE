@@ -19,7 +19,11 @@ const payments = [
   { point: 3000, price: 15000 },
 ];
 
-export default function ChargeButton() {
+export default function ChargeButton({
+  currentUser,
+}: {
+  currentUser: responseType<userType> | null | undefined;
+}) {
   const { open, close } = useModalStore((state) => state);
   const showToast = useToastStore((state) => state.showToast);
   const [tossPayment, setTossPayment] = useState<TossPaymentsPayment>();
@@ -102,7 +106,11 @@ export default function ChargeButton() {
 
   return (
     <>
-      <Button onClick={() => open("charge")} className="relative -right-6">
+      <Button
+        onClick={() => open("charge")}
+        className="relative -right-6"
+        disabled={!currentUser}
+      >
         충전
       </Button>
 
