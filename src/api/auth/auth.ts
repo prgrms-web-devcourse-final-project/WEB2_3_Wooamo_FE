@@ -78,7 +78,6 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
     }
     const data: responseType<{ role: "회원" | "관리자" }> =
       await response.json();
-
     return data;
   } catch (error) {
     console.error(error);
