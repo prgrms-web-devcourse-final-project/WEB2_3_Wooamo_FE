@@ -1,5 +1,4 @@
 import ProfileSummary from "@/components/common/ProfileSummary";
-import FriendDeleteButton from "./FriendDeleteButton";
 
 export default async function FriendsItem({ friend }: { friend: friendType }) {
   return (
@@ -10,7 +9,6 @@ export default async function FriendsItem({ friend }: { friend: friendType }) {
         nickname={friend.nickname}
         description={friend.context}
       />
-      <FriendDeleteButton friend={friend} />
     </article>
   );
 }
