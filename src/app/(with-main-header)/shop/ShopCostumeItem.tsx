@@ -7,6 +7,7 @@ import Character from "../../../components/common/Character";
 import Button from "@/components/common/Button";
 import { shopApi } from "@/api/shop/shop";
 import { useToastStore } from "@/store/toastStore";
+import { revalidateTagAction } from "@/actions";
 
 interface ShopCostumeItemProps {
   costumeId: number;
@@ -45,6 +46,7 @@ export default function ShopCostumeItem({
     });
 
     if (purchaseCostume?.status === "성공") {
+      revalidateTagAction("point-update");
       showToast("코스튬 구매에 성공했습니다.");
     } else {
       showToast("코스튬 구매에 실패했습니다.");
