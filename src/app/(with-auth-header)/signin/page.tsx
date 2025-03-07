@@ -17,9 +17,11 @@ import { authApi } from "@/api/auth/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { deleteCookie } from "cookies-next";
 import { deleteCookieAtServer } from "@/api/cookie";
+import { useToastStore } from "@/store/toastStore";
 
 export default function SignIn() {
   const isMobile = useIsMobile();
+  const { showToast } = useToastStore();
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
@@ -60,7 +62,7 @@ export default function SignIn() {
           router.replace("/");
         }
       } else {
-        alert("로그인에 실패했습니다.");
+        showToast("로그인에 실패했습니다");
       }
     }
   };
