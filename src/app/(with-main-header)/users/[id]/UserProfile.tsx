@@ -11,6 +11,7 @@ interface UserProfileProps {
 
 export default async function UserProfile({ userId }: UserProfileProps) {
   const user = await userApi.getUserInfo(userId);
+  console.log(user);
 
   if (!user) return;
   return (
@@ -39,14 +40,16 @@ export default async function UserProfile({ userId }: UserProfileProps) {
       </div>
       <div className="flex flex-col gap-2">
         <p className="font-semibold">{user.data.context}</p>
-        <Link
-          href={user.data.link}
-          className="flex items-center"
-          target="_blank"
-        >
-          <Icon MuiIcon={LinkRoundedIcon} />
-          <span className="font-semibold ml-1.5">{user.data.link}</span>
-        </Link>
+        {user.data.link && (
+          <Link
+            href={user.data.link}
+            className="flex items-center"
+            target="_blank"
+          >
+            <Icon MuiIcon={LinkRoundedIcon} />
+            <span className="font-semibold ml-1.5">{user.data.link}</span>
+          </Link>
+        )}
       </div>
     </section>
   );
