@@ -8,6 +8,7 @@ const checkIsDuplicatedNickname = async (
 ) => {
   try {
     const response = await fetchCustom.post(`/user/nickname`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -22,6 +23,7 @@ const checkIsDuplicatedNickname = async (
 const sendVerificationEmail = async (body: sendVerificationEmailReq) => {
   try {
     const response = await fetchCustom.post(`/user/auth/send`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -36,6 +38,7 @@ const sendVerificationEmail = async (body: sendVerificationEmailReq) => {
 const verifyEmail = async (body: verifyEmailReq) => {
   try {
     const response = await fetchCustom.post(`/user/auth/check`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -50,6 +53,7 @@ const verifyEmail = async (body: verifyEmailReq) => {
 const signUp = async (body: signUpReq) => {
   try {
     const response = await fetchCustom.post(`/user/register`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -66,6 +70,7 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
     const response = await fetchCustom.post(`/user/login`, {
       headers: {
         // "X-Remember-Me": isAutoLogin ? "true" : "false",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
     });
