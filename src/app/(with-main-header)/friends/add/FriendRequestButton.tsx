@@ -2,47 +2,42 @@
 
 import { friendApi } from "@/api/friend/friend";
 import Button from "@/components/common/Button";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export default function FriendRequestButton({
   user,
 }: {
   user: userType | PartyParticipantType;
 }) {
-  const timer = useRef<NodeJS.Timeout | null>(null);
   const [isRequestFriend, setIsRequestFriend] = useState(
     user.status && user.status !== "NOT_FRIEND",
   );
-  const [friendId, setFriendId] = useState<number | null>(null);
+  const [status, setStatus] = useState(user.status);
+  const [friendId, setFriendId] = useState<number | null>(user.friendId);
 
   const requestFriend = async () => {
-    if (timer.current) clearTimeout(timer.current);
     setIsRequestFriend(true);
 
-    timer.current = setTimeout(async () => {
-      const res = await friendApi.requestFriend(user.userId);
-      if (res?.data) {
-        setFriendId(res.data.friendId);
-      }
-    }, 1000);
+    const res = await friendApi.requestFriend(user.userId);
+    if (res?.data) {
+      setFriendId(res.data.friendId);
+      setStatus("PENDING");
+    }
   };
 
   const deleteFriend = async () => {
-    if (timer.current) clearTimeout(timer.current);
     setIsRequestFriend(false);
 
-    timer.current = setTimeout(async () => {
-      if (!friendId) return;
-
-      const res = await friendApi.deleteFriend(friendId);
-      if (res?.status === "성공") {
-        setFriendId(null);
-      }
-    }, 1000);
+    if (!friendId) return;
+    const res = await friendApi.deleteFriend(friendId);
+    if (res?.status === "성공") {
+      setFriendId(null);
+      setStatus("NOT_FRIEND");
+    }
   };
   return isRequestFriend ? (
     <Button onClick={deleteFriend}>
-      {user.status === "FRIEND" ? "삭제" : "요청취소"}
+      {status === "FRIEND" ? "삭제" : "요청취소"}
     </Button>
   ) : (
     <Button onClick={requestFriend}>친구요청</Button>
