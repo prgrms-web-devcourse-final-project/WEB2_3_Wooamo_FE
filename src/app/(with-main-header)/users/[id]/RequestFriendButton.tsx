@@ -6,7 +6,7 @@ import { useState } from "react";
 
 interface RequestFriendButtonProps {
   userId: number;
-  status: "ACCEPTED" | "PENDING" | null;
+  status: "ACCEPTED" | "PENDING" | "FRIEND" | "NOT_FRIEND" | null;
   friendId: number | null;
 }
 

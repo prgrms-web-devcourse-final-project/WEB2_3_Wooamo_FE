@@ -1,7 +1,6 @@
 "use client";
 
 import { friendApi } from "@/api/friend/friend";
-import { revalidateTagAction } from "@/actions";
 import Button from "@/components/common/Button";
 import { useRef, useState } from "react";
 
@@ -11,7 +10,9 @@ export default function FriendRequestButton({
   user: userType | PartyParticipantType;
 }) {
   const timer = useRef<NodeJS.Timeout | null>(null);
-  const [isRequestFriend, setIsRequestFriend] = useState(false);
+  const [isRequestFriend, setIsRequestFriend] = useState(
+    user.status && user.status !== "NOT_FRIEND",
+  );
   const [friendId, setFriendId] = useState<number | null>(null);
 
   const requestFriend = async () => {
@@ -40,7 +41,9 @@ export default function FriendRequestButton({
     }, 1000);
   };
   return isRequestFriend ? (
-    <Button onClick={deleteFriend}>취소</Button>
+    <Button onClick={deleteFriend}>
+      {user.status === "FRIEND" ? "삭제" : "요청취소"}
+    </Button>
   ) : (
     <Button onClick={requestFriend}>친구요청</Button>
   );
