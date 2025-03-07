@@ -57,6 +57,7 @@ export default function MobileHeader({ serverIsLoggedIn }: MobileHeaderProps) {
   const handleLogout = async () => {
     await authApi.logout();
     closeSidebar();
+    router.push("/");
   };
 
   const openSidebar = () => {
