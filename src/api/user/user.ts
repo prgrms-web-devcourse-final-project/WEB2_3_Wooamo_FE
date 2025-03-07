@@ -3,7 +3,7 @@ import { fetchCustom } from "../fetchCustom";
 const getCurrentUserInfo = async () => {
   try {
     const response = await fetchCustom.get(`/user`, {
-      next: { tags: ["point", "user"] },
+      next: { tags: ["point-update", "user"] },
       cache: "force-cache",
     });
     if (response.status === 401) return null;

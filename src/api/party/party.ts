@@ -20,7 +20,7 @@ const getScheduledPartyList = async (
     const response = await fetchCustom.get(
       `/party?name=${name ?? ""}&page=${page ?? 0}&size=${size ?? 10}`,
       {
-        next: { tags: ["party-list"] },
+        next: { tags: ["party-create"] },
       },
     );
     if (!response.ok) throw new Error(response.statusText);
@@ -47,7 +47,7 @@ const getActivePartyList = async () => {
 const getCompletedPartyList = async () => {
   try {
     const response = await fetchCustom.get(`/party/complete`, {
-      next: { tags: ["party-quest"] },
+      next: { tags: ["partyQuest-update"] },
     });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<CompletedPartyType[]> = await response.json();
@@ -59,9 +59,7 @@ const getCompletedPartyList = async () => {
 
 const getPartyDetail = async (partyId: number) => {
   try {
-    const response = await fetchCustom.get(`/party/${partyId}`, {
-      next: { tags: ["party-detail"] },
-    });
+    const response = await fetchCustom.get(`/party/${partyId}`, {});
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<PartyDetailType> = await response.json();
     return data;
@@ -79,7 +77,7 @@ const getPartyParticipantList = async (
     const response = await fetchCustom.get(
       `/party/${partyId}/users?page=${page ?? 0}&size=${size ?? 10}`,
       {
-        next: { tags: ["participant-list"] },
+        next: { tags: ["participant-update"] },
       },
     );
     if (!response.ok) throw new Error(response.statusText);
@@ -93,7 +91,7 @@ const getPartyParticipantList = async (
 const getPersonalQuestState = async () => {
   try {
     const response = await fetchCustom.get(`/user/quest`, {
-      next: { tags: ["personal-quest-state"] },
+      next: { tags: ["personalQuest-update"] },
     });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<{ state: string }> = await response.json();
