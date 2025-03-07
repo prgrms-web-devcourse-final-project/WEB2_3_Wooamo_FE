@@ -72,7 +72,7 @@ const getUserPosts = async (userId: number) => {
   try {
     const response = await fetchCustom.get(`/user/board/${userId}`, {
       cache: "force-cache",
-      next: { tags: [`post-update`, `post-create`] },
+      next: { tags: [`myPost-update-${userId}`, `myPost-create-${userId}`] },
     });
     if (!response.ok) throw new Error(response.statusText);
 
