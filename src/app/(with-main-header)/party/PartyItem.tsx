@@ -17,10 +17,6 @@ export default async function PartyItem({
   recruitCnt,
   startDate,
 }: PartyItemProps) {
-  // 스켈레톤 확인용
-  await delay(3000);
-  //
-
   const user = await userApi.getCurrentUserInfo();
   return (
     <Link
