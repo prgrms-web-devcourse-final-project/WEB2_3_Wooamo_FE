@@ -32,9 +32,6 @@ interface groupType {
   totalMembers: number;
 }
 
-interface createGroupChatRoomReq {
-  groupId: string;
-  groupName: string;
-  userId: number;
-  maxMembers: number;
+interface groupChatType {
+  groupInfo: groupType;
 }
