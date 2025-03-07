@@ -46,30 +46,37 @@ export default function ChargeButton({
   }, []);
 
   const handlePaymentInfoFetch = async (amount: number, point: number) => {
-    const requestTossPayment = await shopApi.postPointPurchase({
-      amount,
-      point,
-    });
-
-    if (requestTossPayment?.status === "성공") {
-      close();
-      await tossPayment?.requestPayment({
-        method: "CARD",
-        amount: {
-          currency: "KRW",
-          value: amount,
-        },
-        orderId: requestTossPayment.data?.orderId,
-        orderName: `${point} 포인트`,
-        successUrl: "https://localhost:3000/shop",
-        failUrl: "https://localhost:3000/shop",
-        card: {
-          useEscrow: false,
-          flowMode: "DEFAULT",
-          useCardPoint: false,
-          useAppCardOnly: false,
-        },
+    try {
+      const requestTossPayment = await shopApi.postPointPurchase({
+        amount,
+        point,
       });
+
+      if (requestTossPayment?.status === "성공") {
+        close();
+        await tossPayment?.requestPayment({
+          method: "CARD",
+          amount: {
+            currency: "KRW",
+            value: amount,
+          },
+          orderId: requestTossPayment.data?.orderId,
+          orderName: `${point} 포인트`,
+          successUrl: "https://localhost:3000/shop",
+          failUrl: "https://localhost:3000/shop",
+          card: {
+            useEscrow: false,
+            flowMode: "DEFAULT",
+            useCardPoint: false,
+            useAppCardOnly: false,
+          },
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log("결제를 취소했습니다" + error.message);
+      }
+      showToast("결제가 취소되었습니다");
     }
   };
 
