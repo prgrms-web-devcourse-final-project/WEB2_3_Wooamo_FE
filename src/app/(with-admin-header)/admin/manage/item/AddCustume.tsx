@@ -59,7 +59,7 @@ export default function AddCustume() {
 
       if (request?.status === "성공") {
         close();
-        revalidateTagAction("costume-list");
+        revalidateTagAction("costume-update");
         resetInputFields();
       }
     }

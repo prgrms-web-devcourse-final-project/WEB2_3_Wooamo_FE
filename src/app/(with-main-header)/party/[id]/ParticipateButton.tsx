@@ -57,7 +57,7 @@ export default function ParticipateButton({
       if (roomId?.status === "성공") {
         join(roomId.data, userId);
         disconnect();
-        revalidateTagAction("participant-list");
+        revalidateTagAction("participant-update");
         close();
       }
     }

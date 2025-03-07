@@ -29,7 +29,7 @@ export default function CostumeItem({
     const response = await adminApi.deleteCostume(costumeId);
 
     if (response?.status === "성공") {
-      revalidateTagAction("costume-list");
+      revalidateTagAction("costume-update");
       close();
     }
   };
@@ -41,7 +41,7 @@ export default function CostumeItem({
     });
 
     if (request?.status === "성공") {
-      revalidateTagAction("costume-list");
+      revalidateTagAction("costume-update");
       close();
     }
   };

@@ -29,9 +29,11 @@ export default function ChattingList({ userId }: { userId: number }) {
       if (!roomId) return;
       const stompClient = await connect();
       stompClient.subscribe(`/topic/users/${roomId}`, (message) => {
-        const groupDetail: responseType<groupType> = JSON.parse(message.body);
-        console.log("groupInfo: ", groupDetail.data);
-        setGroupInfo(groupDetail.data);
+        const groupDetail: responseType<groupChatType> = JSON.parse(
+          message.body,
+        );
+        console.log("groupInfo: ", groupDetail);
+        setGroupInfo(groupDetail.data.groupInfo);
       });
       stompClient.subscribe(`/topic/messages/${roomId}`, (message) => {
         const chatMessages: responseType<ChatMessageType> = JSON.parse(
@@ -52,9 +54,11 @@ export default function ChattingList({ userId }: { userId: number }) {
 
   return (
     <div>
-      <div className="fixed flex items-center h-20 lg:h-25 w-full top-15 lg:top-25 left-0 bg-site-button px-8 text-base lg:text-xl font-semibold z-10">
-        <span>{groupInfo?.groupName}</span>|
-        <span>{groupInfo?.totalMembers}명</span>
+      <div className="fixed flex items-center gap-3 h-20 lg:h-25 w-full top-15 lg:top-25 left-0 bg-site-button px-8 text-base lg:text-xl z-10">
+        <span className="font-semibold">{groupInfo?.groupName}</span>
+        <span className="text-site-darkgray-02">
+          {groupInfo?.totalMembers}명
+        </span>
       </div>
       {chatMessages.map((chatMessage) => (
         <ChattingItem

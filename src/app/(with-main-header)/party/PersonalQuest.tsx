@@ -23,8 +23,8 @@ export default function PersonalQuest() {
     const personalQuestReward = await partyApi.postPersonalQuestReward();
 
     if (personalQuestReward?.status === "성공") {
-      revalidateTagAction("personal-quest-state");
-      revalidateTagAction("point");
+      revalidateTagAction("personalQuest-update");
+      revalidateTagAction("point-update");
       showToast("일일 미션 클리어! 3포인트를 획득했습니다.");
     } else {
       showToast("일일 미션 보상 수령에 실패했습니다.");

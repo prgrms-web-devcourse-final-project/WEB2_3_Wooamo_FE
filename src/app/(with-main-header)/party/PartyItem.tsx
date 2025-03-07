@@ -1,4 +1,5 @@
 import { userApi } from "@/api/user/user";
+import { delay } from "@/utils/delay";
 import Link from "next/link";
 
 interface PartyItemProps {
@@ -16,6 +17,10 @@ export default async function PartyItem({
   recruitCnt,
   startDate,
 }: PartyItemProps) {
+  // 스켈레톤 확인용
+  await delay(3000);
+  //
+
   const user = await userApi.getCurrentUserInfo();
   return (
     <Link
