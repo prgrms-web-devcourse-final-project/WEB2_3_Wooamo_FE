@@ -76,7 +76,7 @@ export default function CreatePartyButton({
       });
 
       if (request?.status === "성공") {
-        revalidateTagAction("party-list");
+        revalidateTagAction("party-create");
         close();
         router.replace(`/party/${request.data.partyId}`);
       }

@@ -52,8 +52,8 @@ export default function TimerItem({
   const saveStudyTime = async (categoryId: number, timeToSave?: string) => {
     const currentTime = timeToSave || timers[categoryId]?.time || studyTime;
     await timerApi.postStudyTimeSave(categoryId, currentTime);
-    revalidateTagAction("timer-list");
-    revalidateTagAction("daily-time");
+    revalidateTagAction("category-update");
+    revalidateTagAction("dailyTime-update");
   };
 
   const handleStartTimer = () => {
@@ -118,8 +118,8 @@ export default function TimerItem({
   const deleteCategory = async (categoryId: number) => {
     const response = await timerApi.deleteTimerCategory(categoryId);
     if (response?.status === "성공") {
-      revalidateTagAction("timer-list");
-      revalidateTagAction("daily-time");
+      revalidateTagAction("category-update");
+      revalidateTagAction("dailyTime-update");
       setIsOpen(false);
     }
   };

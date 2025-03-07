@@ -90,7 +90,7 @@ export default function ChargeButton({
       );
 
       if (confirmTossPaymentResponse?.status === "성공") {
-        revalidateTagAction("point");
+        revalidateTagAction("point-update");
         router.replace("/shop");
         showToast(`${payment?.point}p 충전이 완료되었습니다.`);
       } else {
@@ -111,7 +111,6 @@ export default function ChargeButton({
       >
         충전
       </Button>
-
       <Modal modalId="charge">
         <div className="flex flex-col items-center w-full gap-8">
           <span className="font-semibold text-base lg:text-xl">포인트 숍</span>

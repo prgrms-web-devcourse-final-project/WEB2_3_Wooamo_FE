@@ -27,7 +27,7 @@ export default function TimerCategory({ timerList }: TimerCategoryProps) {
       const request = await timerApi.postTimerCategoryAdd(category);
 
       if (request?.status === "성공") {
-        revalidateTagAction("timer-list");
+        revalidateTagAction("category-update");
         setCategory("");
         setIsClicked((prev) => !prev);
       }
