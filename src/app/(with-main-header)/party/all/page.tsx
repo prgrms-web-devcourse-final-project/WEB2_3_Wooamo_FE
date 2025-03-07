@@ -6,6 +6,7 @@ import { partyApi } from "@/api/party/party";
 import { Suspense } from "react";
 import BasicSkeleton from "@/components/common/skeletons/BasicSkeleton";
 import { userApi } from "@/api/user/user";
+import PartyItems from "./PartyItems";
 
 interface PartyAllProps {
   searchParams: Promise<{ name: string }>;
@@ -13,10 +14,8 @@ interface PartyAllProps {
 
 export default async function PartyAll({ searchParams }: PartyAllProps) {
   const { name } = await searchParams;
-  const parties = await partyApi.getScheduledPartyList(name);
-  const user = await userApi.getCurrentUserInfo();
 
-  if (!parties) return;
+  const user = await userApi.getCurrentUserInfo();
 
   return (
     <div className="flex flex-col">
@@ -37,17 +36,8 @@ export default async function PartyAll({ searchParams }: PartyAllProps) {
           <p className="flex-2">인원</p>
           <p className="flex-3">시작일</p>
         </div>
-        <Suspense fallback={<BasicSkeleton count={3} />}>
-          {parties.data.contents.map((party) => (
-            <PartyItem
-              key={party.partyId}
-              partyId={party.partyId}
-              name={party.name}
-              recruitCap={party.recruitCap}
-              recruitCnt={party.recruitCnt}
-              startDate={party.startDate}
-            />
-          ))}
+        <Suspense key={name} fallback={<BasicSkeleton count={3} />}>
+          <PartyItems name={name} />
         </Suspense>
       </div>
     </div>
