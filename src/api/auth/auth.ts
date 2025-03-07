@@ -70,6 +70,7 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
       body: JSON.stringify(body),
     });
 
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
 
     const accessToken = response.headers.get("Access");
@@ -130,7 +131,11 @@ const reissue = async () => {
 
 const logout = async () => {
   try {
-    const response = await fetchCustom.post(`/user/logout`);
+    const response = await fetchCustom.post(`/user/logout`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     if (response.status === 401) return await revalidateTagAction("user");
     if (!response.ok) throw new Error(response.statusText);
 

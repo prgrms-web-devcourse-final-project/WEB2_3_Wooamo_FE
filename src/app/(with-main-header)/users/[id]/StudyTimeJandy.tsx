@@ -2,7 +2,6 @@ import StudyTimeJandyDateChanger from "./StudyTimeJandyDateChanger";
 import StudyTimeJandyList from "./StudyTimeJandyList";
 import { Suspense } from "react";
 import BasicSkeleton from "@/components/common/skeletons/BasicSkeleton";
-import { userApi } from "@/api/user/user";
 
 interface StudyTimeJandyProps {
   userId: number;
@@ -15,8 +14,6 @@ export default async function StudyTimeJandy({
   year,
   month,
 }: StudyTimeJandyProps) {
-  const user = await userApi.getCurrentUserInfo();
-  if (!user) return;
   return (
     <section className="flex flex-col gap-2 lg:gap-8">
       <StudyTimeJandyDateChanger />

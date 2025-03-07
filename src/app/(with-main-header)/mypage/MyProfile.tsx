@@ -25,12 +25,13 @@ export default async function MyProfile() {
               <span className="mr-3">포인트</span>
               <span className="text-site-darkgray-02">{user.data.point}p</span>
             </p>
-            <p className="font-galmuri text-xl lg:text-2xl">
-              <Link href={"/friends"} className="mr-3">
-                친구
-              </Link>
+            <Link
+              href={"/friends"}
+              className="font-galmuri text-xl lg:text-2xl w-fit"
+            >
+              <span className="mr-3">친구</span>
               <span className="text-site-darkgray-02">{user.data.friends}</span>
-            </p>
+            </Link>
           </div>
           <ProfileEditButton user={user.data} />
         </div>

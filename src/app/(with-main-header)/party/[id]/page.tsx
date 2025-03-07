@@ -27,6 +27,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
 
   if (!partyDetail) return;
   if (!partyParticipantList) return;
+  console.log(partyParticipantList);
 
   return (
     <>
@@ -136,10 +137,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
                   description={participant.context}
                 />
                 <div>
-                  {participant.status === "FRIEND" ||
-                  userId === participant.userId ? (
-                    <></>
-                  ) : (
+                  {userId !== participant.userId && (
                     <FriendRequestButton user={participant} />
                   )}
                 </div>

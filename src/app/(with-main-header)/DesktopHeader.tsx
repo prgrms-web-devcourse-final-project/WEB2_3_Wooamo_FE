@@ -57,6 +57,7 @@ export default function DesktopHeader({
   const handleLogout = async () => {
     await authApi.logout();
     setIsOpenDropdown(false);
+    router.push("/");
   };
 
   useEffect(() => {
