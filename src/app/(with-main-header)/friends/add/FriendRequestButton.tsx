@@ -13,7 +13,7 @@ export default function FriendRequestButton({
     user.status && user.status !== "NOT_FRIEND",
   );
   const [status, setStatus] = useState(user.status);
-  const [friendId, setFriendId] = useState<number | null>(user.friendId);
+  const [friendId, setFriendId] = useState<number | null>(user?.friendId);
 
   const requestFriend = async () => {
     setIsRequestFriend(true);

@@ -1,7 +1,6 @@
 import { deleteCookie, setCookie } from "cookies-next";
 import { fetchCustom } from "../fetchCustom";
 import { redirect } from "next/navigation";
-import { revalidateTagAction } from "@/actions";
 
 const checkIsDuplicatedNickname = async (
   body: checkIsDuplicatedNicknameReq,
@@ -77,6 +76,7 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
     if (accessToken) {
       await setCookie("accessToken", accessToken);
     }
+
     const data: responseType<{ role: "회원" | "관리자" }> =
       await response.json();
     return data;
@@ -136,11 +136,11 @@ const logout = async () => {
         "Content-Type": "application/json",
       },
     });
-    if (response.status === 401) return await revalidateTagAction("user");
     if (!response.ok) throw new Error(response.statusText);
 
     await deleteCookie("accessToken");
-    await revalidateTagAction("user");
+    const data: responseType = await response.json();
+    return data;
   } catch (error) {
     console.error(error);
   }
