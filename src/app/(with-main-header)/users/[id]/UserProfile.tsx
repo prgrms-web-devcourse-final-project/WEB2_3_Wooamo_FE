@@ -4,6 +4,7 @@ import Icon from "@/components/common/Icon";
 import Link from "next/link";
 import { userApi } from "@/api/user/user";
 import RequestFriendButton from "./RequestFriendButton";
+import { notFound } from "next/navigation";
 
 interface UserProfileProps {
   userId: number;
@@ -11,9 +12,10 @@ interface UserProfileProps {
 
 export default async function UserProfile({ userId }: UserProfileProps) {
   const user = await userApi.getUserInfo(userId);
-  console.log(user);
 
-  if (!user) return;
+  if (!user) {
+    notFound();
+  }
   return (
     <section className="flex flex-col min-w-full lg:min-w-92 gap-2.5 lg:gap-7 px-2.5">
       <p className="font-bitbitv2 text-2xl lg:text-[28px]">

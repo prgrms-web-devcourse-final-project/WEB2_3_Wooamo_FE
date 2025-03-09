@@ -1,65 +1,43 @@
 "use client";
 
-import { useSocketStore } from "@/store/socketStore";
+import { useInfiniteChatting } from "@/hooks/useInfiniteChatting";
 import ChattingItem from "../../ChattingItem";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { chattingApi } from "@/api/chatting/chatting";
+import { useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import BasicSkeleton from "@/components/common/skeletons/BasicSkeleton";
+import LoadingSpinner from "../../LoadingSpinner";
 
 export default function ChattingList({ userId }: { userId: number }) {
-  const { connect, disconnect, join, leave } = useSocketStore();
   const searchParams = useSearchParams();
   const roomId = searchParams.get("roomId");
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
-  const [chatMessages, setChatMessages] = useState<ChatMessageType[]>([]);
-  const [groupInfo, setGroupInfo] = useState<groupType>();
-
-  useEffect(() => {
-    const getChatMessages = async () => {
-      if (!roomId) return;
-      const chatMessages = await chattingApi.getChattingMessages(roomId);
-      if (!chatMessages) return;
-      setChatMessages(chatMessages.data);
-    };
-    getChatMessages();
-  }, [roomId]);
-
-  useEffect(() => {
-    const subscribeChatMessages = async () => {
-      if (!roomId) return;
-      const stompClient = await connect();
-      stompClient.subscribe(`/topic/users/${roomId}`, (message) => {
-        const groupDetail: responseType<groupChatType> = JSON.parse(
-          message.body,
-        );
-        console.log("groupInfo: ", groupDetail);
-        setGroupInfo(groupDetail.data.groupInfo);
-      });
-      stompClient.subscribe(`/topic/messages/${roomId}`, (message) => {
-        const chatMessages: responseType<ChatMessageType> = JSON.parse(
-          message.body,
-        );
-        console.log("chatMessages: ", chatMessages);
-        setChatMessages((prev) => [...prev, chatMessages.data]);
-      });
-      join(roomId, userId);
-    };
-
-    subscribeChatMessages();
-    return () => {
-      if (roomId) leave(roomId, userId);
-      disconnect();
-    };
-  }, [roomId, connect, disconnect, join, userId, leave]);
+  const { setTarget, chatMessages, isPending, roomInfo } =
+    useInfiniteChatting<groupChatType>({
+      chatEndRef,
+      roomId,
+      onIntersect: chattingApi.getChattingMessages,
+    });
 
   return (
     <div>
       <div className="fixed flex items-center gap-3 h-20 lg:h-25 w-full top-15 lg:top-25 left-0 bg-site-button px-8 text-base lg:text-xl z-10">
-        <span className="font-semibold">{groupInfo?.groupName}</span>
-        <span className="text-site-darkgray-02">
-          {groupInfo?.totalMembers}명
-        </span>
+        {roomInfo ? (
+          <>
+            <span className="font-semibold">
+              {roomInfo?.groupInfo.groupName}
+            </span>
+            <span className="text-site-darkgray-02">
+              {roomInfo?.groupInfo.totalMembers}명
+            </span>
+          </>
+        ) : (
+          <BasicSkeleton className="lg:h-10" count={1} />
+        )}
       </div>
+
+      {isPending ? <LoadingSpinner /> : <div ref={setTarget}></div>}
       {chatMessages.map((chatMessage) => (
         <ChattingItem
           key={chatMessage.chatId}
@@ -71,6 +49,7 @@ export default function ChattingList({ userId }: { userId: number }) {
           unreadCount={chatMessage.readByCount}
         />
       ))}
+      <div ref={chatEndRef} />
     </div>
   );
 }

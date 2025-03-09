@@ -16,14 +16,10 @@ export default async function ProfileTab({ year, month }: ProfileTabProps) {
   const user = await userApi.getCurrentUserInfo();
   if (!user) return;
   return (
-    <div className="flex flex-col lg:flex-row lg:justify-center items-center lg:items-start gap-12.5 lg:gap-20 px-5 lg:px-8">
+    <div className="w-full flex flex-col lg:flex-row lg:justify-center items-center lg:items-start gap-12.5 lg:gap-20 px-5 lg:px-8">
       <MyProfile />
-      <div>
-        <Image
-          src={WhiteDividerShort}
-          alt="구분선 이미지"
-          className="block lg:hidden"
-        />
+      <div className="block lg:hidden">
+        <Image src={WhiteDividerShort} alt="구분선 이미지" />
       </div>
       <section className="flex flex-col w-full lg:w-206 gap-7.5 lg:gap-13">
         <StudyTimeJandy userId={user.data.userId} year={year} month={month} />
