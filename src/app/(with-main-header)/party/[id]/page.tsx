@@ -27,7 +27,6 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
 
   if (!partyDetail) return;
   if (!partyParticipantList) return;
-  console.log(partyParticipantList);
 
   return (
     <>
