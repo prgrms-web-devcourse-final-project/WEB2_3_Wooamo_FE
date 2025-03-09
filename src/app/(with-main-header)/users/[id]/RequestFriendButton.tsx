@@ -6,7 +6,7 @@ import { useState } from "react";
 
 interface RequestFriendButtonProps {
   userId: number;
-  status: "ACCEPTED" | "PENDING" | null;
+  status: "ACCEPTED" | "PENDING" | "FRIEND" | "NOT_FRIEND" | null;
   friendId: number | null;
 }
 
@@ -36,7 +36,9 @@ export default function RequestFriendButton({
   };
 
   return isRequested ? (
-    <Button onClick={deleteFriend}>요청취소</Button>
+    <Button onClick={deleteFriend}>
+      {status === "ACCEPTED" ? "친구삭제" : "요청취소"}
+    </Button>
   ) : (
     <Button onClick={requestFriend}>친구요청</Button>
   );

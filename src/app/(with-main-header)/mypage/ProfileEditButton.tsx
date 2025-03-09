@@ -19,9 +19,10 @@ export default function ProfileEditButton({ user }: ProfileEditButtonProps) {
 
   const editProfile = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const user = await userApi.getCurrentUserInfo();
     const res = await userApi.updateUserInfo({ context: description, link });
     if (res?.status === "성공") {
-      revalidateTagAction("user");
+      revalidateTagAction(`user-update-${user?.data.userId}`);
       close();
     }
   };

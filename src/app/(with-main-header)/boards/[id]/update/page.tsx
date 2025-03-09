@@ -9,6 +9,8 @@ import { useParams, useRouter } from "next/navigation";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { revalidateTagAction } from "@/actions";
+import Image from "next/image";
 
 export default function BoardsUpdate() {
   const params = useParams();
@@ -17,6 +19,7 @@ export default function BoardsUpdate() {
 
   const [title, setTitle] = useState("");
   const [context, setContext] = useState("");
+  const [userId, setUserId] = useState(0);
   const [images, setImages] = useState<File[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [deletedImages, setDeletedImages] = useState<string[]>([]);
@@ -40,6 +43,7 @@ export default function BoardsUpdate() {
           return;
         }
 
+        setUserId(userResponse.data.userId);
         setTitle(boardResponse.data.title);
         setContext(boardResponse.data.context);
         setExistingImages(boardResponse.data.images);
@@ -83,6 +87,7 @@ export default function BoardsUpdate() {
     try {
       const response = await boardApi.updateBoard(boardId, formData);
       if (response) {
+        revalidateTagAction(`myPost-update-${userId}`);
         router.push(`/boards/${boardId}`);
       }
     } catch (error) {
@@ -129,7 +134,7 @@ export default function BoardsUpdate() {
         </label>
         {existingImages.map((imageUrl, idx) => (
           <div key={idx} className="relative w-25 lg:w-40 h-25 lg:h-40">
-            <img
+            <Image
               src={imageUrl}
               alt={`기존 이미지 ${idx + 1}`}
               className="w-full h-full object-cover"
@@ -150,7 +155,7 @@ export default function BoardsUpdate() {
         ))}
         {images.map((file, idx) => (
           <div key={idx} className="relative w-25 lg:w-40 h-25 lg:h-40">
-            <img
+            <Image
               src={URL.createObjectURL(file)}
               alt={`새 이미지 ${idx + 1}`}
               className="w-full h-full object-cover"

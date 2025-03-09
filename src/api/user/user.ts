@@ -1,15 +1,41 @@
+import { useUserStore } from "@/store/userStore";
 import { fetchCustom } from "../fetchCustom";
+
+const checkIsLoggedIn = async () => {
+  try {
+    const response = await fetchCustom.get(`/user/isLogin`);
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data: responseType<boolean> = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const getCurrentUserInfo = async () => {
   try {
+    const { user } = useUserStore.getState();
     const response = await fetchCustom.get(`/user`, {
-      next: { tags: ["point-update", "user"] },
-      cache: "force-cache",
+      next: {
+        tags: [
+          "point-update",
+          `user-create-${user?.userId}`,
+          `user-update-${user?.userId}`,
+        ],
+      },
+      cache: user ? "force-cache" : "no-cache",
     });
-    if (response.status === 401) return null;
+    if (response.status === 401) {
+      useUserStore.setState({ user: null });
+      return null;
+    }
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<userType> = await response.json();
+    if (!user) {
+      useUserStore.setState({ user: data.data });
+    }
     return data;
   } catch (error) {
     console.error(error);
@@ -72,7 +98,7 @@ const getUserPosts = async (userId: number) => {
   try {
     const response = await fetchCustom.get(`/user/board/${userId}`, {
       cache: "force-cache",
-      next: { tags: [`posts-${userId}`] },
+      next: { tags: [`myPost-update-${userId}`, `myPost-create-${userId}`] },
     });
     if (!response.ok) throw new Error(response.statusText);
 
@@ -117,6 +143,7 @@ const updateUserCostume = async (costumeId: number) => {
 };
 
 export const userApi = {
+  checkIsLoggedIn,
   getCurrentUserInfo,
   getUserInfo,
   getCurrentUserRanking,

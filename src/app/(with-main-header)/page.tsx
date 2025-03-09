@@ -1,12 +1,8 @@
-import { hasCookieAtServer } from "@/api/cookie";
+import { userApi } from "@/api/user/user";
 import AfterLoginHome from "./AfterLoginHome";
 import BeforeLoginHome from "./BeforeLoginHome";
-import { hasCookie } from "cookies-next";
 
 export default async function Home() {
-  const clientIsLoggedIn = hasCookie("accessToken");
-  const serverIsLoggedIn = await hasCookieAtServer("accessToken");
-  const isLoggedIn = clientIsLoggedIn || serverIsLoggedIn;
-
-  return isLoggedIn ? <AfterLoginHome /> : <BeforeLoginHome />;
+  const isLoggedIn = await userApi.checkIsLoggedIn();
+  return isLoggedIn?.data ? <AfterLoginHome /> : <BeforeLoginHome />;
 }

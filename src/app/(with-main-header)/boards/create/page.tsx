@@ -10,6 +10,8 @@ import Dropdown from "@/components/common/Dropdown";
 import { boardApi } from "@/api/board/board";
 import { useRouter } from "next/navigation";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { userApi } from "@/api/user/user";
+import { revalidateTagAction } from "@/actions";
 
 export default function BoardsCreate() {
   const router = useRouter();
@@ -42,6 +44,9 @@ export default function BoardsCreate() {
   const createPost = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      const user = await userApi.getCurrentUserInfo();
+      if (!user) return;
+
       const formData = new FormData();
       const contents = {
         title,
@@ -65,7 +70,10 @@ export default function BoardsCreate() {
       console.log("Created board response:", response);
       console.log("New board ID:", response.data?.boardId);
 
-      router.push(`/boards/${response.data?.boardId}`);
+      if (response.status === "성공") {
+        revalidateTagAction(`myPost-create-${user.data.userId}`);
+        router.push(`/boards/${response.data?.boardId}`);
+      }
     } catch (error) {
       console.error("게시글 작성 실패:", error);
     }

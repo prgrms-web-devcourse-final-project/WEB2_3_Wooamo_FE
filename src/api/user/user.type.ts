@@ -12,7 +12,8 @@ interface userType {
   profile: string | null;
   friends: number;
   friendId: number | null;
-  status: "ACCEPTED" | "PENDING" | null;
+  // NOT_FRIEND 및 FRIEND는 친구 API쪽의 응답으로 오는 status 값
+  status: "ACCEPTED" | "PENDING" | "NOT_FRIEND" | "FRIEND" | null;
   role: "USER" | "ADMIN";
 }
 

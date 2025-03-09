@@ -1,9 +1,9 @@
 import { fetchCustom } from "../fetchCustom";
 
-const getFriends = async (page?: number, size?: number) => {
+const getUserFriends = async (userId: number, page?: number, size?: number) => {
   try {
     const response = await fetchCustom.get(
-      `/friend?page=${page ?? 0}&size=${size ?? 10}`,
+      `/friend/${userId}?page=${page ?? 0}&size=${size ?? 10}`,
       { next: { tags: ["friends"] }, cache: "force-cache" },
     );
     if (!response.ok) throw new Error(response.statusText);
@@ -17,10 +17,7 @@ const getFriends = async (page?: number, size?: number) => {
 
 const getRecommendFriends = async () => {
   try {
-    const response = await fetchCustom.get(
-      `/friend/recommend`,
-      { cache: "force-cache", next: { revalidate: 1000 * 60 * 60 * 24 } }, // 하루에 한 번씩 갱신
-    );
+    const response = await fetchCustom.get(`/friend/recommend`);
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<userType[]> = await response.json();
@@ -96,7 +93,7 @@ const deleteFriend = async (friendId: number) => {
 };
 
 export const friendApi = {
-  getFriends,
+  getUserFriends,
   getRequestFriends,
   getRecommendFriends,
   search,

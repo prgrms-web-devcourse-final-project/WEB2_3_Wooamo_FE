@@ -52,7 +52,7 @@ export default function TodoItem({ todo }: { todo: todoType }) {
           type="checkbox"
           checked={isTodoChecked}
           onChange={checkTodo}
-          className="appearance-none w-6 lg:w-7 h-6 lg:h-7 bg-site-button rounded-[3px] cursor-pointer"
+          className="appearance-none min-w-6 lg:min-w-7 h-6 lg:h-7 bg-site-button rounded-[3px] cursor-pointer"
         />
 
         <Icon

@@ -16,17 +16,15 @@ export default async function PostsByUser({ userId }: PostsByUserProps) {
         <span>{posts.data.length}</span>
       </p>
       <div className="flex flex-col gap-5">
-        <div>
-          {posts.data.length === 0 ? (
-            <div className="flex justify-center items-center h-24 lg:h-40 p-2.5 bg-site-white-70">
-              <p className="text-site-darkgray-02">게시글이 없습니다.</p>
-            </div>
-          ) : (
-            posts.data.map((post) => (
-              <PostItem key={`post-${post.boardId}`} post={post} />
-            ))
-          )}
-        </div>
+        {posts.data.length === 0 ? (
+          <div className="flex justify-center items-center h-24 lg:h-40 p-2.5 bg-site-white-70">
+            <p className="text-site-darkgray-02">게시글이 없습니다.</p>
+          </div>
+        ) : (
+          posts.data.map((post) => (
+            <PostItem key={`post-${post.boardId}`} post={post} />
+          ))
+        )}
       </div>
     </section>
   );
