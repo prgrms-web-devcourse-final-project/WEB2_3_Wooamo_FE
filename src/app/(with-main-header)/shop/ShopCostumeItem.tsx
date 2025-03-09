@@ -16,6 +16,7 @@ interface ShopCostumeItemProps {
   point: number;
   currentUser: responseType<userType> | undefined | null;
   currentUserPoint: number;
+  isOwned: boolean | undefined;
 }
 
 export default function ShopCostumeItem({
@@ -25,6 +26,7 @@ export default function ShopCostumeItem({
   point,
   currentUser,
   currentUserPoint,
+  isOwned,
 }: ShopCostumeItemProps) {
   const { open, close } = useModalStore((state) => state);
   const showToast = useToastStore((state) => state.showToast);
@@ -62,7 +64,9 @@ export default function ShopCostumeItem({
       >
         <article className="w-full h-full bg-site-white-70 rounded-[10px] relative">
           <div className="flex justify-center items-center absolute -top-7.5 right-0 w-fit px-4 lg:px-6 h-11 lg:h-15 bg-site-sub rounded-full">
-            <span className="font-galmuri text-base lg:text-xl">{point}p</span>
+            <span className="font-galmuri text-base lg:text-xl">
+              {isOwned ? `내꺼` : `${point}p`}
+            </span>
           </div>
           <div className="relative w-full h-full">
             <Image
@@ -80,7 +84,10 @@ export default function ShopCostumeItem({
           <div className="flex justify-center font-galmuri text-xl">{name}</div>
           <Character costumeSrc={costume} className="h-60" />
           <div className="flex justify-center">
-            <Button onClick={() => handlePurchaseCostume(costumeId, point)}>
+            <Button
+              disabled={isOwned}
+              onClick={() => handlePurchaseCostume(costumeId, point)}
+            >
               구매하기
             </Button>
           </div>

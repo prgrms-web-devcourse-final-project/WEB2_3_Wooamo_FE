@@ -13,6 +13,9 @@ export default async function Shop() {
   const fetchCurrentUserInfo = await userApi.getCurrentUserInfo();
   const currentUserPoint = fetchCurrentUserInfo?.data?.point ?? 0;
 
+  const fetchUserCostumeList = await userApi.getCurrentUserCostumes();
+  const userCostumeList = fetchUserCostumeList?.data;
+
   if (!costumeList) return;
 
   return (
@@ -44,6 +47,9 @@ export default async function Shop() {
             point={costume.point}
             currentUser={fetchCurrentUserInfo}
             currentUserPoint={currentUserPoint ?? 0}
+            isOwned={userCostumeList?.some(
+              (myCostume) => myCostume.entityId === costume.costumeId,
+            )}
           />
         ))}
       </section>
