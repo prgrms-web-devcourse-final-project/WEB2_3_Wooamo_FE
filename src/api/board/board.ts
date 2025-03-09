@@ -1,11 +1,9 @@
 import { fetchCustom } from "../fetchCustom";
 
-const getBoardList = async (page?: number, title?: string, size?: number) => {
+const getBoardList = async (title?: string, page?: number, size?: number) => {
   try {
     const response = await fetchCustom.get(
-      `/board?title=${encodeURIComponent(title || "")}&page=${page ?? 0}&size=${
-        size ?? 10
-      }`,
+      `/board?title=${title ?? ""}&page=${page ?? 0}&size=${size ?? 10}`,
     );
 
     if (!response.ok) {
