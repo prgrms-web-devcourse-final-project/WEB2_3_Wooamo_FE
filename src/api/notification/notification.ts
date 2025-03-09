@@ -87,10 +87,7 @@ const connectSSE = async () => {
 
 const disconnectSSE = async () => {
   try {
-  
-
-
-    const response = await fetchCustom.get("/sse/disconnect");
+   const response = await fetchCustom.get("/sse/disconnect");
     if (response.status === 401) {
       console.error("인증 오류: SSE 연결 해제에 실패했습니다.");
       return null;
