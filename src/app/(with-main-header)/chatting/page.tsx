@@ -5,7 +5,7 @@ import ChattingHeader from "./ChattingHeader";
 import ChattingListItem from "./ChattingListItem";
 import { useEffect, useState } from "react";
 import { userApi } from "@/api/user/user";
-import LoadingSpinner from "./LoadingSpinner";
+import FriendItemSkeleton from "@/components/common/skeletons/FriendItemSkeleton";
 
 export default function Chatting() {
   const { connect, disconnect, getRooms } = useSocketStore();
@@ -36,7 +36,7 @@ export default function Chatting() {
       <div className="flex flex-col gap-13">
         <ChattingHeader />
         <section className="flex flex-col">
-          <LoadingSpinner />
+          <FriendItemSkeleton className="h-20 lg:h-25 px-5 lg:px-8" count={3} />
         </section>
       </div>
     );
