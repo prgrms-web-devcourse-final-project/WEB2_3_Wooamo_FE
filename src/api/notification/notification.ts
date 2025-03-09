@@ -58,17 +58,13 @@ const markAsRead = async (alertId: string) => {
 
 const connectSSE = async () => {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
- 
-
   if (window.eventSource) {
     window.eventSource.close();
     delete window.eventSource;
   }
-
   try {
     await disconnectSSE();
     const response = await fetchCustom.get("/sse/connect");
-
     if (response.status === 401) {
       console.error("인증 오류: 알림 목록을 불러오는데 실패했습니다.");
       return null;
