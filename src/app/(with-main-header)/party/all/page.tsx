@@ -1,19 +1,17 @@
 import Link from "next/link";
 import Button from "../../../../components/common/Button";
-import PartyItem from "../PartyItem";
 import PartySearch from "./PartySearch";
-import { partyApi } from "@/api/party/party";
 import { Suspense } from "react";
 import BasicSkeleton from "@/components/common/skeletons/BasicSkeleton";
 import { userApi } from "@/api/user/user";
 import PartyItems from "./PartyItems";
 
 interface PartyAllProps {
-  searchParams: Promise<{ name: string }>;
+  searchParams: Promise<{ name: string; page: string }>;
 }
 
 export default async function PartyAll({ searchParams }: PartyAllProps) {
-  const { name } = await searchParams;
+  const { name, page } = await searchParams;
 
   const user = await userApi.getCurrentUserInfo();
 
@@ -37,7 +35,7 @@ export default async function PartyAll({ searchParams }: PartyAllProps) {
           <p className="flex-3">시작일</p>
         </div>
         <Suspense key={name} fallback={<BasicSkeleton count={3} />}>
-          <PartyItems name={name} />
+          <PartyItems name={name} page={page} />
         </Suspense>
       </div>
     </div>

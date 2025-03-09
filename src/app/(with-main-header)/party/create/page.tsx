@@ -40,7 +40,7 @@ export default function PartyCreate() {
           onChange={(e) => setTitle(e.target.value)}
           required
           className="bg-transparent"
-          placeholder="게시글 제목을 입력해주세요"
+          placeholder="팟 제목을 입력해주세요"
         />
       </div>
       <textarea

@@ -1,5 +1,4 @@
 import { userApi } from "@/api/user/user";
-import { delay } from "@/utils/delay";
 import Link from "next/link";
 
 interface PartyItemProps {
