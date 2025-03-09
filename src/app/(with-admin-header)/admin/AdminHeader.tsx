@@ -14,9 +14,11 @@ export default async function AdminHeader() {
         </div>
       </div>
       <div className="flex gap-5 font-semibold">
-        <button className="px-4 py-3 bg-site-white-70 rounded-lg cursor-pointer">
-          Grapana
-        </button>
+        <Link href={`http://52.78.48.112:3000/`} target="_blank">
+          <button className="px-4 py-3 bg-site-white-70 rounded-lg cursor-pointer">
+            Grapana
+          </button>
+        </Link>
         <LogoutButton />
       </div>
     </div>
