@@ -47,7 +47,7 @@ const getCommentsByBoardId = async (boardId: number) => {
       throw new Error("Failed to fetch board comments");
     }
 
-    const data: paginationType<commentItem[]> = await response.json();
+    const data: responseType<commentItem[]> = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching comments:", error);
