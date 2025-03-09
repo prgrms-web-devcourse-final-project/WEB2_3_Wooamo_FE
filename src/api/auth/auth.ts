@@ -62,6 +62,7 @@ const signUp = async (body: signUpReq) => {
 
 const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
   try {
+    await deleteCookie("accessToken");
     const response = await fetchCustom.post(`/user/login`, {
       headers: {
         // "X-Remember-Me": isAutoLogin ? "true" : "false",
@@ -87,6 +88,7 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
 
 const kakaoLogin = async (code: string) => {
   try {
+    await deleteCookie("accessToken");
     const response = await fetchCustom.post(`/user/kakaoLogin`, {
       headers: {
         "Content-Type": "application/json",
