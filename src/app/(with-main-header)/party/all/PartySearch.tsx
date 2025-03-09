@@ -1,10 +1,9 @@
 "use client";
 
 import InputIcon from "@/components/common/InputIcon";
-import useDebounce from "@/hooks/useDebounce";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export default function PartySearch() {
   const router = useRouter();
@@ -12,7 +11,6 @@ export default function PartySearch() {
   const searchValue = searchParams.get("name");
 
   const [keyword, setKeyword] = useState(searchValue ?? "");
-  const debouncedValue = useDebounce(keyword, 200);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
