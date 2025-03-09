@@ -48,6 +48,7 @@ const getUserInfo = async (userId: number) => {
       next: { tags: [`user-${userId}`] },
       cache: "force-cache",
     });
+    if (response.status === 404) return null;
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<userType> = await response.json();
