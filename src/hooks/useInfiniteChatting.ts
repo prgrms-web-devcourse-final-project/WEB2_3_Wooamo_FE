@@ -41,12 +41,15 @@ export const useInfiniteChatting = <T>({
     const res = await onIntersect(roomId, lastChatId, DEFAULT_SIZE);
     if (res?.status === "성공") {
       console.log("chattingMessages: ", res.data);
-      setLastChatId(res.data[0]?.chatId);
+      if (res.data.length > 0) {
+        setLastChatId(res.data[0].chatId);
+      } else {
+        setHasNextPage(false);
+      }
+
       setData((prev) => [...res.data, ...prev]);
       setReceivedDataLength(res.data.length);
       setLastAddType("prepend");
-
-      if (!res.data.length) setHasNextPage(false);
     } else {
       setHasNextPage(false);
     }
@@ -140,6 +143,21 @@ export const useInfiniteChatting = <T>({
         }
       });
 
+      stompClient.subscribe(`/topic/read/${user.userId}`, async (message) => {
+        const readUser: responseType<{ userId: string }> = JSON.parse(
+          message.body,
+        );
+        console.log("readUser: ", readUser.data);
+
+        const newChatMessages = await chattingApi.refreshChatMessages(
+          roomId,
+          lastChatId,
+        );
+        if (newChatMessages?.status === "성공") {
+          setData(newChatMessages.data);
+        }
+      });
+
       join(roomId, user.userId);
     };
 
@@ -148,7 +166,7 @@ export const useInfiniteChatting = <T>({
       if (roomId) leave(roomId, user.userId);
       disconnect();
     };
-  }, [roomId, connect, disconnect, join, user, leave, chatEndRef]);
+  }, [roomId, connect, disconnect, join, user, leave, chatEndRef, lastChatId]);
 
   return { setTarget, chatMessages: data, isPending, roomInfo } as const;
 };
