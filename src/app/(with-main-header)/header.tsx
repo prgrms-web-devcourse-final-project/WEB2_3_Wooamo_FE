@@ -4,15 +4,7 @@ import MobileHeader from "./MobileHeader";
 import DesktopHeader from "./DesktopHeader";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
-interface HeaderProps {
-  serverIsLoggedIn: boolean;
-}
-
-export default function Header({ serverIsLoggedIn }: HeaderProps) {
+export default function Header() {
   const isMobile = useIsMobile();
-  return isMobile ? (
-    <MobileHeader serverIsLoggedIn={serverIsLoggedIn} />
-  ) : (
-    <DesktopHeader serverIsLoggedIn={serverIsLoggedIn} />
-  );
+  return isMobile ? <MobileHeader /> : <DesktopHeader />;
 }

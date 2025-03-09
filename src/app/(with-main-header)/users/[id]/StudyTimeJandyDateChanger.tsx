@@ -13,7 +13,6 @@ export default function StudyTimeJandyDateChanger() {
   const year = Number(searchParams.get("year")) || today.getFullYear();
   const month = Number(searchParams.get("month")) || today.getMonth() + 1;
 
-  const timer = useRef<NodeJS.Timeout | null>(null);
   const [selectedDate, setSelectedDate] = useState(
     new Date(year, month - 1, 1),
   );
@@ -27,10 +26,7 @@ export default function StudyTimeJandyDateChanger() {
     const year = prevMonth.getFullYear();
     const month = prevMonth.getMonth() + 1;
 
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      router.push(`?year=${year}&month=${month}`);
-    }, 300);
+    router.push(`?year=${year}&month=${month}`);
   };
   const selectNextMonth = () => {
     const nextMonth = new Date(
@@ -41,10 +37,7 @@ export default function StudyTimeJandyDateChanger() {
     const year = nextMonth.getFullYear();
     const month = nextMonth.getMonth() + 1;
 
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      router.push(`?year=${year}&month=${month}`);
-    }, 300);
+    router.push(`?year=${year}&month=${month}`);
   };
   return (
     <div className="flex justify-between items-center">

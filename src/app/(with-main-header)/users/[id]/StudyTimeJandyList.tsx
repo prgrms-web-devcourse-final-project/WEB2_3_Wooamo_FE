@@ -1,4 +1,3 @@
-import { delay } from "@/utils/delay";
 import Jandy from "./Jandy";
 import { timerApi } from "@/api/timer/timer";
 
@@ -13,7 +12,6 @@ export default async function StudyTimeJandyList({
   year,
   month,
 }: StudyTimeJandyListProps) {
-  delay(3000);
   const studyTimes = await timerApi.getStudyTimeForMonth(userId, year, month);
   if (!studyTimes) return;
   return (

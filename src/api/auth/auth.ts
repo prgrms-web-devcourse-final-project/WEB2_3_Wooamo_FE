@@ -1,13 +1,13 @@
 import { deleteCookie, setCookie } from "cookies-next";
 import { fetchCustom } from "../fetchCustom";
 import { redirect } from "next/navigation";
-import { revalidateTagAction } from "@/actions";
 
 const checkIsDuplicatedNickname = async (
   body: checkIsDuplicatedNicknameReq,
 ) => {
   try {
     const response = await fetchCustom.post(`/user/nickname`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -22,6 +22,7 @@ const checkIsDuplicatedNickname = async (
 const sendVerificationEmail = async (body: sendVerificationEmailReq) => {
   try {
     const response = await fetchCustom.post(`/user/auth/send`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -36,6 +37,7 @@ const sendVerificationEmail = async (body: sendVerificationEmailReq) => {
 const verifyEmail = async (body: verifyEmailReq) => {
   try {
     const response = await fetchCustom.post(`/user/auth/check`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -50,6 +52,7 @@ const verifyEmail = async (body: verifyEmailReq) => {
 const signUp = async (body: signUpReq) => {
   try {
     const response = await fetchCustom.post(`/user/register`, {
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (!response.ok) throw new Error(response.statusText);
@@ -63,19 +66,23 @@ const signUp = async (body: signUpReq) => {
 
 const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
   try {
+    await deleteCookie("accessToken");
     const response = await fetchCustom.post(`/user/login`, {
       headers: {
         // "X-Remember-Me": isAutoLogin ? "true" : "false",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
     });
 
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
 
     const accessToken = response.headers.get("Access");
     if (accessToken) {
       await setCookie("accessToken", accessToken);
     }
+
     const data: responseType<{ role: "회원" | "관리자" }> =
       await response.json();
     return data;
@@ -86,6 +93,7 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
 
 const kakaoLogin = async (code: string) => {
   try {
+    await deleteCookie("accessToken");
     const response = await fetchCustom.post(`/user/kakaoLogin`, {
       headers: {
         "Content-Type": "application/json",
@@ -130,12 +138,16 @@ const reissue = async () => {
 
 const logout = async () => {
   try {
-    const response = await fetchCustom.post(`/user/logout`);
-    if (response.status === 401) return await revalidateTagAction("user");
+    const response = await fetchCustom.post(`/user/logout`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     await deleteCookie("accessToken");
-    await revalidateTagAction("user");
+    const data: responseType = await response.json();
+    return data;
   } catch (error) {
     console.error(error);
   }

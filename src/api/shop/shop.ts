@@ -5,7 +5,7 @@ const getCostumeList = async (page?: number, size?: number) => {
     const response = await fetchCustom.get(
       `/costume?page=${page ?? 0}&size=${size ?? 10}`,
       {
-        next: { tags: ["costume-list"] },
+        next: { tags: ["costume-update"] },
       },
     );
     if (!response.ok) throw new Error(response.statusText);

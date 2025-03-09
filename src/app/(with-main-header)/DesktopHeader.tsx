@@ -13,7 +13,6 @@ import NotificationList from "../../components/common/NotificationList";
 import { useNotification } from "@/hooks/useNotification";
 import Dropdown from "@/components/common/Dropdown";
 import Button from "../../components/common/Button";
-import { hasCookie } from "cookies-next";
 import dynamic from "next/dynamic";
 import { userApi } from "@/api/user/user";
 import { authApi } from "@/api/auth/auth";
@@ -26,21 +25,14 @@ const routes = {
   "/party": "팟 페이지",
 } as const;
 
-interface DesktopHeaderProps {
-  serverIsLoggedIn: boolean;
-}
-
-export default function DesktopHeader({
-  serverIsLoggedIn,
-}: DesktopHeaderProps) {
+export default function DesktopHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
-  const clientIsLoggedIn = hasCookie("accessToken");
-  const isLoggedIn = clientIsLoggedIn || serverIsLoggedIn;
 
   const [user, setUser] = useState<userType | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -55,8 +47,12 @@ export default function DesktopHeader({
   } = useNotification({ buttonRef, dropdownRef });
 
   const handleLogout = async () => {
-    await authApi.logout();
-    setIsOpenDropdown(false);
+    const res = await authApi.logout();
+    if (res?.status === "성공") {
+      setIsLoggedIn(false);
+      setIsOpenDropdown(false);
+      router.push("/");
+    }
   };
 
   useEffect(() => {
@@ -66,7 +62,15 @@ export default function DesktopHeader({
         setUser(user.data);
       }
     };
+    const checkIsLoggedIn = async () => {
+      const isLoggedIn = await userApi.checkIsLoggedIn();
+      if (isLoggedIn?.status === "성공") {
+        setIsLoggedIn(isLoggedIn.data);
+      }
+    };
+
     fetchUser();
+    checkIsLoggedIn();
   }, [pathname]);
   return (
     <header className="fixed w-full top-0 z-50 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-[#8CCDF3]">

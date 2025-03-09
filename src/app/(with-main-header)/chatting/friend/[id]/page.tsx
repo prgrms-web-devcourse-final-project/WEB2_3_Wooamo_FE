@@ -1,5 +1,4 @@
 import ChattingInput from "../../ChattingInput";
-import ProfileSummary from "@/components/common/ProfileSummary";
 import { userApi } from "@/api/user/user";
 import ChattingList from "./ChattingList";
 
@@ -16,14 +15,6 @@ export default async function ChattingWithFriend({
   if (!currentUser || !user) return;
   return (
     <div className="relative">
-      <div className="fixed w-full top-15 lg:top-25 left-0 bg-site-button py-2 lg:py-5 px-5 lg:px-8 z-10">
-        <ProfileSummary
-          nickname={user.data.nickname}
-          description={user.data.context}
-          userId={user.data.userId}
-          costume={user.data.profile ?? ""}
-        />
-      </div>
       <div className="px-5 lg-px:0 pt-12 pb-5">
         <ChattingList userId={currentUser.data.userId} />
       </div>

@@ -1,13 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCookie } from "cookies-next";
+import { userApi } from "./api/user/user";
 
 export async function middleware(request: NextRequest) {
-  const accessToken = await getCookie("accessToken", { req: request });
-  if (accessToken) {
-    request.headers.set("Access", accessToken);
+  const { pathname } = request.nextUrl;
+  if (pathname === "/") {
+    return NextResponse.next();
   }
 
-  const response = NextResponse.next();
-
-  return response;
+  const isLoggedIn = await userApi.checkIsLoggedIn();
+  if (!isLoggedIn?.data) {
+    return NextResponse.redirect(`${request.nextUrl.origin}`);
+  }
+  return NextResponse.next();
 }
+
+export const config = {
+  matcher: [
+    "/mypage",
+    "/friends",
+    "/boards/create",
+    "/(party/(?!all$).*)",
+    "/chatting/:path",
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|signin|signup|shop|party|boards|users).*)",
+  ],
+};
