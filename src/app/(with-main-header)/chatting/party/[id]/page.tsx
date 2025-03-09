@@ -18,7 +18,6 @@ export default async function ChattingWithParty({
   if (!currentUser || !partyDetail || !participants) return;
   return (
     <div className="relative">
-      
       <div className="px-5 lg:px-0 pt-12 pb-5">
         <ChattingList userId={currentUser.data.userId} />
       </div>

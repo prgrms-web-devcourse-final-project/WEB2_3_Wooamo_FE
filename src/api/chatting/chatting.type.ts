@@ -39,6 +39,10 @@ interface createGroupChatRoomReq {
   maxMembers: number;
 }
 
+interface privateChatType {
+  userInfo: userType;
+}
+
 interface groupChatType {
   groupInfo: groupType;
 }

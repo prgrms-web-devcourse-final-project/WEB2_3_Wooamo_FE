@@ -2,12 +2,12 @@ import { fetchCustom } from "../fetchCustom";
 
 const getChattingMessages = async (
   roomId: string,
-  page?: number,
+  lastChatId?: string,
   size?: number,
 ) => {
   try {
     const response = await fetchCustom.get(
-      `/rooms/${roomId}/messages?page=${page ?? 0}&size=${size ?? 10}`,
+      `/rooms/${roomId}/messages?lastChatId=${lastChatId ?? ""}&limit=${size ?? 10}`,
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<ChatMessageType[]> = await response.json();
