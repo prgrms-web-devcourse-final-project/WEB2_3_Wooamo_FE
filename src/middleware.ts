@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
 
   const isLoggedIn = await userApi.checkIsLoggedIn();
   if (!isLoggedIn?.data) {
-    return NextResponse.redirect(`${request.nextUrl.origin}/signin`);
+    return NextResponse.redirect(`${request.nextUrl.origin}`);
   }
   return NextResponse.next();
 }
