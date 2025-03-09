@@ -27,6 +27,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
 
   if (!partyDetail) return;
   if (!partyParticipantList) return;
+  console.log(partyParticipantList);
 
   return (
     <>
@@ -34,13 +35,19 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
         {partyDetail.isJoined ? (
           <div className="flex justify-end gap-2">
             <AfterParticipateButtons
+              userId={userId}
               partyId={id}
+              partyName={partyDetail.name}
+              maxMembers={partyDetail.recruitCap}
               startDate={partyDetail.startDate}
             />
           </div>
         ) : (
           <ParticipateButton
+            userId={userId}
             partyId={id}
+            partyName={partyDetail.name}
+            maxMembers={partyDetail.recruitCap}
             bettingPoint={partyDetail.bettingPointCap}
           />
         )}
@@ -130,10 +137,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
                   description={participant.context}
                 />
                 <div>
-                  {participant.status === "FRIEND" ||
-                  userId === participant.userId ? (
-                    <></>
-                  ) : (
+                  {userId !== participant.userId && (
                     <FriendRequestButton user={participant} />
                   )}
                 </div>

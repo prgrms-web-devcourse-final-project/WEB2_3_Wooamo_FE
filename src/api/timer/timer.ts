@@ -3,7 +3,7 @@ import { fetchCustom } from "../fetchCustom";
 const getTimerList = async () => {
   try {
     const response = await fetchCustom.get(`/timer`, {
-      next: { tags: ["timer-list"] },
+      next: { tags: ["category-update"] },
     });
     if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
@@ -29,6 +29,7 @@ const getStudyTimeForMonth = async (
         },
       },
     );
+    if (response.status === 404) return null;
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<studyTimeType[]> = await response.json();
     return data;
@@ -52,7 +53,7 @@ const getStudyTimeForWeek = async () => {
 const getStudyTimeForDaily = async () => {
   try {
     const response = await fetchCustom.get(`/time/daily`, {
-      next: { tags: ["daily-time"] },
+      next: { tags: ["dailyTime-update"] },
     });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<studyTimeType> = await response.json();

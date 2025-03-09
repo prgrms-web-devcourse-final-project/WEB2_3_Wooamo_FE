@@ -9,9 +9,13 @@ import FriendsRequestItem from "./FriendsRequestItem";
 import { Suspense } from "react";
 import { friendApi } from "@/api/friend/friend";
 import FriendItemSkeleton from "@/components/common/skeletons/FriendItemSkeleton";
+import { userApi } from "@/api/user/user";
 
 export default async function Friends() {
-  const friends = await friendApi.getFriends();
+  const user = await userApi.getCurrentUserInfo();
+  if (!user) return null;
+
+  const friends = await friendApi.getUserFriends(user.data.userId);
   const requestFriends = await friendApi.getRequestFriends();
 
   if (!friends || !requestFriends) return null;

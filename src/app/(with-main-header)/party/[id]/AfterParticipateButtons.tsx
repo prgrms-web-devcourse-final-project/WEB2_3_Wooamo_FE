@@ -9,17 +9,27 @@ import { useModalStore } from "@/store/modalStore";
 import Image from "next/image";
 import React, { useState } from "react";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
-import Link from "next/link";
 import { useToastStore } from "@/store/toastStore";
+import { useRouter } from "next/navigation";
+import { chattingApi } from "@/api/chatting/chatting";
+
+interface AfterParticipateButtonsProps {
+  partyId: number;
+  partyName: string;
+  maxMembers: number;
+  startDate: string;
+  userId?: number;
+}
 
 export default function AfterParticipateButtons({
   partyId,
+  userId,
+  partyName,
+  maxMembers,
   startDate,
-}: {
-  partyId: number;
-  startDate: string;
-}) {
+}: AfterParticipateButtonsProps) {
   const { open, close } = useModalStore((state) => state);
+  const router = useRouter();
   const showToast = useToastStore((state) => state.showToast);
 
   const [verifyImage, setVerifyIamge] = useState<File[]>([]);
@@ -57,11 +67,24 @@ export default function AfterParticipateButtons({
 
       if (request?.status === "성공") {
         close();
-        revalidatePathAction("party-detail");
       } else {
         close();
         showToast("이미 인증을 완료했습니다");
       }
+    }
+  };
+
+  const participateChatting = async () => {
+    if (!userId) return;
+    const res = await chattingApi.createGroupChatRoom({
+      groupId: String(partyId),
+      groupName: partyName,
+      userId,
+      maxMembers,
+    });
+    console.log(res);
+    if (res?.status === "성공") {
+      router.push(`/chatting/party/${partyId}?roomId=${res.data}`);
     }
   };
 
@@ -70,9 +93,7 @@ export default function AfterParticipateButtons({
 
   return (
     <>
-      <Link href={`/chatting/party/${partyId}`}>
-        <Button>채팅</Button>
-      </Link>
+      <Button onClick={participateChatting}>채팅</Button>
       <Button
         disabled={today < start}
         onClick={() => open(`verify-participate`)}

@@ -1,13 +1,11 @@
 import { timerApi } from "@/api/timer/timer";
 import TimerItem from "./TimerItem";
-import { delay } from "@/utils/delay";
 
 interface TimerListProps {
   timerList: TimerCategoryType[];
 }
 
 export default async function TimerList({ timerList }: TimerListProps) {
-  await delay(3000);
   const fetchStudyTimeForDaily = await timerApi.getStudyTimeForDaily();
   const studyTimeForDaily = fetchStudyTimeForDaily?.data;
 

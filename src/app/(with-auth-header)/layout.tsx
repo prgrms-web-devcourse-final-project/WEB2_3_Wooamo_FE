@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo.svg";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 
 export default function layout({ children }: { children: ReactNode }) {
   return (
@@ -11,7 +11,9 @@ export default function layout({ children }: { children: ReactNode }) {
           <Image src={Logo} alt="STUV 로고" />
         </Link>
       </header>
-      <main className="w-full h-full px-5">{children}</main>
+      <main className="w-full h-full px-5">
+        <Suspense>{children}</Suspense>
+      </main>
     </div>
   );
 }
