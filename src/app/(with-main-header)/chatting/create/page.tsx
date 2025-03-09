@@ -4,8 +4,10 @@ import FriendList from "./FriendList";
 
 export default async function ChattingCreate() {
   const user = await userApi.getCurrentUserInfo();
-  const friends = await friendApi.getFriends();
-  if (!user || !friends) return;
+  if (!user) return;
+
+  const friends = await friendApi.getUserFriends(user.data.userId);
+  if (!friends) return;
   return (
     <div className="flex flex-col gap-13 px-5 lg:px-0">
       <div className="flex justify-between">
