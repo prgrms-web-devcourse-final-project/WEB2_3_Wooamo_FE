@@ -20,7 +20,7 @@ export default function BoardSearch() {
     if (trimmedValue) {
       router.push(`?title=${trimmedValue}`);
     } else {
-      router.push(`/`);
+      router.push(`/boards`);
     }
   };
 
