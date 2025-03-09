@@ -5,8 +5,8 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
 
   if (!code) return new Response("code is required", { status: 400 });
-  const url = request.nextUrl.clone();
-  url.pathname = "/signin";
+
+  const url = new URL(`${process.env.NEXT_PUBLIC_CLIENT_URL}/signin`);
 
   const res = NextResponse.redirect(url);
   return res;
