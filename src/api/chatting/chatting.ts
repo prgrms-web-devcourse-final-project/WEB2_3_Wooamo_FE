@@ -43,6 +43,29 @@ const createGroupChatRoom = async (body: createGroupChatRoomReq) => {
     });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<string> = await response.json();
+
+    await addGroupChatMember(data.data, body.userId);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const addGroupChatMember = async (roomId: string, newUserId: number) => {
+  try {
+    const response = await fetchCustom.post(`/rooms/group/${roomId}/addUser`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ newUserId }),
+    });
+    if (response.status === 409)
+      return {
+        status: "실패",
+        message: "이미 채팅방에 존재하는 유저입니다",
+      };
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -53,4 +76,5 @@ export const chattingApi = {
   getChattingMessages,
   createPersonalChatRoom,
   createGroupChatRoom,
+  addGroupChatMember,
 };
