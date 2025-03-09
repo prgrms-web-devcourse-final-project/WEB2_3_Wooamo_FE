@@ -58,7 +58,7 @@ const markAsRead = async (alertId: string) => {
 
 const connectSSE = async () => {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
-  const url = `${baseUrl}/sse/connect`;
+ 
 
   if (window.eventSource) {
     window.eventSource.close();
@@ -78,23 +78,7 @@ const connectSSE = async () => {
     }
     const eventSource = await response.json();
     console.log(eventSource);
-    // const eventSource = new EventSourcePolyfill(url, {
-    //   withCredentials: true,
-    // });
-
-    // eventSource.onerror = (error) => {
-    //   console.error("SSE 연결 에러:", error);
-    //   if (eventSource.readyState === EventSourcePolyfill.CLOSED) {
-    //     console.log("SSE 연결이 종료되었습니다.");
-    //   }
-    // };
-
-    // eventSource.onopen = () => {
-    //   console.log("SSE 연결이 성공적으로 설정되었습니다.");
-    // };
-
-    // window.eventSource = eventSource;
-    // return eventSource;
+  
   } catch (error) {
     console.error("SSE 연결 생성 중 에러:", error);
     return null;
@@ -103,20 +87,8 @@ const connectSSE = async () => {
 
 const disconnectSSE = async () => {
   try {
-    // const currentSource = window.eventSource;
-    // if (!currentSource) {
-    //   console.log("이미 연결이 해제되었거나 연결이 없습니다.");
-    //   return null;
-    // }
+  
 
-    // if (currentSource.readyState === EventSourcePolyfill.CLOSED) {
-    //   console.log("이미 연결이 종료되었습니다.");
-    //   delete window.eventSource;
-    //   return null;
-    // }
-
-    // currentSource.close();
-    // delete window.eventSource;
 
     const response = await fetchCustom.get("/sse/disconnect");
     if (response.status === 401) {
