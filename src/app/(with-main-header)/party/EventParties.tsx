@@ -75,7 +75,7 @@ export default function EventParties() {
                 <Image
                   src={banner.image}
                   alt="이벤트 팟 이미지"
-                  className="object-contain"
+                  className="object-cover bg-site-white-50"
                   sizes="100%"
                   fill
                 />
