@@ -71,7 +71,12 @@ export default function NotificationList({
           알림이 없습니다
         </div>
       ) : (
-        <ul className={twMerge("mx-2.5 mb-2.5", listClassName)}>
+        <ul
+          className={twMerge(
+            "mx-2.5 mb-2.5 max-h-[27.5rem] overflow-y-auto scrollbar-thin scrollbar-thumb-site-main",
+            listClassName,
+          )}
+        >
           {notifications.map((notification) => (
             <li
               key={notification.alertId}

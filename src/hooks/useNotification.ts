@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, RefObject } from "react";
 import { notificationApi } from "@/api/notification/notification";
 import { useRouter } from "next/navigation";
+import { useSSE } from "./useSSE";
+import { getCookie } from "cookies-next";
 
 interface UseNotificationProps {
   buttonRef: RefObject<HTMLDivElement | null>;
@@ -15,11 +17,34 @@ export function useNotification({
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
+  const handleNewNotification = useCallback(
+    (newNotification: notificationItem) => {
+      setNotifications((prev) => {
+        const isDuplicate = prev.some(
+          (notification) => notification.alertId === newNotification.alertId,
+        );
+
+        if (isDuplicate) {
+          return prev;
+        }
+
+        return [newNotification, ...prev];
+      });
+    },
+    [],
+  );
+
+  useSSE(handleNewNotification);
+
   const hasUnreadNotifications = useCallback(() => {
     return notifications.some((notification) => !notification.isRead);
   }, [notifications]);
 
   const fetchNotifications = useCallback(async () => {
+    // 토큰 존재 여부 확인
+    const accessToken = getCookie("accessToken");
+    if (!accessToken) return;
+
     const response = await notificationApi.getNotificationList();
     if (response?.data) {
       setNotifications(response.data);
@@ -115,7 +140,10 @@ export function useNotification({
   }, [isOpen, buttonRef, closeNotification]);
 
   useEffect(() => {
-    fetchNotifications();
+    const accessToken = getCookie("accessToken");
+    if (accessToken) {
+      fetchNotifications();
+    }
   }, [fetchNotifications]);
 
   return {
