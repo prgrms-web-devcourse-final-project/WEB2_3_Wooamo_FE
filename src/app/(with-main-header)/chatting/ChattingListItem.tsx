@@ -43,7 +43,7 @@ export default function ChattingListItem({
     >
       <article
         className={`h-20 lg:h-25 px-5 lg:px-8 flex justify-between items-center ${
-          unreadCount !== 0 ? "bg-site-white-50" : ""
+          unreadCount > 0 ? "bg-site-white-50" : ""
         }`}
       >
         <div className="flex items-center gap-2.5">
@@ -63,7 +63,7 @@ export default function ChattingListItem({
           </div>
           <div className="flex flex-col gap-0 lg:gap-1">
             <div>
-              <span className="font-semibold text-xl">
+              <span className="font-semibold text-lg lg:text-xl">
                 <span>{nickname}</span>
                 {groupInfo && (
                   <span className="text-site-darkgray-02 ml-3">
@@ -78,6 +78,11 @@ export default function ChattingListItem({
             </div>
           </div>
         </div>
+        {unreadCount > 0 && (
+          <div className="bg-site-alarm px-1.5 lg:px-2 py-1 lg:py-1.5 text-white rounded-full">
+            <span className="text-sm lg:text-base">{unreadCount}</span>
+          </div>
+        )}
       </article>
     </Link>
   );
