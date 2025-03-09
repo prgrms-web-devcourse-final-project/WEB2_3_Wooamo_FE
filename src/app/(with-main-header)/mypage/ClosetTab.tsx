@@ -15,10 +15,11 @@ export default function ClosetTab() {
   const [costumes, setCostumes] = useState<costumeType[]>([]);
 
   const changeCostume = async (costume: costumeType) => {
+    const user = await userApi.getCurrentUserInfo();
     const currentCostume = await userApi.updateUserCostume(costume.entityId);
     if (currentCostume?.status === "성공") {
       setSelectedCostume(currentCostume.data.profile);
-      revalidateTagAction("user");
+      revalidateTagAction(`user-update-${user?.data.userId}`);
     }
   };
 
