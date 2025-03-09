@@ -18,7 +18,9 @@ export default function Input({
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (autoFocus) {
-      inputRef.current?.focus();
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 500);
     }
   }, [autoFocus]);
   return (
