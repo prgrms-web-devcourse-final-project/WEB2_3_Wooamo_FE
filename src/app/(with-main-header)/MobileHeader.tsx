@@ -106,7 +106,6 @@ export default function MobileHeader() {
     };
   }, [isVisible]);
 
-  if (!user) return;
   return (
     <>
       <header className="fixed w-full top-0 z-50 flex justify-between px-5 h-15 items-center bg-[#8CCDF3]">
@@ -174,18 +173,18 @@ export default function MobileHeader() {
           <div className="flex flex-col gap-10 mt-27 font-semibold">
             {isLoggedIn ? (
               <Link
-                href={`/users/${user.userId}`}
+                href={`/users/${user?.userId}`}
                 onClick={closeSidebar}
                 className="flex items-center gap-2.5"
               >
                 <Avatar
                   className="w-12.5 h-12.5"
-                  costumeSrc={user.profile || ""}
+                  costumeSrc={user?.profile || ""}
                 />
                 <div className="flex flex-col gap-1">
-                  <p className="font-semibold">{user.nickname}</p>
+                  <p className="font-semibold">{user?.nickname}</p>
                   <p className="text-sm text-site-darkgray-02 line-clamp-1">
-                    {user.context}
+                    {user?.context}
                   </p>
                 </div>
               </Link>

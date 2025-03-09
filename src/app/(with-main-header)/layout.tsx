@@ -6,7 +6,7 @@ export default async function layout({ children }: { children: ReactNode }) {
   return (
     <Noise>
       <div className="w-full min-h-screen h-screen bg-site-bg overflow-x-hidden">
-        <Header  />
+        <Header />
         <main className="px-0 lg:px-12 pb-13 pt-22.5 lg:pt-40">{children}</main>
       </div>
     </Noise>
