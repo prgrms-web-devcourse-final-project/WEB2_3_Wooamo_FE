@@ -21,6 +21,8 @@ export const config = {
     "/boards/create",
     "/(party/(?!all$).*)",
     "/chatting/:path",
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|signin|signup|shop|party|boards|users).*)",
+    "/friends/add",
+    "/friends",
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|signin|signup|shop|party|boards|users|friends).*)",
   ],
 };
