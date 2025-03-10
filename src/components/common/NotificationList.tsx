@@ -67,7 +67,7 @@ export default function NotificationList({
         </button>
       </div>
       {notifications.length === 0 ? (
-        <div className="p-4 text-center text-sm text-site-darkgray-01">
+        <div className="p-4 mb-4 text-center text-sm text-site-darkgray-01">
           알림이 없습니다
         </div>
       ) : (

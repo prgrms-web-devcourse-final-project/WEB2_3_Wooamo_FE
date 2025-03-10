@@ -8,7 +8,7 @@ const getUserFriends = async (userId: number, page?: number, size?: number) => {
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: paginationType<friendType[]> = await response.json();
+    const data: responseType<friendType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -35,7 +35,7 @@ const getRequestFriends = async (page?: number, size?: number) => {
     );
     if (!response.ok) throw new Error(response.statusText);
 
-    const data: paginationType<requestFriendType[]> = await response.json();
+    const data: responseType<requestFriendType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);

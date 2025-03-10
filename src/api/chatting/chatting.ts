@@ -72,9 +72,23 @@ const addGroupChatMember = async (roomId: string, newUserId: number) => {
   }
 };
 
+const refreshChatMessages = async (roomId: string, lastChatId: string) => {
+  try {
+    const response = await fetchCustom.get(
+      `/rooms/${roomId}/messages/until?lastChatId=${lastChatId}`,
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const data: responseType<ChatMessageType[]> = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const chattingApi = {
   getChattingMessages,
   createPersonalChatRoom,
   createGroupChatRoom,
   addGroupChatMember,
+  refreshChatMessages,
 };

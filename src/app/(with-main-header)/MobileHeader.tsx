@@ -17,6 +17,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { userApi } from "@/api/user/user";
 import Avatar from "@/components/common/Avatar";
 import { authApi } from "@/api/auth/auth";
+import { useNewNotification } from "@/hooks/useNewNotification";
 
 const routes = {
   "/": "홈",
@@ -42,11 +43,15 @@ export default function MobileHeader() {
     notifications,
     isOpen: isNotificationOpen,
     toggleNotification,
-    closeNotification,
     handleMarkAllAsRead,
     handleMarkAsRead,
     hasUnreadNotifications,
   } = useNotification({ buttonRef, dropdownRef });
+
+  const hasNewNotification = useNewNotification(
+    notifications.length,
+    isNotificationOpen,
+  );
 
   const handleLogout = async () => {
     const res = await authApi.logout();
@@ -140,7 +145,14 @@ export default function MobileHeader() {
                     className="cursor-pointer"
                   />
                   {hasUnreadNotifications() && (
-                    <div className="absolute top-1 right-0.5 w-2 h-2 bg-site-alarm rounded-full" />
+                    <div className="absolute top-2 right-1">
+                      <div className="relative w-1.5 h-1.5">
+                        {hasNewNotification && (
+                          <span className="absolute inset-0 bg-site-alarm rounded-full animate-ping" />
+                        )}
+                        <span className="absolute inset-0 bg-site-alarm rounded-full" />
+                      </div>
+                    </div>
                   )}
                 </button>
               </div>

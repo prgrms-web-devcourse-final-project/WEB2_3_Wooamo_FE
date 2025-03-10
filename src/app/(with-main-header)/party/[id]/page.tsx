@@ -8,6 +8,7 @@ import { partyApi } from "@/api/party/party";
 import AfterParticipateButtons from "./AfterParticipateButtons";
 import { userApi } from "@/api/user/user";
 import FriendRequestButton from "../../friends/add/FriendRequestButton";
+import { notFound, redirect } from "next/navigation";
 
 interface PartyDetailProps {
   params: Promise<{ id: number }>;
@@ -15,9 +16,15 @@ interface PartyDetailProps {
 
 export default async function PartyDetail({ params }: PartyDetailProps) {
   const { id } = await params;
-
   const fetchPartyDetail = await partyApi.getPartyDetail(id);
   const partyDetail = fetchPartyDetail?.data;
+
+  if (!partyDetail) notFound();
+
+  const isExpired = new Date(partyDetail.startDate) < new Date();
+  if (isExpired && !partyDetail.isJoined) {
+    redirect("/party/all");
+  }
 
   const fetchPartyParticipantList = await partyApi.getPartyParticipantList(id);
   const partyParticipantList = fetchPartyParticipantList?.data?.contents;
@@ -25,7 +32,6 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
   const fetchCurrentUser = await userApi.getCurrentUserInfo();
   const userId = fetchCurrentUser?.data.userId;
 
-  if (!partyDetail) return;
   if (!partyParticipantList) return;
   console.log(partyParticipantList);
 

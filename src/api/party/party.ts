@@ -59,7 +59,7 @@ const getCompletedPartyList = async () => {
 
 const getPartyDetail = async (partyId: number) => {
   try {
-    const response = await fetchCustom.get(`/party/${partyId}`, {});
+    const response = await fetchCustom.get(`/party/${partyId}`);
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<PartyDetailType> = await response.json();
     return data;

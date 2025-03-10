@@ -30,18 +30,15 @@ export function useSSE(
       );
 
       eventSource.current.onopen = () => {
-        console.log("SSE 연결 성공");
         setConnectionStatus("연결됨");
         retryCount.current = 0;
         lastPingTime.current = Date.now();
       };
 
       eventSource.current.onmessage = (event) => {
-        console.log("SSE 메시지 수신:", event.data);
         lastPingTime.current = Date.now();
 
         if (event.data === "ping" || event.data === "connected") {
-          console.log(`${event.data} 메시지 수신`);
           return;
         }
 

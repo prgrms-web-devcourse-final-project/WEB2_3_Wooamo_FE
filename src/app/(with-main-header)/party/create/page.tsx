@@ -83,7 +83,7 @@ export default function PartyCreate() {
               <span>-</span>
               <DatePicker
                 value={endDate}
-                fromDate={endDate}
+                fromDate={startDate}
                 onChange={(date) => setEndDate(date)}
               />
             </div>

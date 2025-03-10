@@ -28,14 +28,14 @@ const getBoardByBoardId = async (boardId: number) => {
     const response = await fetchCustom.get(`/board/${boardId}`);
 
     if (!response.ok) {
-      throw new Error("Failed to fetch board detail");
+      return null;
     }
 
     const data: responseType<boardDetail> = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching board detail:", error);
-    throw error;
+    return null;
   }
 };
 
@@ -47,7 +47,7 @@ const getCommentsByBoardId = async (boardId: number) => {
       throw new Error("Failed to fetch board comments");
     }
 
-    const data: paginationType<commentItem[]> = await response.json();
+    const data: responseType<commentItem[]> = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching comments:", error);

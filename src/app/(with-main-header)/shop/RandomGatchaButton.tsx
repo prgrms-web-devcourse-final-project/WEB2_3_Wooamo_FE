@@ -9,6 +9,7 @@ import { useState } from "react";
 import Image from "next/image";
 import gotchaBall from "@/assets/images/gotchaBall.png";
 import { twMerge } from "tailwind-merge";
+import { revalidateTagAction } from "@/actions";
 
 export default function RandomGachaButton({
   currentUserPoint,
@@ -30,6 +31,7 @@ export default function RandomGachaButton({
         setCostumeName(purchaseCostume.data.costumeName);
         setCostumeImage(purchaseCostume.data.image);
         open("random-gacha");
+        revalidateTagAction(`costume-update`);
       }
       setIsGotchaing(false);
     }, 5000);
