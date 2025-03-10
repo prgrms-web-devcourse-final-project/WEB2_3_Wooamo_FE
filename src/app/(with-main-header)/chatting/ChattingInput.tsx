@@ -38,7 +38,7 @@ export default function ChattingInput({ currentUser }: ChattingInputProps) {
   return (
     <form
       onSubmit={sendChatting}
-      className="fixed bottom-5 w-[calc(100%-10rem)] lg:px-0 left-1/2 -translate-x-1/2"
+      className="fixed bottom-5 w-[calc(100%-4rem)] lg:w-[calc(100%-10rem)] left-1/2 -translate-x-1/2"
     >
       <InputIcon
         value={chatting}
