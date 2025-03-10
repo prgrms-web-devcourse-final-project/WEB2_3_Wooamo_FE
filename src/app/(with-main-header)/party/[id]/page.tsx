@@ -8,6 +8,7 @@ import { partyApi } from "@/api/party/party";
 import AfterParticipateButtons from "./AfterParticipateButtons";
 import { userApi } from "@/api/user/user";
 import FriendRequestButton from "../../friends/add/FriendRequestButton";
+import { notFound } from "next/navigation";
 
 interface PartyDetailProps {
   params: Promise<{ id: number }>;
@@ -25,9 +26,8 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
   const fetchCurrentUser = await userApi.getCurrentUserInfo();
   const userId = fetchCurrentUser?.data.userId;
 
-  if (!partyDetail) return;
+  if (!partyDetail) notFound();
   if (!partyParticipantList) return;
-  console.log(partyParticipantList);
 
   return (
     <>
