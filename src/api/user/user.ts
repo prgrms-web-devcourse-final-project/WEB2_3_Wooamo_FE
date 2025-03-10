@@ -85,7 +85,10 @@ const getTopRanking = async () => {
 
 const getCurrentUserCostumes = async () => {
   try {
-    const response = await fetchCustom.get(`/user/costume`);
+    const response = await fetchCustom.get(`/user/costume`, {
+      next: { tags: [`costume-update`] },
+    });
+    if (response.status === 401) return null;
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<costumeType[]> = await response.json();

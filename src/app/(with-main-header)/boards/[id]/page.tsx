@@ -2,6 +2,7 @@ import Comments from "./Comments";
 import PostImage from "../PostImage";
 import Post from "./Post";
 import { boardApi } from "@/api/board/board";
+import { notFound } from "next/navigation";
 
 interface BoardDetailProps {
   params: Promise<{ id: string }>;
@@ -11,6 +12,10 @@ export default async function BoardDetail({ params }: BoardDetailProps) {
   const { id } = await params;
   const boardId = parseInt(id);
   const boardDetail = await boardApi.getBoardByBoardId(boardId);
+
+  if (!boardDetail || !boardDetail.data) {
+    notFound();
+  }
 
   return (
     <section className="flex flex-col gap-2.5 lg:gap-5 px-5 lg:px-0">

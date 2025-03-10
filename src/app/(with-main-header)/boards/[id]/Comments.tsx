@@ -33,13 +33,8 @@ export default function Comments() {
     try {
       const data = await boardApi.getCommentsByBoardId(boardId);
       if (data) {
-        const sortedComments = [...data.data.contents].sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        );
-
-        setComments(sortedComments);
-        setTotalElements(data.data.totalElements);
+        setComments(data.data);
+        setTotalElements(data.data.length);
       }
     } catch (error) {
       console.error("댓글 불러오기 실패:", error);
