@@ -22,7 +22,7 @@ export default function ChattingItem({
     <>
       {isMe ? (
         <div className="flex justify-end my-5">
-          <div className="flex flex-col justify-end mr-2 lg:mr-3 text-site-darkgray-02">
+          <div className="flex flex-col justify-end items-end mr-2 lg:mr-3 text-site-darkgray-02">
             <p className="text-sm">{unreadCount > 0 && unreadCount}</p>
             <p className="text-xs">{formatDateToTimeAgo(new Date(chatTime))}</p>
           </div>
