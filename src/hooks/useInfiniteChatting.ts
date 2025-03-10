@@ -2,6 +2,7 @@ import { RefObject, useCallback, useEffect, useState } from "react";
 import { chattingApi } from "../api/chatting/chatting";
 import { useSocketStore } from "@/store/socketStore";
 import { useUserStore } from "@/store/userStore";
+import { useIsMobile } from "./useIsMobile";
 
 interface UseInfiniteChattingProps extends IntersectionObserverInit {
   roomId: string | null;
@@ -21,6 +22,7 @@ export const useInfiniteChatting = <T>({
   onIntersect,
 }: UseInfiniteChattingProps) => {
   const { connect, disconnect, join, leave } = useSocketStore();
+  const isMobile = useIsMobile();
   const { user } = useUserStore();
 
   const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
@@ -55,7 +57,21 @@ export const useInfiniteChatting = <T>({
     }
 
     setIsPending(false);
-  }, [roomId, onIntersect, lastChatId]);
+  }, [roomId, lastChatId]);
+
+  const refreshChatMessages = useCallback(async () => {
+    if (!roomId) return;
+    if (isPending) return setTimeout(refreshChatMessages, 100);
+
+    const newChatMessages = await chattingApi.refreshChatMessages(
+      roomId,
+      lastChatId,
+    );
+    if (newChatMessages?.status === "성공") {
+      console.log("newChatMessages", newChatMessages);
+      setData(newChatMessages.data);
+    }
+  }, [roomId, isPending, lastChatId]);
 
   useEffect(() => {
     loadChatMessages();
@@ -64,25 +80,28 @@ export const useInfiniteChatting = <T>({
   useEffect(() => {
     if (lastAddType === "prepend") {
       const container = document.body.children[0].children[1];
+      const chatHeight = isMobile ? 104 : 108;
       container.scrollTo({
-        top: 108.8 * receivedDataLength,
+        top: chatHeight * receivedDataLength,
       });
     } else {
       const container = document.body.children[0].children[1];
+      const chatHeight = isMobile ? 104 : 108;
+
       const isAtBottom =
-        container.scrollHeight - container.scrollTop - 108 ===
+        container.scrollHeight - container.scrollTop - chatHeight ===
         container.clientHeight;
 
       if (
-        isAtBottom &&
-        (lastAddType === "appendByMe" || lastAddType === "appendByOther")
+        lastAddType === "appendByMe" ||
+        (isAtBottom && lastAddType === "appendByOther")
       ) {
         chatEndRef.current?.scrollIntoView({
           behavior: "smooth",
         });
       }
     }
-  }, [chatEndRef, lastAddType, receivedDataLength, data]);
+  }, [chatEndRef, lastAddType, receivedDataLength, data, isMobile]);
 
   useEffect(() => {
     if (!target) return;
@@ -96,7 +115,7 @@ export const useInfiniteChatting = <T>({
 
     const observer = new IntersectionObserver(debouncedOnIntersect, {
       root,
-      rootMargin,
+      rootMargin: isMobile ? "-140px 0px 0px 0px" : rootMargin,
       threshold,
     });
     observer.observe(target);
@@ -107,14 +126,12 @@ export const useInfiniteChatting = <T>({
   }, [
     root,
     rootMargin,
-    onIntersect,
-    threshold,
     target,
+    threshold,
     hasNextPage,
-    lastChatId,
-    roomId,
     isPending,
     loadChatMessages,
+    isMobile,
   ]);
 
   useEffect(() => {
@@ -143,19 +160,13 @@ export const useInfiniteChatting = <T>({
         }
       });
 
-      stompClient.subscribe(`/topic/read/${user.userId}`, async (message) => {
+      stompClient.subscribe(`/topic/read/${roomId}`, async (message) => {
         const readUser: responseType<{ userId: string }> = JSON.parse(
           message.body,
         );
         console.log("readUser: ", readUser.data);
 
-        const newChatMessages = await chattingApi.refreshChatMessages(
-          roomId,
-          lastChatId,
-        );
-        if (newChatMessages?.status === "성공") {
-          setData(newChatMessages.data);
-        }
+        refreshChatMessages();
       });
 
       join(roomId, user.userId);
@@ -166,7 +177,7 @@ export const useInfiniteChatting = <T>({
       if (roomId) leave(roomId, user.userId);
       disconnect();
     };
-  }, [roomId, connect, disconnect, join, user, leave, chatEndRef, lastChatId]);
+  }, [roomId, user]);
 
   return { setTarget, chatMessages: data, isPending, roomInfo } as const;
 };
