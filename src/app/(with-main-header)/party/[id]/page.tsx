@@ -20,8 +20,8 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
   const partyDetail = fetchPartyDetail?.data;
 
   if (!partyDetail) notFound();
-  const isExpired = new Date(partyDetail.startDate) < new Date();
 
+  const isExpired = new Date(partyDetail.startDate) < new Date();
   if (isExpired && !partyDetail.isJoined) {
     redirect("/party/all");
   }
