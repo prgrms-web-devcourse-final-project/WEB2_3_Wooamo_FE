@@ -16,6 +16,7 @@ import Button from "../../components/common/Button";
 import dynamic from "next/dynamic";
 import { userApi } from "@/api/user/user";
 import { authApi } from "@/api/auth/auth";
+import { useNewNotification } from "@/hooks/useNewNotification";
 
 const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
@@ -40,11 +41,12 @@ export default function DesktopHeader() {
     notifications,
     isOpen,
     toggleNotification,
-    closeNotification,
     handleMarkAllAsRead,
     handleMarkAsRead,
     hasUnreadNotifications,
   } = useNotification({ buttonRef, dropdownRef });
+
+  const hasNewNotification = useNewNotification(notifications.length, isOpen);
 
   const handleLogout = async () => {
     const res = await authApi.logout();
@@ -72,6 +74,7 @@ export default function DesktopHeader() {
     fetchUser();
     checkIsLoggedIn();
   }, [pathname]);
+
   return (
     <header className="fixed w-full top-0 z-50 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-[#8CCDF3]">
       <div className="flex gap-20 items-center">
@@ -116,7 +119,14 @@ export default function DesktopHeader() {
                   className="cursor-pointer"
                 />
                 {hasUnreadNotifications() && (
-                  <div className="absolute top-2 right-1 w-2 h-2 bg-site-alarm rounded-full" />
+                  <div className="absolute top-2 right-1">
+                    <div className="relative w-2 h-2">
+                      {hasNewNotification && (
+                        <span className="absolute inset-0 bg-site-alarm rounded-full animate-ping" />
+                      )}
+                      <span className="absolute inset-0 bg-site-alarm rounded-full" />
+                    </div>
+                  </div>
                 )}
               </button>
             </div>

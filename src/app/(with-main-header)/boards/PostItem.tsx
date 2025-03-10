@@ -34,6 +34,7 @@ export default async function PostItem({ post }: PostItemProps) {
               fill
               alt="게시글 이미지 첫번째 이미지"
               className="min-w-20 min-h-20 lg:w-35 lg:h-35 object-cover absolute inset-0"
+              sizes="(max-width: 1024px) 80px, 140px"
             />
           ) : (
             <div className="w-full h-full bg-transparent"></div>
