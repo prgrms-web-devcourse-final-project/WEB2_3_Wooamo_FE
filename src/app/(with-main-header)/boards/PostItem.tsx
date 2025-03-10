@@ -27,14 +27,13 @@ export default async function PostItem({ post }: PostItemProps) {
             {formatDateToTimeAgo(new Date(createdAt))}
           </p>
         </div>
-        <div className="relative min-w-20 min-h-20 lg:w-35 lg:h-35">
+        <div className="relative w-20 h-20 lg:w-35 lg:h-35 overflow-hidden shrink-0">
           {image ? (
             <Image
               src={image}
-              width={140}
-              height={140}
+              fill
               alt="게시글 이미지 첫번째 이미지"
-              className="min-w-20 min-h-20 lg:w-35 lg:h-35 object-cover"
+              className="min-w-20 min-h-20 lg:w-35 lg:h-35 object-cover absolute inset-0"
             />
           ) : (
             <div className="w-full h-full bg-transparent"></div>
