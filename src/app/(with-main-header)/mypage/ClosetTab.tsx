@@ -41,7 +41,7 @@ export default function ClosetTab() {
     fetchCostumes();
   }, []);
   return (
-    <div className="flex flex-col lg:flex-row gap-0 lg:gap-17 px-8 overflow-y-auto">
+    <div className="flex flex-col lg:flex-row gap-0 lg:gap-17 px-8">
       <div className="relative w-full h-90 lg:w-117 lg:h-184 flex-shrink-0">
         <Image
           src={spotlight}
@@ -66,7 +66,7 @@ export default function ClosetTab() {
           alt="흰 구분선 이미지"
           className="lg:hidden"
         />
-        <section className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 auto-rows-auto w-full justify-items-center gap-4 lg:gap-6 h-120">
+        <section className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 auto-rows-auto w-full justify-items-center gap-4 lg:gap-6 h-full lg:h-120 lg:overflow-y-auto">
           {costumes.map((costume) => (
             <button
               key={`costume-${costume.entityId}`}

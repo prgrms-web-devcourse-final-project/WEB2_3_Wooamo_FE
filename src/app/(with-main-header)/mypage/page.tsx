@@ -25,7 +25,8 @@ export default async function Mypage({ searchParams }: MypageProps) {
     <div
       className={twMerge(
         "flex flex-col items-center gap-13",
-        currentTab === "closet" && "h-175 overflow-y-hidden",
+        currentTab === "closet" &&
+          "gap-5 lg:gap-0 h-full lg:h-176 overflow-y-hidden",
       )}
     >
       <div className="flex items-center gap-3">
