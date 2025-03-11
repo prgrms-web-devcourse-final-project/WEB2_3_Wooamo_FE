@@ -3,13 +3,11 @@
 import { revalidateTagAction } from "@/actions";
 import { chattingApi } from "@/api/chatting/chatting";
 import { partyApi } from "@/api/party/party";
-import { userApi } from "@/api/user/user";
 import Button from "@/components/common/Button";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import Modal from "@/components/common/Modal";
 import useInputValidation from "@/hooks/useInputValidation";
 import { useModalStore } from "@/store/modalStore";
-import { useSocketStore } from "@/store/socketStore";
 import { useToastStore } from "@/store/toastStore";
 import React, { FormEvent } from "react";
 
@@ -32,7 +30,6 @@ export default function ParticipateButton({
   participantCount,
   bettingPoint,
 }: ParticipateButtonProps) {
-  const { connect, disconnect, join } = useSocketStore();
   const { open, close } = useModalStore((state) => state);
   const showToast = useToastStore((state) => state.showToast);
 
@@ -62,7 +59,6 @@ export default function ParticipateButton({
     }
 
     if (participateParty?.status === "성공") {
-      await connect();
       const roomId = await chattingApi.createGroupChatRoom({
         groupId: String(partyId),
         groupName: partyName,
@@ -71,8 +67,6 @@ export default function ParticipateButton({
       });
 
       if (roomId?.status === "성공") {
-        join(roomId.data, userId);
-        disconnect();
         revalidateTagAction("participant-update");
         revalidateTagAction("point-update");
         close();
