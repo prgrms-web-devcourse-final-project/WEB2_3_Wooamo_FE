@@ -1,6 +1,8 @@
 import { deleteCookie, setCookie } from "cookies-next";
 import { fetchCustom } from "../fetchCustom";
 import { redirect } from "next/navigation";
+import { useUserStore } from "@/store/userStore";
+import { userApi } from "../user/user";
 
 const checkIsDuplicatedNickname = async (
   body: checkIsDuplicatedNicknameReq,
@@ -81,6 +83,10 @@ const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
     const accessToken = response.headers.get("Access");
     if (accessToken) {
       await setCookie("accessToken", accessToken);
+      const user = await userApi.getCurrentUserInfo();
+      if (user?.status === "성공") {
+        useUserStore.setState({ user: user.data });
+      }
     }
 
     const data: responseType<{ role: "회원" | "관리자" }> =
@@ -105,6 +111,10 @@ const kakaoLogin = async (code: string) => {
     const accessToken = response.headers.get("Access");
     if (accessToken) {
       await setCookie("accessToken", accessToken);
+      const user = await userApi.getCurrentUserInfo();
+      if (user?.status === "성공") {
+        useUserStore.setState({ user: user.data });
+      }
     }
 
     redirect("/");

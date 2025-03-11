@@ -18,6 +18,7 @@ import { userApi } from "@/api/user/user";
 import Avatar from "@/components/common/Avatar";
 import { authApi } from "@/api/auth/auth";
 import { useNewNotification } from "@/hooks/useNewNotification";
+import { useUserStore } from "@/store/userStore";
 
 const routes = {
   "/": "홈",
@@ -29,6 +30,7 @@ const routes = {
 export default function MobileHeader() {
   const router = useRouter();
   const pathname = usePathname();
+  const userStore = useUserStore();
   const currentPathname = pathname.match(/\/\w+/)?.[0] ?? "/";
 
   const [user, setUser] = useState<userType | null>(null);
@@ -57,6 +59,7 @@ export default function MobileHeader() {
     const res = await authApi.logout();
     if (res?.status === "성공") {
       setIsLoggedIn(false);
+      userStore.setUser(null);
       closeSidebar();
       router.push("/");
     }

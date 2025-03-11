@@ -14,10 +14,7 @@ export default async function ChattingCreate() {
         <p className="font-galmuri text-xl lg:text-[28px]">친구 선택</p>
       </div>
       <div className="flex flex-col gap-6">
-        <FriendList
-          myUserId={user.data.userId}
-          friends={friends.data.contents}
-        />
+        <FriendList myUserId={user.data.userId} friends={friends.data} />
       </div>
     </div>
   );
