@@ -32,6 +32,7 @@ export default function RandomGachaButton({
         setCostumeImage(purchaseCostume.data.image);
         open("random-gacha");
         revalidateTagAction(`costume-update`);
+        revalidateTagAction(`point-update`);
       }
       setIsGotchaing(false);
     }, 5000);
