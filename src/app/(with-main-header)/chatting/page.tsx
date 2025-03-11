@@ -1,35 +1,57 @@
 "use client";
 
-import { useSocketStore } from "@/store/socketStore";
 import ChattingHeader from "./ChattingHeader";
 import ChattingListItem from "./ChattingListItem";
 import { useEffect, useState } from "react";
-import { userApi } from "@/api/user/user";
 import FriendItemSkeleton from "@/components/common/skeletons/FriendItemSkeleton";
+import { WebSocketClient } from "@/components/common/WebSocketClient";
+import { useUserStore } from "@/store/userStore";
 
 export default function Chatting() {
-  const { connect, disconnect, getRooms } = useSocketStore();
+  const { user } = useUserStore();
+
+  const [websocketClient, setWebsocketClient] =
+    useState<WebSocketClient | null>(null);
   const [isPending, setIsPending] = useState(true);
   const [rooms, setRooms] = useState<RoomType[]>([]);
 
   useEffect(() => {
-    const connectAndGetRooms = async () => {
-      const user = await userApi.getCurrentUserInfo();
-      if (!user) return;
+    const client = new WebSocketClient();
+    setWebsocketClient(client);
 
-      const stompClient = await connect();
-      stompClient.subscribe(`/topic/rooms/${user.data.userId}`, (message) => {
+    return () => {
+      if (client) {
+        client.disconnect();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!websocketClient || !user) return;
+
+    const connectWebSocket = async () => {
+      await websocketClient.connect();
+
+      websocketClient.subscribe(`/topic/rooms/${user.userId}`, (message) => {
         const rooms: responseType<RoomType[]> = JSON.parse(message.body);
         console.log("rooms: ", rooms);
         setRooms(rooms.data);
         setIsPending(false);
       });
-      getRooms(user.data.userId);
+
+      websocketClient.publish(
+        "/app/chat/list/join",
+        JSON.stringify({
+          userId: user.userId,
+        }),
+      );
     };
 
-    connectAndGetRooms();
-    return () => disconnect();
-  }, [connect, disconnect, getRooms]);
+    connectWebSocket();
+    return () => {
+      websocketClient.disconnect();
+    };
+  }, [user, websocketClient]);
 
   if (isPending)
     return (
