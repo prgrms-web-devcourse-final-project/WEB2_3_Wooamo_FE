@@ -56,10 +56,10 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
           console.error(`Additional details: ${frame.body}`);
         },
       });
-
-      stompClient.activate();
       set({ stompClient });
+      stompClient.activate();
     });
+
     return connectPromise;
   },
   disconnect: () => {

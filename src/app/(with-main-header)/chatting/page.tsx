@@ -60,7 +60,7 @@ export default function Chatting() {
             />
           ))
         ) : (
-          <div className="text-site-darkgray-02 lg:text-lg text-center">
+          <div className="text-site-darkgray-02 lg:text-lg text-center my-6 lg:my-10">
             <p>채팅방이 없습니다</p>
           </div>
         )}

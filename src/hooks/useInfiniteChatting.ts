@@ -169,15 +169,18 @@ export const useInfiniteChatting = <T>({
         refreshChatMessages();
       });
 
+      console.log(user);
       join(roomId, user.userId);
     };
 
     subscribeChatMessages();
     return () => {
-      if (roomId) leave(roomId, user.userId);
-      disconnect();
+      setTimeout(() => {
+        leave(roomId, user.userId);
+        disconnect();
+      });
     };
-  }, [roomId, user]);
+  }, [roomId, user, connect, disconnect, join, leave]);
 
   return { setTarget, chatMessages: data, isPending, roomInfo } as const;
 };
