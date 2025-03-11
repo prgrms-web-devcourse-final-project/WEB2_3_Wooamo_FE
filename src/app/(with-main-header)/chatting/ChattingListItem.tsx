@@ -79,7 +79,7 @@ export default function ChattingListItem({
           </div>
         </div>
         {unreadCount > 0 && (
-          <div className="bg-site-alarm px-1.5 lg:px-2 py-0.5 lg:py-1.5 text-white rounded-full">
+          <div className="bg-site-alarm px-3 lg:px-4 py-0.5 lg:py-1.5 text-white rounded-full">
             <span className="text-sm lg:text-base">{unreadCount}</span>
           </div>
         )}

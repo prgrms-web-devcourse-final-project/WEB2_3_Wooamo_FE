@@ -58,7 +58,7 @@ export const useInfiniteChatting = <T>({
     }
 
     setIsPending(false);
-  }, [roomId, lastChatId]);
+  }, [roomId, onIntersect, lastChatId]);
 
   const refreshChatMessages = useCallback(async () => {
     if (!roomId) return;
@@ -95,11 +95,18 @@ export const useInfiniteChatting = <T>({
     setWebsocketClient(client);
 
     return () => {
-      if (client) {
+      if (client && user) {
+        client.publish(
+          "/app/chat/leave",
+          JSON.stringify({
+            roomId: roomId,
+            userId: user.userId,
+          }),
+        );
         client.disconnect();
       }
     };
-  }, []);
+  }, [roomId, user]);
 
   useEffect(() => {
     if (!websocketClient || !user) return;
