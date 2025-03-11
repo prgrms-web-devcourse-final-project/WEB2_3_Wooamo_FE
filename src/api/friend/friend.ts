@@ -4,7 +4,6 @@ const getUserFriends = async (userId: number, page?: number, size?: number) => {
   try {
     const response = await fetchCustom.get(
       `/friend/${userId}?page=${page ?? 0}&size=${size ?? 10}`,
-      { next: { tags: ["friends"] }, cache: "force-cache" },
     );
     if (!response.ok) throw new Error(response.statusText);
 

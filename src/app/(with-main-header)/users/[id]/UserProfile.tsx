@@ -3,8 +3,8 @@ import LinkRoundedIcon from "@mui/icons-material/LinkRounded";
 import Icon from "@/components/common/Icon";
 import Link from "next/link";
 import { userApi } from "@/api/user/user";
-import RequestFriendButton from "./RequestFriendButton";
 import { notFound } from "next/navigation";
+import FriendRequestButton from "../../friends/add/FriendRequestButton";
 
 interface UserProfileProps {
   userId: number;
@@ -34,11 +34,7 @@ export default async function UserProfile({ userId }: UserProfileProps) {
             <span className="mr-3">친구</span>
             <span className="text-site-darkgray-02">{user.data.friends}</span>
           </Link>
-          <RequestFriendButton
-            userId={userId}
-            status={user.data.status}
-            friendId={user.data.friendId}
-          />
+          <FriendRequestButton user={user.data} />
         </div>
       </div>
       <div className="flex flex-col gap-2">

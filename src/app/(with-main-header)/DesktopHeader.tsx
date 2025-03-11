@@ -17,6 +17,7 @@ import dynamic from "next/dynamic";
 import { userApi } from "@/api/user/user";
 import { authApi } from "@/api/auth/auth";
 import { useNewNotification } from "@/hooks/useNewNotification";
+import { useUserStore } from "@/store/userStore";
 
 const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
@@ -29,6 +30,7 @@ const routes = {
 export default function DesktopHeader() {
   const router = useRouter();
   const pathname = usePathname();
+  const userStore = useUserStore();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
 
   const [user, setUser] = useState<userType | null>(null);
@@ -53,6 +55,7 @@ export default function DesktopHeader() {
     if (res?.status === "성공") {
       setIsLoggedIn(false);
       setIsOpenDropdown(false);
+      userStore.setUser(null);
       router.push("/");
     }
   };
