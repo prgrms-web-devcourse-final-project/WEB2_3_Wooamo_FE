@@ -58,6 +58,7 @@ export default function ParticipateButton({
         join(roomId.data, userId);
         disconnect();
         revalidateTagAction("participant-update");
+        revalidateTagAction("point-update");
         close();
       }
     }
