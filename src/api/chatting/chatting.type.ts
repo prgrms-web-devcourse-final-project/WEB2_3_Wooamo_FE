@@ -46,3 +46,13 @@ interface privateChatType {
 interface groupChatType {
   groupInfo: groupType;
 }
+
+interface sendMessageReq {
+  roomId: string;
+  userInfo: {
+    userId: number;
+    nickname: string;
+    profile: string;
+  };
+  message: string;
+}
