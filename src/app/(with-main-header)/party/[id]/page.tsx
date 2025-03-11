@@ -31,9 +31,9 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
 
   const fetchCurrentUser = await userApi.getCurrentUserInfo();
   const userId = fetchCurrentUser?.data.userId;
+  const userPoint = fetchCurrentUser?.data.point;
 
   if (!partyParticipantList) return;
-  console.log(partyParticipantList);
 
   return (
     <>
@@ -51,9 +51,11 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
         ) : (
           <ParticipateButton
             userId={userId}
+            userPoint={userPoint}
             partyId={id}
             partyName={partyDetail.name}
             maxMembers={partyDetail.recruitCap}
+            participantCount={partyParticipantList.length}
             bettingPoint={partyDetail.bettingPointCap}
           />
         )}

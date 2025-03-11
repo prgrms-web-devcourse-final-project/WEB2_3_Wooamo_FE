@@ -5,6 +5,7 @@ import RandomGachaButton from "./RandomGatchaButton";
 import ShopCostumeItem from "./ShopCostumeItem";
 import { shopApi } from "@/api/shop/shop";
 import { userApi } from "@/api/user/user";
+import Button from "@/components/common/Button";
 
 export default async function Shop() {
   const fetchCostumeList = await shopApi.getCostumeList();
@@ -35,7 +36,13 @@ export default async function Shop() {
           alt="가챠 머신 이미지"
           priority
         />
-        <RandomGachaButton currentUserPoint={currentUserPoint} />
+        {(userCostumeList?.length || 0) > costumeList.length ? (
+          <Button disabled className="bg-site-sub">
+            모든 코스튬 보유
+          </Button>
+        ) : (
+          <RandomGachaButton currentUserPoint={currentUserPoint} />
+        )}
       </section>
       <section className="px-5 grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 auto-rows-auto w-full justify-items-center gap-10">
         {costumeList.map((costume) => (
