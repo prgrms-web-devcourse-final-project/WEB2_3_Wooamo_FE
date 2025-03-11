@@ -11,7 +11,6 @@ import { boardApi } from "@/api/board/board";
 import { useRouter } from "next/navigation";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { userApi } from "@/api/user/user";
-import { revalidateTagAction } from "@/actions";
 
 export default function BoardsCreate() {
   const router = useRouter();
@@ -67,11 +66,7 @@ export default function BoardsCreate() {
 
       const response = await boardApi.createBoard(formData);
 
-      console.log("Created board response:", response);
-      console.log("New board ID:", response.data?.boardId);
-
       if (response.status === "성공") {
-        revalidateTagAction(`myPost-create-${user.data.userId}`);
         router.push(`/boards/${response.data?.boardId}`);
       }
     } catch (error) {
