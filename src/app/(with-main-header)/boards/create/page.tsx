@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { userApi } from "@/api/user/user";
 import { revalidateTagAction } from "@/actions";
+import compressImage from "@/utils/compressImage";
 
 export default function BoardsCreate() {
   const router = useRouter();
@@ -22,12 +23,22 @@ export default function BoardsCreate() {
   const [context, setContext] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImages((prevImages) => [
-        ...prevImages,
-        ...Array.from(e.target.files!),
-      ]);
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      try {
+        const compressedFiles = await Promise.all(
+          Array.from(files).map((file) => compressImage(file)),
+        );
+        setImages((prevImages) => [...prevImages, ...compressedFiles]);
+      } catch (error) {
+        console.error("이미지 처리 실패:", error);
+        alert("이미지 처리 중 오류가 발생했습니다.");
+      }
+    }
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
