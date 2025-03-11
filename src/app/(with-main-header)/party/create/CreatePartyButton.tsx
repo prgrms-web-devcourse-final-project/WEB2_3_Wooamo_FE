@@ -6,7 +6,6 @@ import Modal from "@/components/common/Modal";
 import useInputValidation from "@/hooks/useInputValidation";
 import { useModalStore } from "@/store/modalStore";
 import { useRouter } from "next/navigation";
-
 import { FormEvent, useEffect, useState } from "react";
 import { userApi } from "@/api/user/user";
 
