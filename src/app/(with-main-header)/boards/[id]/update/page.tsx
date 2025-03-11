@@ -4,14 +4,13 @@ import Button from "@/components/common/Button";
 import Icon from "@/components/common/Icon";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import Input from "@/components/common/Input";
-import { FormEvent, useEffect, useState, useRef } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { revalidateTagAction } from "@/actions";
 import Image from "next/image";
-import compressImage from "@/utils/compressImage";
 
 export default function BoardsUpdate() {
   const params = useParams();
@@ -24,8 +23,6 @@ export default function BoardsUpdate() {
   const [images, setImages] = useState<File[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [deletedImages, setDeletedImages] = useState<string[]>([]);
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const checkAuthAndFetchBoard = async () => {
@@ -59,22 +56,10 @@ export default function BoardsUpdate() {
     checkAuthAndFetchBoard();
   }, [boardId]);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      try {
-        const compressedFiles = await Promise.all(
-          Array.from(files).map((file) => compressImage(file)),
-        );
-        setImages((prevImages) => [...prevImages, ...compressedFiles]);
-      } catch (error) {
-        console.error("이미지 처리 실패:", error);
-        alert("이미지 처리 중 오류가 발생했습니다.");
-      }
-    }
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      setImages([...images, ...Array.from(files)]);
     }
   };
 
@@ -144,7 +129,6 @@ export default function BoardsUpdate() {
             className="hidden"
             onChange={handleImageUpload}
             multiple
-            ref={fileInputRef}
           />
           <Icon MuiIcon={AddPhotoAlternateRoundedIcon} />
         </label>
