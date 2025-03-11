@@ -1,8 +1,15 @@
-import { RefObject, useCallback, useEffect, useState } from "react";
+import {
+  RefObject,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useState,
+} from "react";
 import { chattingApi } from "../api/chatting/chatting";
 import { useSocketStore } from "@/store/socketStore";
 import { useUserStore } from "@/store/userStore";
 import { useIsMobile } from "./useIsMobile";
+import { debounce } from "@mui/material";
 
 interface UseInfiniteChattingProps extends IntersectionObserverInit {
   roomId: string | null;
@@ -45,6 +52,7 @@ export const useInfiniteChatting = <T>({
       console.log("chattingMessages: ", res.data);
       if (res.data.length > 0) {
         setLastChatId(res.data[0].chatId);
+        console.log("lastChatId: ", res.data[0].chatId);
       } else {
         setHasNextPage(false);
       }
@@ -57,11 +65,14 @@ export const useInfiniteChatting = <T>({
     }
 
     setIsPending(false);
-  }, [roomId, lastChatId]);
+  }, [roomId, onIntersect, lastChatId]);
 
-  const refreshChatMessages = useCallback(async () => {
+  const refreshChatMessages = async () => {
     if (!roomId) return;
-    if (isPending) return setTimeout(refreshChatMessages, 100);
+
+    while (isPending) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
 
     const newChatMessages = await chattingApi.refreshChatMessages(
       roomId,
@@ -71,7 +82,7 @@ export const useInfiniteChatting = <T>({
       console.log("newChatMessages", newChatMessages);
       setData(newChatMessages.data);
     }
-  }, [roomId, isPending, lastChatId]);
+  };
 
   useEffect(() => {
     loadChatMessages();
@@ -101,7 +112,7 @@ export const useInfiniteChatting = <T>({
         });
       }
     }
-  }, [chatEndRef, lastAddType, receivedDataLength, data, isMobile]);
+  }, [chatEndRef, data]);
 
   useEffect(() => {
     if (!target) return;
@@ -165,11 +176,9 @@ export const useInfiniteChatting = <T>({
           message.body,
         );
         console.log("readUser: ", readUser.data);
-
         refreshChatMessages();
       });
 
-      console.log(user);
       join(roomId, user.userId);
     };
 
@@ -178,9 +187,9 @@ export const useInfiniteChatting = <T>({
       setTimeout(() => {
         leave(roomId, user.userId);
         disconnect();
-      });
+      }, 100);
     };
-  }, [roomId, user, connect, disconnect, join, leave]);
+  }, [roomId, user]);
 
   return { setTarget, chatMessages: data, isPending, roomInfo } as const;
 };
