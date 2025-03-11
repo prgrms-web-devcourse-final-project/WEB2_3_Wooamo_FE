@@ -3,12 +3,14 @@
 import { revalidateTagAction } from "@/actions";
 import { chattingApi } from "@/api/chatting/chatting";
 import { partyApi } from "@/api/party/party";
+import { userApi } from "@/api/user/user";
 import Button from "@/components/common/Button";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import Modal from "@/components/common/Modal";
 import useInputValidation from "@/hooks/useInputValidation";
 import { useModalStore } from "@/store/modalStore";
 import { useSocketStore } from "@/store/socketStore";
+import { useToastStore } from "@/store/toastStore";
 import React, { FormEvent } from "react";
 
 interface ParticipateButtonProps {
@@ -16,6 +18,8 @@ interface ParticipateButtonProps {
   partyName: string;
   maxMembers: number;
   userId?: number;
+  userPoint?: number;
+  participantCount: number;
   bettingPoint: number;
 }
 
@@ -24,13 +28,20 @@ export default function ParticipateButton({
   partyName,
   maxMembers,
   userId,
+  userPoint,
+  participantCount,
   bettingPoint,
 }: ParticipateButtonProps) {
   const { connect, disconnect, join } = useSocketStore();
   const { open, close } = useModalStore((state) => state);
+  const showToast = useToastStore((state) => state.showToast);
+
   const { validate, ...point } = useInputValidation(0, (value) => {
-    if (!value || Number(value) < bettingPoint) {
+    if (Number(value) < bettingPoint) {
       return `최소 배팅 금액 이상 입력해주세요`;
+    }
+    if ((userPoint ?? 0) < value) {
+      return "보유하신 포인트가 부족합니다";
     }
     return null;
   });
@@ -45,6 +56,11 @@ export default function ParticipateButton({
       point.value,
     );
 
+    if (participantCount >= maxMembers) {
+      close();
+      showToast("이미 인원이 가득 찼습니다");
+    }
+
     if (participateParty?.status === "성공") {
       await connect();
       const roomId = await chattingApi.createGroupChatRoom({
@@ -58,6 +74,7 @@ export default function ParticipateButton({
         join(roomId.data, userId);
         disconnect();
         revalidateTagAction("participant-update");
+        revalidateTagAction("point-update");
         close();
       }
     }
