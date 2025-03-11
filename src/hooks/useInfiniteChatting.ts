@@ -46,7 +46,6 @@ export const useInfiniteChatting = <T>({
       console.log("chattingMessages: ", res.data);
       if (res.data.length > 0) {
         setLastChatId(res.data[0].chatId);
-        console.log("lastChatId: ", res.data[0].chatId);
       } else {
         setHasNextPage(false);
       }
@@ -59,7 +58,7 @@ export const useInfiniteChatting = <T>({
     }
 
     setIsPending(false);
-  }, [roomId, onIntersect, lastChatId]);
+  }, [roomId, lastChatId]);
 
   const refreshChatMessages = useCallback(async () => {
     if (!roomId) return;
