@@ -1,15 +1,8 @@
-import {
-  RefObject,
-  useCallback,
-  useDeferredValue,
-  useEffect,
-  useState,
-} from "react";
+import { RefObject, useCallback, useEffect, useState } from "react";
 import { chattingApi } from "../api/chatting/chatting";
 import { useSocketStore } from "@/store/socketStore";
 import { useUserStore } from "@/store/userStore";
 import { useIsMobile } from "./useIsMobile";
-import { debounce } from "@mui/material";
 
 interface UseInfiniteChattingProps extends IntersectionObserverInit {
   roomId: string | null;
