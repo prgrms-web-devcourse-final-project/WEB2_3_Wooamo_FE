@@ -33,7 +33,6 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
   const userId = fetchCurrentUser?.data.userId;
 
   if (!partyParticipantList) return;
-  console.log(partyParticipantList);
 
   return (
     <>
