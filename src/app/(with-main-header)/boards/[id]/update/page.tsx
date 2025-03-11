@@ -137,6 +137,8 @@ export default function BoardsUpdate() {
             <Image
               src={imageUrl}
               alt={`기존 이미지 ${idx + 1}`}
+              width={160}
+              height={160}
               className="w-full h-full object-cover"
             />
             <button
@@ -158,6 +160,8 @@ export default function BoardsUpdate() {
             <Image
               src={URL.createObjectURL(file)}
               alt={`새 이미지 ${idx + 1}`}
+              width={160}
+              height={160}
               className="w-full h-full object-cover"
             />
             <button
