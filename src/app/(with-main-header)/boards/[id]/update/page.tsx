@@ -9,7 +9,6 @@ import { useParams, useRouter } from "next/navigation";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { revalidateTagAction } from "@/actions";
 import Image from "next/image";
 
 export default function BoardsUpdate() {
@@ -87,7 +86,6 @@ export default function BoardsUpdate() {
     try {
       const response = await boardApi.updateBoard(boardId, formData);
       if (response) {
-        revalidateTagAction(`myPost-update-${userId}`);
         router.push(`/boards/${boardId}`);
       }
     } catch (error) {
