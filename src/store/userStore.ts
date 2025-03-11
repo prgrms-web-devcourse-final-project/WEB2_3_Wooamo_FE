@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 interface UserStore {
   user: userType | null;
-  setUser: (user: userType) => void;
+  setUser: (user: userType | null) => void;
 }
 
 export const useUserStore = create<UserStore>()(
