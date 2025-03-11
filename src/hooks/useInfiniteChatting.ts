@@ -1,8 +1,8 @@
 import { RefObject, useCallback, useEffect, useState } from "react";
 import { chattingApi } from "../api/chatting/chatting";
-import { useSocketStore } from "@/store/socketStore";
 import { useUserStore } from "@/store/userStore";
 import { useIsMobile } from "./useIsMobile";
+import { WebSocketClient } from "@/components/common/WebSocketClient";
 
 interface UseInfiniteChattingProps extends IntersectionObserverInit {
   roomId: string | null;
@@ -21,10 +21,11 @@ export const useInfiniteChatting = <T>({
   chatEndRef,
   onIntersect,
 }: UseInfiniteChattingProps) => {
-  const { connect, disconnect, join, leave } = useSocketStore();
   const isMobile = useIsMobile();
   const { user } = useUserStore();
 
+  const [websocketClient, setWebsocketClient] =
+    useState<WebSocketClient | null>(null);
   const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
   const [lastChatId, setLastChatId] = useState("");
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -61,7 +62,6 @@ export const useInfiniteChatting = <T>({
 
   const refreshChatMessages = useCallback(async () => {
     if (!roomId) return;
-    if (isPending) return setTimeout(refreshChatMessages, 100);
 
     const newChatMessages = await chattingApi.refreshChatMessages(
       roomId,
@@ -71,11 +71,84 @@ export const useInfiniteChatting = <T>({
       console.log("newChatMessages", newChatMessages);
       setData(newChatMessages.data);
     }
-  }, [roomId, isPending, lastChatId]);
+  }, [roomId, lastChatId]);
+
+  const sendMessage = (message: string) => {
+    if (!websocketClient) return;
+
+    websocketClient.publish(
+      "/app/chat/send",
+      JSON.stringify({
+        roomId,
+        userInfo: user,
+        message,
+      }),
+    );
+  };
 
   useEffect(() => {
     loadChatMessages();
   }, []);
+
+  useEffect(() => {
+    const client = new WebSocketClient();
+    setWebsocketClient(client);
+
+    return () => {
+      if (client) {
+        client.disconnect();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!websocketClient || !user) return;
+
+    const connectWebSocket = async () => {
+      await websocketClient.connect();
+
+      websocketClient.subscribe(`/topic/users/${roomId}`, (message) => {
+        const roomInfo: responseType<T> = JSON.parse(message.body);
+        console.log("roomInfo: ", roomInfo.data);
+        setRoomInfo(roomInfo.data);
+      });
+
+      websocketClient.subscribe(`/topic/messages/${roomId}`, (message) => {
+        const chatMessage: responseType<ChatMessageType> = JSON.parse(
+          message.body,
+        );
+        console.log("chatMessages: ", chatMessage);
+        setData((prev) => [...prev, chatMessage.data]);
+
+        if (chatMessage.data.userInfo.userId === user.userId) {
+          setLastAddType("appendByMe");
+        } else {
+          setLastAddType("appendByOther");
+        }
+      });
+
+      websocketClient.subscribe(`/topic/read/${roomId}`, async (message) => {
+        const readUser: responseType<{ userId: string }> = JSON.parse(
+          message.body,
+        );
+        console.log("readUser: ", readUser.data);
+        refreshChatMessages();
+      });
+
+      websocketClient.publish(
+        "/app/chat/join",
+        JSON.stringify({
+          roomId,
+          userId: user.userId,
+        }),
+      );
+    };
+
+    connectWebSocket();
+    return () => {
+      websocketClient.disconnect();
+    };
+  }, [refreshChatMessages, roomId, user, websocketClient]);
 
   useEffect(() => {
     if (lastAddType === "prepend") {
@@ -101,7 +174,7 @@ export const useInfiniteChatting = <T>({
         });
       }
     }
-  }, [chatEndRef, lastAddType, receivedDataLength, data, isMobile]);
+  }, [chatEndRef, data, isMobile, lastAddType, receivedDataLength]);
 
   useEffect(() => {
     if (!target) return;
@@ -134,50 +207,11 @@ export const useInfiniteChatting = <T>({
     isMobile,
   ]);
 
-  useEffect(() => {
-    if (!roomId || !user) return;
-
-    const subscribeChatMessages = async () => {
-      const stompClient = await connect();
-
-      stompClient.subscribe(`/topic/users/${roomId}`, (message) => {
-        const roomInfo: responseType<T> = JSON.parse(message.body);
-        console.log("roomInfo: ", roomInfo.data);
-        setRoomInfo(roomInfo.data);
-      });
-
-      stompClient.subscribe(`/topic/messages/${roomId}`, (message) => {
-        const chatMessage: responseType<ChatMessageType> = JSON.parse(
-          message.body,
-        );
-        console.log("chatMessages: ", chatMessage);
-        setData((prev) => [...prev, chatMessage.data]);
-
-        if (chatMessage.data.userInfo.userId === user.userId) {
-          setLastAddType("appendByMe");
-        } else {
-          setLastAddType("appendByOther");
-        }
-      });
-
-      stompClient.subscribe(`/topic/read/${roomId}`, async (message) => {
-        const readUser: responseType<{ userId: string }> = JSON.parse(
-          message.body,
-        );
-        console.log("readUser: ", readUser.data);
-
-        refreshChatMessages();
-      });
-
-      join(roomId, user.userId);
-    };
-
-    subscribeChatMessages();
-    return () => {
-      if (roomId) leave(roomId, user.userId);
-      disconnect();
-    };
-  }, [roomId, user]);
-
-  return { setTarget, chatMessages: data, isPending, roomInfo } as const;
+  return {
+    setTarget,
+    sendMessage,
+    chatMessages: data,
+    isPending,
+    roomInfo,
+  } as const;
 };

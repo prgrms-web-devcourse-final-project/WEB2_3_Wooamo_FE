@@ -1,5 +1,6 @@
 "use client";
 
+import { revalidatePathAction } from "@/actions";
 import { friendApi } from "@/api/friend/friend";
 import Button from "@/components/common/Button";
 import { useState } from "react";
@@ -22,6 +23,7 @@ export default function FriendRequestButton({
     if (res?.data) {
       setFriendId(res.data.friendId);
       setStatus("PENDING");
+      revalidatePathAction(`user-update-${user.userId}`);
     }
   };
 
@@ -33,6 +35,7 @@ export default function FriendRequestButton({
     if (res?.status === "성공") {
       setFriendId(null);
       setStatus("NOT_FRIEND");
+      revalidatePathAction(`user-update-${user.userId}`);
     }
   };
   return isRequestFriend ? (

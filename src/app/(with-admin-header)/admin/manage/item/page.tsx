@@ -1,11 +1,10 @@
-import { costumes } from "@/consts/costumes";
 import CostumeItem from "./CostumeItem";
 import AddCustume from "./AddCustume";
 import { shopApi } from "@/api/shop/shop";
 
 export default async function page() {
   const fetchCostumeList = await shopApi.getCostumeList();
-  const costumeList = fetchCostumeList?.data.contents;
+  const costumeList = fetchCostumeList?.data;
   if (!costumeList) return;
 
   return (

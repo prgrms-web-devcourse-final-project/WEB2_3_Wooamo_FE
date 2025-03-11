@@ -22,7 +22,7 @@ export default async function ChattingWithParty({
         <ChattingList userId={currentUser.data.userId} />
       </div>
       <div>
-        <ChattingInput currentUser={currentUser.data} />
+        
       </div>
     </div>
   );

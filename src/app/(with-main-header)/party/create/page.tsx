@@ -9,11 +9,12 @@ import formatDateToKR from "@/utils/formatDateToKR";
 export default function PartyCreate() {
   const today = new Date();
   const tomorrow = new Date(today).setDate(today.getDate() + 1);
+  const date = new Date(new Date().setDate(new Date().getDate() + 1));
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [maxPeople, setMaxPeople] = useState(1);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(date);
   const [endDate, setEndDate] = useState(new Date(tomorrow));
   const [minBetting, setMinBetting] = useState(0);
 
@@ -77,7 +78,7 @@ export default function PartyCreate() {
             <div className="flex items-center gap-1">
               <DatePicker
                 value={startDate}
-                fromDate={new Date()}
+                fromDate={date}
                 onChange={(date) => setStartDate(date)}
               />
               <span>-</span>

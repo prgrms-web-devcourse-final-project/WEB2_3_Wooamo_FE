@@ -62,8 +62,8 @@ export default function ChargeButton({
           },
           orderId: requestTossPayment.data?.orderId,
           orderName: `${point} 포인트`,
-          successUrl: "https://43.202.98.4.nip.io/shop",
-          failUrl: "https://43.202.98.4.nip.io/shop",
+          successUrl: `${process.env.NEXT_PUBLIC_CLIENT_URL}/shop`,
+          failUrl: `${process.env.NEXT_PUBLIC_CLIENT_URL}/shop`,
           card: {
             useEscrow: false,
             flowMode: "DEFAULT",
