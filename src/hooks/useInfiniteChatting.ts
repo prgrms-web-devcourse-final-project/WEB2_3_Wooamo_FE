@@ -95,7 +95,14 @@ export const useInfiniteChatting = <T>({
     setWebsocketClient(client);
 
     return () => {
-      if (client) {
+      if (client && user) {
+        client.publish(
+          "/app/chat/leave",
+          JSON.stringify({
+            roomId: roomId,
+            userId: user.userId,
+          }),
+        );
         client.disconnect();
       }
     };
@@ -146,6 +153,13 @@ export const useInfiniteChatting = <T>({
 
     connectWebSocket();
     return () => {
+      websocketClient.publish(
+        "/app/chat/leave",
+        JSON.stringify({
+          roomId: roomId,
+          userId: user.userId,
+        }),
+      );
       websocketClient.disconnect();
     };
   }, [refreshChatMessages, roomId, user, websocketClient]);
