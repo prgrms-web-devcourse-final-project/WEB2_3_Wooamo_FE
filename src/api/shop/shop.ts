@@ -9,7 +9,7 @@ const getCostumeList = async (page?: number, size?: number) => {
       },
     );
     if (!response.ok) throw new Error(response.statusText);
-    const data: paginationType<CostumeType[]> = await response.json();
+    const data: responseType<CostumeType[]> = await response.json();
     return data;
   } catch (error) {
     console.error(error);
