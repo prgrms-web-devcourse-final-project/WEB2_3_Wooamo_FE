@@ -23,6 +23,6 @@ export const config = {
     "/chatting/:path",
     "/friends/add",
     "/friends",
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|signin|signup|shop|party|boards|users|friends).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|signin|signup|shop|party|boards|users|friends|chatting).*)",
   ],
 };
