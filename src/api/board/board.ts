@@ -4,6 +4,9 @@ const getBoardList = async (title?: string, page?: number, size?: number) => {
   try {
     const response = await fetchCustom.get(
       `/board?title=${title ?? ""}&page=${page ?? 0}&size=${size ?? 10}`,
+      {
+        next: { tags: ["posts"] },
+      },
     );
 
     if (!response.ok) {

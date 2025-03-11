@@ -9,7 +9,7 @@ import Button from "@/components/common/Button";
 
 export default async function Shop() {
   const fetchCostumeList = await shopApi.getCostumeList();
-  const costumeList = fetchCostumeList?.data.contents;
+  const costumeList = fetchCostumeList?.data;
 
   const fetchCurrentUserInfo = await userApi.getCurrentUserInfo();
   const currentUserPoint = fetchCurrentUserInfo?.data?.point ?? 0;

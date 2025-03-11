@@ -9,7 +9,6 @@ import { useParams, useRouter } from "next/navigation";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { revalidateTagAction } from "@/actions";
 import Image from "next/image";
 
 export default function BoardsUpdate() {
@@ -87,7 +86,6 @@ export default function BoardsUpdate() {
     try {
       const response = await boardApi.updateBoard(boardId, formData);
       if (response) {
-        revalidateTagAction(`myPost-update-${userId}`);
         router.push(`/boards/${boardId}`);
       }
     } catch (error) {
@@ -137,6 +135,8 @@ export default function BoardsUpdate() {
             <Image
               src={imageUrl}
               alt={`기존 이미지 ${idx + 1}`}
+              width={160}
+              height={160}
               className="w-full h-full object-cover"
             />
             <button
@@ -158,6 +158,8 @@ export default function BoardsUpdate() {
             <Image
               src={URL.createObjectURL(file)}
               alt={`새 이미지 ${idx + 1}`}
+              width={160}
+              height={160}
               className="w-full h-full object-cover"
             />
             <button
