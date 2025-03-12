@@ -36,7 +36,7 @@ export default async function RankingCard({
           <Character className="scale-90 -translate-y-2" costumeSrc={profile} />
         </div>
         <div className="flex flex-col gap-0 lg:gap-2 items-center w-full h-17 font-galmuri bg-site-profile">
-          <p className="font-normal lg:text-xl line-clamp-1">{nickname}</p>
+          <p className="font-normal lg:text-xl line-clamp-1">@{nickname}</p>
           <p className="text-site-darkgray-01 text-xs lg:text-sm">{time}</p>
         </div>
       </article>
