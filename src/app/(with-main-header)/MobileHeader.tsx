@@ -148,7 +148,7 @@ export default function MobileHeader() {
                     className="cursor-pointer"
                   />
                   {hasUnreadNotifications() && (
-                    <div className="absolute top-2 right-1">
+                    <div className="absolute top-1.5 right-1">
                       <div className="relative w-1.5 h-1.5">
                         {hasNewNotification && (
                           <span className="absolute inset-0 bg-site-alarm rounded-full animate-ping" />

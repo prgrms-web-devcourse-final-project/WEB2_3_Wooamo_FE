@@ -85,7 +85,7 @@ export default function PostImage({
               }
             }}
           >
-            <div className="relative w-[90vw] h-[90vh] max-w-[1000px] max-h-[600px]">
+            <div className="relative w-70 h-70 lg:w-150 lg:h-150 max-w-250 max-h-150 bg-site-white-50">
               <button
                 onClick={() => swiper?.slidePrev()}
                 className="absolute left-2.5 top-1/2 -translate-y-1/2 z-10"
