@@ -1,15 +1,17 @@
 "use client";
 
-import { revalidatePathAction } from "@/actions";
+import { revalidateTagAction } from "@/actions";
 import { friendApi } from "@/api/friend/friend";
+import { userApi } from "@/api/user/user";
 import Button from "@/components/common/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function FriendRequestButton({
   user,
 }: {
   user: userType | PartyParticipantType;
 }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isRequestFriend, setIsRequestFriend] = useState(
     user.status && user.status !== "NOT_FRIEND",
   );
@@ -23,7 +25,7 @@ export default function FriendRequestButton({
     if (res?.data) {
       setFriendId(res.data.friendId);
       setStatus("PENDING");
-      revalidatePathAction(`user-update-${user.userId}`);
+      revalidateTagAction(`user-update-${user.userId}`);
     }
   };
 
@@ -35,15 +37,27 @@ export default function FriendRequestButton({
     if (res?.status === "성공") {
       setFriendId(null);
       setStatus("NOT_FRIEND");
-      revalidatePathAction(`user-update-${user.userId}`);
+      revalidateTagAction(`user-update-${user.userId}`);
     }
   };
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      const isLoggedIn = await userApi.checkIsLoggedIn();
+      if (isLoggedIn?.status === "성공") {
+        setIsLoggedIn(isLoggedIn.data);
+      }
+    };
+
+    fetchCurrentUser();
+  }, []);
+
   return isRequestFriend ? (
     <Button onClick={deleteFriend}>
       {status === "FRIEND" || status === "ACCEPTED" ? "삭제" : "요청취소"}
     </Button>
   ) : (
-    <Button onClick={requestFriend} disabled={status === null}>
+    <Button onClick={requestFriend} disabled={!isLoggedIn && status === null}>
       친구요청
     </Button>
   );

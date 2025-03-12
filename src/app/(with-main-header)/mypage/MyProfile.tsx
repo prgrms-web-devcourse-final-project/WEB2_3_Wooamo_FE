@@ -12,7 +12,7 @@ export default async function MyProfile() {
   return (
     <section className="flex flex-col min-w-full lg:min-w-100 gap-2.5 lg:gap-7 px-2.5">
       <p className="font-bitbitv2 text-2xl lg:text-[28px]">
-        {user.data.nickname}
+        @{user.data.nickname}
       </p>
       <div className="flex items-center lg:items-end gap-13">
         <Avatar

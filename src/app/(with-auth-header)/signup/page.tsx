@@ -8,9 +8,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { debounce } from "@mui/material";
 import Input from "@/components/common/Input";
+import { useToastStore } from "@/store/toastStore";
 
 export default function Signup() {
   const router = useRouter();
+  const { showToast } = useToastStore();
 
   const [isVerifiedNickname, setIsVerifiedNickname] = useState(false);
   const [isVerifiedEmail, setIsVerifiedEmail] = useState(false);
@@ -71,10 +73,10 @@ export default function Signup() {
       nickname: nickname.value,
     });
     if (res?.status === "성공") {
-      alert("사용 가능한 닉네임입니다");
+      showToast("사용 가능한 닉네임입니다");
       setIsVerifiedNickname(true);
     } else {
-      alert("이미 사용중인 닉네임입니다");
+      showToast("이미 사용중인 닉네임입니다");
       setIsVerifiedNickname(false);
     }
   };
@@ -87,8 +89,11 @@ export default function Signup() {
 
     const res = await authApi.sendVerificationEmail({ email: email.value });
     if (res?.status === "성공") {
-      alert("인증 메일을 발송했습니다");
+      showToast("인증 메일을 발송했습니다");
       setIsSentVerificationEmail(true);
+    } else {
+      showToast("인증 메일 발송에 실패했습니다");
+      setIsSentVerificationEmail(false);
     }
   };
 
@@ -100,10 +105,10 @@ export default function Signup() {
       code: verificationCode,
     });
     if (res?.status === "성공") {
-      alert("이메일 인증이 완료되었습니다");
+      showToast("이메일 인증이 완료되었습니다");
       setIsVerifiedEmail(true);
     } else {
-      alert("인증번호가 일치하지 않습니다");
+      showToast("인증번호가 일치하지 않습니다");
       setIsVerifiedEmail(false);
     }
   };
@@ -124,6 +129,7 @@ export default function Signup() {
       });
 
       if (res?.status === "성공") {
+        showToast("회원가입이 완료되었습니다");
         router.push("/signin");
       }
     }

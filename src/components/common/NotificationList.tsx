@@ -96,7 +96,9 @@ export default function NotificationList({
             >
               <p className="text-base my-3 text-black line-clamp-2 overflow-hidden">
                 {notification.type !== "CONFIRM" && (
-                  <span className="font-semibold">{notification.nickname}</span>
+                  <span className="font-semibold">
+                    @{notification.nickname}
+                  </span>
                 )}
                 <span className="font-normal">
                   {getNotificationMessage(notification)}
