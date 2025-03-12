@@ -1,5 +1,5 @@
 import Image from "next/image";
-import gachaMachine from "@/assets/images/gachaMachine.png";
+import gachaMachine from "@/assets/images/gachaMachine.webp";
 import ChargeButton from "./ChargeButton";
 import RandomGachaButton from "./RandomGatchaButton";
 import ShopCostumeItem from "./ShopCostumeItem";
