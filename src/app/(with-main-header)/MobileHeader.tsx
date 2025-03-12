@@ -19,6 +19,7 @@ import Avatar from "@/components/common/Avatar";
 import { authApi } from "@/api/auth/auth";
 import { useNewNotification } from "@/hooks/useNewNotification";
 import { useUserStore } from "@/store/userStore";
+import { useToastStore } from "@/store/toastStore";
 
 const routes = {
   "/": "홈",
@@ -31,6 +32,7 @@ export default function MobileHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const userStore = useUserStore();
+  const { showToast } = useToastStore();
   const currentPathname = pathname.match(/\/\w+/)?.[0] ?? "/";
 
   const [user, setUser] = useState<userType | null>(null);
@@ -61,6 +63,7 @@ export default function MobileHeader() {
       setIsLoggedIn(false);
       userStore.setUser(null);
       closeSidebar();
+      showToast("로그아웃 되었습니다");
       router.push("/");
     }
   };
