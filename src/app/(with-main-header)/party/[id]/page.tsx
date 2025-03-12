@@ -9,6 +9,7 @@ import AfterParticipateButtons from "./AfterParticipateButtons";
 import { userApi } from "@/api/user/user";
 import FriendRequestButton from "../../friends/add/FriendRequestButton";
 import { notFound, redirect } from "next/navigation";
+import renderContextWithLineBreaks from "@/utils/renderContextWithLineBreaks";
 
 interface PartyDetailProps {
   params: Promise<{ id: number }>;
@@ -67,7 +68,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
           />
         </div>
         <p className="min-h-50 bg-site-white-70 px-6 py-5 resize-none">
-          {partyDetail.context}
+          {renderContextWithLineBreaks(partyDetail.context)}
         </p>
         <div className="flex flex-col lg:flex-row gap-7.5 lg:gap-13">
           <div className="flex items-center gap-5">
