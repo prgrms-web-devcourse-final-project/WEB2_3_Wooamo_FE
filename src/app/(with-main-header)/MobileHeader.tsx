@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import Logo from "@/assets/images/Logo.svg";
 import Icon from "@/components/common/Icon";
 import { useState, useRef, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
@@ -119,7 +118,7 @@ export default function MobileHeader() {
 
   return (
     <>
-      <header className="fixed w-full top-0 z-50 flex justify-between px-5 h-15 items-center bg-[#8CCDF3]">
+      <header className="fixed w-full top-0 z-50 flex justify-between px-5 h-15 items-center bg-[#9AD1F2]">
         <button onClick={openSidebar}>
           <Icon MuiIcon={MenuRoundedIcon} />
         </button>
@@ -129,10 +128,12 @@ export default function MobileHeader() {
           className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
         >
           <Image
-            src={Logo}
+            width={76}
+            height={40}
+            src={"/images/Logo.svg"}
             alt="STUV 로고"
             placeholder="blur"
-            blurDataURL={"../assets/images/Logo.svg"}
+            blurDataURL={"/images/Logo.svg"}
           />
         </Link>
         {isLoggedIn && (

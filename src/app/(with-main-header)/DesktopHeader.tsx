@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Logo from "@/assets/images/Logo.svg";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
@@ -86,10 +85,12 @@ export default function DesktopHeader() {
       <div className="flex gap-20 items-center">
         <Link href={"/"}>
           <Image
-            src={Logo}
+            width={97}
+            height={45}
+            src={"/images/Logo.svg"}
             alt="STUV 로고"
             placeholder="blur"
-            blurDataURL={"../assets/images/Logo.svg"}
+            blurDataURL={"/images/Logo.svg"}
           />
         </Link>
         <nav>

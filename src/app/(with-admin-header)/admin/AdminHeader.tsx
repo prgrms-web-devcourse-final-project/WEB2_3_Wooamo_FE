@@ -1,4 +1,3 @@
-import Logo from "@/assets/images/Logo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
@@ -9,7 +8,12 @@ export default async function AdminHeader() {
       <div>
         <div className="flex gap-5 items-center">
           <Link href={"/admin"}>
-            <Image src={Logo} alt={`STUV 로고`} />
+            <Image
+              width={97}
+              height={45}
+              src={"/images/Logo.svg"}
+              alt={`STUV 로고`}
+            />
           </Link>
         </div>
       </div>

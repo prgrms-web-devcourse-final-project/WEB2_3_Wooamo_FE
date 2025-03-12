@@ -1,6 +1,5 @@
 import Avatar from "@/components/common/Avatar";
 import Link from "next/link";
-import Logo from "@/assets/images/Logo.svg";
 import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
 import Image from "next/image";
 
@@ -54,7 +53,9 @@ export default function ChattingListItem({
             ) : (
               <Image
                 className="w-11 lg:w-15 h-11 lg:h-15 rounded-full bg-site-profile"
-                src={Logo}
+                width={97}
+                height={45}
+                src={"/images/Logo.svg"}
                 alt="로고 이미지"
               />
             )}
