@@ -1,7 +1,6 @@
 "use client";
 
 import { partyApi } from "@/api/party/party";
-import { revalidatePathAction } from "@/actions";
 import Button from "@/components/common/Button";
 import Icon from "@/components/common/Icon";
 import Modal from "@/components/common/Modal";
@@ -95,7 +94,7 @@ export default function AfterParticipateButtons({
     <>
       <Button onClick={participateChatting}>채팅</Button>
       <Button
-        disabled={today < start}
+        disabled={start < today}
         onClick={() => open(`verify-participate`)}
       >
         인증
