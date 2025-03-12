@@ -10,6 +10,11 @@ import { Suspense } from "react";
 import { friendApi } from "@/api/friend/friend";
 import FriendItemSkeleton from "@/components/common/skeletons/FriendItemSkeleton";
 import { userApi } from "@/api/user/user";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "STUV - 친구",
+};
 
 export default async function Friends() {
   const user = await userApi.getCurrentUserInfo();

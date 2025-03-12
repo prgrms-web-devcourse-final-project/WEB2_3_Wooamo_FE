@@ -20,7 +20,7 @@ export default async function RankingCard({
   className,
 }: RankingCardProps) {
   return (
-    <Link href={userId ? `/users/${userId}` : "/"}>
+    <Link href={userId ? `/users/${userId}` : "/"} prefetch={true}>
       <article
         className={twMerge(
           "flex flex-col justify-end items-center gap-3 lg:gap-4 relative w-32 lg:w-52.5 h-41 lg:h-68 p-2 pt-4 lg:p-4 bg-site-button border-5 border-white rounded-[10px] transition-all",

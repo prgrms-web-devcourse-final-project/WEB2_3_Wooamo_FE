@@ -20,6 +20,7 @@ export default async function PartyItem({
   return (
     <Link
       href={`${user ? `/party/${partyId}` : `/party/all`}`}
+      prefetch={true}
       className="flex items-center font-semibold lg:text-xl h-25 px-5 lg:px-7 bg-site-button"
     >
       <p className="flex-5 line-clamp-1">{name}</p>

@@ -6,7 +6,7 @@ export default function Noise({ children }: { children: ReactNode }) {
       <div
         className="w-full h-full absolute opacity-10"
         style={{
-          background: `url(/images/noise.png)`,
+          background: `url(/images/noise.webp)`,
           backgroundBlendMode: "color-dodge",
           pointerEvents: "none",
         }}

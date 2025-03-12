@@ -3,6 +3,11 @@ import Button from "../../../components/common/Button";
 import { twMerge } from "tailwind-merge";
 import ProfileTab from "./ProfileTab";
 import ClosetTab from "./ClosetTab";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "STUV - 마이페이지",
+};
 
 interface MypageProps {
   searchParams: Promise<{
@@ -11,8 +16,6 @@ interface MypageProps {
     month: number;
   }>;
 }
-
-export const dynamic = "force-dynamic";
 
 export default async function Mypage({ searchParams }: MypageProps) {
   const { tab, year: selectedYear, month: selectedMonth } = await searchParams;

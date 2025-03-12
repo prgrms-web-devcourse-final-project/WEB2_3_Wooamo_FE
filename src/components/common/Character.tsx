@@ -1,7 +1,7 @@
 import Image from "next/image";
-import AvatarImg from "@/assets/images/avatar.png";
+import AvatarImg from "@/assets/images/avatar.webp";
 import { twMerge } from "tailwind-merge";
-import basic from "@/assets/images/costumes/basic.png";
+import basic from "@/assets/images/costumes/basic.webp";
 
 interface CharacterProps {
   costumeSrc: string;

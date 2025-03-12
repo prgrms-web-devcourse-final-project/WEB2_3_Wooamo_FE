@@ -7,7 +7,7 @@ import Character from "@/components/common/Character";
 import { shopApi } from "@/api/shop/shop";
 import { useState } from "react";
 import Image from "next/image";
-import gotchaBall from "@/assets/images/gotchaBall.png";
+import gotchaBall from "@/assets/images/gotchaBall.webp";
 import { twMerge } from "tailwind-merge";
 import { revalidateTagAction } from "@/actions";
 
