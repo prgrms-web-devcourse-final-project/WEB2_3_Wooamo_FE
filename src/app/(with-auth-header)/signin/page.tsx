@@ -7,11 +7,10 @@ import Divider from "@/assets/images/BlueDividerLong.svg";
 import KakaoButton from "@/assets/images/kakaoLoginButton.png";
 import KakaoMobileButton from "@/assets/images/MobilekakaoLoginButton.png";
 
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import Button from "@/components/common/Button";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useInputValidation from "@/hooks/useInputValidation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import { authApi } from "@/api/auth/auth";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -26,7 +25,6 @@ export default function SignIn() {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
 
-  const [isAutoLogin, setIsAutoLogin] = useState(false);
   const { validate: emailValidate, ...email } = useInputValidation(
     "",
     (email) => {
@@ -53,7 +51,6 @@ export default function SignIn() {
       const res = await authApi.signIn({
         email: email.value,
         password: password.value,
-        isAutoLogin,
       });
       if (res?.status === "성공") {
         if (res.data.role === "관리자") {

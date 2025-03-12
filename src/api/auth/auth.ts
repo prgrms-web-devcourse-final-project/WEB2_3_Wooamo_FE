@@ -66,12 +66,11 @@ const signUp = async (body: signUpReq) => {
   }
 };
 
-const signIn = async ({ isAutoLogin, ...body }: signInReq) => {
+const signIn = async ({ ...body }: signInReq) => {
   try {
     await deleteCookie("accessToken");
     const response = await fetchCustom.post(`/user/login`, {
       headers: {
-        // "X-Remember-Me": isAutoLogin ? "true" : "false",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
