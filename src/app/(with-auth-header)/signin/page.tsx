@@ -54,8 +54,10 @@ export default function SignIn() {
       });
       if (res?.status === "성공") {
         if (res.data.role === "관리자") {
+          showToast("관리자로 로그인에 성공했습니다");
           router.replace("/admin");
         } else {
+          showToast("로그인에 성공했습니다");
           router.replace("/");
         }
       } else {
