@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Logo from "@/assets/images/Logo.svg";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
@@ -18,6 +17,7 @@ import { userApi } from "@/api/user/user";
 import { authApi } from "@/api/auth/auth";
 import { useNewNotification } from "@/hooks/useNewNotification";
 import { useUserStore } from "@/store/userStore";
+import { useToastStore } from "@/store/toastStore";
 
 const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
@@ -31,6 +31,7 @@ export default function DesktopHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const userStore = useUserStore();
+  const { showToast } = useToastStore();
   const currentPathname = pathname.match(/\/\w+/)?.[0];
 
   const [user, setUser] = useState<userType | null>(null);
@@ -56,6 +57,7 @@ export default function DesktopHeader() {
       setIsLoggedIn(false);
       setIsOpenDropdown(false);
       userStore.setUser(null);
+      showToast("로그아웃 되었습니다");
       router.push("/");
     }
   };
@@ -83,10 +85,12 @@ export default function DesktopHeader() {
       <div className="flex gap-20 items-center">
         <Link href={"/"}>
           <Image
-            src={Logo}
+            width={97}
+            height={45}
+            src={"/images/Logo.svg"}
             alt="STUV 로고"
             placeholder="blur"
-            blurDataURL={"../assets/images/Logo.svg"}
+            blurDataURL={"/images/Logo.svg"}
           />
         </Link>
         <nav>

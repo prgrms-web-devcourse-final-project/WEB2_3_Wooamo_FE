@@ -4,14 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Divider from "@/assets/images/BlueDividerLong.svg";
-import KakaoButton from "@/assets/images/kakaoLoginButton.png";
-import KakaoMobileButton from "@/assets/images/MobilekakaoLoginButton.png";
+import KakaoButton from "@/assets/images/kakaoLoginButton.webp";
+import KakaoMobileButton from "@/assets/images/MobilekakaoLoginButton.webp";
 
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import Button from "@/components/common/Button";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useInputValidation from "@/hooks/useInputValidation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import { authApi } from "@/api/auth/auth";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -26,7 +25,6 @@ export default function SignIn() {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
 
-  const [isAutoLogin, setIsAutoLogin] = useState(false);
   const { validate: emailValidate, ...email } = useInputValidation(
     "",
     (email) => {
@@ -53,12 +51,13 @@ export default function SignIn() {
       const res = await authApi.signIn({
         email: email.value,
         password: password.value,
-        isAutoLogin,
       });
       if (res?.status === "성공") {
         if (res.data.role === "관리자") {
+          showToast("관리자로 로그인에 성공했습니다");
           router.replace("/admin");
         } else {
+          showToast("로그인에 성공했습니다");
           router.replace("/");
         }
       } else {
@@ -73,12 +72,13 @@ export default function SignIn() {
         await deleteCookie("accessToken");
         await deleteCookieAtServer("accessToken");
         await authApi.kakaoLogin(code);
+        showToast("로그인에 성공했습니다");
         router.replace("/");
       }
     };
 
     kakaoLogin();
-  }, [code, router]);
+  }, [code, router, showToast]);
 
   return (
     <div className="w-full lg:w-150 flex flex-col gap-7 mx-auto mt-[52px] mb-7">

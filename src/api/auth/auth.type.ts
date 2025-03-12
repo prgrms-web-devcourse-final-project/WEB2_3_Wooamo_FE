@@ -21,5 +21,4 @@ interface signUpReq {
 interface signInReq {
   email: string;
   password: string;
-  isAutoLogin: boolean;
 }

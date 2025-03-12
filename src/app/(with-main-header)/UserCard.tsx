@@ -18,7 +18,7 @@ export default async function UserCard() {
         </div>
         <div className="flex flex-col max-w-47.5 lg:max-w-55.5 gap-2.5 lg:gap-5 font-galmuri text-xl lg:text-2xl">
           <div className="font-bitbitv2 text-2xl lg:text-[28px]">
-            {user.data.nickname}
+            @{user.data.nickname}
           </div>
           <div className="flex gap-2">
             <div>공부 시간</div>

@@ -1,6 +1,5 @@
 import Avatar from "@/components/common/Avatar";
 import Link from "next/link";
-import Logo from "@/assets/images/Logo.svg";
 import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
 import Image from "next/image";
 
@@ -24,11 +23,9 @@ export default function ChattingListItem({
   unreadCount,
   userInfo,
   groupInfo,
-  lastUserInfo,
   createdAt,
 }: ChattingListItemProps) {
   const isPrivateChat = roomType === "PRIVATE";
-  const nickname = isPrivateChat ? userInfo?.nickname : groupInfo?.groupName;
 
   const modifiedCreatedAt = createdAt.startsWith("+")
     ? ""
@@ -56,7 +53,9 @@ export default function ChattingListItem({
             ) : (
               <Image
                 className="w-11 lg:w-15 h-11 lg:h-15 rounded-full bg-site-profile"
-                src={Logo}
+                width={97}
+                height={45}
+                src={"/images/Logo.svg"}
                 alt="로고 이미지"
               />
             )}
@@ -64,11 +63,15 @@ export default function ChattingListItem({
           <div className="flex flex-col gap-0 lg:gap-1">
             <div>
               <span className="font-semibold text-lg lg:text-xl">
-                <span>{nickname}</span>
-                {groupInfo && (
-                  <span className="text-site-darkgray-02 ml-3">
-                    {groupInfo.totalMembers}
-                  </span>
+                {isPrivateChat ? (
+                  <span>@{userInfo?.nickname}</span>
+                ) : (
+                  <>
+                    <span>{groupInfo?.groupName}</span>
+                    <span className="text-site-darkgray-02 ml-3">
+                      {groupInfo?.totalMembers}
+                    </span>
+                  </>
                 )}
               </span>
             </div>
