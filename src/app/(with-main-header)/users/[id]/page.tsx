@@ -4,7 +4,7 @@ import UserProfile from "./UserProfile";
 import Image from "next/image";
 import WhiteDividerShort from "@/assets/images/WhiteDividerShort.svg";
 import { userApi } from "@/api/user/user";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import PostItemSkeleton from "@/components/common/skeletons/PostItemSkeleton";
 
