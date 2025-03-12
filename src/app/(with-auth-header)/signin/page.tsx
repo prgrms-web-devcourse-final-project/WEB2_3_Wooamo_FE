@@ -112,19 +112,6 @@ export default function SignIn() {
             />
           </div>
         </div>
-        <div className="flex items-center gap-3 relative">
-          <input
-            id="auto-signin"
-            type="checkbox"
-            checked={isAutoLogin}
-            onChange={() => setIsAutoLogin((prev) => !prev)}
-            className="appearance-none w-6 h-6 bg-site-button rounded-[3px]"
-          />
-          {isAutoLogin && (
-            <CheckRoundedIcon className="absolute pointer-events-none" />
-          )}
-          <label htmlFor="auto-signin">자동 로그인</label>
-        </div>
         <Button className="w-full lg:w-150">로그인</Button>
         <p className="text-site-darkgray-02 underline flex justify-center">
           <Link href={"/signup"} className="text-sm lg-text-base">

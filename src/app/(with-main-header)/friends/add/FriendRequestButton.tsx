@@ -43,6 +43,8 @@ export default function FriendRequestButton({
       {status === "FRIEND" || status === "ACCEPTED" ? "삭제" : "요청취소"}
     </Button>
   ) : (
-    <Button onClick={requestFriend}>친구요청</Button>
+    <Button onClick={requestFriend} disabled={status === null}>
+      친구요청
+    </Button>
   );
 }
