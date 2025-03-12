@@ -11,13 +11,26 @@ import FriendRequestButton from "../../friends/add/FriendRequestButton";
 import { notFound, redirect } from "next/navigation";
 import renderContextWithLineBreaks from "@/utils/renderContextWithLineBreaks";
 
+export async function generateStaticParams() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/party?name=&page=&size=`,
+  );
+  const parties: paginationType<ScheduledPartyListContents[]> =
+    await response.json();
+
+  return parties.data.contents.map((party) => ({
+    id: String(party.partyId),
+  }));
+}
+
 interface PartyDetailProps {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }
 
 export default async function PartyDetail({ params }: PartyDetailProps) {
   const { id } = await params;
-  const fetchPartyDetail = await partyApi.getPartyDetail(id);
+  const partyId = parseInt(id);
+  const fetchPartyDetail = await partyApi.getPartyDetail(partyId);
   const partyDetail = fetchPartyDetail?.data;
 
   if (!partyDetail) notFound();
@@ -27,7 +40,8 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
     redirect("/party/all");
   }
 
-  const fetchPartyParticipantList = await partyApi.getPartyParticipantList(id);
+  const fetchPartyParticipantList =
+    await partyApi.getPartyParticipantList(partyId);
   const partyParticipantList = fetchPartyParticipantList?.data?.contents;
 
   const fetchCurrentUser = await userApi.getCurrentUserInfo();
@@ -43,7 +57,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
           <div className="flex justify-end gap-2">
             <AfterParticipateButtons
               userId={userId}
-              partyId={id}
+              partyId={partyId}
               partyName={partyDetail.name}
               maxMembers={partyDetail.recruitCap}
               startDate={partyDetail.startDate}
@@ -53,7 +67,7 @@ export default async function PartyDetail({ params }: PartyDetailProps) {
           <ParticipateButton
             userId={userId}
             userPoint={userPoint}
-            partyId={id}
+            partyId={partyId}
             partyName={partyDetail.name}
             maxMembers={partyDetail.recruitCap}
             participantCount={partyParticipantList.length}
