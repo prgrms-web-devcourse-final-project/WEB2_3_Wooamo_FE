@@ -7,11 +7,11 @@ import Link from "next/link";
 import { partyApi } from "@/api/party/party";
 import { useEffect, useState } from "react";
 import Button from "@/components/common/Button";
-import { userApi } from "@/api/user/user";
+import { useUserStore } from "@/store/userStore";
 
 export default function EventParties() {
   const [eventBanners, setEventBanners] = useState<EventBannerType[]>([]);
-  const [user, setUser] = useState<userType>();
+  const { user } = useUserStore();
 
   useEffect(() => {
     const fetchEventBanner = async () => {
@@ -20,15 +20,8 @@ export default function EventParties() {
       if (!eventBanner) return;
       setEventBanners(eventBanner.data);
     };
-    const fetchCurrentUser = async () => {
-      const currentUser = await userApi.getCurrentUserInfo();
-
-      if (!currentUser) return;
-      setUser(currentUser.data);
-    };
 
     fetchEventBanner();
-    fetchCurrentUser();
   }, []);
 
   return (

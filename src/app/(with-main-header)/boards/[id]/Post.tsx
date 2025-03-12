@@ -2,7 +2,7 @@
 
 import Avatar from "@/components/common/Avatar";
 import Link from "next/link";
-import basic from "@/assets/images/costumes/basic.png";
+import basic from "@/assets/images/costumes/basic.webp";
 import PostDeleteButton from "./PostDeleteButton";
 import { useEffect, useState } from "react";
 import { boardApi } from "@/api/board/board";

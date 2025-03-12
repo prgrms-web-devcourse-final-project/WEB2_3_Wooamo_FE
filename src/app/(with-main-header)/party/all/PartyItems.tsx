@@ -1,6 +1,5 @@
 import { partyApi } from "@/api/party/party";
 import PartyItem from "../PartyItem";
-import { delay } from "@/utils/delay";
 import Pagination from "./Pagination";
 
 interface PartyAllProps {
@@ -9,7 +8,6 @@ interface PartyAllProps {
 }
 
 export default async function PartyItems({ name, page }: PartyAllProps) {
-  await delay(1000);
   page = page ?? 0;
   const fetchParties = await partyApi.getScheduledPartyList(name, Number(page));
   const totalPages = fetchParties?.data.totalPages;

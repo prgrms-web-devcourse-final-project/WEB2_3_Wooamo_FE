@@ -1,4 +1,3 @@
-import ChattingInput from "../../ChattingInput";
 import ChattingList from "./ChattingList";
 import { userApi } from "@/api/user/user";
 import { partyApi } from "@/api/party/party";
@@ -20,9 +19,6 @@ export default async function ChattingWithParty({
     <div className="relative">
       <div className="px-5 lg:px-0 pt-12 pb-5">
         <ChattingList userId={currentUser.data.userId} />
-      </div>
-      <div>
-        
       </div>
     </div>
   );

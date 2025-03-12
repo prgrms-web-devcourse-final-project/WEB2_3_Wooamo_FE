@@ -1,5 +1,5 @@
 import Image from "next/image";
-import weekRanking from "@/assets/images/weekRanking.png";
+import weekRanking from "@/assets/images/weekRanking.webp";
 import RankingCard from "./RankingCard";
 import UserCard from "./UserCard";
 import Timer from "./Timer";

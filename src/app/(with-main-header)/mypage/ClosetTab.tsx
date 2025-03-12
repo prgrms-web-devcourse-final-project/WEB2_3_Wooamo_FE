@@ -3,12 +3,12 @@
 import Character from "@/components/common/Character";
 import Image from "next/image";
 import WhiteDividerLong from "@/assets/images/WhiteDividerLong.svg";
-import spotlight from "@/assets/images/spotlight.png";
+import spotlight from "@/assets/images/spotlight.webp";
 import WhiteDividerShort from "@/assets/images/WhiteDividerShort.svg";
 import { useEffect, useState } from "react";
 import { userApi } from "@/api/user/user";
 import { revalidateTagAction } from "@/actions";
-import basic from "@/assets/images/costumes/basic.png";
+import basic from "@/assets/images/costumes/basic.webp";
 
 export default function ClosetTab() {
   const [selectedCostume, setSelectedCostume] = useState("");

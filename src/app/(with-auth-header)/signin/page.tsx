@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Divider from "@/assets/images/BlueDividerLong.svg";
-import KakaoButton from "@/assets/images/kakaoLoginButton.png";
-import KakaoMobileButton from "@/assets/images/MobilekakaoLoginButton.png";
+import KakaoButton from "@/assets/images/kakaoLoginButton.webp";
+import KakaoMobileButton from "@/assets/images/MobilekakaoLoginButton.webp";
 
 import Button from "@/components/common/Button";
 import { useIsMobile } from "@/hooks/useIsMobile";

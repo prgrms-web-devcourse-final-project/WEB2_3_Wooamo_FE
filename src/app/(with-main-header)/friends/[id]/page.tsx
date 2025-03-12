@@ -2,12 +2,13 @@ import FriendsItem from "../FriendsItem";
 import { friendApi } from "../../../../api/friend/friend";
 
 interface UserFriendsProps {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }
 
 export default async function UserFriends({ params }: UserFriendsProps) {
   const { id } = await params;
-  const friends = await friendApi.getUserFriends(id);
+  const userId = parseInt(id);
+  const friends = await friendApi.getUserFriends(userId);
 
   if (!friends) return;
   return (

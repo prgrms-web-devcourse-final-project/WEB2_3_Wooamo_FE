@@ -1,7 +1,7 @@
 import Image from "next/image";
 import PaymentList from "./PaymentList";
 import { adminApi } from "@/api/admin/admin";
-import DefaultCostume from "@/assets/images/costumes/basic.png";
+import DefaultCostume from "@/assets/images/costumes/basic.webp";
 
 export default async function Admin() {
   const fetchAdminWeeklyInfo = await adminApi.getAdminWeeklyInfo();
