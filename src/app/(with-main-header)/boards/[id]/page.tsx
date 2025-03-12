@@ -3,6 +3,27 @@ import PostImage from "../PostImage";
 import Post from "./Post";
 import { boardApi } from "@/api/board/board";
 import { notFound } from "next/navigation";
+import { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+  { params }: BoardDetailProps,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { id } = await params;
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/board/${id}`,
+  );
+  const board: responseType<boardDetail> = await response.json();
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: board.data.title,
+    openGraph: {
+      images: [board.data.profile || "", ...previousImages],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const response = await fetch(

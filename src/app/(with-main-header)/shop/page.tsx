@@ -6,6 +6,11 @@ import ShopCostumeItem from "./ShopCostumeItem";
 import { shopApi } from "@/api/shop/shop";
 import { userApi } from "@/api/user/user";
 import Button from "@/components/common/Button";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "STUV - 상점",
+};
 
 export default async function Shop() {
   const fetchCostumeList = await shopApi.getCostumeList();

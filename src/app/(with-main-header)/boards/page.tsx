@@ -2,6 +2,11 @@ import BoardsHeader from "./BoardsHeader";
 import { Suspense } from "react";
 import PostItemSkeleton from "@/components/common/skeletons/PostItemSkeleton";
 import PostItems from "./PostItems";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "STUV - 게시판",
+};
 
 interface PageProps {
   searchParams: Promise<{ title: string; page: string }>;

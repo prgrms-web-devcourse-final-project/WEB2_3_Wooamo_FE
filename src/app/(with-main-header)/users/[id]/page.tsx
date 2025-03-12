@@ -7,6 +7,27 @@ import { userApi } from "@/api/user/user";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import PostItemSkeleton from "@/components/common/skeletons/PostItemSkeleton";
+import { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+  { params }: UserDetailProps,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { id } = await params;
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/user/${id}`,
+  );
+  const user: responseType<userType> = await response.json();
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: user.data.nickname,
+    openGraph: {
+      images: [user.data.profile || "", ...previousImages],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const response = await fetch(
