@@ -72,12 +72,13 @@ export default function SignIn() {
         await deleteCookie("accessToken");
         await deleteCookieAtServer("accessToken");
         await authApi.kakaoLogin(code);
+        showToast("로그인에 성공했습니다");
         router.replace("/");
       }
     };
 
     kakaoLogin();
-  }, [code, router]);
+  }, [code, router, showToast]);
 
   return (
     <div className="w-full lg:w-150 flex flex-col gap-7 mx-auto mt-[52px] mb-7">
