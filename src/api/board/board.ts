@@ -5,7 +5,7 @@ const getBoardList = async (title?: string, page?: number, size?: number) => {
     const response = await fetchCustom.get(
       `/board?title=${title ?? ""}&page=${page ?? 0}&size=${size ?? 10}`,
       {
-        next: { tags: ["posts"] },
+        cache: "no-store",
         isTokenExclude: true,
       },
     );
@@ -31,6 +31,7 @@ const getBoardByBoardId = async (boardId: number) => {
   try {
     const response = await fetchCustom.get(`/board/${boardId}`, {
       isTokenExclude: true,
+      cache: "no-store",
     });
 
     if (!response.ok) {
