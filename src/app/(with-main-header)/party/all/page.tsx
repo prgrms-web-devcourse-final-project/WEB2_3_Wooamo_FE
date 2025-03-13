@@ -5,6 +5,11 @@ import { Suspense } from "react";
 import BasicSkeleton from "@/components/common/skeletons/BasicSkeleton";
 import { userApi } from "@/api/user/user";
 import PartyItems from "./PartyItems";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "STUV - 파티",
+};
 
 interface PartyAllProps {
   searchParams: Promise<{ name: string; page: string }>;

@@ -2,7 +2,9 @@ import { fetchCustom } from "../fetchCustom";
 
 const getEventBanner = async () => {
   try {
-    const response = await fetchCustom.get(`/party/event`);
+    const response = await fetchCustom.get(`/party/event`, {
+      isTokenExclude: true,
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<EventBannerType[]> = await response.json();
     return data;
@@ -21,6 +23,7 @@ const getScheduledPartyList = async (
       `/party?name=${name ?? ""}&page=${page ?? 0}&size=${size ?? 10}`,
       {
         next: { tags: ["party-create"] },
+        isTokenExclude: true,
       },
     );
     if (!response.ok) throw new Error(response.statusText);

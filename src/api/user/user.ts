@@ -24,7 +24,7 @@ const getCurrentUserInfo = async () => {
           `user-update-${user?.userId}`,
         ],
       },
-      cache: user ? "force-cache" : "no-cache",
+      cache: "force-cache",
     });
     if (response.status === 401) {
       useUserStore.setState({ user: null });
@@ -73,7 +73,9 @@ const getCurrentUserRanking = async () => {
 
 const getTopRanking = async () => {
   try {
-    const response = await fetchCustom.get(`/user/topranking`);
+    const response = await fetchCustom.get(`/user/topranking`, {
+      isTokenExclude: true,
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<topRankingUserInfo[]> = await response.json();
@@ -100,7 +102,9 @@ const getCurrentUserCostumes = async () => {
 
 const getUserPosts = async (userId: number) => {
   try {
-    const response = await fetchCustom.get(`/user/board/${userId}`);
+    const response = await fetchCustom.get(`/user/board/${userId}`, {
+      isTokenExclude: true,
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<boardItem[]> = await response.json();

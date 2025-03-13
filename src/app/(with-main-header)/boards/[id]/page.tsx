@@ -20,7 +20,7 @@ export async function generateMetadata(
   return {
     title: board.data.title,
     openGraph: {
-      images: [board.data.profile || "", ...previousImages],
+      images: [board.data.images[0] || "", ...previousImages],
     },
   };
 }

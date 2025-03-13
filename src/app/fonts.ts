@@ -13,7 +13,6 @@ export const Galmuri9 = localFont({
 });
 
 export const Bitbitv2 = localFont({
-  src: "../assets/fonts/DNFBitBitv2.ttf",
-  display: "swap",
+  src: "../assets/fonts/DNFBitBitv2.otf",
   variable: "--font-bitbitv2",
 });
