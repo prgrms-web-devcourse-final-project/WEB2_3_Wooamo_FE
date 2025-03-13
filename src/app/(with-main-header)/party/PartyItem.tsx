@@ -19,7 +19,7 @@ export default async function PartyItem({
   const user = await userApi.getCurrentUserInfo();
   return (
     <Link
-      href={`${user ? `/party/${partyId}` : `/party/all`}`}
+      href={`${user ? `/party/${partyId}` : `/signin`}`}
       prefetch={true}
       className="flex items-center font-semibold lg:text-xl h-25 px-5 lg:px-7 bg-site-button"
     >
