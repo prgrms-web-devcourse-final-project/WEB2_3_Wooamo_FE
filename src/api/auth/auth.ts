@@ -1,6 +1,5 @@
 import { deleteCookie, setCookie } from "cookies-next";
 import { fetchCustom } from "../fetchCustom";
-import { redirect } from "next/navigation";
 import { useUserStore } from "@/store/userStore";
 import { userApi } from "../user/user";
 
@@ -116,7 +115,9 @@ const kakaoLogin = async (code: string) => {
       }
     }
 
-    redirect("/");
+    const data: responseType<{ role: "회원" | "관리자" }> =
+      await response.json();
+    return data;
   } catch (error) {
     console.error(error);
   }

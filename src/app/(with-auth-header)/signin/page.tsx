@@ -71,9 +71,12 @@ export default function SignIn() {
       if (code) {
         await deleteCookie("accessToken");
         await deleteCookieAtServer("accessToken");
-        await authApi.kakaoLogin(code);
-        showToast("로그인에 성공했습니다");
-        router.replace("/");
+
+        const res = await authApi.kakaoLogin(code);
+        if (res?.status === "성공") {
+          showToast("로그인에 성공했습니다");
+          router.replace("/");
+        }
       }
     };
 
