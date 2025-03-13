@@ -6,7 +6,7 @@ import { userApi } from "@/api/user/user";
 import renderContextWithLineBreaks from "@/utils/renderContextWithLineBreaks";
 import dynamic from "next/dynamic";
 
-const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
+const Icon = dynamic(() => import("@/components/common/Icon"));
 
 interface PostItemProps {
   post: boardItem;
