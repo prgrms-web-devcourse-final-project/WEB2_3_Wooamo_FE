@@ -2,8 +2,14 @@ import Noise from "@/components/common/Noise";
 import React, { ReactNode } from "react";
 import AdminHeader from "./AdminHeader";
 import AdminSidebar from "./AdminSidebar";
+import { userApi } from "@/api/user/user";
+import { redirect } from "next/navigation";
 
-export default function layout({ children }: { children: ReactNode }) {
+export default async function layout({ children }: { children: ReactNode }) {
+  const user = await userApi.getCurrentUserInfo();
+  if (user?.data.role !== "ADMIN") {
+    redirect("/signin");
+  }
   return (
     <Noise>
       <div className="w-full h-screen bg-site-bg overflow-x-hidden">
