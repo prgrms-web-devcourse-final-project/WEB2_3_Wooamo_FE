@@ -1,9 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import formatDateToTimeAgo from "../../../utils/formatDateToTimeAgo";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { userApi } from "@/api/user/user";
-import renderContextWithLineBreaks from "@/utils/renderContextWithLineBreaks";
 import dynamic from "next/dynamic";
 import PostInfo from "./PostInfo";
 

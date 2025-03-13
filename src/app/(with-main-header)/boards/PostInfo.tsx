@@ -19,8 +19,6 @@ export default function PostInfo({ post }: PostInfoProps) {
       <p className="text-site-darkgray-01 text-sm">
         {formatDateToTimeAgo(new Date(createdAt))}
       </p>
-      <span>{new Date(createdAt).getTime()}</span>
-      <span>{new Date().getTime()}</span>
     </div>
   );
 }
