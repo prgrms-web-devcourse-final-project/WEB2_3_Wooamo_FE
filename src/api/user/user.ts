@@ -103,7 +103,7 @@ const getCurrentUserCostumes = async () => {
 const getUserPosts = async (userId: number) => {
   try {
     const response = await fetchCustom.get(`/user/board/${userId}`, {
-      cache: "no-store",
+      next: { revalidate: 1000 * 60 },
       isTokenExclude: true,
     });
     if (!response.ok) throw new Error(response.statusText);
