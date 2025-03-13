@@ -24,7 +24,7 @@ const getCurrentUserInfo = async () => {
           `user-update-${user?.userId}`,
         ],
       },
-      cache: user ? "force-cache" : "no-cache",
+      cache: "force-cache",
     });
     if (response.status === 401) {
       useUserStore.setState({ user: null });
@@ -47,7 +47,6 @@ const getUserInfo = async (userId: number) => {
     const response = await fetchCustom.get(`/user/${userId}`, {
       next: { tags: [`user-update-${userId}`] },
       cache: "force-cache",
-      isTokenExclude: true,
     });
     if (response.status === 404) return null;
     if (!response.ok) throw new Error(response.statusText);

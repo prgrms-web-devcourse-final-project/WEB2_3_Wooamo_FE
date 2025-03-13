@@ -71,6 +71,7 @@ const signUp = async (body: signUpReq) => {
 
 const signIn = async ({ ...body }: signInReq) => {
   try {
+    deleteCookie("accessToken");
     const response = await fetchCustom.post(`/user/login`, {
       headers: {
         "Content-Type": "application/json",
@@ -101,6 +102,7 @@ const signIn = async ({ ...body }: signInReq) => {
 
 const kakaoLogin = async (code: string) => {
   try {
+    deleteCookie("accessToken");
     const response = await fetchCustom.post(`/user/kakaoLogin`, {
       headers: {
         "Content-Type": "application/json",
