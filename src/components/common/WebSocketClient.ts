@@ -57,7 +57,7 @@ export class WebSocketClient {
       console.log("LISTENING ...", destination);
       return this.client.subscribe(destination, callback);
     } else {
-      throw new Error("No active STOMP connection");
+      console.log("No active STOMP connection");
     }
   }
 
@@ -66,7 +66,7 @@ export class WebSocketClient {
       console.log("PUBLISHING ...", destination);
       this.client.publish({ destination, body });
     } else {
-      throw new Error("No active STOMP connection");
+      console.log("No active STOMP connection");
     }
   }
 }
