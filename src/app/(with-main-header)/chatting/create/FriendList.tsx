@@ -25,7 +25,9 @@ export default function FriendList({ friends, myUserId }: FriendListProps) {
   return (
     <>
       {friends.length === 0 ? (
-        <p className="text-site-darkgray-02">친구가 없습니다</p>
+        <p className="text-site-darkgray-02 lg:text-lg text-center my-6 lg:my-10">
+          친구가 없습니다
+        </p>
       ) : (
         friends.map((friend) => (
           <button
