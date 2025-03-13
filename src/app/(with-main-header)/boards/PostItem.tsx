@@ -15,7 +15,7 @@ export default async function PostItem({ post }: PostItemProps) {
   const userInfo = await userApi.getCurrentUserInfo();
 
   return (
-    <Link href={userInfo?.data ? `/boards/${boardId}` : "/signin"}>
+    <Link href={userInfo?.data ? `/boards/${boardId}` : "/signin"} prefetch>
       <article className="flex justify-between items-center h-24 lg:h-40 p-2.5 bg-site-white-70">
         <PostInfo post={post} />
         <div className="relative w-20 h-20 lg:w-35 lg:h-35 overflow-hidden shrink-0">
