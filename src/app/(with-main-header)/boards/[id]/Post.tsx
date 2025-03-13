@@ -1,10 +1,7 @@
-"use client";
-
 import Avatar from "@/components/common/Avatar";
 import Link from "next/link";
 import basic from "@/assets/images/costumes/basic.webp";
 import PostDeleteButton from "./PostDeleteButton";
-import { useEffect, useState } from "react";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
 import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
@@ -14,55 +11,30 @@ interface PostProps {
   boardId: number;
 }
 
-export default function Post({ boardId }: PostProps) {
-  const [boardDetail, setBoardDetail] = useState<boardDetail | null>(null);
-  const [currentUser, setCurrentUser] = useState<responseType<userType> | null>(
-    null,
-  );
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [boardResponse, userResponse] = await Promise.all([
-          boardApi.getBoardByBoardId(boardId),
-          userApi.getCurrentUserInfo(),
-        ]);
-
-        if (boardResponse) {
-          setBoardDetail(boardResponse.data);
-        }
-        if (userResponse) {
-          setCurrentUser(userResponse);
-        }
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-      }
-    };
-
-    fetchData();
-  }, [boardId]);
+export default async function Post({ boardId }: PostProps) {
+  const boardDetail = await boardApi.getBoardByBoardId(boardId);
+  const currentUser = await userApi.getCurrentUserInfo();
 
   if (!boardDetail) return null;
-  const isAuthor = currentUser?.data.userId === boardDetail.userId;
-
+  const isAuthor = currentUser?.data.userId === boardDetail.data.userId;
   return (
     <>
       <div className="border-b border-site-darkgray-02">
         <h1 className="flex items-center h-12.5 lg:h-20 px-5 lg:px-8 font-semibold lg:text-xl">
-          [{boardDetail.boardType}] {boardDetail.title}
+          [{boardDetail.data.boardType}] {boardDetail.data.title}
         </h1>
       </div>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2.5">
           <Link
-            href={`/users/${boardDetail.userId}`}
+            href={`/users/${boardDetail.data.userId}`}
             className="flex items-center gap-2.5"
           >
-            <Avatar costumeSrc={boardDetail.profile || basic.src} />
-            <span className="font-semibold">@{boardDetail.nickname}</span>
+            <Avatar costumeSrc={boardDetail.data.profile || basic.src} />
+            <span className="font-semibold">@{boardDetail.data.nickname}</span>
           </Link>
           <span className="text-xs lg:text-sm text-site-darkgray-01">
-            {formatDateToTimeAgo(new Date(boardDetail.createdAt))}
+            {formatDateToTimeAgo(new Date(boardDetail.data.createdAt))}
           </span>
         </div>
         {isAuthor && (
@@ -74,7 +46,7 @@ export default function Post({ boardId }: PostProps) {
         )}
       </div>
       <div className="min-h-[200px] bg-site-white-70 p-5 lg:px-6">
-        {renderContextWithLineBreaks(boardDetail.context)}
+        {renderContextWithLineBreaks(boardDetail.data.context)}
       </div>
     </>
   );
