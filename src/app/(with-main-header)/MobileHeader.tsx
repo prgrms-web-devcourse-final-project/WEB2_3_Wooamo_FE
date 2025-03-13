@@ -138,7 +138,7 @@ export default function MobileHeader() {
         </Link>
         {isLoggedIn && (
           <div className="flex gap-2.5">
-            <Link href="/chatting">
+            <Link href="/chatting" prefetch>
               <Icon MuiIcon={SendRoundedIcon} className="cursor-pointer" />
             </Link>
             <div className="relative">
@@ -195,6 +195,7 @@ export default function MobileHeader() {
                 href={`/users/${user?.userId}`}
                 onClick={closeSidebar}
                 className="flex items-center gap-2.5"
+                prefetch
               >
                 <Avatar
                   className="w-12.5 h-12.5"
@@ -226,6 +227,7 @@ export default function MobileHeader() {
                       onClick={closeSidebar}
                       href={path}
                       className="w-full px-5 py-4"
+                      prefetch
                     >
                       {routes[path as keyof typeof routes]}
                     </Link>

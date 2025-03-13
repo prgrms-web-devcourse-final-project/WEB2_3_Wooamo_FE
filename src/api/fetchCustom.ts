@@ -2,22 +2,28 @@ import { getCookie } from "cookies-next";
 import { getCookieAtServer } from "./cookie";
 import { authApi } from "./auth/auth";
 
+interface CustomRequestInit extends RequestInit {
+  isTokenExclude?: boolean;
+}
+
 const fetchCustomBase = async (
   url: string,
-  init?: RequestInit,
-  isMockApi?: boolean,
+  customInit?: CustomRequestInit,
   skipReissue?: boolean,
 ) => {
-  const clientAccessToken = await getCookie("accessToken");
-  const serverAccessToken = await getCookieAtServer("accessToken");
-  const accessToken = clientAccessToken || serverAccessToken;
-  const baseUrl = isMockApi
-    ? process.env.NEXT_PUBLIC_MOCK_SERVER_URL
-    : process.env.NEXT_PUBLIC_SERVER_URL;
+  let accessToken;
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+  const { isTokenExclude, ...init } = customInit || {};
+
+  if (!isTokenExclude) {
+    const clientAccessToken = await getCookie("accessToken");
+    const serverAccessToken = await getCookieAtServer("accessToken");
+    accessToken = clientAccessToken || serverAccessToken;
+  }
 
   const response = await fetch(`${baseUrl}${url}`, {
     ...init,
-    ...(isMockApi ? {} : { credentials: "include" }),
+    credentials: "include",
     headers: {
       ...init?.headers,
       ...(accessToken && { access: accessToken }),
@@ -27,7 +33,7 @@ const fetchCustomBase = async (
   if (response.status === 401 && !skipReissue) {
     const newAccessToken = await authApi.reissue();
     if (newAccessToken) {
-      return await fetchCustomBase(url, init, isMockApi, true);
+      return await fetchCustomBase(url, customInit, true);
     } else {
       return response;
     }
@@ -37,59 +43,43 @@ const fetchCustomBase = async (
 };
 
 export const fetchCustom = {
-  get: async (url: string, init?: RequestInit, isMockApi?: boolean) => {
-    const response = await fetchCustomBase(url, init, isMockApi);
+  get: async (url: string, init?: CustomRequestInit) => {
+    const response = await fetchCustomBase(url, init);
     return response;
   },
-  post: async (url: string, init?: RequestInit, isMockApi?: boolean) => {
-    const response = await fetchCustomBase(
-      url,
-      {
-        ...init,
-        method: "POST",
-        headers: { ...init?.headers },
-      },
-      isMockApi,
-    );
+  post: async (url: string, init?: CustomRequestInit) => {
+    const response = await fetchCustomBase(url, {
+      ...init,
+      method: "POST",
+      headers: { ...init?.headers },
+    });
     return response;
   },
-  put: async (url: string, init?: RequestInit, isMockApi?: boolean) => {
-    const response = await fetchCustomBase(
-      url,
-      {
-        ...init,
-        method: "PUT",
-        headers: { ...init?.headers },
-      },
-      isMockApi,
-    );
+  put: async (url: string, init?: CustomRequestInit) => {
+    const response = await fetchCustomBase(url, {
+      ...init,
+      method: "PUT",
+      headers: { ...init?.headers },
+    });
     return response;
   },
-  patch: async (url: string, init?: RequestInit, isMockApi?: boolean) => {
-    const response = await fetchCustomBase(
-      url,
-      {
-        ...init,
-        method: "PATCH",
-        headers: { ...init?.headers },
-      },
-      isMockApi,
-    );
+  patch: async (url: string, init?: CustomRequestInit) => {
+    const response = await fetchCustomBase(url, {
+      ...init,
+      method: "PATCH",
+      headers: { ...init?.headers },
+    });
     return response;
   },
-  delete: async (url: string, init?: RequestInit, isMockApi?: boolean) => {
-    const response = await fetchCustomBase(
-      url,
-      {
-        ...init,
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          ...init?.headers,
-        },
+  delete: async (url: string, init?: CustomRequestInit) => {
+    const response = await fetchCustomBase(url, {
+      ...init,
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        ...init?.headers,
       },
-      isMockApi,
-    );
+    });
     return response;
   },
 };

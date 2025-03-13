@@ -14,8 +14,6 @@ import { FormEvent, useEffect } from "react";
 import InputWithErrorMsg from "@/components/common/InputWithErrorMsg";
 import { authApi } from "@/api/auth/auth";
 import { useRouter, useSearchParams } from "next/navigation";
-import { deleteCookie } from "cookies-next";
-import { deleteCookieAtServer } from "@/api/cookie";
 import { useToastStore } from "@/store/toastStore";
 
 export default function SignIn() {
@@ -69,11 +67,11 @@ export default function SignIn() {
   useEffect(() => {
     const kakaoLogin = async () => {
       if (code) {
-        await deleteCookie("accessToken");
-        await deleteCookieAtServer("accessToken");
-        await authApi.kakaoLogin(code);
-        showToast("로그인에 성공했습니다");
-        router.replace("/");
+        const res = await authApi.kakaoLogin(code);
+        if (res?.status === "성공") {
+          showToast("로그인에 성공했습니다");
+          router.replace("/");
+        }
       }
     };
 
@@ -123,7 +121,7 @@ export default function SignIn() {
         <Image src={Divider} alt="구분선" className="" />
       </div>
       <Link
-        href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_CLIENT_URL}/api/kakaoLogin`}
+        href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_CLIENT_URL}/signin`}
         className="lg:w-150"
       >
         {isMobile ? (

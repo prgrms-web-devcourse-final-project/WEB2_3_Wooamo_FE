@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import Header from "./header";
 import Noise from "@/components/common/Noise";
 
@@ -7,7 +7,11 @@ export default async function layout({ children }: { children: ReactNode }) {
     <Noise>
       <div className="w-full min-h-screen h-screen bg-site-bg overflow-x-hidden">
         <Header />
-        <main className="px-0 lg:px-12 pb-13 pt-22.5 lg:pt-40">{children}</main>
+        <Suspense>
+          <main className="px-0 lg:px-12 pb-13 pt-22.5 lg:pt-40">
+            {children}
+          </main>
+        </Suspense>
       </div>
     </Noise>
   );

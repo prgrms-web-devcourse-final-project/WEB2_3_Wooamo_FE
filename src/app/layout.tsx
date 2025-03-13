@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     "STUV는 사용자들이 학습 목표를 설정하고, 스터디 그룹을 만들어 함께 공부할 수 있도록 지원하는 온라인 학습 플랫폼입니다.",
   openGraph: {
-    images: ["/images/Logo.svg"],
+    images: [`${process.env.NEXT_PUBLIC_CLIENT_URL}/images/Logo.svg`],
   },
 };
 
