@@ -33,6 +33,8 @@ export const useInfiniteChatting = <T>({
   const [roomInfo, setRoomInfo] = useState<T | null>(null);
   const [receivedDataLength, setReceivedDataLength] = useState(0);
   const [isPending, setIsPending] = useState(true);
+  const [lastChatMessage, setLastChatMessage] =
+    useState<ChatMessageType | null>(null);
   const [lastAddType, setLastAddType] = useState<
     "prepend" | "appendByMe" | "appendByOther"
   >("prepend");
@@ -131,6 +133,7 @@ export const useInfiniteChatting = <T>({
           setLastAddType("appendByMe");
         } else {
           setLastAddType("appendByOther");
+          setLastChatMessage(chatMessage.data);
         }
       });
 
@@ -220,5 +223,7 @@ export const useInfiniteChatting = <T>({
     chatMessages: data,
     isPending,
     roomInfo,
+    lastChatMessage,
+    setLastChatMessage,
   } as const;
 };

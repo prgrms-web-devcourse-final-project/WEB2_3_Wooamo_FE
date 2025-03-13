@@ -4,6 +4,7 @@ const getCostumeList = async () => {
   try {
     const response = await fetchCustom.get(`/costume`, {
       next: { tags: ["costume-update"] },
+      isTokenExclude: true,
     });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<CostumeType[]> = await response.json();

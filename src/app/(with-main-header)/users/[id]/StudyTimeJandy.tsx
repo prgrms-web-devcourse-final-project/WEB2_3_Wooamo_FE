@@ -2,6 +2,7 @@ import StudyTimeJandyDateChanger from "./StudyTimeJandyDateChanger";
 import StudyTimeJandyList from "./StudyTimeJandyList";
 import { Suspense } from "react";
 import BasicSkeleton from "@/components/common/skeletons/BasicSkeleton";
+import JandyDescription from "./JandyDescription";
 
 interface StudyTimeJandyProps {
   userId: number;
@@ -25,6 +26,21 @@ export default async function StudyTimeJandy({
       >
         <StudyTimeJandyList userId={userId} year={year} month={month} />
       </Suspense>
+      <div className="w-full flex justify-end items-center gap-1 lg:gap-2">
+        <span className="text-xs lg:text-sm">적음</span>
+        <JandyDescription description="0시간" className="bg-site-white-50" />
+        <JandyDescription description="1초 ~ 2시간" className="bg-[#FBF3B9]" />
+        <JandyDescription
+          description="2시간 ~ 4시간"
+          className="bg-[#FFDCCC]"
+        />
+        <JandyDescription
+          description="4시간 ~ 6시간"
+          className="bg-[#FDB7EA]"
+        />
+        <JandyDescription description="6시간 이상" className="bg-[#B7B1F2]" />
+        <span className="text-xs lg:text-sm">많음</span>
+      </div>
     </section>
   );
 }

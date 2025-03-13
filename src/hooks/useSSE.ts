@@ -52,7 +52,7 @@ export function useSSE(
         }
       };
 
-      eventSource.current.onerror = (error: any) => {
+      eventSource.current.onerror = (error) => {
         console.error("SSE 연결 실패:", error);
 
         if (eventSource.current) {

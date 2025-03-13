@@ -1,12 +1,14 @@
 "use client";
 
-import Icon from "@/components/common/Icon";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import Button from "@/components/common/Button";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { timerApi } from "@/api/timer/timer";
 import { revalidateTagAction } from "../../actions";
+import dynamic from "next/dynamic";
+
+const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
 interface TimerCategoryProps {
   timerList: TimerCategoryType[];

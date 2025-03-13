@@ -2,7 +2,7 @@ import { fetchCustom } from "../fetchCustom";
 
 const getAdminWeeklyInfo = async () => {
   try {
-    const response = await fetchCustom.get(`/admin`);
+    const response = await fetchCustom.get(`/admin`, { isTokenExclude: true });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<getAdminWeeklyInfoRes> = await response.json();
     return data;
@@ -13,7 +13,9 @@ const getAdminWeeklyInfo = async () => {
 
 const getAdminRecentSales = async () => {
   try {
-    const response = await fetchCustom.get(`/admin/payment`);
+    const response = await fetchCustom.get(`/admin/payment`, {
+      isTokenExclude: true,
+    });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<getAdminRecentSalesRes[]> = await response.json();
     return data;
@@ -26,6 +28,7 @@ const getAllPartyList = async (page?: number, size?: number) => {
   try {
     const response = await fetchCustom.get(
       `/admin/party?page=${page ?? 0}&size=${size ?? 10}`,
+      { isTokenExclude: true },
     );
     if (!response.ok) throw new Error(response.statusText);
     const data: paginationType<PartyDetailType[]> = await response.json();
@@ -40,6 +43,7 @@ const getPartyDetail = async (partyId: number, date: string) => {
     const response = await fetchCustom.get(
       `/admin/party/${partyId}?date=${date}`,
       {
+        isTokenExclude: true,
         next: { tags: ["member-list"] },
       },
     );
@@ -97,6 +101,7 @@ const getAllEventList = async () => {
   try {
     const response = await fetchCustom.get(`/admin/event`, {
       next: { tags: ["event-list"] },
+      isTokenExclude: true,
     });
     if (!response.ok) throw new Error(response.statusText);
     const data: responseType<getAllEventListRes> = await response.json();
