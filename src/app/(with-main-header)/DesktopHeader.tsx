@@ -83,7 +83,7 @@ export default function DesktopHeader() {
   return (
     <header className="fixed w-full top-0 z-50 flex font-semibold text-2xl gap-0 justify-between px-12 h-25 items-center bg-[#8CCDF3]">
       <div className="flex gap-20 items-center">
-        <Link href={"/"}>
+        <Link href={"/"} prefetch>
           <Image
             width={97}
             height={45}
@@ -160,6 +160,7 @@ export default function DesktopHeader() {
             >
               <Link
                 href={"/friends"}
+                prefetch
                 onClick={() => setIsOpenDropdown(false)}
                 className="flex justify-center items-center px-6 py-4 hover:opacity-50 transition-colors"
               >
@@ -167,6 +168,7 @@ export default function DesktopHeader() {
               </Link>
               <Link
                 href={"/mypage"}
+                prefetch
                 onClick={() => setIsOpenDropdown(false)}
                 className="flex justify-center items-center px-6 py-4 hover:opacity-50 transition-colors"
               >

@@ -55,7 +55,7 @@ export default function ClosetTab() {
           className="translate-y-[15%] h-58 lg:h-119"
         />
       </div>
-      <section className="flex flex-col items-center w-full gap-5 lg:gap-8 lg:mt-28">
+      <section className="flex flex-col items-center lg:min-w-242 w-full gap-5 lg:gap-8 lg:mt-28">
         <Image
           src={WhiteDividerLong}
           alt="흰 구분선 이미지"
