@@ -28,8 +28,8 @@ export default async function PostItem({ post }: PostItemProps) {
           <p className="text-site-darkgray-01 text-sm">
             {formatDateToTimeAgo(new Date(createdAt))}
           </p>
-          <span>{new Date(createdAt).toISOString()}</span>
-          <span>{new Date().toISOString()}</span>
+          <span>{new Date(createdAt).getTime()}</span>
+          <span>{new Date().getTime()}</span>
         </div>
         <div className="relative w-20 h-20 lg:w-35 lg:h-35 overflow-hidden shrink-0">
           {image ? (
