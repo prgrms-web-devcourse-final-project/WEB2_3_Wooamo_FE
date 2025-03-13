@@ -6,7 +6,7 @@ import { userApi } from "@/api/user/user";
 import renderContextWithLineBreaks from "@/utils/renderContextWithLineBreaks";
 import dynamic from "next/dynamic";
 
-const Icon = dynamic(() => import("@/components/common/Icon"));
+const Icon = dynamic(() => import("@/components/common/Icon"), { ssr: false });
 
 interface PostItemProps {
   post: boardItem;
@@ -18,10 +18,7 @@ export default async function PostItem({ post }: PostItemProps) {
   const userInfo = await userApi.getCurrentUserInfo();
 
   return (
-    <Link
-      href={userInfo?.data ? `/boards/${boardId}` : "/signin"}
-      prefetch={true}
-    >
+    <Link href={userInfo?.data ? `/boards/${boardId}` : "/signin"}>
       <article className="flex justify-between items-center h-24 lg:h-40 p-2.5 bg-site-white-70">
         <div className="flex flex-col gap-1 lg:px-5">
           <p className="font-semibold line-clamp-1">{formattedTitle}</p>
@@ -31,6 +28,7 @@ export default async function PostItem({ post }: PostItemProps) {
           <p className="text-site-darkgray-01 text-sm">
             {formatDateToTimeAgo(new Date(createdAt))}
           </p>
+          <span>{new Date(createdAt).toISOString()}</span>
         </div>
         <div className="relative w-20 h-20 lg:w-35 lg:h-35 overflow-hidden shrink-0">
           {image ? (
