@@ -103,9 +103,7 @@ export default function DesktopHeader() {
                   currentPathname === path && "bg-white",
                 )}
               >
-                <Link href={path} prefetch>
-                  {routes[path as keyof typeof routes]}
-                </Link>
+                <Link href={path}>{routes[path as keyof typeof routes]}</Link>
               </li>
             ))}
           </ul>
