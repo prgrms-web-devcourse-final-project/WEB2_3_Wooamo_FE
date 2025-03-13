@@ -25,6 +25,17 @@ export async function generateMetadata(
   };
 }
 
+export async function generateStaticParams() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/board?title=&page=&size=`,
+  );
+  const posts: paginationType<boardItem[]> = await response.json();
+
+  return posts.data.contents.map((post) => ({
+    id: String(post.boardId),
+  }));
+}
+
 interface BoardDetailProps {
   params: Promise<{ id: string }>;
 }
