@@ -1,11 +1,9 @@
-import Avatar from "@/components/common/Avatar";
 import Link from "next/link";
-import basic from "@/assets/images/costumes/basic.webp";
 import PostDeleteButton from "./PostDeleteButton";
 import { boardApi } from "@/api/board/board";
 import { userApi } from "@/api/user/user";
-import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
 import renderContextWithLineBreaks from "@/utils/renderContextWithLineBreaks";
+import PostProfile from "./PostProfile";
 
 interface PostProps {
   boardId: number;
@@ -25,18 +23,7 @@ export default async function Post({ boardId }: PostProps) {
         </h1>
       </div>
       <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2.5">
-          <Link
-            href={`/users/${boardDetail.data.userId}`}
-            className="flex items-center gap-2.5"
-          >
-            <Avatar costumeSrc={boardDetail.data.profile || basic.src} />
-            <span className="font-semibold">@{boardDetail.data.nickname}</span>
-          </Link>
-          <span className="text-xs lg:text-sm text-site-darkgray-01">
-            {formatDateToTimeAgo(new Date(boardDetail.data.createdAt))}
-          </span>
-        </div>
+        <PostProfile boardDetail={boardDetail.data} />
         {isAuthor && (
           <p className="flex gap-2">
             <Link href={`/boards/${boardId}/update`}>수정</Link>
