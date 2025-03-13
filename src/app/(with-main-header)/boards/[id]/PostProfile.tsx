@@ -1,3 +1,5 @@
+"use client";
+
 import { Link } from "lucide-react";
 import basic from "@/assets/images/costumes/basic.webp";
 import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
