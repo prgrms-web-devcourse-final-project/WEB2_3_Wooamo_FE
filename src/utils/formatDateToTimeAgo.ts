@@ -12,7 +12,7 @@ const formatDateToTimeAgo = (targetDate: Date) => {
     return null;
   }
 
-  const now = new Date();
+  const now = new Date(formatDateToKR(new Date())!);
   const diffInMilliseconds = now.getTime() - targetDate.getTime();
 
   const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
