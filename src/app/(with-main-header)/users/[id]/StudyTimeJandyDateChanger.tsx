@@ -1,7 +1,7 @@
 "use client";
 
 import Icon from "@/components/common/Icon";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { useRouter, useSearchParams } from "next/navigation";
