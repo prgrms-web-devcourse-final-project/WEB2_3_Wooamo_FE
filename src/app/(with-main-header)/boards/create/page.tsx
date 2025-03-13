@@ -11,6 +11,7 @@ import { boardApi } from "@/api/board/board";
 import { useRouter } from "next/navigation";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { userApi } from "@/api/user/user";
+import Image from "next/image";
 
 export default function BoardsCreate() {
   const router = useRouter();
@@ -162,7 +163,7 @@ export default function BoardsCreate() {
                 key={idx}
                 className="w-25 lg:w-40 h-25 lg:h-40 bg-site-lightgray relative"
               >
-                <img
+                <Image
                   src={URL.createObjectURL(image)}
                   alt={`Preview ${idx}`}
                   className="w-full h-full object-cover"
