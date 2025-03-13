@@ -1,15 +1,16 @@
 "use client";
 
-import { Link } from "lucide-react";
 import basic from "@/assets/images/costumes/basic.webp";
 import formatDateToTimeAgo from "@/utils/formatDateToTimeAgo";
 import Avatar from "@/components/common/Avatar";
+import Link from "next/link";
 
 interface PostProfileProps {
   boardDetail: boardDetail;
 }
 
 export default function PostProfile({ boardDetail }: PostProfileProps) {
+  console.log(boardDetail);
   return (
     <div className="flex items-center gap-2.5">
       <Link
