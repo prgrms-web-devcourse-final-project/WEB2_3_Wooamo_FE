@@ -6,6 +6,7 @@ const getBoardList = async (title?: string, page?: number, size?: number) => {
       `/board?title=${title ?? ""}&page=${page ?? 0}&size=${size ?? 10}`,
       {
         next: { tags: ["posts"] },
+        isTokenExclude: true,
       },
     );
 
@@ -28,7 +29,9 @@ const getBoardList = async (title?: string, page?: number, size?: number) => {
 
 const getBoardByBoardId = async (boardId: number) => {
   try {
-    const response = await fetchCustom.get(`/board/${boardId}`);
+    const response = await fetchCustom.get(`/board/${boardId}`, {
+      isTokenExclude: true,
+    });
 
     if (!response.ok) {
       return null;
@@ -44,7 +47,9 @@ const getBoardByBoardId = async (boardId: number) => {
 
 const getCommentsByBoardId = async (boardId: number) => {
   try {
-    const response = await fetchCustom.get(`/board/${boardId}/comment`);
+    const response = await fetchCustom.get(`/board/${boardId}/comment`, {
+      isTokenExclude: true,
+    });
 
     if (!response.ok) {
       throw new Error("Failed to fetch board comments");

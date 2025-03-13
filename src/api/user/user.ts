@@ -47,6 +47,7 @@ const getUserInfo = async (userId: number) => {
     const response = await fetchCustom.get(`/user/${userId}`, {
       next: { tags: [`user-update-${userId}`] },
       cache: "force-cache",
+      isTokenExclude: true,
     });
     if (response.status === 404) return null;
     if (!response.ok) throw new Error(response.statusText);
@@ -73,7 +74,9 @@ const getCurrentUserRanking = async () => {
 
 const getTopRanking = async () => {
   try {
-    const response = await fetchCustom.get(`/user/topranking`);
+    const response = await fetchCustom.get(`/user/topranking`, {
+      isTokenExclude: true,
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<topRankingUserInfo[]> = await response.json();
@@ -100,7 +103,9 @@ const getCurrentUserCostumes = async () => {
 
 const getUserPosts = async (userId: number) => {
   try {
-    const response = await fetchCustom.get(`/user/board/${userId}`);
+    const response = await fetchCustom.get(`/user/board/${userId}`, {
+      isTokenExclude: true,
+    });
     if (!response.ok) throw new Error(response.statusText);
 
     const data: responseType<boardItem[]> = await response.json();

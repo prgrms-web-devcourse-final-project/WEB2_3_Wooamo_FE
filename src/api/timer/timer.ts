@@ -27,6 +27,7 @@ const getStudyTimeForMonth = async (
         next: {
           revalidate: 1000 * 60 * 10, // 10분마다 갱신
         },
+        isTokenExclude: true,
       },
     );
     if (response.status === 404) return null;
