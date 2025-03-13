@@ -21,9 +21,11 @@ export default async function PostsByUser({ userId }: PostsByUserProps) {
             <p className="text-site-darkgray-02">게시글이 없습니다.</p>
           </div>
         ) : (
-          posts.data.map((post) => (
-            <PostItem key={`post-${post.boardId}`} post={post} />
-          ))
+          posts.data
+            .reverse()
+            .map((post) => (
+              <PostItem key={`post-${post.boardId}`} post={post} />
+            ))
         )}
       </div>
     </section>
