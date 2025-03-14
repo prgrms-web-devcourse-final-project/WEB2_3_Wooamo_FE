@@ -235,12 +235,9 @@ export default function MobileHeader() {
                   </li>
                 ))}
                 {isLoggedIn && (
-                  <li
-                    className="flex justify-end w-full h-15 rounded-full"
-                    onClick={handleLogout}
-                  >
-                    <button className="px-5 py-4">
-                      <Icon MuiIcon={LogoutRoundedIcon} />
+                  <li className="flex justify-end w-full h-15 rounded-full">
+                    <button onClick={handleLogout}>
+                      <Icon className="px-5 py-4" MuiIcon={LogoutRoundedIcon} />
                     </button>
                   </li>
                 )}
