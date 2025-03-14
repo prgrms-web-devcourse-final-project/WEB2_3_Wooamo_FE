@@ -76,8 +76,12 @@ export default function ChattingListItem({
               </span>
             </div>
             <div className="flex gap-3 text-sm lg:text-base">
-              <span className="text-site-darkgray-02">{lastMessage}</span>
-              <span className="text-site-darkgray-01">{modifiedCreatedAt}</span>
+              <span className="text-site-darkgray-02 line-clamp-1">
+                {lastMessage}
+              </span>
+              <span className="min-w-fit text-site-darkgray-01">
+                {modifiedCreatedAt}
+              </span>
             </div>
           </div>
         </div>
