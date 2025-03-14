@@ -66,6 +66,7 @@ export default function AfterParticipateButtons({
 
       if (request?.status === "성공") {
         close();
+        showToast("인증이 완료되었습니다");
       } else {
         close();
         showToast("이미 인증을 완료했습니다");
