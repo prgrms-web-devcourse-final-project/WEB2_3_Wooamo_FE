@@ -48,6 +48,7 @@
 
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
 ![shadcnui](https://img.shields.io/badge/shadcnui-000000?style=flat-square&logo=shadcnui&logoColor=white)
+![mui](https://img.shields.io/badge/mui-007FFF?style=flat-square&logo=mui&logoColor=white)
 
 
 ### ⏰ Real Time
