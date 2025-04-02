@@ -25,7 +25,7 @@ const getStudyTimeForMonth = async (
       {
         cache: "force-cache",
         next: {
-          revalidate: 1000 * 60 * 10, // 10분마다 갱신
+          revalidate: 60 * 10, // 10분마다 갱신
         },
         isTokenExclude: true,
       },
