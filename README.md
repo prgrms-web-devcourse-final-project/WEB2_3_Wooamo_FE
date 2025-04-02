@@ -33,6 +33,30 @@
 <br/>
 </div>
 
+## 🚀 Tech Stack
+
+### 🏗️ Frontend
+
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white)
+
+
+### ⚙️ DevOps
+
+![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)
+
+
+### 🎨 Design
+
+![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)
+![FigJam](https://img.shields.io/badge/FigJam-FFBE0B?style=flat-square&logo=figma&logoColor=black)
+
+### 🔗 API
+
+
+
+<br/>
+
 ## ✅ Feature Overview by Page
 
 #### 회원가입 및 로그인
