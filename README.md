@@ -35,24 +35,35 @@
 
 ## 🚀 Tech Stack
 
-### 🏗️ Frontend
+### 🏗️ Framework
+
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white)
+![typescript](https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+
+### 💄 Styling
 
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white)
+![shadcnui](https://img.shields.io/badge/shadcnui-000000?style=flat-square&logo=shadcnui&logoColor=white)
+
+### 👓 Package Manager
+
+![pnpm](https://img.shields.io/badge/pnpm-F69220?style=flat-square&logo=pnpm&logoColor=black)
+
+### ⏰ Real Time
 
 
-### ⚙️ DevOps
+### ⚙️ Deploy
 
 ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)
+![nginx](https://img.shields.io/badge/nginx-009639?style=flat-square&logo=nginx&logoColor=white)
+![githubactions](https://img.shields.io/badge/githubactions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
 
 
 ### 🎨 Design
 
 ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)
 ![FigJam](https://img.shields.io/badge/FigJam-FFBE0B?style=flat-square&logo=figma&logoColor=black)
-
-### 🔗 API
-
+![aseprite](https://img.shields.io/badge/aseprite-7D929E?style=flat-square&logo=aseprite&logoColor=white)
 
 
 <br/>
