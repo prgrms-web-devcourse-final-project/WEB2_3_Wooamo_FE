@@ -9,11 +9,16 @@
 </div>
 
 ## 📌 OverView
+<div>
 ✏️ <strong>주제</strong>: 혼자 공부하는 사람들이 겪는 꾸준함의 어려움을 해결하고 동기를 부여하기 위해 게이미피케이션 요소를 결합한 학습 플랫폼
 
 🧷 <strong>배포 링크</strong>: https://stuv.netlify.app/
 
 📅 <strong>개발 기간</strong>: 2025.02.11-03.12 (총 28일)
+
+
+<br/>
+</div>
 
 ## 🧑🏻‍💻Developers👩🏻‍💻
 
