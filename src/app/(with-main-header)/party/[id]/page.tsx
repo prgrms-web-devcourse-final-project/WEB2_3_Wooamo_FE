@@ -11,18 +11,6 @@ import FriendRequestButton from "../../friends/add/FriendRequestButton";
 import { notFound, redirect } from "next/navigation";
 import renderContextWithLineBreaks from "@/utils/renderContextWithLineBreaks";
 
-export async function generateStaticParams() {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/party?name=&page=&size=`,
-  );
-  const parties: paginationType<ScheduledPartyListContents[]> =
-    await response.json();
-
-  return parties.data.contents.map((party) => ({
-    id: String(party.partyId),
-  }));
-}
-
 interface PartyDetailProps {
   params: Promise<{ id: string }>;
 }

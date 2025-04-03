@@ -9,11 +9,16 @@
 </div>
 
 ## 📌 OverView
+<div>
 ✏️ <strong>주제</strong>: 혼자 공부하는 사람들이 겪는 꾸준함의 어려움을 해결하고 동기를 부여하기 위해 게이미피케이션 요소를 결합한 학습 플랫폼
 
 🧷 <strong>배포 링크</strong>: https://stuv.netlify.app/
 
 📅 <strong>개발 기간</strong>: 2025.02.11-03.12 (총 28일)
+
+
+<br/>
+</div>
 
 ## 🧑🏻‍💻Developers👩🏻‍💻
 
@@ -27,6 +32,44 @@
 
 <br/>
 </div>
+
+## 🚀 Tech Stack
+
+### 🏗️ Framework
+
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white)
+![typescript](https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+
+### 👓 Package Manager
+
+![pnpm](https://img.shields.io/badge/pnpm-F69220?style=flat-square&logo=pnpm&logoColor=white)
+
+### 💄 Styling
+
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+![shadcnui](https://img.shields.io/badge/shadcnui-000000?style=flat-square&logo=shadcnui&logoColor=white)
+![mui](https://img.shields.io/badge/mui-007FFF?style=flat-square&logo=mui&logoColor=white)
+
+
+### ⏰ Real Time
+![Sock.js](https://img.shields.io/badge/Sock.js-000000?style=flat-square&logo=Sock.js&logoColor=white)
+![Stomp.js](https://img.shields.io/badge/Stomp.js-010101?style=flat-square&logo=Stomp.js&logoColor=white)
+![SSE](https://img.shields.io/badge/SSE-4B32C3?style=flat-square&logo=SSE&logoColor=white)
+
+### 🎨 Design
+
+![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)
+![FigJam](https://img.shields.io/badge/FigJam-FFBE0B?style=flat-square&logo=figma&logoColor=black)
+![aseprite](https://img.shields.io/badge/aseprite-7D929E?style=flat-square&logo=aseprite&logoColor=white)
+
+### ⚙️ Deploy
+
+![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)
+![nginx](https://img.shields.io/badge/nginx-009639?style=flat-square&logo=nginx&logoColor=white)
+![githubactions](https://img.shields.io/badge/githubactions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
+
+
+<br/>
 
 ## ✅ Feature Overview by Page
 
