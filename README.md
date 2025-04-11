@@ -129,3 +129,92 @@
 - [x] 친구 검색
 - [x] 추천 친구
 
+<br/>
+
+### 🎞️ Preview (Click to 👀)
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center">로그인/홈</td>
+      <td align="center">회원가입</td>
+      <td align="center">관리자</td>
+      <td align="center">타이머/투두리스트</td>
+    </tr>
+    <tr>
+      <td>
+          <img src="https://github.com/user-attachments/assets/177d70b1-ceda-495d-9cd2-2e1dbcf12c9a" style="width:230px"/>
+      </td>
+      <td>
+          <img src="https://github.com/user-attachments/assets/129418b8-35a9-4a30-8c2d-9f70637414af" style="width:230px"/>
+      </td>
+      <td>
+          <img src="https://github.com/user-attachments/assets/6a717622-359a-45bc-963b-c2b50f989c3d" style="width:230px"/>
+      </td>
+      <td>
+          <img src="https://github.com/user-attachments/assets/776045a8-75f7-48f6-9d6c-66d42d7ce91b" style="width:230px"/>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">게시판</td>
+      <td align="center">게시글 작성/수정</td>
+      <td align="center">게시글 상세</td>
+      <td align="center">댓글 채택</td>
+    </tr>
+    <tr>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+    </tr>
+     <tr>
+      <td align="center">상점</td>
+      <td align="center">랜덤뽑기/구매</td>
+      <td align="center">팟 작성</td>
+      <td align="center">팟 참여</td>
+    </tr>
+    <tr>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+    </tr>
+      <tr>
+      <td align="center">실시간 알림</td>
+      <td align="center">실시간 채팅</td>
+      <td align="center">마이 프로필/옷장</td>   
+      <td align="center">친구 목록</td>
+    </tr>
+    <tr>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+      <td>
+          <img src="" style="width:230px"/>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
