@@ -176,14 +176,14 @@
       </td>
     </tr>
      <tr>
-      <td align="center">상점</td>
-      <td align="center">랜덤뽑기/구매</td>
+      <td align="center">상점 랜덤뽑기/구매</td>
+      <td align="center">팟 전체</td>
       <td align="center">팟 작성</td>
       <td align="center">팟 참여</td>
     </tr>
     <tr>
       <td>
-          <img src="" style="width:230px"/>
+          <img src="https://github.com/user-attachments/assets/b9b9030a-3b3a-472c-9e3c-51777b24d888" style="width:230px"/>
       </td>
       <td>
           <img src="" style="width:230px"/>
