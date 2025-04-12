@@ -149,30 +149,30 @@
           <img src="https://github.com/user-attachments/assets/129418b8-35a9-4a30-8c2d-9f70637414af" style="width:230px"/>
       </td>
       <td>
-          <img src="https://github.com/user-attachments/assets/6a717622-359a-45bc-963b-c2b50f989c3d" style="width:230px"/>
+          <img src="https://github.com/user-attachments/assets/2d8d53ee-9ad2-4b9a-9f75-f6d06c5fed28" style="width:230px"/>
       </td>
       <td>
-          <img src="https://github.com/user-attachments/assets/776045a8-75f7-48f6-9d6c-66d42d7ce91b" style="width:230px"/>
+          <img src="https://github.com/user-attachments/assets/e3045960-89ae-4ac9-b535-49c1e22deae5" style="width:230px"/>
       </td>
     </tr>
     <tr>
       <td align="center">게시판</td>
-      <td align="center">게시글 작성/수정</td>
-      <td align="center">게시글 상세</td>
+      <td align="center">게시글 작성</td>
+      <td align="center">게시글 수정/삭제</td>
       <td align="center">댓글 채택</td>
     </tr>
     <tr>
       <td>
-          <img src="" style="width:230px"/>
+          <img src="https://github.com/user-attachments/assets/31c54f8e-498d-4372-97fd-1f15aca29174" style="width:230px"/>
       </td>
       <td>
-          <img src="" style="width:230px"/>
+          <img src="      " style="width:230px"/>
       </td>
       <td>
-          <img src="" style="width:230px"/>
+          <img src="https://github.com/user-attachments/assets/0c732a99-5072-438e-aefa-90a3cbaefacc" style="width:230px"/>
       </td>
       <td>
-          <img src="" style="width:230px"/>
+          <img src="    " style="width:230px"/>
       </td>
     </tr>
      <tr>
