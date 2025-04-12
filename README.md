@@ -186,7 +186,7 @@
           <img src="https://github.com/user-attachments/assets/b9b9030a-3b3a-472c-9e3c-51777b24d888" style="width:230px"/>
       </td>
       <td>
-          <img src="" style="width:230px"/>
+          <img src="https://github.com/user-attachments/assets/895de245-ab63-4323-ab6e-3e44f0d4b5e5" style="width:230px"/>
       </td>
       <td>
           <img src="" style="width:230px"/>
