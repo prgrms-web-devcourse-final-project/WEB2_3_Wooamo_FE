@@ -159,20 +159,20 @@
       <td align="center">게시판</td>
       <td align="center">게시글 작성</td>
       <td align="center">게시글 수정/삭제</td>
-      <td align="center">댓글 채택</td>
+      <td align="center">댓글 작성/채택</td>
     </tr>
     <tr>
       <td>
           <img src="https://github.com/user-attachments/assets/31c54f8e-498d-4372-97fd-1f15aca29174" style="width:230px"/>
       </td>
       <td>
-          <img src="      " style="width:230px"/>
+          <img src="https://github.com/user-attachments/assets/a93fc0e6-1f59-4b2f-a3a7-9a2a69191848" style="width:230px"/>
       </td>
       <td>
           <img src="https://github.com/user-attachments/assets/0c732a99-5072-438e-aefa-90a3cbaefacc" style="width:230px"/>
       </td>
       <td>
-          <img src="    " style="width:230px"/>
+          <img src="https://github.com/user-attachments/assets/37e014fd-baed-4540-b043-59c12af45618" style="width:230px"/>
       </td>
     </tr>
      <tr>
