@@ -212,12 +212,10 @@ https://stuv.netlify.app/
           <img src="https://github.com/user-attachments/assets/3fbdb453-c46f-48bb-b1ed-c7d0d54f467e" style="width:230px"/>
       </td>
       <td>
-          <img src="
-            " style="width:230px"/>
+          <img src="https://github.com/user-attachments/assets/e2c2066c-5c3d-4bf6-bcd1-7e3bdae182bf" style="width:230px"/>
       </td>
       <td>
-          <img src="
-            " style="width:230px"/>
+          <img src="https://github.com/user-attachments/assets/cd247707-6a15-4b15-b253-2f1b1fcf716d" style="width:230px"/>
       </td>
     </tr>
   </tbody>
